@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by Achmad Fauzi on 11/25/2014.
- * achmad.fauzi@sigma.co.id
+ * fauzi.knightmaster.achmad@gmail.com
  *
  * Base Class for Rest DTO result
  */
