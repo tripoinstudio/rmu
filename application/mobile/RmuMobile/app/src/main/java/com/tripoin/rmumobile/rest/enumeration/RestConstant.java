@@ -2,7 +2,7 @@ package com.tripoin.rmumobile.rest.enumeration;
 
 /**
  * Created by Achmad Fauzi on 12/30/2014.
- * achmad.fauzi@sigma.co.id
+ * fauzi.knightmaster.achmad@gmail.com
  *
  * Strings Constant related to Asynchronous messages
  */

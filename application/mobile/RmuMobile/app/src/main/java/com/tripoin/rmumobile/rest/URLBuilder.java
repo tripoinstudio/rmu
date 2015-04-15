@@ -1,6 +1,7 @@
 package com.tripoin.rmumobile.rest;
 
 import com.tripoin.rmumobile.common.IApplicationSetup;
+import com.tripoin.rmumobile.rest.enumeration.RestConstant;
 import com.tripoin.rmumobile.util.GeneralConverter;
 import com.tripoin.rmumobile.util.enumeration.PropertyConstant;
 
@@ -11,7 +12,7 @@ import java.util.Map;
 
 /**
  * Created by Achmad Fauzi on 12/2/2014.
- * achmad.fauzi@sigma.co.id
+ * fauzi.knightmaster.achmad@gmail.com
  *
  * This class is used to build URL for web service requirement
  */

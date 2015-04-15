@@ -6,7 +6,7 @@ import java.io.IOException;
 
 /**
  * Created by Achmad Fauzi on 11/21/2014.
- * achmad.fauzi@sigma.co.id
+ * fauzi.knightmaster.achmad@gmail.com
  *
  * This Class is used to communicate with REST method POST with progress bar
  */

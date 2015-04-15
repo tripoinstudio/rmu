@@ -6,7 +6,7 @@ import android.os.AsyncTask;
 
 /**
  * Created by Achmad Fauzi on 1/1/2015.
- * achmad.fauzi@sigma.co.id
+ * fauzi.knightmaster.achmad@gmail.com
  */
 public abstract class ABaseAsyncTask extends AsyncTask{
 

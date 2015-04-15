@@ -19,7 +19,7 @@ import org.apache.http.conn.ssl.SSLSocketFactory;
 
 /**
  * Created by Achmad Fauzi on 2/25/2015.
- * achmad.fauzi@sigma.co.id
+ * fauzi.knightmaster.achmad@gmail.com
  */
 public class MSSLSocketFactory extends SSLSocketFactory{
     SSLContext sslContext = SSLContext.getInstance("TLS");

@@ -1,5 +1,7 @@
 package com.tripoin.rmumobile.rest;
 
+import com.tripoin.rmumobile.rest.enumeration.RestConstant;
+
 import org.apache.http.client.HttpClient;
 import org.apache.http.conn.params.ConnManagerParams;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -7,11 +9,9 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 
-import id.co.telkomsigma.ariumm_force.rest.enumeration.RestConstant;
-
 /**
  * Created by Achmad Fauzi on 1/3/2015.
- * achmad.fauzi@sigma.co.id
+ * fauzi.knightmaster.achmad@gmail.com
  */
 public class CustomHttpClient {
 

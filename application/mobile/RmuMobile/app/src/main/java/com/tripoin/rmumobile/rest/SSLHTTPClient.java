@@ -16,7 +16,7 @@ import javax.net.ssl.X509TrustManager;
 
 /**
  * Created by Achmad Fauzi on 2/25/2015.
- * achmad.fauzi@sigma.co.id
+ * fauzi.knightmaster.achmad@gmail.com
  */
 public class SSLHTTPClient extends DefaultHttpClient{
 

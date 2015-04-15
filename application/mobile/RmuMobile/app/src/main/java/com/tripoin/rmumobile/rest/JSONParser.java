@@ -26,7 +26,7 @@ import java.util.List;
 
 /**
  * Created by Achmad Fauzi on 9/20/2014.
- * achmad.fauzi@sigma.co.id
+ * fauzi.knightmaster.achmad@gmail.com
  *
  * Class to fetch result of Web service into stream variable
  */
