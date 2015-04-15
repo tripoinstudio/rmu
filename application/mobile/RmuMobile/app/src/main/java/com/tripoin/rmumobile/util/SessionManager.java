@@ -4,13 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import com.tripoin.rmumobile.view.activity.ActivityMain;
+
 import java.util.HashMap;
 
-import id.co.telkomsigma.ariumm_force.view.activity.ActMain;
 
 /**
  * Created by Achmad Fauzi on 9/20/2014.
- * achmad.fauzi@sigma.co.id
+ * fauzi.knightmaster.achmad@gmail.com
  */
 public class SessionManager {
     //Shared Preferences
@@ -56,7 +57,7 @@ public class SessionManager {
     public void checkLogin(){
         // Check login status
         if(!this.isLoggedIn()){
-            Intent i = new Intent( context, ActMain.class);
+            Intent i = new Intent( context, ActivityMain.class);
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(i);
@@ -82,7 +83,7 @@ public class SessionManager {
         editor.clear();
         editor.commit();
 
-        Intent i = new Intent( context, ActMain.class);
+        Intent i = new Intent( context, ActivityMain.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity( i );

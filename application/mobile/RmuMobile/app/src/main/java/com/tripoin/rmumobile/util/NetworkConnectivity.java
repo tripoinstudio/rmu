@@ -11,6 +11,9 @@ import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.util.Log;
 
+import com.tripoin.rmumobile.R;
+import com.tripoin.rmumobile.util.enumeration.NetworkConstant;
+
 import org.apache.http.conn.util.InetAddressUtils;
 
 import java.math.BigInteger;
@@ -21,12 +24,10 @@ import java.net.UnknownHostException;
 import java.nio.ByteOrder;
 import java.util.Enumeration;
 
-import id.co.telkomsigma.ariumm_force.R;
-import id.co.telkomsigma.ariumm_force.util.enumeration.NetworkConstant;
 
 /**
  * Created by Achmad Fauzi on 9/4/2014.
- * achmad.fauzi@sigma.co.id
+ * fauzi.knightmaster.achmad@gmail.com
  *
  * This class is used to check network connectivity
  */

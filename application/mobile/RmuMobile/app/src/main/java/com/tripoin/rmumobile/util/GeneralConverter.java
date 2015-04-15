@@ -8,7 +8,7 @@ import java.util.Locale;
 
 /**
  * Created by Achmad Fauzi on 9/30/2014.
- * achmad.fauzi@sigma.co.id
+ * fauzi.knightmaster.achmad@gmail.com
  *
  * Collector class to convert processed result for Activity
  */

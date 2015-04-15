@@ -13,7 +13,7 @@ import java.net.URL;
 
 /**
  * Created by Achmad Fauzi on 1/21/2015.
- * achmad.fauzi@sigma.co.id
+ * fauzi.knightmaster.achmad@gmail.com
  */
 public class HttpDownloadUtil {
     private static final int BUFFER_SIZE = 4096;

@@ -17,7 +17,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 /**
  * Created by Achmad Fauzi on 12/24/2014.
- * achmad.fauzi@sigma.co.id
+ * fauzi.knightmaster.achmad@gmail.com
  *
  * Utility class to encript String ( like ) password using AES algorithm
  */

@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 
 /**
  * Created by Achmad Fauzi on 10/1/2014.
- * achmad.fauzi@sigma.co.id
+ * fauzi.knightmaster.achmad@gmail.com
  *
  * Validating input from user to proper format
  */

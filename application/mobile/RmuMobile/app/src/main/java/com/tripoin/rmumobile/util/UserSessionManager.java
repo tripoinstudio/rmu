@@ -4,13 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-import java.util.HashMap;
+import com.tripoin.rmumobile.view.activity.ActivityMain;
 
-import id.co.telkomsigma.ariumm_force.view.activity.ActLoginValidation;
+import java.util.HashMap;
 
 /**
  * Created by Achmad Fauzi on 9/3/2014.
- * achmad.fauzi@sigma.co.id
+ * fauzi.knightmaster.achmad@gmail.com
  */
 
 public class UserSessionManager {
@@ -71,7 +71,7 @@ public class UserSessionManager {
         if(!this.isUserLoggedIn()){
 
             // user is not logged in redirect him to Login Activity
-            Intent i = new Intent(_context, ActLoginValidation.class);
+            Intent i = new Intent(_context, ActivityMain.class);
 
             // Closing all the Activities from stack
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -117,7 +117,7 @@ public class UserSessionManager {
         editor.commit();
 
         // After logout redirect user to Login Activity
-        Intent i = new Intent(_context, ActLoginValidation.class);
+        Intent i = new Intent(_context, ActivityMain.class);
 
         // Closing all the Activities
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

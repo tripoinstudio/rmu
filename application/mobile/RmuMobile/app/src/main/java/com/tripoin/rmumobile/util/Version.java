@@ -8,7 +8,7 @@ import android.content.pm.PackageManager;
 
 /**
  * Created by Achmad Fauzi on 3/3/2015.
- * achmad.fauzi@sigma.co.id
+ * fauzi.knightmaster.achmad@gmail.com
  */
 public class Version{
 
