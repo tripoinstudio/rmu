@@ -1,12 +1,12 @@
 package com.tripoin.rmumobile.model.DTO;
 
-import java.io.Serializable;
+import com.tripoin.rmumobile.model.base.ABaseRESTDTO;
 
-import id.co.telkomsigma.ariumm_force.model.top.ABaseRESTDTO;
+import java.io.Serializable;
 
 /**
  * Created by Achmad Fauzi on 11/19/2014.
- * achmad.fauzi@sigma.co.id
+ * fauzi.knightmaster.achmad@gmail.com
  *
  * Class DTO for  basic Rest
  */

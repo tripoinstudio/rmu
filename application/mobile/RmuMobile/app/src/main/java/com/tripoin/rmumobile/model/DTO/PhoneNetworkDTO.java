@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * Created by Achmad Fauzi on 12/1/2014.
- * achmad.fauzi@sigma.co.id
+ * fauzi.knightmaster.achmad@gmail.com
  *
  * Class Data Transfer Object for Phone and Network Monitor
  */

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Achmad Fauzi on 12/24/2014.
- * achmad.fauzi@sigma.co.id
+ * fauzi.knightmaster.achmad@gmail.com
  * Holding Admin Config Json from server to Mobile device
  */
 public class AdminConfigurationDTO extends BaseRESTDTO implements Serializable{

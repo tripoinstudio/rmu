@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * Created by Achmad Fauzi on 12/31/2014.
- * achmad.fauzi@sigma.co.id
+ * fauzi.knightmaster.achmad@gmail.com
  */
 public class BrowserListTestDTO implements Serializable{
 

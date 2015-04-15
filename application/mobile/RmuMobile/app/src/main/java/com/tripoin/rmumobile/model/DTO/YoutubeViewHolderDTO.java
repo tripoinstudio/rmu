@@ -5,7 +5,7 @@ import android.widget.TextView;
 
 /**
  * Created by Achmad Fauzi on 12/1/2014.
- * achmad.fauzi@sigma.co.id
+ * fauzi.knightmaster.achmad@gmail.com
  */
 
 public class YoutubeViewHolderDTO {

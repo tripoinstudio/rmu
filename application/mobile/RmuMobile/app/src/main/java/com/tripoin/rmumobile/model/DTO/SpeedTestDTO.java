@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * Created by Achmad Fauzi on 1/24/2015.
- * achmad.fauzi@sigma.co.id
+ * fauzi.knightmaster.achmad@gmail.com
  */
 public class SpeedTestDTO implements Serializable{
 

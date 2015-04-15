@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * Created by Achmad Fauzi on 1/22/2015.
- * achmad.fauzi@sigma.co.id
+ * fauzi.knightmaster.achmad@gmail.com
  */
 public class UploadHolderDTO implements Serializable{
 

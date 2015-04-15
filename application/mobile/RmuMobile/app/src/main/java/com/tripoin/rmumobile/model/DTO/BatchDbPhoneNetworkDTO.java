@@ -2,7 +2,7 @@ package com.tripoin.rmumobile.model.DTO;
 
 /**
  * Created by Achmad Fauzi on 12/22/2014.
- * achmad.fauzi@sigma.co.id
+ * fauzi.knightmaster.achmad@gmail.com
  */
 public class BatchDbPhoneNetworkDTO {
 
