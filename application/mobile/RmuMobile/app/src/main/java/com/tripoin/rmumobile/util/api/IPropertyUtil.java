@@ -2,7 +2,7 @@ package com.tripoin.rmumobile.util.api;
 
 /**
  * Created by Achmad Fauzi on 11/14/2014.
- * achmad.fauzi@sigma.co.id
+ * fauzi.knightmaster.achmad@gmail.com
  *
  * Interface for advance manipulation of configuration file
  */

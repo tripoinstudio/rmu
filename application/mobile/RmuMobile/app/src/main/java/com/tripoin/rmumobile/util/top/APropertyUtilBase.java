@@ -18,7 +18,7 @@ import java.util.Properties;
 
 /**
  * Created by Achmad Fauzi on 11/18/2014.
- * achmad.fauzi@sigma.co.id
+ * fauzi.knightmaster.achmad@gmail.com
  *
  * Abstract class for basic manipulation of property
  */

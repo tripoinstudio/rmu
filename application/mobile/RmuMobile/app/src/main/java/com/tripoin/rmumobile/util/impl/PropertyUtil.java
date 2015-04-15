@@ -14,7 +14,7 @@ import java.util.Enumeration;
 
 /**
  * Created by Achmad Fauzi on 11/14/2014.
- * achmad.fauzi@sigma.co.id
+ * fauzi.knightmaster.achmad@gmail.com
  *
  * Implementation class to manipulate configuration file
  */

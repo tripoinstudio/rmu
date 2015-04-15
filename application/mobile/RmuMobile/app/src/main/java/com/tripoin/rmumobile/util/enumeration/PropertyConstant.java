@@ -4,11 +4,11 @@ import android.os.Environment;
 
 /**
  * Created by Achmad Fauzi on 12/30/2014.
- * achmad.fauzi@sigma.co.id
+ * fauzi.knightmaster.achmad@gmail.com
  */
 public enum PropertyConstant {
-    COMPANY_NAME( "TELKOMSEL" ),
-    PROPERTIES_PATH( Environment.getExternalStorageDirectory().getPath().concat( "/MQA/" ).concat( COMPANY_NAME.toString().concat("/") ) ),
+    COMPANY_NAME( "RMU" ),
+    PROPERTIES_PATH( Environment.getExternalStorageDirectory().getPath().concat( "/RMU/" ).concat( COMPANY_NAME.toString().concat("/") ) ),
     SERVER_HOST_KEY("SERVER_HOST"),
 
     APP_MODE("development"),
@@ -36,8 +36,8 @@ public enum PropertyConstant {
     PASSWORD_EXPIRED_DATE("password_expired_date"),
     LOGIN_STATUS_KEY("status"),
     LOGIN_STATUS_VALUE("logged_in"),
-    PROPERTY_FILE_NAME("arium_mforce.properties"),
-    LOGIN_FILE_NAME("arium_mforce.login"),
+    PROPERTY_FILE_NAME("rmu.properties"),
+    LOGIN_FILE_NAME("rmu.login"),
     UNKNOWN("Unknown"),
     DEFAULT_WS_PATH("/mforce-rest/ws/service/"),
     INTENT_MNUMBER_DEFAULT_KEY("mnumber"),

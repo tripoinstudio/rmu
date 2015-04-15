@@ -6,7 +6,7 @@ import com.tripoin.rmumobile.util.api.IPropertyUtil;
 
 /**
  * Created by Achmad Fauzi on 11/29/2014.
- * achmad.fauzi@sigma.co.id
+ * fauzi.knightmaster.achmad@gmail.com
  *
  *
  */

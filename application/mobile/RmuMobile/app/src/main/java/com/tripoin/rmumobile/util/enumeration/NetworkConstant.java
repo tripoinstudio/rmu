@@ -2,7 +2,7 @@ package com.tripoin.rmumobile.util.enumeration;
 
 /**
  * Created by Achmad Fauzi on 12/30/2014.
- * achmad.fauzi@sigma.co.id
+ * fauzi.knightmaster.achmad@gmail.com
  */
 public enum NetworkConstant {
 
