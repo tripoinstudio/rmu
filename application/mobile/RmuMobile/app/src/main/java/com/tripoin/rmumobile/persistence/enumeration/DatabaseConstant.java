@@ -3,7 +3,7 @@ package com.tripoin.rmumobile.persistence.enumeration;
 
 /**
  * Created by Achmad Fauzi on 1/24/2015.
- * achmad.fauzi@sigma.co.id
+ * fauzi.knightmaster.achmad@gmail.com
  */
 public enum DatabaseConstant {
     //DB_NAME( PropertyConstant.PROPERTIES_PATH.toString().concat("mforce_mqa.db") ),

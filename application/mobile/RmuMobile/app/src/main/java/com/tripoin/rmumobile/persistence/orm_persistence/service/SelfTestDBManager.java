@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * Created by Achmad Fauzi on 1/26/2015.
- * achmad.fauzi@sigma.co.id
+ * fauzi.knightmaster.achmad@gmail.com
  * @param <DATA>
  */
 public class SelfTestDBManager<DATA> implements IBaseDatabaseHandler{

@@ -7,7 +7,7 @@ import com.tripoin.rmumobile.model.api.ModelConstant;
 
 /**
  * Created by Achmad Fauzi on 1/26/2015.
- * achmad.fauzi@sigma.co.id
+ * fauzi.knightmaster.achmad@gmail.com
  */
 
 @DatabaseTable( tableName = ModelConstant.SELF_TEST_TABLE )

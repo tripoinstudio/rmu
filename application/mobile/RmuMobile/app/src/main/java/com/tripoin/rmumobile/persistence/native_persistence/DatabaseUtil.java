@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * Created by Achmad Fauzi on 12/22/2014.
- * achmad.fauzi@sigma.co.id
+ * fauzi.knightmaster.achmad@gmail.com
  *
  * Works to generate table sql statement
  */
