@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:oxm="http://www.springframework.org/schema/oxm"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+        xmlns:task="http://www.springframework.org/schema/task"  
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util-3.0.xsd
+                           http://www.springframework.org/schema/oxm
+                           http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd
+                           http://www.springframework.org/schema/tx 
+                           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+                             http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+    
+     <context:annotation-config/>
+	  
+     <!-- Enable @Transactional support -->
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+
+	<!-- Enable @AspectJ support -->
+	<aop:aspectj-autoproxy />    
+		
+	<!-- Property Configurer -->
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath*:/META-INF/properties/resources_oracle.properties</value>
+				<value>classpath*:/META-INF/properties/resources-default.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" lazy-init="false">
+        <property name="driverClassName" value="${db.driverclass}"/>
+        <property name="url" value="jdbc:oracle:thin:@${db.host}:${db.port}:${db.instanceName}"/>
+        <property name="poolPreparedStatements" value="true"/>
+        <property name="maxActive" value="10" />
+        <property name="maxWait" value="1000" />
+        <property name="testOnBorrow" value="true" />
+        <property name="validationQuery" value="SELECT 1 FROM dual" />
+        <property name="username" value="${db.username}" />
+        <property name="password" value="${db.password}" />
+    </bean>    
+    <bean name="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+    	<constructor-arg index="0" ref="dataSource" />
+    </bean>    
+    <bean name="jdbcCall" class="org.springframework.jdbc.core.simple.SimpleJdbcCall">
+    	<constructor-arg index="0" ref="dataSource" />
+    </bean>    
+    <bean name="namedParameterJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+    	<constructor-arg index="0" ref="dataSource" />
+    </bean>
+</beans>
