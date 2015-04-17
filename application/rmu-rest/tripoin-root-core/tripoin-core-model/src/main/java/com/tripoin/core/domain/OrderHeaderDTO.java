@@ -19,16 +19,16 @@ public class OrderHeaderDTO {
 	private Date order_header_order_datetime;
 	private BigDecimal order_header_total_paid;
 	private Integer order_header_status;
-	private Integer seat_no;
-	private Integer carriage_no;
-	private Integer train_no;
+	private String seat_no;
+	private String carriage_no;
+	private String train_no;
 	
 	public OrderHeaderDTO() {}
 
 	public OrderHeaderDTO(String order_header_no,
 			Date order_header_order_datetime,
 			BigDecimal order_header_total_paid, Integer order_header_status,
-			Integer seat_no, Integer carriage_no, Integer train_no) {
+			String seat_no, String carriage_no, String train_no) {
 		super();
 		this.order_header_no = order_header_no;
 		this.order_header_order_datetime = order_header_order_datetime;
@@ -71,27 +71,27 @@ public class OrderHeaderDTO {
 		this.order_header_status = order_header_status;
 	}
 
-	public Integer getSeat_no() {
+	public String getSeat_no() {
 		return seat_no;
 	}
 
-	public void setSeat_no(Integer seat_no) {
+	public void setSeat_no(String seat_no) {
 		this.seat_no = seat_no;
 	}
 
-	public Integer getCarriage_no() {
+	public String getCarriage_no() {
 		return carriage_no;
 	}
 
-	public void setCarriage_no(Integer carriage_no) {
+	public void setCarriage_no(String carriage_no) {
 		this.carriage_no = carriage_no;
 	}
 
-	public Integer getTrain_no() {
+	public String getTrain_no() {
 		return train_no;
 	}
 
-	public void setTrain_no(Integer train_no) {
+	public void setTrain_no(String train_no) {
 		this.train_no = train_no;
 	}
 

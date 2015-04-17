@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "OrderHeaderWithUser")
 public class OrderHeaderWithUsers {		
 	@XmlElement(name = "User", required = true)
-	private List<UserDTO> security_user;
+	private UserDTO security_user;
 	
 	@XmlElement(name = "OrderHeader", required = true)
 	private List<OrderHeaderDTO> trx_order_header;
@@ -30,11 +30,11 @@ public class OrderHeaderWithUsers {
 	@XmlElement(name = "result", required = true)
 	private String result;
 
-	public List<UserDTO> getSecurity_user() {
+	public UserDTO getSecurity_user() {
 		return security_user;
 	}
 
-	public void setSecurity_user(List<UserDTO> security_user) {
+	public void setSecurity_user(UserDTO security_user) {
 		this.security_user = security_user;
 	}
 
