@@ -17,8 +17,7 @@
 	
 	<!-- Inbound/Outbound Channels -->
 	<int:channel id="carriageRequest" />
-	<int:channel id="carriageResponse" />
-	
+	<int:channel id="carriageResponse" />	
 	
 	<int-http:inbound-gateway id="inboundCarriageRequestGateway"		
 		supported-methods="GET, POST" 

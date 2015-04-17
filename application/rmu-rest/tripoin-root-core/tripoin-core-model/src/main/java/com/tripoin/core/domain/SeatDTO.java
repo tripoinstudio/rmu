@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlType;
  * @author <a href="mailto:ridla.fadilah@gmail.com">Ridla Fadilah</a>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { "id", "no", "remarks" })
+@XmlType(name = "", propOrder = { "seat_id", "seat_no", "seat_remarks" })
 @XmlRootElement(name = "Seat")
 public class SeatDTO {
 	private Integer seat_id;
