@@ -17,8 +17,20 @@
 	
 	<!-- Inbound/Outbound Channels -->
 	<int:channel id="carriageRequest" />
-	<int:channel id="carriageResponse" />	
+	<int:channel id="carriageResponse" />
+	<int:channel id="loginRequest" />
+	<int:channel id="loginResponse" />		
 	
+	<int-http:inbound-gateway id="inboundLoginRequestGateway"		
+		supported-methods="GET, POST" 
+		request-channel="loginRequest"
+		reply-channel="loginResponse"		
+		mapped-response-headers="Return-Status, Return-Status-Msg, HTTP_RESPONSE_HEADERS"		
+		view-name="/login" 
+		path="/wscontext/login"
+		reply-timeout="50000">	
+	</int-http:inbound-gateway>
+		
 	<int-http:inbound-gateway id="inboundCarriageRequestGateway"		
 		supported-methods="GET, POST" 
 		request-channel="carriageRequest"
@@ -26,10 +38,8 @@
 		mapped-response-headers="Return-Status, Return-Status-Msg, HTTP_RESPONSE_HEADERS"		
 		view-name="/carriage" 
 		path="/wscontext/carriage"
-		reply-timeout="50000">
-		
+		reply-timeout="50000">	
 	</int-http:inbound-gateway>
-	
  
 	<!-- Note: The default parameter name for favorParameter is 'format'. For instance, when this flag is true, a request for /services/employee/{id}/search?format=json will result 
 			in an MappingJacksonJsonView being resolved, while the Accept header can be the browser-defined text/html,application/xhtml+xml  -->
@@ -59,7 +69,15 @@
 	
 	<oxm:jaxb2-marshaller id="marshaller" contextPath="com.tripoin.core.domain" />
 	
-	<int:service-activator id="employeeServiceActivator" 
+	<int:service-activator id="loginServiceActivator" 
+					input-channel="loginRequest"
+					output-channel="loginResponse" 
+					ref="loginManager" 
+					method="getLogin" 
+					requires-reply="true"  
+					send-timeout="60000"/>
+					
+	<int:service-activator id="carriageServiceActivator" 
 					input-channel="carriageRequest"
 					output-channel="carriageResponse" 
 					ref="carriageManager" 

@@ -42,7 +42,6 @@ public class CarriageManager {
 			List<Carriage> carriageList = iGenericManagerJpa.loadObjects(Carriage.class);
 			boolean isFound;
 			if (carriageList!=null){
-//				List<Carriage> carriageList = iGenericManagerJpa.loadObjects(Carriage.class);
 				List<CarriageDTO> carriageDTOList = new ArrayList<CarriageDTO>();
 				for (Carriage c : carriageList) {
 					LOGGER.debug("data :"+c.toString());
