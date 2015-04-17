@@ -1,27 +1,32 @@
 package com.tripoin.core.pojo;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
  * @author <a href="mailto:ridla.fadilah@gmail.com">Ridla Fadilah</a>
  */
-//@Entity
-//@Table(name="security_role")
+@Entity
+@Table(name="security_role")
 public class Role {
 	private Integer id;
 	private String code;
-	private User user;
+	private List<User> users;
 	private Integer status;
 	private String remarks;
 
-//	@Id
-//	@GeneratedValue(strategy=GenerationType.AUTO)
-//	@Column(name="role_id")
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="role_id")
 	public Integer getId() {
 		return id;
 	}
@@ -30,7 +35,7 @@ public class Role {
 		this.id = id;
 	}
 
-//	@Column(name="role_code", length=50)
+	@Column(name="role_code", length=50)
 	public String getCode() {
 		return code;
 	}
@@ -39,15 +44,16 @@ public class Role {
 		this.code = code;
 	}
 
-	public User getUser() {
-		return user;
+	@OneToMany(mappedBy = "role", cascade=CascadeType.ALL)
+	public List<User> getUsers() {
+		return users;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUsers(List<User> users) {
+		this.users = users;
 	}
 
-//	@Column(name="role_status")
+	@Column(name="role_status")
 	public Integer getStatus() {
 		return status;
 	}
@@ -56,7 +62,7 @@ public class Role {
 		this.status = status;
 	}
 
-//	@Column(name="role_remarks", length=255)
+	@Column(name="role_remarks", length=255)
 	public String getRemarks() {
 		return remarks;
 	}
@@ -67,7 +73,7 @@ public class Role {
 
 	@Override
 	public String toString() {
-		return "Role [id=" + id + ", code=" + code + ", user=" + user
+		return "Role [id=" + id + ", code=" + code
 				+ ", status=" + status + ", remarks=" + remarks + "]";
-	}
+	}	
 }

@@ -52,7 +52,6 @@ public class User {
 		this.password = password;
 	}
 
-
 	@Column(name="user_status")
 	public Integer getStatus() {
 		return status;
@@ -86,6 +85,8 @@ public class User {
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password="
 				+ password + ", status=" + status + ", remarks=" + remarks
-				+ ", roles=" + role + "]";
+				+ ", Role [id=" + role.getId() + ", code=" + role.getCode()
+				+ ", status=" + role.getStatus() + ", remark=" + role.getRemarks()
+				+ "]" + "]";
 	}
 }
