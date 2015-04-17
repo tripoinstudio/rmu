@@ -12,11 +12,14 @@ import javax.xml.bind.annotation.XmlType;
  * @author <a href="mailto:ridla.fadilah@gmail.com">Ridla Fadilah</a>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { "master_cariage", "response_code", "response_msg", "result" })
-@XmlRootElement(name = "Carriages")
-public class Carriages {	
-	@XmlElement(name = "Carriage", required = true)
-	private List<CarriageDTO> master_cariage;
+@XmlType(name = "", propOrder = { "security_user", "trx_order_header", "response_code", "response_msg", "result" })
+@XmlRootElement(name = "OrderHeaderWithUser")
+public class OrderHeaderWithUsers {		
+	@XmlElement(name = "User", required = true)
+	private List<UserDTO> security_user;
+	
+	@XmlElement(name = "OrderHeader", required = true)
+	private List<OrderHeaderDTO> trx_order_header;
 	
 	@XmlElement(name = "response_code", required = true)
 	private String response_code;
@@ -27,12 +30,20 @@ public class Carriages {
 	@XmlElement(name = "result", required = true)
 	private String result;
 
-	public List<CarriageDTO> getMaster_cariage() {
-		return master_cariage;
+	public List<UserDTO> getSecurity_user() {
+		return security_user;
 	}
 
-	public void setMaster_cariage(List<CarriageDTO> master_cariage) {
-		this.master_cariage = master_cariage;
+	public void setSecurity_user(List<UserDTO> security_user) {
+		this.security_user = security_user;
+	}
+
+	public List<OrderHeaderDTO> getTrx_order_header() {
+		return trx_order_header;
+	}
+
+	public void setTrx_order_header(List<OrderHeaderDTO> trx_order_header) {
+		this.trx_order_header = trx_order_header;
 	}
 
 	public String getResponse_code() {
@@ -61,8 +72,9 @@ public class Carriages {
 
 	@Override
 	public String toString() {
-		return "Carriages [master_cariage=" + master_cariage
-				+ ", response_code=" + response_code + ", response_msg="
-				+ response_msg + ", result=" + result + "]";
+		return "OrderHeaderWithUsers [security_user=" + security_user
+				+ ", trx_order_header=" + trx_order_header + ", response_code="
+				+ response_code + ", response_msg=" + response_msg
+				+ ", result=" + result + "]";
 	}
 }

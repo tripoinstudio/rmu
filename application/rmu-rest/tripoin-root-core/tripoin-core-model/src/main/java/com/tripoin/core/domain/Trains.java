@@ -12,11 +12,11 @@ import javax.xml.bind.annotation.XmlType;
  * @author <a href="mailto:ridla.fadilah@gmail.com">Ridla Fadilah</a>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { "master_cariage", "response_code", "response_msg", "result" })
-@XmlRootElement(name = "Carriages")
-public class Carriages {	
-	@XmlElement(name = "Carriage", required = true)
-	private List<CarriageDTO> master_cariage;
+@XmlType(name = "", propOrder = { "master_train", "response_code", "response_msg", "result" })
+@XmlRootElement(name = "Trains")
+public class Trains {	
+	@XmlElement(name = "Train", required = true)
+	private List<CarriageDTO> master_train;
 	
 	@XmlElement(name = "response_code", required = true)
 	private String response_code;
@@ -27,12 +27,12 @@ public class Carriages {
 	@XmlElement(name = "result", required = true)
 	private String result;
 
-	public List<CarriageDTO> getMaster_cariage() {
-		return master_cariage;
+	public List<CarriageDTO> getMaster_train() {
+		return master_train;
 	}
 
-	public void setMaster_cariage(List<CarriageDTO> master_cariage) {
-		this.master_cariage = master_cariage;
+	public void setMaster_train(List<CarriageDTO> master_train) {
+		this.master_train = master_train;
 	}
 
 	public String getResponse_code() {
@@ -61,8 +61,8 @@ public class Carriages {
 
 	@Override
 	public String toString() {
-		return "Carriages [master_cariage=" + master_cariage
-				+ ", response_code=" + response_code + ", response_msg="
-				+ response_msg + ", result=" + result + "]";
+		return "Trains [master_train=" + master_train + ", response_code="
+				+ response_code + ", response_msg=" + response_msg
+				+ ", result=" + result + "]";
 	}
 }

@@ -22,6 +22,7 @@ import javax.persistence.Table;
 public class OrderHeader {
 	private String orderNo;
 	private User user;
+	private Train train;
 	private Carriage carriage;
 	private Seat seat;
 	private Date orderDatetime;
@@ -48,6 +49,16 @@ public class OrderHeader {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "train_id", nullable = false)
+	public Train getTrain() {
+		return train;
+	}
+
+	public void setTrain(Train train) {
+		this.train = train;
 	}
 
 	@ManyToOne
@@ -118,7 +129,7 @@ public class OrderHeader {
 	@Override
 	public String toString() {
 		return "OrderHeader [orderNo=" + orderNo + ", user=" + user
-				+ ", carriage=" + carriage + ", seat=" + seat
+				+ ", train=" + train + ", carriage=" + carriage + ", seat=" + seat
 				+ ", orderDatetime=" + orderDatetime + ", totalPaid="
 				+ totalPaid + ", status=" + status + ", remarks=" + remarks
 				+ "]";

@@ -12,20 +12,20 @@ import javax.xml.bind.annotation.XmlType;
  * @author <a href="mailto:ridla.fadilah@gmail.com">Ridla Fadilah</a>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { "seat", "responseCode", "responseMsg", "result" })
+@XmlType(name = "", propOrder = { "master_seat", "response_code", "response_msg", "result" })
 @XmlRootElement(name = "Seats")
 public class Seats {
 	@XmlElement(name = "Seat", required = true)
 	private List<SeatDTO> master_seat;
 	
-	@XmlElement(name = "responseCode", required = true)
+	@XmlElement(name = "response_code", required = true)
 	private String response_code;
 	
-	@XmlElement(name = "responseMsg", required = true)
+	@XmlElement(name = "response_msg", required = true)
 	private String response_msg;
 	
 	@XmlElement(name = "result", required = true)
-	private String RESULT;
+	private String result;
 
 	public List<SeatDTO> getMaster_seat() {
 		return master_seat;
@@ -51,18 +51,18 @@ public class Seats {
 		this.response_msg = response_msg;
 	}
 
-	public String getRESULT() {
-		return RESULT;
+	public String getResult() {
+		return result;
 	}
 
-	public void setRESULT(String rESULT) {
-		RESULT = rESULT;
+	public void setResult(String result) {
+		this.result = result;
 	}
 
 	@Override
 	public String toString() {
 		return "Seats [master_seat=" + master_seat + ", response_code="
 				+ response_code + ", response_msg=" + response_msg
-				+ ", RESULT=" + RESULT + "]";
+				+ ", result=" + result + "]";
 	}
 }

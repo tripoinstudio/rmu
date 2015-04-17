@@ -12,20 +12,20 @@ import javax.xml.bind.annotation.XmlType;
  * @author <a href="mailto:ridla.fadilah@gmail.com">Ridla Fadilah</a>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { "menu", "responseCode", "responseMsg", "result" })
+@XmlType(name = "", propOrder = { "master_menu", "response_code", "response_msg", "result" })
 @XmlRootElement(name = "Menus")
 public class Menus {	
 	@XmlElement(name = "Menu", required = true)
 	private List<MenuDTO> master_menu;
 	
-	@XmlElement(name = "responseCode", required = true)
+	@XmlElement(name = "response_code", required = true)
 	private String response_code;
 	
-	@XmlElement(name = "responseMsg", required = true)
+	@XmlElement(name = "response_msg", required = true)
 	private String response_msg;
 	
 	@XmlElement(name = "result", required = true)
-	private String RESULT;
+	private String result;
 
 	public List<MenuDTO> getMaster_menu() {
 		return master_menu;
@@ -51,18 +51,11 @@ public class Menus {
 		this.response_msg = response_msg;
 	}
 
-	public String getRESULT() {
-		return RESULT;
+	public String getResult() {
+		return result;
 	}
 
-	public void setRESULT(String rESULT) {
-		RESULT = rESULT;
-	}
-
-	@Override
-	public String toString() {
-		return "Menus [master_menu=" + master_menu + ", response_code="
-				+ response_code + ", response_msg=" + response_msg
-				+ ", RESULT=" + RESULT + "]";
+	public void setResult(String result) {
+		this.result = result;
 	}
 }
