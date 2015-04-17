@@ -1,7 +1,5 @@
 package com.tripoin.core.pojo;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,7 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -24,7 +21,7 @@ public class User {
 	private String password;
 	private Integer status;
 	private String remarks;
-	private List<OrderHeader> orderHeaders;
+	private Role role;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -32,8 +29,6 @@ public class User {
 	public Integer getId() {
 		return id;
 	}
-	
-	
 
 	public void setId(Integer id) {
 		this.id = id;
@@ -77,21 +72,20 @@ public class User {
 		this.remarks = remarks;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-	public List<OrderHeader> getOrderHeaders() {
-		return orderHeaders;
+	@ManyToOne
+	@JoinColumn(name = "role_id", nullable = false)
+	public Role getRole() {
+		return role;
 	}
 
-	public void setOrderHeaders(List<OrderHeader> orderHeaders) {
-		this.orderHeaders = orderHeaders;
-	}
-
-
+	public void setRole(Role role) {
+		this.role = role;
+	}	
 
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password="
 				+ password + ", status=" + status + ", remarks=" + remarks
-				+ "]";
+				+ ", roles=" + role + "]";
 	}
 }
