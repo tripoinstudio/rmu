@@ -10,7 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -21,7 +21,7 @@ import javax.persistence.Table;
 public class OrderDetail {
 	private Integer id;
 	private Menu menu;
-	private Integer orderAmount;
+	private Integer totalOrder;
 	private BigDecimal totalAmount;
 	private OrderHeader orderHeader;
 	private Integer status;
@@ -40,7 +40,7 @@ public class OrderDetail {
 	}
 
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "menu_id", nullable = false)
 	public Menu getMenu() {
 		return menu;
@@ -50,13 +50,13 @@ public class OrderDetail {
 		this.menu = menu;
 	}
 
-	@Column(name="order_detail_order_amount")
-	public Integer getOrderAmount() {
-		return orderAmount;
+	@Column(name="order_detail_total_order")
+	public Integer getTotalOrder() {
+		return totalOrder;
 	}
 
-	public void setOrderAmount(Integer orderAmount) {
-		this.orderAmount = orderAmount;
+	public void setTotalOrder(Integer totalOrder) {
+		this.totalOrder = totalOrder;
 	}
 
 	@Column(name="order_detail_total_amount")
@@ -68,7 +68,7 @@ public class OrderDetail {
 		this.totalAmount = totalAmount;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "order_header_no", nullable = false)
 	public OrderHeader getOrderHeader() {
 		return orderHeader;
@@ -98,9 +98,8 @@ public class OrderDetail {
 
 	@Override
 	public String toString() {
-		return "OrderDetail [id=" + id + ", menu=" + menu + ", orderAmount="
-				+ orderAmount + ", totalAmount=" + totalAmount
-				+ ", orderHeader=" + orderHeader + ", status=" + status
-				+ ", remarks=" + remarks + "]";
+		return "OrderDetail [id=" + id + ", totalOrder=" + totalOrder
+				+ ", totalAmount=" + totalAmount + ", status=" + status
+				+ ", remarks=" + remarks + ", orderHeader=" + orderHeader + "]";
 	}	
 }

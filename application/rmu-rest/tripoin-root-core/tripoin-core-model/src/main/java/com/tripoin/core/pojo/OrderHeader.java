@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -39,7 +40,7 @@ public class OrderHeader {
 		this.orderNo = orderNo;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "user_id", nullable = false)
 	public User getUser() {
 		return user;
@@ -49,7 +50,7 @@ public class OrderHeader {
 		this.user = user;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "carriage_id", nullable = false)
 	public Carriage getCarriage() {
 		return carriage;
@@ -59,7 +60,7 @@ public class OrderHeader {
 		this.carriage = carriage;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "seat_id", nullable = false)
 	public Seat getSeat() {
 		return seat;
@@ -105,7 +106,7 @@ public class OrderHeader {
 		this.remarks = remarks;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "orderHeader")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "orderHeader", cascade=CascadeType.ALL)
 	public List<OrderDetail> getOrderDetails() {
 		return orderDetails;
 	}

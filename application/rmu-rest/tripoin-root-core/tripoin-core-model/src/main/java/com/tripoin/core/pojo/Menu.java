@@ -3,6 +3,7 @@ package com.tripoin.core.pojo;
 import java.math.BigDecimal;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -103,7 +104,7 @@ public class Menu {
 		this.remarks = remarks;
 	}
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "menu")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "menu", cascade=CascadeType.ALL)
 	public List<OrderDetail> getOrderDetails() {
 		return orderDetails;
 	}

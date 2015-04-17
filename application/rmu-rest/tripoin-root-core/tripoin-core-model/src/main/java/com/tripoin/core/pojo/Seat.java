@@ -2,6 +2,7 @@ package com.tripoin.core.pojo;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -71,7 +72,7 @@ public class Seat {
 		this.remarks = remarks;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "seat")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "seat", cascade=CascadeType.ALL)
 	public List<OrderHeader> getOrderHeaders() {
 		return orderHeaders;
 	}
