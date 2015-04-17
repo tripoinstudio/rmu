@@ -38,14 +38,15 @@ public class CarriageManager {
 		
 		try{
 			MessageHeaders headers = inMessage.getHeaders();
-			String id = (String)headers.get("carriageId");
+//			String id = (String)headers.get("carriageId");
+			List<Carriage> carriageList = iGenericManagerJpa.loadObjects(Carriage.class);
 			boolean isFound;
-			if (id.equals("0")){
-				List<Carriage> carriageList = iGenericManagerJpa.loadObjects(Carriage.class);
+			if (carriageList!=null){
+//				List<Carriage> carriageList = iGenericManagerJpa.loadObjects(Carriage.class);
 				List<CarriageDTO> carriageDTOList = new ArrayList<CarriageDTO>();
 				for (Carriage c : carriageList) {
 					LOGGER.debug("data :"+c.toString());
-					CarriageDTO data = new CarriageDTO(c.getId(), c.getCode(), c.getNo(), c.getStatus(), c.getRemarks());
+					CarriageDTO data = new CarriageDTO(c.getId(), c.getNo(), c.getRemarks());
 					carriageDTOList.add(data);
 				} 
 				carriages.setMaster_cariage(carriageDTOList);
@@ -74,7 +75,7 @@ public class CarriageManager {
 		
 		carriages.setResponse_code(responseCode);
 		carriages.setResponse_msg(responseMsg);
-		carriages.setRESULT(result);
+		carriages.setResult(result);
 		responseHeaderMap.put("Return-Status", responseCode);
 		responseHeaderMap.put("Return-Status-Msg", responseMsg);
 	}

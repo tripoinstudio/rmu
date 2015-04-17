@@ -26,10 +26,8 @@
 		reply-channel="carriageResponse"		
 		mapped-response-headers="Return-Status, Return-Status-Msg, HTTP_RESPONSE_HEADERS"		
 		view-name="/carriage" 
-		path="/wscontext/carriage/{id}/search"
+		path="/wscontext/carriage"
 		reply-timeout="50000">
-				
-		<int-http:header name="carriageId" expression="#pathVariables.id"/>
 		
 	</int-http:inbound-gateway>
 	
