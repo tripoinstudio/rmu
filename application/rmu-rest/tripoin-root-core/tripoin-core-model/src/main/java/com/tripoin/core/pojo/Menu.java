@@ -1,12 +1,15 @@
 package com.tripoin.core.pojo;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -23,6 +26,8 @@ public class Menu {
 	private String imageUrl;
 	private Integer status;
 	private String remarks;
+	private List<OrderDetail> orderDetails;
+
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -96,6 +101,15 @@ public class Menu {
 
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
+	}
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "menu")
+	public List<OrderDetail> getOrderDetails() {
+		return orderDetails;
+	}
+
+	public void setOrderDetails(List<OrderDetail> orderDetails) {
+		this.orderDetails = orderDetails;
 	}
 
 	@Override

@@ -1,10 +1,14 @@
 package com.tripoin.core.pojo;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -18,6 +22,7 @@ public class Seat {
 	private String no;
 	private Integer status;
 	private String remarks;
+	private List<OrderHeader> orderHeaders;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -64,6 +69,15 @@ public class Seat {
 
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "seat")
+	public List<OrderHeader> getOrderHeaders() {
+		return orderHeaders;
+	}
+
+	public void setOrderHeaders(List<OrderHeader> orderHeaders) {
+		this.orderHeaders = orderHeaders;
 	}
 
 	@Override

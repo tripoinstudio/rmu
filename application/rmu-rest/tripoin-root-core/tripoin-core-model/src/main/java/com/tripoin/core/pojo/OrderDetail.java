@@ -4,16 +4,20 @@ import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
  * @author <a href="mailto:ridla.fadilah@gmail.com">Ridla Fadilah</a>
  */
-//@Entity
-//@Table(name="trx_order_detail")
+@Entity
+@Table(name="trx_order_detail")
 public class OrderDetail {
 	private Integer id;
 	private Menu menu;
@@ -24,9 +28,9 @@ public class OrderDetail {
 	private String remarks;
 	
 
-//	@Id
-//	@GeneratedValue(strategy=GenerationType.AUTO)
-//	@Column(name="order_detail_id")
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="order_detail_id")
 	public Integer getId() {
 		return id;
 	}
@@ -35,6 +39,9 @@ public class OrderDetail {
 		this.id = id;
 	}
 
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "menu_id", nullable = false)
 	public Menu getMenu() {
 		return menu;
 	}
@@ -43,7 +50,7 @@ public class OrderDetail {
 		this.menu = menu;
 	}
 
-//	@Column(name="order_detail_order_amount")
+	@Column(name="order_detail_order_amount")
 	public Integer getOrderAmount() {
 		return orderAmount;
 	}
@@ -52,7 +59,7 @@ public class OrderDetail {
 		this.orderAmount = orderAmount;
 	}
 
-//	@Column(name="order_detail_total_amount")
+	@Column(name="order_detail_total_amount")
 	public BigDecimal getTotalAmount() {
 		return totalAmount;
 	}
@@ -61,6 +68,8 @@ public class OrderDetail {
 		this.totalAmount = totalAmount;
 	}
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "order_header_no", nullable = false)
 	public OrderHeader getOrderHeader() {
 		return orderHeader;
 	}
@@ -69,7 +78,7 @@ public class OrderDetail {
 		this.orderHeader = orderHeader;
 	}
 	
-//	@Column(name="order_detail_status")
+	@Column(name="order_detail_status")
 	public Integer getStatus() {
 		return status;
 	}
@@ -78,7 +87,7 @@ public class OrderDetail {
 		this.status = status;
 	}
 
-//	@Column(name="order_detail_status", length=255)
+	@Column(name="order_detail_remarks", length=255)
 	public String getRemarks() {
 		return remarks;
 	}
