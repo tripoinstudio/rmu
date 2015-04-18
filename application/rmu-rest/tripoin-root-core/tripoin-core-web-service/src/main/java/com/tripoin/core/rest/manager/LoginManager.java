@@ -18,6 +18,7 @@ import com.tripoin.core.domain.OrderHeaderWithUsers;
 import com.tripoin.core.domain.UserDTO;
 import com.tripoin.core.pojo.OrderHeader;
 import com.tripoin.core.service.IGenericManagerJpa;
+import com.tripoin.core.util.ELoggedIn;
 
 /**
  * @author <a href="mailto:ridla.fadilah@gmail.com">Ridla Fadilah</a>
@@ -26,6 +27,7 @@ import com.tripoin.core.service.IGenericManagerJpa;
 public class LoginManager {
 	
 	private static transient final Logger LOGGER = LoggerFactory.getLogger(LoginManager.class);
+	private String STATUSLOGIN = ELoggedIn.SUCCESS.toString();
 
 	@Autowired
 	private IGenericManagerJpa iGenericManagerJpa;
@@ -38,35 +40,44 @@ public class LoginManager {
 		
 		try{
 			List<OrderHeader> orderHeaderList = iGenericManagerJpa.loadObjects(OrderHeader.class);
-			boolean isFound;
+			
 			if (orderHeaderList!=null){
 				List<OrderHeaderDTO> orderHeaderDTOList = new ArrayList<OrderHeaderDTO>();
 				UserDTO user = new UserDTO();
 				boolean role = true;
 				for (OrderHeader o : orderHeaderList) {
+					if(role){
+						user = new UserDTO(o.getUser().getUsername(), o.getUser().getRole().getCode());
+						if(o.getUser().getStatus() == 1){
+							STATUSLOGIN = ELoggedIn.LOGGEDIN.toString();
+							break;
+						}
+						role = false;
+					}
+					
 					LOGGER.debug("data :"+o.toString());
 					OrderHeaderDTO data = new OrderHeaderDTO(o.getOrderNo(), o.getOrderDatetime(), o.getTotalPaid(), o.getStatus(), o.getUser().getUsername(), o.getSeat().getNo(), o.getCarriage().getNo(), o.getTrain().getNo());
-					orderHeaderDTOList.add(data);
-					
-					if(role)
-						user = new UserDTO(o.getUser().getUsername(), o.getUser().getRole().getCode());
-					
-					role = false;
+					orderHeaderDTOList.add(data);					
 				} 
-				orderHeaderWithUsers.setTrx_order_header(orderHeaderDTOList);
-				orderHeaderWithUsers.setSecurity_user(user);
-				isFound = true;
-			}else{				
-				isFound = false;
+				if(ELoggedIn.SUCCESS.toString().equals(STATUSLOGIN)){
+					orderHeaderWithUsers.setTrx_order_header(orderHeaderDTOList);
+					orderHeaderWithUsers.setSecurity_user(user);
+				}
+			}else{	
+				STATUSLOGIN = ELoggedIn.EMPTY.toString();
 			}			
-			if (isFound){
+			if (ELoggedIn.SUCCESS.toString().equals(STATUSLOGIN)){
 				setReturnStatusAndMessage("0", "Load Data Success", "SUCCESS", orderHeaderWithUsers, responseHeaderMap);
-			}else{
-				setReturnStatusAndMessage("2", "Carriage Not Found", "EMPTY", orderHeaderWithUsers, responseHeaderMap);								
+			}else if (ELoggedIn.LOGGEDIN.toString().equals(STATUSLOGIN)){
+				setReturnStatusAndMessage("1", "User Has Been Login", "LOGGEDIN", orderHeaderWithUsers, responseHeaderMap);
+			}else if (ELoggedIn.EMPTY.toString().equals(STATUSLOGIN)){
+				setReturnStatusAndMessage("2", "Order Not Found", "EMPTY", orderHeaderWithUsers, responseHeaderMap);								
+			}else {
+				setReturnStatusAndMessage("3", "User Blocked", "BLOCKED", orderHeaderWithUsers, responseHeaderMap);								
 			}
 			
 		}catch (Exception e){
-			setReturnStatusAndMessage("1", "System Error"+e.getMessage(), "FAILURE", orderHeaderWithUsers, responseHeaderMap);
+			setReturnStatusAndMessage("4", "System Error : "+e.getMessage(), "FAILURE", orderHeaderWithUsers, responseHeaderMap);
 		}
 		Message<OrderHeaderWithUsers> message = new GenericMessage<OrderHeaderWithUsers>(orderHeaderWithUsers, responseHeaderMap);
 		return message;		
