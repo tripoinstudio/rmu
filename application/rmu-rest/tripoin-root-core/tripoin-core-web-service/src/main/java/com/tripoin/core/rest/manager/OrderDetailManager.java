@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import com.tripoin.core.domain.OrderDetailDTO;
 import com.tripoin.core.domain.OrderDetails;
 import com.tripoin.core.pojo.Carriage;
+import com.tripoin.core.pojo.Menu;
 import com.tripoin.core.pojo.OrderDetail;
 import com.tripoin.core.pojo.OrderHeader;
 import com.tripoin.core.pojo.Seat;
@@ -45,16 +46,23 @@ public class OrderDetailManager {
 			ObjectMapper om = new ObjectMapper();
 			OrderDetails orderDetails = om.readValue(jsonOrderDetail, OrderDetails.class);
 			List<OrderDetailDTO> orderDetailDTOList = orderDetails.getTrx_order_detail();
+			boolean isOrderHeader = true;
+			OrderHeader orderHeader = new OrderHeader();
+			List<Menu> menu = iGenericManagerJpa.loadObjects(Menu.class);
 			for (OrderDetailDTO orderDetailDTO : orderDetailDTOList) {
-				OrderHeader orderHeader = new OrderHeader();
-				Seat seat = new Seat();
-				seat.setId(orderDetailDTO.getSeat_id());
-				Carriage carriage = new Carriage();
-				carriage.setId(orderDetailDTO.getCarriage_id());
-				Train train = new Train();
-				train.setId(orderDetailDTO.getTrain_id());
-				
-				orderDetailDTO.getU
+				// Order Header
+				if(isOrderHeader){
+					Seat seat = new Seat();
+					seat.setId(orderDetailDTO.getSeat_id());
+					Carriage carriage = new Carriage();
+					carriage.setId(orderDetailDTO.getCarriage_id());
+					Train train = new Train();
+					train.setId(orderDetailDTO.getTrain_id());
+					
+					orderHeader.setOrderNo("");
+					
+					isOrderHeader = false;
+				}
 			}
 		}catch(Exception e){
 			LOGGER.error("Error :".concat(e.getLocalizedMessage()), e);
@@ -74,8 +82,8 @@ public class OrderDetailManager {
 				List<OrderDetailDTO> orderDetailDTOList = new ArrayList<OrderDetailDTO>();
 				for (OrderDetail o : orderDetailList) {
 					LOGGER.debug("data :"+o.toString());
-					OrderDetailDTO data = new OrderDetailDTO(o.getOrderHeader().getOrderNo(), o.getTotalOrder(), o.getTotalAmount(), o.getStatus(), o.getMenu().getId(), o.getMenu().getName(), o.getOrderHeader().getSeat().getId(), o.getOrderHeader().getCarriage().getId(), o.getOrderHeader().getTrain().getId());
-					orderDetailDTOList.add(data);
+//					OrderDetailDTO data = new OrderDetailDTO(o.getOrderHeader().getOrderNo(), o.getTotalOrder(), o.getTotalAmount(), o.getStatus(), o.getMenu().getId(), o.getMenu().getName(), o.getOrderHeader().getSeat().getId(), o.getOrderHeader().getCarriage().getId(), o.getOrderHeader().getTrain().getId());
+//					orderDetailDTOList.add(data);
 				} 
 				orderDetails.setTrx_order_detail(orderDetailDTOList);
 				isFound = true;
