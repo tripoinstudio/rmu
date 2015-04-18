@@ -45,7 +45,7 @@ public class LoginManager {
 				boolean role = true;
 				for (OrderHeader o : orderHeaderList) {
 					LOGGER.debug("data :"+o.toString());
-					OrderHeaderDTO data = new OrderHeaderDTO(o.getOrderNo(), o.getOrderDatetime(), o.getTotalPaid(), o.getStatus(), o.getSeat().getNo(), o.getCarriage().getNo(), o.getTrain().getNo());
+					OrderHeaderDTO data = new OrderHeaderDTO(o.getOrderNo(), o.getOrderDatetime(), o.getTotalPaid(), o.getStatus(), o.getUser().getUsername(), o.getSeat().getNo(), o.getCarriage().getNo(), o.getTrain().getNo());
 					orderHeaderDTOList.add(data);
 					
 					if(role)

@@ -9,17 +9,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.Message;
-import org.springframework.integration.MessageHeaders;
 import org.springframework.integration.message.GenericMessage;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import com.tripoin.core.domain.MenuDTO;
 import com.tripoin.core.domain.Menus;
-import com.tripoin.core.domain.SeatDTO;
-import com.tripoin.core.domain.Seats;
 import com.tripoin.core.pojo.Menu;
-import com.tripoin.core.pojo.Seat;
 import com.tripoin.core.service.IGenericManagerJpa;
 
 @Service("menuManager")
@@ -36,7 +32,6 @@ public class MenuManager {
 		Map<String, Object> responseHeaderMap = new HashMap<String, Object>();
 		
 		try{
-			MessageHeaders headers = inMessage.getHeaders();
 			List<Menu> menuList = iGenericManagerJpa.loadObjects(Menu.class);
 			boolean isFound;
 			if (menuList!=null){

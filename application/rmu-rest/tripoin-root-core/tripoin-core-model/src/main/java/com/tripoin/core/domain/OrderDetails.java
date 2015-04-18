@@ -12,11 +12,11 @@ import javax.xml.bind.annotation.XmlType;
  * @author <a href="mailto:ridla.fadilah@gmail.com">Ridla Fadilah</a>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { "master_carriage", "response_code", "response_msg", "result" })
-@XmlRootElement(name = "Carriages")
-public class Carriages {	
-	@XmlElement(name = "Carriage", required = true)
-	private List<CarriageDTO> master_carriage;
+@XmlType(name = "", propOrder = { "trx_order_detail", "response_code", "response_msg", "result" })
+@XmlRootElement(name = "OrderDetails")
+public class OrderDetails {	
+	@XmlElement(name = "OrderDetail", required = true)
+	private List<OrderDetailDTO> trx_order_detail;
 	
 	@XmlElement(name = "response_code", required = true)
 	private String response_code;
@@ -27,12 +27,12 @@ public class Carriages {
 	@XmlElement(name = "result", required = true)
 	private String result;
 
-	public List<CarriageDTO> getMaster_carriage() {
-		return master_carriage;
+	public List<OrderDetailDTO> getTrx_order_detail() {
+		return trx_order_detail;
 	}
 
-	public void setMaster_carriage(List<CarriageDTO> master_carriage) {
-		this.master_carriage = master_carriage;
+	public void setTrx_order_detail(List<OrderDetailDTO> trx_order_detail) {
+		this.trx_order_detail = trx_order_detail;
 	}
 
 	public String getResponse_code() {
@@ -61,7 +61,7 @@ public class Carriages {
 
 	@Override
 	public String toString() {
-		return "Carriages [master_carriage=" + master_carriage
+		return "OrderDetails [trx_order_detail=" + trx_order_detail
 				+ ", response_code=" + response_code + ", response_msg="
 				+ response_msg + ", result=" + result + "]";
 	}

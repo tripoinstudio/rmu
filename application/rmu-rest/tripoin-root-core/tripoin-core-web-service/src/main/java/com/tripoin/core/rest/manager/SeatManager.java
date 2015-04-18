@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.Message;
-import org.springframework.integration.MessageHeaders;
 import org.springframework.integration.message.GenericMessage;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
@@ -33,7 +32,6 @@ public class SeatManager {
 		Map<String, Object> responseHeaderMap = new HashMap<String, Object>();
 		
 		try{
-			MessageHeaders headers = inMessage.getHeaders();
 			List<Seat> seatList = iGenericManagerJpa.loadObjects(Seat.class);
 			boolean isFound;
 			if (seatList!=null){

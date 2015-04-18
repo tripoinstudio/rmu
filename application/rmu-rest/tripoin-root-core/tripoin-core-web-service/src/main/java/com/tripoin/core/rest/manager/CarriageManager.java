@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.Message;
-import org.springframework.integration.MessageHeaders;
 import org.springframework.integration.message.GenericMessage;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
@@ -37,8 +36,6 @@ public class CarriageManager {
 		Map<String, Object> responseHeaderMap = new HashMap<String, Object>();
 		
 		try{
-			MessageHeaders headers = inMessage.getHeaders();
-//			String id = (String)headers.get("carriageId");
 			List<Carriage> carriageList = iGenericManagerJpa.loadObjects(Carriage.class);
 			boolean isFound;
 			if (carriageList!=null){
@@ -48,7 +45,7 @@ public class CarriageManager {
 					CarriageDTO data = new CarriageDTO(c.getId(), c.getNo(), c.getRemarks());
 					carriageDTOList.add(data);
 				} 
-				carriages.setMaster_cariage(carriageDTOList);
+				carriages.setMaster_carriage(carriageDTOList);
 				isFound = true;
 			}else{				
 				isFound = false;

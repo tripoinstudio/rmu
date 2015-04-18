@@ -1,12 +1,17 @@
 package com.tripoin.core.pojo;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -21,6 +26,7 @@ public class User {
 	private Integer status;
 	private String remarks;
 	private Role role;
+	private List<OrderHeader> orderHeaders;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -80,12 +86,19 @@ public class User {
 		this.role = role;
 	}	
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade=CascadeType.ALL)
+	public List<OrderHeader> getOrderHeaders() {
+		return orderHeaders;
+	}
+
+	public void setOrderHeaders(List<OrderHeader> orderHeaders) {
+		this.orderHeaders = orderHeaders;
+	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password="
 				+ password + ", status=" + status + ", remarks=" + remarks
-				+ ", Role [id=" + role.getId() + ", code=" + role.getCode()
-				+ ", status=" + role.getStatus() + ", remark=" + role.getRemarks()
-				+ "]" + "]";
+				+ ", role=" + role + "]";
 	}
 }
