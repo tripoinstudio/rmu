@@ -5,10 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.Message;
+import org.springframework.integration.MessageHeaders;
 import org.springframework.integration.message.GenericMessage;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
@@ -24,9 +26,29 @@ public class OrderDetailManager {
 
 	@Autowired
 	private IGenericManagerJpa iGenericManagerJpa;
+
 	
 	@Secured("ROLE_REST_HTTP_USER")
-	public Message<OrderDetails> getOrderDetails(Message<?> inMessage){
+	public Message<OrderDetails> getOrderDetails(Message<?> inMessage){		
+		return getListOrderDetails();		
+	}
+	
+	@Secured("ROLE_REST_HTTP_USER")
+	public Message<OrderDetails> setOrderDetails(Message<?> inMessage){	
+		try{
+			MessageHeaders headers = inMessage.getHeaders();
+			String jsonOrderDetail = (String)headers.get("jsonOrderDetail");
+			ObjectMapper om = new ObjectMapper();
+			OrderDetails orderDetails = om.readValue(jsonOrderDetail, OrderDetails.class);
+			List<OrderDetailDTO> orderDetailDTO = orderDetails.getTrx_order_detail();
+			
+		}catch(Exception e){
+			LOGGER.error("Error :".concat(e.getLocalizedMessage()), e);
+		}
+		return getListOrderDetails();		
+	}	
+	
+	public Message<OrderDetails> getListOrderDetails(){
 	
 		OrderDetails orderDetails = new OrderDetails();
 		Map<String, Object> responseHeaderMap = new HashMap<String, Object>();

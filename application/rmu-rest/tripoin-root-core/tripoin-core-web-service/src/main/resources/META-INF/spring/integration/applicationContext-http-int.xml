@@ -28,6 +28,10 @@
 	<int:channel id="loginResponse" />	
 	<int:channel id="orderHeaderRequest" />
 	<int:channel id="orderHeaderResponse" />
+	<int:channel id="orderDetailRequest" />
+	<int:channel id="orderDetailResponse" />
+	<int:channel id="setOrderDetailRequest" />
+	<int:channel id="setOrderDetailResponse" />
 			
 	<int-http:inbound-gateway id="inboundLoginRequestGateway"		
 		supported-methods="GET, POST" 
@@ -95,16 +99,27 @@
 		
 	</int-http:inbound-gateway>
 	
+	<int-http:inbound-gateway id="inboundOrderDetailRequestGateway"		
+		supported-methods="GET, POST" 
+		request-channel="orderDetailRequest"
+		reply-channel="orderDetailResponse"		
+		mapped-response-headers="Return-Status, Return-Status-Msg, HTTP_RESPONSE_HEADERS"		
+		view-name="/orderDetail" 
+		path="/wscontext/orderDetail"
+		reply-timeout="50000">
+		
+	</int-http:inbound-gateway>
+	
 	<int-http:inbound-gateway id="inboundSetOrderDetailRequestGateway"		
 		supported-methods="GET, POST" 
 		request-channel="setOrderDetailRequest"
 		reply-channel="setOrderDetailResponse"		
 		mapped-response-headers="Return-Status, Return-Status-Msg, HTTP_RESPONSE_HEADERS"		
-		view-name="/order" 
-		path="/wscontext/order/{orderHeader}/put"
+		view-name="/orderDetail" 
+		path="/wscontext/orderDetail/{orderDetail}/put"
 		reply-timeout="50000">
 		
-		<int-http:header name="jsonOrderDetail" expression="#pathVariables.orderHeader"/>
+		<int-http:header name="jsonOrderDetail" expression="#pathVariables.orderDetail"/>
 		
 	</int-http:inbound-gateway>
  
@@ -181,6 +196,22 @@
 					output-channel="menuResponse" 
 					ref="menuManager" 
 					method="getMenus" 
+					requires-reply="true"  
+					send-timeout="60000"/>
+					
+	<int:service-activator id="orderDetailServiceActivator" 
+					input-channel="orderDetailRequest"
+					output-channel="orderDetailResponse" 
+					ref="orderDetailManager" 
+					method="getOrderDetails" 
+					requires-reply="true"  
+					send-timeout="60000"/>
+					
+	<int:service-activator id="setOrderDetailServiceActivator" 
+					input-channel="setOrderDetailRequest"
+					output-channel="setOrderDetailResponse" 
+					ref="orderDetailManager" 
+					method="setOrderDetails" 
 					requires-reply="true"  
 					send-timeout="60000"/>
 	

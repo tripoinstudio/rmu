@@ -1,28 +1,18 @@
 package com.tripoin.core.rest.manager;
 
-import java.io.IOException;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.Message;
-import org.springframework.integration.MessageHeaders;
 import org.springframework.integration.message.GenericMessage;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
-import com.tripoin.core.domain.Carriages;
-import com.tripoin.core.domain.OrderDetails;
 import com.tripoin.core.domain.OrderHeaderDTO;
 import com.tripoin.core.domain.OrderHeaders;
 import com.tripoin.core.pojo.OrderHeader;
@@ -36,25 +26,7 @@ public class OrderHeaderManager {
 	private IGenericManagerJpa iGenericManagerJpa;
 	
 	@Secured("ROLE_REST_HTTP_USER")
-	public Message<OrderHeaders> getOrderHeaders(Message<?> inMessage){		
-		return getListOrderHeader();		
-	}
-	
-	@Secured("ROLE_REST_HTTP_USER")
-	public Message<OrderHeaders> setOrderHeaders(Message<?> inMessage){	
-		try{
-			MessageHeaders headers = inMessage.getHeaders();
-			String jsonOrderDetail = (String)headers.get("jsonOrderDetail");
-			ObjectMapper om = new ObjectMapper();
-			OrderDetails orderDetails = om.readValue(jsonOrderDetail, OrderDetails.class);
-			
-		}catch(Exception e){
-			LOGGER.error("Error :".concat(e.getLocalizedMessage()), e);
-		}
-		return getListOrderHeader();		
-	}	
-	
-	private Message<OrderHeaders> getListOrderHeader(){
+	public Message<OrderHeaders> getOrderHeaders(Message<?> inMessage){
 		OrderHeaders orderHeaders = new OrderHeaders();
 		Map<String, Object> responseHeaderMap = new HashMap<String, Object>();
 		
