@@ -27,6 +27,15 @@
 	<int:channel id="loginRequest" />
 	<int:channel id="loginResponse" />	
 			
+	<int-http:inbound-gateway id="inboundLoginRequestGateway"		
+		supported-methods="GET, POST" 
+		request-channel="loginRequest"
+		reply-channel="loginResponse"		
+		mapped-response-headers="Return-Status, Return-Status-Msg, HTTP_RESPONSE_HEADERS"		
+		view-name="/login" 
+		path="/wscontext/login"
+		reply-timeout="50000">
+			
 	<int-http:inbound-gateway id="inboundCarriageRequestGateway"		
 		supported-methods="GET, POST" 
 		request-channel="carriageRequest"
