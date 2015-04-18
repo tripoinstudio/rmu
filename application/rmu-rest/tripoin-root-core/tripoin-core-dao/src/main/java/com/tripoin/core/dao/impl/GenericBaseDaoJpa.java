@@ -34,4 +34,28 @@ public class GenericBaseDaoJpa extends ABaseDaoJpa {
 		return null;
 	}
 
+	@Override
+	public <T> List<T> getObjectsUsingJQL(Class<T> objectType, String[] fields, Object[] values) {
+
+		String jqlQuery = "FROM " + objectType.getSimpleName() + " c ";
+
+		if (fields != null && fields.length > 0) {
+			for (int i = 0; i < fields.length; i++) {
+				if (i == 0)
+					jqlQuery += " WHERE c." + fields[i] + " = ?"+i;
+				else
+					jqlQuery += " AND c." + fields[i] + " = ?"+i;
+			}
+		}
+		Query query = getEntityManager().createQuery(jqlQuery);
+		if (values != null && values.length > 0) {
+			for (int i = 0; i < values.length; i++) {
+				query.setParameter(i, values[i]);
+			}
+		}
+		
+		List<T> result = query.getResultList();
+		return result;
+	}
+
 }

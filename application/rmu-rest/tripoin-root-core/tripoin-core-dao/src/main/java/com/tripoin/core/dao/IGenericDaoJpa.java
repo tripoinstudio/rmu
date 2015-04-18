@@ -15,5 +15,7 @@ public interface IGenericDaoJpa {
 	public void updateObject(Class<?> objectType, Serializable key) throws Exception;
 	
 	public void deleteObject(Class<?> objectType) throws Exception;
+	
+	public <T> List<T> getObjectsUsingJQL(Class<T> objectType, String[] fields, Object[] values);
 
 }

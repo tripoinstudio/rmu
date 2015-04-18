@@ -30,4 +30,10 @@ public class GenericManagerJpaImpl implements IGenericManagerJpa {
 		LOGGER.debug("GenericManagerRPCJpa - Class name : "+objectType.toString());
 		genericDao.saveObject(objectType);	
 	}
+
+	@Override
+	public List getObjectsUsingParameter(Class clazz, String[] fields, Object[] values) {
+		// TODO Auto-generated method stub
+		return genericDao.getObjectsUsingJQL(clazz, fields, values);
+	}
 }
