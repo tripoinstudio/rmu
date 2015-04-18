@@ -17,7 +17,11 @@ import org.springframework.stereotype.Service;
 
 import com.tripoin.core.domain.OrderDetailDTO;
 import com.tripoin.core.domain.OrderDetails;
+import com.tripoin.core.pojo.Carriage;
 import com.tripoin.core.pojo.OrderDetail;
+import com.tripoin.core.pojo.OrderHeader;
+import com.tripoin.core.pojo.Seat;
+import com.tripoin.core.pojo.Train;
 import com.tripoin.core.service.IGenericManagerJpa;
 
 @Service("orderDetailManager")
@@ -40,8 +44,18 @@ public class OrderDetailManager {
 			String jsonOrderDetail = (String)headers.get("jsonOrderDetail");
 			ObjectMapper om = new ObjectMapper();
 			OrderDetails orderDetails = om.readValue(jsonOrderDetail, OrderDetails.class);
-			List<OrderDetailDTO> orderDetailDTO = orderDetails.getTrx_order_detail();
-			
+			List<OrderDetailDTO> orderDetailDTOList = orderDetails.getTrx_order_detail();
+			for (OrderDetailDTO orderDetailDTO : orderDetailDTOList) {
+				OrderHeader orderHeader = new OrderHeader();
+				Seat seat = new Seat();
+				seat.setId(orderDetailDTO.getSeat_id());
+				Carriage carriage = new Carriage();
+				carriage.setId(orderDetailDTO.getCarriage_id());
+				Train train = new Train();
+				train.setId(orderDetailDTO.getTrain_id());
+				
+				orderDetailDTO.getU
+			}
 		}catch(Exception e){
 			LOGGER.error("Error :".concat(e.getLocalizedMessage()), e);
 		}

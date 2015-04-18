@@ -27,6 +27,7 @@ public class OrderHeader {
 	private Seat seat;
 	private Date orderDatetime;
 	private BigDecimal totalPaid;
+	private Integer isArchive;
 	private Integer status;
 	private String remarks;
 	private List<OrderDetail> orderDetails;
@@ -99,6 +100,15 @@ public class OrderHeader {
 		this.totalPaid = totalPaid;
 	}
 
+	@Column(name="order_header_is_archive")
+	public Integer getIsArchive() {
+		return isArchive;
+	}
+
+	public void setIsArchive(Integer isArchive) {
+		this.isArchive = isArchive;
+	}
+
 	@Column(name="order_header_status")
 	public Integer getStatus() {
 		return status;
@@ -131,7 +141,7 @@ public class OrderHeader {
 		return "OrderHeader [orderNo=" + orderNo + ", user=" + user
 				+ ", train=" + train + ", carriage=" + carriage + ", seat=" + seat
 				+ ", orderDatetime=" + orderDatetime + ", totalPaid="
-				+ totalPaid + ", status=" + status + ", remarks=" + remarks
+				+ totalPaid + ", isArchive=" + isArchive + ", status=" + status + ", remarks=" + remarks
 				+ "]";
 	}
 }
