@@ -2,6 +2,7 @@ package com.tripoin.core.dao;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 public interface IGenericDaoJpa {
 	public <T> T loadObject(Class<T> objectType, Serializable key) throws Exception ;
@@ -16,6 +17,11 @@ public interface IGenericDaoJpa {
 	
 	public void deleteObject(Class<?> objectType) throws Exception;
 	
-	public <T> List<T> getObjectsUsingJQL(Class<T> objectType, String[] fields, Object[] values);
-
+	public <T> List<T> getObjectsUsingJQL(Class<T> objectType, String[] fields, Object[] values, Map<String, Object> orderMap);
+	
+	public <T> List<T> getObjectsUsingJQL(Class<T> objectType, Map<String, Object> eqMap,Map<String, Object[]> betweenMap, Map<String, Object> orMap, Map<String, Object> orderMap);
+	
+	public <T> List<T> getObjectsUsingManual(String hqlString, Object[] values, int first, int pageSize);
+	
+	public <T> List<T> getObjectsUsingLike(Class<T> objectType, String field, String value);
 }
