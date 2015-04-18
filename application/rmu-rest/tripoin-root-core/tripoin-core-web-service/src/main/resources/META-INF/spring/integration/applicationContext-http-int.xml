@@ -110,18 +110,18 @@
 		
 	</int-http:inbound-gateway>
 	
-	<int-http:inbound-gateway id="inboundSetOrderDetailRequestGateway"		
-		supported-methods="GET, POST" 
-		request-channel="setOrderDetailRequest"
-		reply-channel="setOrderDetailResponse"		
-		mapped-response-headers="Return-Status, Return-Status-Msg, HTTP_RESPONSE_HEADERS"		
-		view-name="/orderDetail" 
-		path="/wscontext/orderDetail/{orderDetail}/put"
-		reply-timeout="50000">
+<!-- 	<int-http:inbound-gateway id="inboundSetOrderDetailRequestGateway"		 -->
+<!-- 		supported-methods="GET, POST"  -->
+<!-- 		request-channel="setOrderDetailRequest" -->
+<!-- 		reply-channel="setOrderDetailResponse"		 -->
+<!-- 		mapped-response-headers="Return-Status, Return-Status-Msg, HTTP_RESPONSE_HEADERS"		 -->
+<!-- 		view-name="/setOrderDetail"  -->
+<!-- 		path="/wscontext/setOrderDetail/{orderDetail}/put" -->
+<!-- 		reply-timeout="50000"> -->
 		
-		<int-http:header name="jsonOrderDetail" expression="#pathVariables.orderDetail"/>
+<!-- 		<int-http:header name="jsonOrderDetail" expression="#pathVariables.orderDetail"/> -->
 		
-	</int-http:inbound-gateway>
+<!-- 	</int-http:inbound-gateway> -->
  
 	<!-- Note: The default parameter name for favorParameter is 'format'. For instance, when this flag is true, a request for /services/employee/{id}/search?format=json will result 
 			in an MappingJacksonJsonView being resolved, while the Accept header can be the browser-defined text/html,application/xhtml+xml  -->
@@ -207,13 +207,13 @@
 					requires-reply="true"  
 					send-timeout="60000"/>
 					
-	<int:service-activator id="setOrderDetailServiceActivator" 
-					input-channel="setOrderDetailRequest"
-					output-channel="setOrderDetailResponse" 
-					ref="orderDetailManager" 
-					method="setOrderDetails" 
-					requires-reply="true"  
-					send-timeout="60000"/>
+<!-- 	<int:service-activator id="setOrderDetailServiceActivator"  -->
+<!-- 					input-channel="setOrderDetailRequest" -->
+<!-- 					output-channel="setOrderDetailResponse"  -->
+<!-- 					ref="orderDetailManager"  -->
+<!-- 					method="setOrderDetails"  -->
+<!-- 					requires-reply="true"   -->
+<!-- 					send-timeout="60000"/> -->
 	
 	<bean id="jaxbJacksonObjectMapper" class="com.tripoin.core.rest.json.JaxbJacksonObjectMapper"/>				
 

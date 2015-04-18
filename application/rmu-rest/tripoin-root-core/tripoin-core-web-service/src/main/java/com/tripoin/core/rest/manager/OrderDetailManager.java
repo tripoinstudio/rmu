@@ -27,15 +27,45 @@ import com.tripoin.core.service.IGenericManagerJpa;
 
 @Service("orderDetailManager")
 public class OrderDetailManager {
-	private static transient final Logger LOGGER = LoggerFactory.getLogger(CarriageManager.class);
+	private static transient final Logger LOGGER = LoggerFactory.getLogger(OrderDetailManager.class);
 
 	@Autowired
 	private IGenericManagerJpa iGenericManagerJpa;
 
 	
 	@Secured("ROLE_REST_HTTP_USER")
-	public Message<OrderDetails> getOrderDetails(Message<?> inMessage){		
-		return getListOrderDetails();		
+	public Message<OrderDetails> getOrderDetails(Message<?> inMessage){
+	
+		OrderDetails orderDetails = new OrderDetails();
+		Map<String, Object> responseHeaderMap = new HashMap<String, Object>();
+		
+		try{
+			List<OrderDetail> orderDetailList = iGenericManagerJpa.loadObjects(OrderDetail.class);
+			boolean isFound;
+			if (orderDetailList!=null){
+				List<OrderDetailDTO> orderDetailDTOList = new ArrayList<OrderDetailDTO>();
+				for (OrderDetail o : orderDetailList) {
+					LOGGER.debug("data :"+o.toString());
+					OrderDetailDTO data = new OrderDetailDTO(o.getOrderHeader().getOrderNo(), o.getTotalOrder(), o.getTotalAmount(), o.getStatus(), o.getOrderHeader().getUser().getUsername(), o.getMenu().getId(), o.getMenu().getName(),  o.getOrderHeader().getSeat().getId(), o.getOrderHeader().getCarriage().getId(), o.getOrderHeader().getTrain().getId());
+//					LOGGER.debug("data :"+data.toString());
+					orderDetailDTOList.add(data);
+				} 
+				orderDetails.setTrx_order_detail(orderDetailDTOList);
+				isFound = true;
+			}else{				
+				isFound = false;
+			}			
+			if (isFound){
+				setReturnStatusAndMessage("0", "Load Data Success", "SUCCESS", orderDetails, responseHeaderMap);
+			}else{
+				setReturnStatusAndMessage("2", "Seat Not Found", "EMPTY", orderDetails, responseHeaderMap);								
+			}
+			
+		}catch (Exception e){
+			setReturnStatusAndMessage("1", "System Error"+e.getMessage(), "FAILURE", orderDetails, responseHeaderMap);
+		}
+		Message<OrderDetails> message = new GenericMessage<OrderDetails>(orderDetails, responseHeaderMap);
+		return message;
 	}
 	
 	@Secured("ROLE_REST_HTTP_USER")
@@ -67,10 +97,10 @@ public class OrderDetailManager {
 		}catch(Exception e){
 			LOGGER.error("Error :".concat(e.getLocalizedMessage()), e);
 		}
-		return getListOrderDetails();		
+		return getListOrderDetails(inMessage);		
 	}	
 	
-	public Message<OrderDetails> getListOrderDetails(){
+	public Message<OrderDetails> getListOrderDetails(Message<?> inMessage){
 	
 		OrderDetails orderDetails = new OrderDetails();
 		Map<String, Object> responseHeaderMap = new HashMap<String, Object>();
@@ -81,9 +111,10 @@ public class OrderDetailManager {
 			if (orderDetailList!=null){
 				List<OrderDetailDTO> orderDetailDTOList = new ArrayList<OrderDetailDTO>();
 				for (OrderDetail o : orderDetailList) {
-					LOGGER.debug("data :"+o.toString());
-//					OrderDetailDTO data = new OrderDetailDTO(o.getOrderHeader().getOrderNo(), o.getTotalOrder(), o.getTotalAmount(), o.getStatus(), o.getMenu().getId(), o.getMenu().getName(), o.getOrderHeader().getSeat().getId(), o.getOrderHeader().getCarriage().getId(), o.getOrderHeader().getTrain().getId());
-//					orderDetailDTOList.add(data);
+//					LOGGER.debug("data :"+o.toString());
+					OrderDetailDTO data = new OrderDetailDTO(o.getOrderHeader().getOrderNo(), o.getTotalOrder(), o.getTotalAmount(), o.getStatus(), o.getOrderHeader().getUser().getUsername(), o.getMenu().getId(), o.getMenu().getName(),  o.getOrderHeader().getSeat().getId(), o.getOrderHeader().getCarriage().getId(), o.getOrderHeader().getTrain().getId());
+					LOGGER.debug("data :"+data.toString());
+					orderDetailDTOList.add(data);
 				} 
 				orderDetails.setTrx_order_detail(orderDetailDTOList);
 				isFound = true;
