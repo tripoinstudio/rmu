@@ -24,7 +24,7 @@ import com.tripoin.core.service.IGenericManagerJpa;
 
 @Service("trainManager")
 public class TrainManager {
-	private static transient final Logger LOGGER = LoggerFactory.getLogger(CarriageManager.class);
+	private static transient final Logger LOGGER = LoggerFactory.getLogger(TrainManager.class);
 
 	@Autowired
 	private IGenericManagerJpa iGenericManagerJpa;

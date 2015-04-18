@@ -24,7 +24,7 @@ import com.tripoin.core.service.IGenericManagerJpa;
 
 @Service("menuManager")
 public class MenuManager {
-	private static transient final Logger LOGGER = LoggerFactory.getLogger(CarriageManager.class);
+	private static transient final Logger LOGGER = LoggerFactory.getLogger(MenuManager.class);
 
 	@Autowired
 	private IGenericManagerJpa iGenericManagerJpa;

@@ -26,6 +26,8 @@
 	<int:channel id="menuResponse" />
 	<int:channel id="loginRequest" />
 	<int:channel id="loginResponse" />	
+	<int:channel id="orderHeaderRequest" />
+	<int:channel id="orderHeaderResponse" />
 			
 	<int-http:inbound-gateway id="inboundLoginRequestGateway"		
 		supported-methods="GET, POST" 
@@ -35,6 +37,19 @@
 		view-name="/login" 
 		path="/wscontext/login"
 		reply-timeout="50000">
+		
+	</int-http:inbound-gateway>
+	
+	<int-http:inbound-gateway id="inboundOrderHeaderRequestGateway"		
+		supported-methods="GET, POST" 
+		request-channel="orderHeaderRequest"
+		reply-channel="orderHeaderResponse"		
+		mapped-response-headers="Return-Status, Return-Status-Msg, HTTP_RESPONSE_HEADERS"		
+		view-name="/orderHeader" 
+		path="/wscontext/orderHeader"
+		reply-timeout="50000">
+		
+	</int-http:inbound-gateway>
 			
 	<int-http:inbound-gateway id="inboundCarriageRequestGateway"		
 		supported-methods="GET, POST" 
@@ -114,6 +129,14 @@
 					output-channel="loginResponse" 
 					ref="loginManager" 
 					method="getLogin" 
+					requires-reply="true"  
+					send-timeout="60000"/>
+					
+	<int:service-activator id="orderHeaderServiceActivator" 
+					input-channel="orderHeaderRequest"
+					output-channel="orderHeaderResponse" 
+					ref="orderHeaderManager" 
+					method="getOrderHeaders" 
 					requires-reply="true"  
 					send-timeout="60000"/>
 					

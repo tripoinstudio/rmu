@@ -14,58 +14,61 @@ import org.springframework.integration.message.GenericMessage;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
+import com.tripoin.core.domain.OrderHeaderDTO;
+import com.tripoin.core.domain.OrderHeaders;
 import com.tripoin.core.domain.SeatDTO;
 import com.tripoin.core.domain.Seats;
+import com.tripoin.core.pojo.OrderHeader;
 import com.tripoin.core.pojo.Seat;
 import com.tripoin.core.service.IGenericManagerJpa;
 
-@Service("seatManager")
+@Service("orderHeaderManager")
 public class OrderHeaderManager {
-	private static transient final Logger LOGGER = LoggerFactory.getLogger(CarriageManager.class);
+	private static transient final Logger LOGGER = LoggerFactory.getLogger(OrderHeaderManager.class);
 
 	@Autowired
 	private IGenericManagerJpa iGenericManagerJpa;
 	
 	@Secured("ROLE_REST_HTTP_USER")
-	public Message<Seats> getSeats(Message<?> inMessage){
+	public Message<OrderHeaders> getOrderHeaders(Message<?> inMessage){
 	
-		Seats seats = new Seats();
+		OrderHeaders orderHeaders = new OrderHeaders();
 		Map<String, Object> responseHeaderMap = new HashMap<String, Object>();
 		
 		try{
 			MessageHeaders headers = inMessage.getHeaders();
-			List<Seat> seatList = iGenericManagerJpa.loadObjects(Seat.class);
+			List<OrderHeader> orderHeaderList = iGenericManagerJpa.loadObjects(OrderHeader.class);
 			boolean isFound;
-			if (seatList!=null){
-				List<SeatDTO> seatDTOList = new ArrayList<SeatDTO>();
-				for (Seat c : seatList) {
+			if (orderHeaderList!=null){
+				List<OrderHeaderDTO> orderHeaderDTOList = new ArrayList<OrderHeaderDTO>();
+				for (OrderHeader c : orderHeaderList) {
 					LOGGER.debug("data :"+c.toString());
-					SeatDTO data = new SeatDTO(c.getId(), c.getNo(), c.getRemarks());
-					seatDTOList.add(data);
+					OrderHeaderDTO data = new OrderHeaderDTO(c.getOrderNo(), c.getOrderDatetime(), c.getTotalPaid(), c.getStatus(), c.getSeat().getNo(), c.getCarriage().getNo(), c.getTrain().getNo());
+					orderHeaderDTOList.add(data);
 				} 
-				seats.setMaster_seat(seatDTOList);
+				orderHeaders.setTrx_order_header(orderHeaderDTOList);
 				isFound = true;
 			}else{				
 				isFound = false;
 			}			
 			if (isFound){
-				setReturnStatusAndMessage("0", "Load Data Success", "SUCCESS", seats, responseHeaderMap);
+				setReturnStatusAndMessage("0", "Load Data Success", "SUCCESS", orderHeaders, responseHeaderMap);
 			}else{
-				setReturnStatusAndMessage("2", "Seat Not Found", "EMPTY", seats, responseHeaderMap);								
+				setReturnStatusAndMessage("2", "OrderHeader Not Found", "EMPTY", orderHeaders, responseHeaderMap);								
 			}
 			
 		}catch (Exception e){
-			setReturnStatusAndMessage("1", "System Error"+e.getMessage(), "FAILURE", seats, responseHeaderMap);
+			setReturnStatusAndMessage("1", "System Error"+e.getMessage(), "FAILURE", orderHeaders, responseHeaderMap);
 		}
-		Message<Seats> message = new GenericMessage<Seats>(seats, responseHeaderMap);
+		Message<OrderHeaders> message = new GenericMessage<OrderHeaders>(orderHeaders, responseHeaderMap);
 		return message;		
 	}
 	
-	private void setReturnStatusAndMessage(String responseCode, String responseMsg, String result, Seats seats, Map<String, Object> responseHeaderMap){
+	private void setReturnStatusAndMessage(String responseCode, String responseMsg, String result, OrderHeaders orderHeaders, Map<String, Object> responseHeaderMap){
 		
-		seats.setResponse_code(responseCode);
-		seats.setResponse_msg(responseMsg);
-		seats.setResult(result);
+		orderHeaders.setResponse_code(responseCode);
+		orderHeaders.setResponse_msg(responseMsg);
+		orderHeaders.setResult(result);
 		responseHeaderMap.put("Return-Status", responseCode);
 		responseHeaderMap.put("Return-Status-Msg", responseMsg);
 	}

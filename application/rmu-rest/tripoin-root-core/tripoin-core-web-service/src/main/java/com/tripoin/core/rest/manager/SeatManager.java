@@ -21,7 +21,7 @@ import com.tripoin.core.service.IGenericManagerJpa;
 
 @Service("seatManager")
 public class SeatManager {
-	private static transient final Logger LOGGER = LoggerFactory.getLogger(CarriageManager.class);
+	private static transient final Logger LOGGER = LoggerFactory.getLogger(SeatManager.class);
 
 	@Autowired
 	private IGenericManagerJpa iGenericManagerJpa;
