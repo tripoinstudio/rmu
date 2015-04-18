@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "Trains")
 public class Trains {	
 	@XmlElement(name = "Train", required = true)
-	private List<CarriageDTO> master_train;
+	private List<TrainDTO> master_train;
 	
 	@XmlElement(name = "response_code", required = true)
 	private String response_code;
@@ -27,11 +27,11 @@ public class Trains {
 	@XmlElement(name = "result", required = true)
 	private String result;
 
-	public List<CarriageDTO> getMaster_train() {
+	public List<TrainDTO> getMaster_train() {
 		return master_train;
 	}
 
-	public void setMaster_train(List<CarriageDTO> master_train) {
+	public void setMaster_train(List<TrainDTO> master_train) {
 		this.master_train = master_train;
 	}
 

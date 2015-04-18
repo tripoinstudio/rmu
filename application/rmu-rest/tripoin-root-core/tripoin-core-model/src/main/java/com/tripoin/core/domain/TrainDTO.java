@@ -17,6 +17,13 @@ public class TrainDTO {
 	private String train_remarks;
 
 	public TrainDTO() {}
+	
+	public TrainDTO(Integer train_id, String train_no, String train_remarks) {
+		super();
+		this.train_id = train_id;
+		this.train_no = train_no;
+		this.train_remarks = train_remarks;
+	}
 
 	public Integer getTrain_id() {
 		return train_id;

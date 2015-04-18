@@ -18,19 +18,15 @@
 	<!-- Inbound/Outbound Channels -->
 	<int:channel id="carriageRequest" />
 	<int:channel id="carriageResponse" />
+	<int:channel id="seatRequest" />
+	<int:channel id="seatResponse" />	
+	<int:channel id="trainRequest" />
+	<int:channel id="trainResponse" />	
+	<int:channel id="menuRequest" />
+	<int:channel id="menuResponse" />
 	<int:channel id="loginRequest" />
-	<int:channel id="loginResponse" />		
-	
-	<int-http:inbound-gateway id="inboundLoginRequestGateway"		
-		supported-methods="GET, POST" 
-		request-channel="loginRequest"
-		reply-channel="loginResponse"		
-		mapped-response-headers="Return-Status, Return-Status-Msg, HTTP_RESPONSE_HEADERS"		
-		view-name="/login" 
-		path="/wscontext/login"
-		reply-timeout="50000">	
-	</int-http:inbound-gateway>
-		
+	<int:channel id="loginResponse" />	
+			
 	<int-http:inbound-gateway id="inboundCarriageRequestGateway"		
 		supported-methods="GET, POST" 
 		request-channel="carriageRequest"
@@ -38,8 +34,43 @@
 		mapped-response-headers="Return-Status, Return-Status-Msg, HTTP_RESPONSE_HEADERS"		
 		view-name="/carriage" 
 		path="/wscontext/carriage"
-		reply-timeout="50000">	
+		reply-timeout="50000">
+		
 	</int-http:inbound-gateway>
+	
+	<int-http:inbound-gateway id="inboundSeatRequestGateway"		
+		supported-methods="GET, POST" 
+		request-channel="seatRequest"
+		reply-channel="seatResponse"		
+		mapped-response-headers="Return-Status, Return-Status-Msg, HTTP_RESPONSE_HEADERS"		
+		view-name="/seat" 
+		path="/wscontext/seat"
+		reply-timeout="50000">
+		
+	</int-http:inbound-gateway>
+	
+	<int-http:inbound-gateway id="inboundTrainRequestGateway"		
+		supported-methods="GET, POST" 
+		request-channel="trainRequest"
+		reply-channel="trainResponse"		
+		mapped-response-headers="Return-Status, Return-Status-Msg, HTTP_RESPONSE_HEADERS"		
+		view-name="/train" 
+		path="/wscontext/train"
+		reply-timeout="50000">
+		
+	</int-http:inbound-gateway>
+	
+	<int-http:inbound-gateway id="inboundMenuRequestGateway"		
+		supported-methods="GET, POST" 
+		request-channel="menuRequest"
+		reply-channel="menuResponse"		
+		mapped-response-headers="Return-Status, Return-Status-Msg, HTTP_RESPONSE_HEADERS"		
+		view-name="/menu" 
+		path="/wscontext/menu"
+		reply-timeout="50000">
+		
+	</int-http:inbound-gateway>
+	
  
 	<!-- Note: The default parameter name for favorParameter is 'format'. For instance, when this flag is true, a request for /services/employee/{id}/search?format=json will result 
 			in an MappingJacksonJsonView being resolved, while the Accept header can be the browser-defined text/html,application/xhtml+xml  -->
@@ -82,6 +113,30 @@
 					output-channel="carriageResponse" 
 					ref="carriageManager" 
 					method="getCarriages" 
+					requires-reply="true"  
+					send-timeout="60000"/>
+					
+	<int:service-activator id="seatServiceActivator" 
+					input-channel="seatRequest"
+					output-channel="seatResponse" 
+					ref="seatManager" 
+					method="getSeats" 
+					requires-reply="true"  
+					send-timeout="60000"/>
+					
+	<int:service-activator id="trainServiceActivator" 
+					input-channel="trainRequest"
+					output-channel="trainResponse" 
+					ref="trainManager" 
+					method="getTrains" 
+					requires-reply="true"  
+					send-timeout="60000"/>
+					
+	<int:service-activator id="menuServiceActivator" 
+					input-channel="menuRequest"
+					output-channel="menuResponse" 
+					ref="menuManager" 
+					method="getMenus" 
 					requires-reply="true"  
 					send-timeout="60000"/>
 	
