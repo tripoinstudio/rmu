@@ -14,14 +14,12 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.tripoin.core.domain.OrderHeaderDTO;
 import com.tripoin.core.domain.OrderHeaders;
 import com.tripoin.core.pojo.OrderHeader;
 import com.tripoin.core.service.IGenericManagerJpa;
-import com.tripoin.core.util.CustomUserDetails;
 
 @Service("orderHeaderManager")
 public class OrderHeaderManager {
@@ -60,7 +58,7 @@ public class OrderHeaderManager {
 			if (isFound){
 				setReturnStatusAndMessage("0", "Load Data Success", "SUCCESS", orderHeaders, responseHeaderMap);
 			}else{
-				setReturnStatusAndMessage("2", "OrderHeader Not Found", "EMPTY", orderHeaders, responseHeaderMap);								
+				setReturnStatusAndMessage("2", "Order Header Not Found", "EMPTY", orderHeaders, responseHeaderMap);								
 			}
 			
 		}catch (Exception e){
