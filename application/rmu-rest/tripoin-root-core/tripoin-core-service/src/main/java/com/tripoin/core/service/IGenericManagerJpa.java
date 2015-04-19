@@ -9,7 +9,7 @@ public interface IGenericManagerJpa {
 	
 	public void saveObject(Object objectType) throws Exception;
 	
-	public <T> List<T> getObjectsUsingParameter(Class<T> objectType, String[] fields, Object[] values, Map<String, Object> orderMap);
+	public <T> List<T> getObjectsUsingParameter(Class<T> objectType, String[] fields, Object[] values, String orderBy, String order);
 	
 	public <T> List<T> getObjectsUsingParameter(Class<T> objectType, String[] eqList, String[] orList, String[] betweenList, Object[] values, String orderBy, String order);
 	

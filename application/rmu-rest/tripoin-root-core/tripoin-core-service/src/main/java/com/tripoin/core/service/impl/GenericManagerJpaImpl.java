@@ -67,8 +67,10 @@ public class GenericManagerJpaImpl implements IGenericManagerJpa {
 	}
 
 	@Override
-	public <T> List<T> getObjectsUsingParameter(Class<T> objectType, String[] fields, Object[] values, Map<String, Object> orderMap) {
+	public <T> List<T> getObjectsUsingParameter(Class<T> objectType, String[] fields, Object[] values, String orderBy, String order) {
 		// TODO Auto-generated method stub
+		if(orderBy != null && !orderBy.trim().equalsIgnoreCase(""))
+			orderMap.put(orderBy, order);
 		return genericDao.getObjectsUsingJQL(objectType, fields, values, orderMap);
 	}
 
