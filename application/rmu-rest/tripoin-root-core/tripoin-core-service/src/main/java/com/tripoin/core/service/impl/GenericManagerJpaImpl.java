@@ -1,5 +1,6 @@
 package com.tripoin.core.service.impl;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -52,6 +53,11 @@ public class GenericManagerJpaImpl implements IGenericManagerJpa {
 
 	@Autowired
 	private IGenericDaoJpa genericDao;
+	
+	@Override
+	public <T> T loadObject(Class<T> objectType, Serializable key) throws Exception{
+		return genericDao.loadObject(objectType, key);
+	}
 	
 	@Override
 	public <T> List<T> loadObjects(Class<T> objectType) throws Exception {

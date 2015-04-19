@@ -1,9 +1,11 @@
 package com.tripoin.core.service;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
 public interface IGenericManagerJpa {
+	public <T> T loadObject(Class<T> objectType, Serializable key) throws Exception ;
 	
 	public <T> List<T> loadObjects(Class<T> objectType) throws Exception;	
 	

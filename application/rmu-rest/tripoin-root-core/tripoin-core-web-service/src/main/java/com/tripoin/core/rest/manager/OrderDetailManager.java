@@ -1,6 +1,9 @@
 package com.tripoin.core.rest.manager;
 
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,8 +25,11 @@ import com.tripoin.core.pojo.Menu;
 import com.tripoin.core.pojo.OrderDetail;
 import com.tripoin.core.pojo.OrderHeader;
 import com.tripoin.core.pojo.Seat;
+import com.tripoin.core.pojo.Stan;
 import com.tripoin.core.pojo.Train;
+import com.tripoin.core.pojo.User;
 import com.tripoin.core.service.IGenericManagerJpa;
+import com.tripoin.core.service.util.IStanGenerator;
 
 @Service("orderDetailManager")
 public class OrderDetailManager {
@@ -31,11 +37,77 @@ public class OrderDetailManager {
 
 	@Autowired
 	private IGenericManagerJpa iGenericManagerJpa;
+	
+	@Autowired
+	private IStanGenerator stanGenerator;
 
 	
 	@Secured("ROLE_REST_HTTP_USER")
 	public Message<OrderDetails> getOrderDetails(Message<?> inMessage){
+		return getListOrderDetails();
+	}
 	
+	@Secured("ROLE_REST_HTTP_USER")
+	public Message<OrderDetails> setOrderDetails(Message<?> inMessage){	
+		try{
+			MessageHeaders headers = inMessage.getHeaders();
+			String jsonOrderDetail = (String)headers.get("jsonOrderDetail");
+			ObjectMapper om = new ObjectMapper();
+			OrderDetails orderDetails = om.readValue(jsonOrderDetail, OrderDetails.class);
+			List<OrderDetailDTO> orderDetailDTOList = orderDetails.getTrx_order_detail();
+			
+			boolean isOrderHeader = true;
+			
+			OrderHeader orderHeader = new OrderHeader();
+			List<OrderDetail> orderDetailList = new ArrayList<OrderDetail>();
+			List<Menu> menuList = iGenericManagerJpa.loadObjects(Menu.class);
+			Menu menu = new Menu();
+			BigDecimal totalAmount = new BigDecimal(0);
+			BigDecimal totalPaid = new BigDecimal(0);
+			
+			for (OrderDetailDTO orderDetailDTO : orderDetailDTOList) {
+				// Order Header
+				if(isOrderHeader){
+					Seat seat = new Seat();
+					seat.setId(orderDetailDTO.getSeat_id());
+					Carriage carriage = new Carriage();
+					carriage.setId(orderDetailDTO.getCarriage_id());
+					Train train = new Train();
+					train.setId(orderDetailDTO.getTrain_id());
+					menu.setId(orderDetailDTO.getMenu_id());
+					
+					User user = iGenericManagerJpa.getObjectsUsingParameter(User.class, new String[]{"username"}, new Object[]{orderDetailDTO.getUser_code()}, null, null).get(0);
+
+					Stan stan = stanGenerator.getSystemTraceAuditNumber(Long.parseLong(user.getId().toString()));
+					String dateFormat = new SimpleDateFormat("yyyyMMdd").format(new Date());
+					
+					orderHeader.setOrderNo("OR".concat(dateFormat).concat(leftPadding(stan.getStanCounter(), 5, "0")));
+					orderHeader.setSeat(seat);
+					orderHeader.setCarriage(carriage);
+					orderHeader.setTrain(train);
+					orderHeader.setOrderDatetime(new Date());
+					// totalPaid
+					orderHeader.setIsArchive(0);
+					
+					isOrderHeader = false;
+				}
+				totalPaid = totalPaid.add(orderDetailDTO.getOrder_detail_total_amount());
+				//Order Detail
+				OrderDetail order = new OrderDetail();
+				order.setMenu(menu);
+				order.setOrderHeader(orderHeader);
+				
+				orderDetailList.add(order);
+			}
+			orderHeader.setTotalPaid(totalPaid);
+		}catch(Exception e){
+			LOGGER.error("Error :".concat(e.getLocalizedMessage()), e);
+		}
+		return getListOrderDetails();		
+	}	
+	
+	public Message<OrderDetails> getListOrderDetails(){
+		
 		OrderDetails orderDetails = new OrderDetails();
 		Map<String, Object> responseHeaderMap = new HashMap<String, Object>();
 		
@@ -47,73 +119,6 @@ public class OrderDetailManager {
 				for (OrderDetail o : orderDetailList) {
 					LOGGER.debug("data :"+o.toString());
 					OrderDetailDTO data = new OrderDetailDTO(o.getOrderHeader().getOrderNo(), o.getTotalOrder(), o.getTotalAmount(), o.getStatus(), o.getOrderHeader().getUser().getUsername(), o.getMenu().getId(), o.getMenu().getName(),  o.getOrderHeader().getSeat().getId(), o.getOrderHeader().getCarriage().getId(), o.getOrderHeader().getTrain().getId());
-//					LOGGER.debug("data :"+data.toString());
-					orderDetailDTOList.add(data);
-				} 
-				orderDetails.setTrx_order_detail(orderDetailDTOList);
-				isFound = true;
-			}else{				
-				isFound = false;
-			}			
-			if (isFound){
-				setReturnStatusAndMessage("0", "Load Data Success", "SUCCESS", orderDetails, responseHeaderMap);
-			}else{
-				setReturnStatusAndMessage("2", "Seat Not Found", "EMPTY", orderDetails, responseHeaderMap);								
-			}
-			
-		}catch (Exception e){
-			setReturnStatusAndMessage("1", "System Error"+e.getMessage(), "FAILURE", orderDetails, responseHeaderMap);
-		}
-		Message<OrderDetails> message = new GenericMessage<OrderDetails>(orderDetails, responseHeaderMap);
-		return message;
-	}
-	
-	@Secured("ROLE_REST_HTTP_USER")
-	public Message<OrderDetails> setOrderDetails(Message<?> inMessage){	
-		try{
-			MessageHeaders headers = inMessage.getHeaders();
-			String jsonOrderDetail = (String)headers.get("jsonOrderDetail");
-			ObjectMapper om = new ObjectMapper();
-			OrderDetails orderDetails = om.readValue(jsonOrderDetail, OrderDetails.class);
-			List<OrderDetailDTO> orderDetailDTOList = orderDetails.getTrx_order_detail();
-			boolean isOrderHeader = true;
-			OrderHeader orderHeader = new OrderHeader();
-			List<Menu> menu = iGenericManagerJpa.loadObjects(Menu.class);
-			for (OrderDetailDTO orderDetailDTO : orderDetailDTOList) {
-				// Order Header
-				if(isOrderHeader){
-					Seat seat = new Seat();
-					seat.setId(orderDetailDTO.getSeat_id());
-					Carriage carriage = new Carriage();
-					carriage.setId(orderDetailDTO.getCarriage_id());
-					Train train = new Train();
-					train.setId(orderDetailDTO.getTrain_id());
-					
-					orderHeader.setOrderNo("");
-					
-					isOrderHeader = false;
-				}
-			}
-		}catch(Exception e){
-			LOGGER.error("Error :".concat(e.getLocalizedMessage()), e);
-		}
-		return getListOrderDetails(inMessage);		
-	}	
-	
-	public Message<OrderDetails> getListOrderDetails(Message<?> inMessage){
-	
-		OrderDetails orderDetails = new OrderDetails();
-		Map<String, Object> responseHeaderMap = new HashMap<String, Object>();
-		
-		try{
-			List<OrderDetail> orderDetailList = iGenericManagerJpa.loadObjects(OrderDetail.class);
-			boolean isFound;
-			if (orderDetailList!=null){
-				List<OrderDetailDTO> orderDetailDTOList = new ArrayList<OrderDetailDTO>();
-				for (OrderDetail o : orderDetailList) {
-//					LOGGER.debug("data :"+o.toString());
-					OrderDetailDTO data = new OrderDetailDTO(o.getOrderHeader().getOrderNo(), o.getTotalOrder(), o.getTotalAmount(), o.getStatus(), o.getOrderHeader().getUser().getUsername(), o.getMenu().getId(), o.getMenu().getName(),  o.getOrderHeader().getSeat().getId(), o.getOrderHeader().getCarriage().getId(), o.getOrderHeader().getTrain().getId());
-					LOGGER.debug("data :"+data.toString());
 					orderDetailDTOList.add(data);
 				} 
 				orderDetails.setTrx_order_detail(orderDetailDTOList);
@@ -132,10 +137,13 @@ public class OrderDetailManager {
 		}
 		Message<OrderDetails> message = new GenericMessage<OrderDetails>(orderDetails, responseHeaderMap);
 		return message;		
+	}	
+	
+	public String leftPadding(Long data, Integer paddingCount, String charPadding){
+		return String.format("%".concat(charPadding)+10+"d",data);
 	}
 	
-	private void setReturnStatusAndMessage(String responseCode, String responseMsg, String result, OrderDetails orderDetails, Map<String, Object> responseHeaderMap){
-		
+	private void setReturnStatusAndMessage(String responseCode, String responseMsg, String result, OrderDetails orderDetails, Map<String, Object> responseHeaderMap){		
 		orderDetails.setResponse_code(responseCode);
 		orderDetails.setResponse_msg(responseMsg);
 		orderDetails.setResult(result);
