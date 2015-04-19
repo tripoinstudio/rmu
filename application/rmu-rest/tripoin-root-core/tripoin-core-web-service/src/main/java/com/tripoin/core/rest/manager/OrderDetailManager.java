@@ -19,8 +19,8 @@ import org.springframework.integration.message.GenericMessage;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
-import com.tripoin.core.domain.OrderDetailDTO;
-import com.tripoin.core.domain.OrderDetails;
+import com.tripoin.core.dto.OrderDetailDTO;
+import com.tripoin.core.dto.OrderDetails;
 import com.tripoin.core.pojo.Carriage;
 import com.tripoin.core.pojo.Menu;
 import com.tripoin.core.pojo.OrderDetail;

@@ -13,8 +13,8 @@ import org.springframework.integration.message.GenericMessage;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
-import com.tripoin.core.domain.TrainDTO;
-import com.tripoin.core.domain.Trains;
+import com.tripoin.core.dto.TrainDTO;
+import com.tripoin.core.dto.Trains;
 import com.tripoin.core.pojo.Train;
 import com.tripoin.core.service.IGenericManagerJpa;
 

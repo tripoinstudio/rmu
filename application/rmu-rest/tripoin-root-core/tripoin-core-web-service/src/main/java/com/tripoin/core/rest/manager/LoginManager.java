@@ -13,9 +13,9 @@ import org.springframework.integration.message.GenericMessage;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
-import com.tripoin.core.domain.OrderHeaderDTO;
-import com.tripoin.core.domain.OrderHeaderWithUsers;
-import com.tripoin.core.domain.UserDTO;
+import com.tripoin.core.dto.OrderHeaderDTO;
+import com.tripoin.core.dto.OrderHeaderWithUsers;
+import com.tripoin.core.dto.UserDTO;
 import com.tripoin.core.pojo.OrderHeader;
 import com.tripoin.core.service.IGenericManagerJpa;
 import com.tripoin.core.util.ELoggedIn;

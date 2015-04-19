@@ -16,8 +16,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.tripoin.core.domain.OrderHeaderDTO;
-import com.tripoin.core.domain.OrderHeaders;
+import com.tripoin.core.dto.OrderHeaderDTO;
+import com.tripoin.core.dto.OrderHeaders;
 import com.tripoin.core.pojo.OrderHeader;
 import com.tripoin.core.service.IGenericManagerJpa;
 

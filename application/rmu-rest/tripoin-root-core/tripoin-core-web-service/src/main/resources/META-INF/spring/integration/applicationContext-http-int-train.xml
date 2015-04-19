@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd		
+		http://www.springframework.org/schema/integration/http http://www.springframework.org/schema/integration/http/spring-integration-http.xsd	
+        http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd"
+	xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:oxm="http://www.springframework.org/schema/oxm" 
+	xmlns:int-http="http://www.springframework.org/schema/integration/http">
+	
+	<!-- Inbound/Outbound Channels -->	
+	<int:channel id="trainRequest" />
+	<int:channel id="trainResponse" />
+	
+	<int-http:inbound-gateway id="inboundTrainRequestGateway"		
+		supported-methods="GET, POST" 
+		request-channel="trainRequest"
+		reply-channel="trainResponse"		
+		mapped-response-headers="Return-Status, Return-Status-Msg, HTTP_RESPONSE_HEADERS"		
+		view-name="/train" 
+		path="/wscontext/train"
+		reply-timeout="50000">
+					
+	<int:service-activator id="trainServiceActivator" 
+					input-channel="trainRequest"
+					output-channel="trainResponse" 
+					ref="trainManager" 
+					method="getTrains" 
+					requires-reply="true"  
+					send-timeout="60000"/>			
+
+</beans>	

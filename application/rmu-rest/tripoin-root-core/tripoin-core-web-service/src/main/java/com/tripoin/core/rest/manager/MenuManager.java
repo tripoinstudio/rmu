@@ -13,8 +13,8 @@ import org.springframework.integration.message.GenericMessage;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
-import com.tripoin.core.domain.MenuDTO;
-import com.tripoin.core.domain.Menus;
+import com.tripoin.core.dto.MenuDTO;
+import com.tripoin.core.dto.Menus;
 import com.tripoin.core.pojo.Menu;
 import com.tripoin.core.service.IGenericManagerJpa;
 

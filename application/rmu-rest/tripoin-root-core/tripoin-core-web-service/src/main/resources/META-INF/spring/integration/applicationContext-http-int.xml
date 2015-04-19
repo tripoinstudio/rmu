@@ -15,132 +15,14 @@
 			http inbound gateway's and inbound adapter's with "path" attributes -->
 	<bean class="org.springframework.integration.http.inbound.UriPathHandlerMapping"/>
 	
-	<!-- Inbound/Outbound Channels -->
-	<int:channel id="carriageRequest" />
-	<int:channel id="carriageResponse" />
-	<int:channel id="seatRequest" />
-	<int:channel id="seatResponse" />	
-	<int:channel id="trainRequest" />
-	<int:channel id="trainResponse" />	
-	<int:channel id="menuRequest" />
-	<int:channel id="menuResponse" />
-	<int:channel id="loginRequest" />
-	<int:channel id="loginResponse" />	
-	<int:channel id="orderHeaderRequest" />
-	<int:channel id="orderHeaderResponse" />
-	<int:channel id="orderDetailRequest" />
-	<int:channel id="orderDetailResponse" />
-	<int:channel id="setOrderDetailRequest" />
-	<int:channel id="setOrderDetailResponse" />
-<!-- 	<int:channel id="orderDetailByRequest" /> -->
-<!-- 	<int:channel id="orderDetailByResponse" /> -->
+	<import resource="applicationContext-http-int-menu.xml" />
+	<import resource="applicationContext-http-int-seat.xml" />
+	<import resource="applicationContext-http-int-carriage.xml" />
+	<import resource="applicationContext-http-int-train.xml" />
+	<import resource="applicationContext-http-int-login.xml" />
+	<import resource="applicationContext-http-int-orderDetail.xml" />
+	<import resource="applicationContext-http-int-orderHeader.xml" />
 	
-			
-	<int-http:inbound-gateway id="inboundLoginRequestGateway"		
-		supported-methods="GET, POST" 
-		request-channel="loginRequest"
-		reply-channel="loginResponse"		
-		mapped-response-headers="Return-Status, Return-Status-Msg, HTTP_RESPONSE_HEADERS"		
-		view-name="/login" 
-		path="/wscontext/login"
-		reply-timeout="50000">
-		
-	</int-http:inbound-gateway>
-	
-	<int-http:inbound-gateway id="inboundOrderHeaderRequestGateway"		
-		supported-methods="GET, POST" 
-		request-channel="orderHeaderRequest"
-		reply-channel="orderHeaderResponse"		
-		mapped-response-headers="Return-Status, Return-Status-Msg, HTTP_RESPONSE_HEADERS"		
-		view-name="/orderHeader" 
-		path="/wscontext/orderHeader"
-		reply-timeout="50000">
-		
-	</int-http:inbound-gateway>
-			
-	<int-http:inbound-gateway id="inboundCarriageRequestGateway"		
-		supported-methods="GET, POST" 
-		request-channel="carriageRequest"
-		reply-channel="carriageResponse"		
-		mapped-response-headers="Return-Status, Return-Status-Msg, HTTP_RESPONSE_HEADERS"		
-		view-name="/carriage" 
-		path="/wscontext/carriage"
-		reply-timeout="50000">
-		
-	</int-http:inbound-gateway>
-	
-	<int-http:inbound-gateway id="inboundSeatRequestGateway"		
-		supported-methods="GET, POST" 
-		request-channel="seatRequest"
-		reply-channel="seatResponse"		
-		mapped-response-headers="Return-Status, Return-Status-Msg, HTTP_RESPONSE_HEADERS"		
-		view-name="/seat" 
-		path="/wscontext/seat"
-		reply-timeout="50000">
-		
-	</int-http:inbound-gateway>
-	
-	<int-http:inbound-gateway id="inboundTrainRequestGateway"		
-		supported-methods="GET, POST" 
-		request-channel="trainRequest"
-		reply-channel="trainResponse"		
-		mapped-response-headers="Return-Status, Return-Status-Msg, HTTP_RESPONSE_HEADERS"		
-		view-name="/train" 
-		path="/wscontext/train"
-		reply-timeout="50000">
-		
-	</int-http:inbound-gateway>
-	
-	<int-http:inbound-gateway id="inboundMenuRequestGateway"		
-		supported-methods="GET, POST" 
-		request-channel="menuRequest"
-		reply-channel="menuResponse"		
-		mapped-response-headers="Return-Status, Return-Status-Msg, HTTP_RESPONSE_HEADERS"		
-		view-name="/menu" 
-		path="/wscontext/menu"
-		reply-timeout="50000">
-		
-	</int-http:inbound-gateway>
-	
-	<int-http:inbound-gateway id="inboundOrderDetailRequestGateway"		
-		supported-methods="GET, POST" 
-		request-channel="orderDetailRequest"
-		reply-channel="orderDetailResponse"		
-		mapped-response-headers="Return-Status, Return-Status-Msg, HTTP_RESPONSE_HEADERS"		
-		view-name="/getOrderDetail" 
-		path="/wscontext/getOrderDetail/{orderNumber}/put"
-		reply-timeout="50000">
-		
-		<int-http:header name="orderHeaderNo" expression="#pathVariables.orderNumber"/>
-	</int-http:inbound-gateway>
-	
-	<int-http:inbound-gateway id="inboundSetOrderDetailRequestGateway"		
-		supported-methods="GET, POST" 
-		request-channel="setOrderDetailRequest"
-		reply-channel="setOrderDetailResponse"		
-		mapped-response-headers="Return-Status, Return-Status-Msg, HTTP_RESPONSE_HEADERS"		
-		view-name="/setOrderDetail" 
-		path="/wscontext/setOrderDetail/{orderDetail}/put"
-		reply-timeout="50000">
-		
-		<int-http:header name="jsonOrderDetail" expression="#pathVariables.orderDetail"/>
-	</int-http:inbound-gateway>
-	
-<!-- 	<int-http:inbound-gateway id="inboundOrderDetailByRequestGateway"		 -->
-<!-- 		supported-methods="GET, POST"  -->
-<!-- 		request-channel="orderDetailByRequest" -->
-<!-- 		reply-channel="orderDetailByResponse"		 -->
-<!-- 		mapped-response-headers="Return-Status, Return-Status-Msg, HTTP_RESPONSE_HEADERS"		 -->
-<!-- 		view-name="/orderDetail"  -->
-<!-- 		path="/wscontext/setOrderDetail/{param1}/{param2}/orderDetail" -->
-<!-- 		reply-timeout="50000"> -->
-		
-<!-- 		<int-http:header name="jsonOrderDetail" expression="#pathVariables.orderDetail"/> -->
-<!-- 	</int-http:inbound-gateway> -->
- 
-	<!-- Note: The default parameter name for favorParameter is 'format'. For instance, when this flag is true, a request for /services/employee/{id}/search?format=json will result 
-			in an MappingJacksonJsonView being resolved, while the Accept header can be the browser-defined text/html,application/xhtml+xml  -->
-			
 	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
 		<property name="order" value="1" />	
 		<property name="defaultContentType" value="application/xml"/>
@@ -164,79 +46,7 @@
 		</property>				
 	</bean>
 	
-	<oxm:jaxb2-marshaller id="marshaller" contextPath="com.tripoin.core.domain" />
-	
-	<int:service-activator id="loginServiceActivator" 
-					input-channel="loginRequest"
-					output-channel="loginResponse" 
-					ref="loginManager" 
-					method="getLogin" 
-					requires-reply="true"  
-					send-timeout="60000"/>
-					
-	<int:service-activator id="orderHeaderServiceActivator" 
-					input-channel="orderHeaderRequest"
-					output-channel="orderHeaderResponse" 
-					ref="orderHeaderManager" 
-					method="getOrderHeaders" 
-					requires-reply="true"  
-					send-timeout="60000"/>
-					
-	<int:service-activator id="carriageServiceActivator" 
-					input-channel="carriageRequest"
-					output-channel="carriageResponse" 
-					ref="carriageManager" 
-					method="getCarriages" 
-					requires-reply="true"  
-					send-timeout="60000"/>
-					
-	<int:service-activator id="seatServiceActivator" 
-					input-channel="seatRequest"
-					output-channel="seatResponse" 
-					ref="seatManager" 
-					method="getSeats" 
-					requires-reply="true"  
-					send-timeout="60000"/>
-					
-	<int:service-activator id="trainServiceActivator" 
-					input-channel="trainRequest"
-					output-channel="trainResponse" 
-					ref="trainManager" 
-					method="getTrains" 
-					requires-reply="true"  
-					send-timeout="60000"/>
-					
-	<int:service-activator id="menuServiceActivator" 
-					input-channel="menuRequest"
-					output-channel="menuResponse" 
-					ref="menuManager" 
-					method="getMenus" 
-					requires-reply="true"  
-					send-timeout="60000"/>
-					
-	<int:service-activator id="orderDetailServiceActivator" 
-					input-channel="orderDetailRequest"
-					output-channel="orderDetailResponse" 
-					ref="orderDetailManager" 
-					method="getOrderDetails" 
-					requires-reply="true"  
-					send-timeout="60000"/>
-					
-	<int:service-activator id="setOrderDetailServiceActivator" 
-					input-channel="setOrderDetailRequest"
-					output-channel="setOrderDetailResponse" 
-					ref="orderDetailManager" 
-					method="setOrderDetails" 
-					requires-reply="true"  
-					send-timeout="60000"/>
-					
-<!-- 	<int:service-activator id="orderDetailByServiceActivator"  -->
-<!-- 					input-channel="orderDetailByRequest" -->
-<!-- 					output-channel="orderDetailByResponse"  -->
-<!-- 					ref="orderDetailManager"  -->
-<!-- 					method="getOrderDetailBy"  -->
-<!-- 					requires-reply="true"   -->
-<!-- 					send-timeout="60000"/> -->
+	<oxm:jaxb2-marshaller id="marshaller" contextPath="com.tripoin.core.dto" />
 	
 	<bean id="jaxbJacksonObjectMapper" class="com.tripoin.core.rest.json.JaxbJacksonObjectMapper"/>				
 
