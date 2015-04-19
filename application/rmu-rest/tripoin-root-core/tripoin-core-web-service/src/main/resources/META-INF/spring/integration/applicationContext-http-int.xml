@@ -32,6 +32,9 @@
 	<int:channel id="orderDetailResponse" />
 	<int:channel id="setOrderDetailRequest" />
 	<int:channel id="setOrderDetailResponse" />
+<!-- 	<int:channel id="orderDetailByRequest" /> -->
+<!-- 	<int:channel id="orderDetailByResponse" /> -->
+	
 			
 	<int-http:inbound-gateway id="inboundLoginRequestGateway"		
 		supported-methods="GET, POST" 
@@ -104,23 +107,35 @@
 		request-channel="orderDetailRequest"
 		reply-channel="orderDetailResponse"		
 		mapped-response-headers="Return-Status, Return-Status-Msg, HTTP_RESPONSE_HEADERS"		
-		view-name="/orderDetail" 
-		path="/wscontext/orderDetail"
+		view-name="/getOrderDetail" 
+		path="/wscontext/getOrderDetail/{orderNumber}/put"
 		reply-timeout="50000">
 		
+		<int-http:header name="orderHeaderNo" expression="#pathVariables.orderNumber"/>
 	</int-http:inbound-gateway>
 	
-<!-- 	<int-http:inbound-gateway id="inboundSetOrderDetailRequestGateway"		 -->
+	<int-http:inbound-gateway id="inboundSetOrderDetailRequestGateway"		
+		supported-methods="GET, POST" 
+		request-channel="setOrderDetailRequest"
+		reply-channel="setOrderDetailResponse"		
+		mapped-response-headers="Return-Status, Return-Status-Msg, HTTP_RESPONSE_HEADERS"		
+		view-name="/setOrderDetail" 
+		path="/wscontext/setOrderDetail/{orderDetail}/put"
+		reply-timeout="50000">
+		
+		<int-http:header name="jsonOrderDetail" expression="#pathVariables.orderDetail"/>
+	</int-http:inbound-gateway>
+	
+<!-- 	<int-http:inbound-gateway id="inboundOrderDetailByRequestGateway"		 -->
 <!-- 		supported-methods="GET, POST"  -->
-<!-- 		request-channel="setOrderDetailRequest" -->
-<!-- 		reply-channel="setOrderDetailResponse"		 -->
+<!-- 		request-channel="orderDetailByRequest" -->
+<!-- 		reply-channel="orderDetailByResponse"		 -->
 <!-- 		mapped-response-headers="Return-Status, Return-Status-Msg, HTTP_RESPONSE_HEADERS"		 -->
-<!-- 		view-name="/setOrderDetail"  -->
-<!-- 		path="/wscontext/setOrderDetail/{orderDetail}/put" -->
+<!-- 		view-name="/orderDetail"  -->
+<!-- 		path="/wscontext/setOrderDetail/{param1}/{param2}/orderDetail" -->
 <!-- 		reply-timeout="50000"> -->
 		
 <!-- 		<int-http:header name="jsonOrderDetail" expression="#pathVariables.orderDetail"/> -->
-		
 <!-- 	</int-http:inbound-gateway> -->
  
 	<!-- Note: The default parameter name for favorParameter is 'format'. For instance, when this flag is true, a request for /services/employee/{id}/search?format=json will result 
@@ -207,11 +222,19 @@
 					requires-reply="true"  
 					send-timeout="60000"/>
 					
-<!-- 	<int:service-activator id="setOrderDetailServiceActivator"  -->
-<!-- 					input-channel="setOrderDetailRequest" -->
-<!-- 					output-channel="setOrderDetailResponse"  -->
+	<int:service-activator id="setOrderDetailServiceActivator" 
+					input-channel="setOrderDetailRequest"
+					output-channel="setOrderDetailResponse" 
+					ref="orderDetailManager" 
+					method="setOrderDetails" 
+					requires-reply="true"  
+					send-timeout="60000"/>
+					
+<!-- 	<int:service-activator id="orderDetailByServiceActivator"  -->
+<!-- 					input-channel="orderDetailByRequest" -->
+<!-- 					output-channel="orderDetailByResponse"  -->
 <!-- 					ref="orderDetailManager"  -->
-<!-- 					method="setOrderDetails"  -->
+<!-- 					method="getOrderDetailBy"  -->
 <!-- 					requires-reply="true"   -->
 <!-- 					send-timeout="60000"/> -->
 	

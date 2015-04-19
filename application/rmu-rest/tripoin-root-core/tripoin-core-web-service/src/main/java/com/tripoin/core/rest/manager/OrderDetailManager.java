@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -44,11 +45,22 @@ public class OrderDetailManager {
 	
 	@Secured("ROLE_REST_HTTP_USER")
 	public Message<OrderDetails> getOrderDetails(Message<?> inMessage){
-		return getListOrderDetails();
+		String jsonOrderDetail = "";
+		try{
+
+			MessageHeaders headers = inMessage.getHeaders();
+			jsonOrderDetail = (String) headers.get("orderHeaderNo");
+			
+		}catch(Exception e){
+			LOGGER.error("Error :".concat(e.getLocalizedMessage()), e);
+		}
+		System.out.println(jsonOrderDetail);
+		return getListOrderDetails(jsonOrderDetail);
 	}
 	
 	@Secured("ROLE_REST_HTTP_USER")
 	public Message<OrderDetails> setOrderDetails(Message<?> inMessage){	
+		Message<OrderDetails> message = null;
 		try{
 			MessageHeaders headers = inMessage.getHeaders();
 			String jsonOrderDetail = (String)headers.get("jsonOrderDetail");
@@ -61,6 +73,10 @@ public class OrderDetailManager {
 			OrderHeader orderHeader = new OrderHeader();
 			List<OrderDetail> orderDetailList = new ArrayList<OrderDetail>();
 			List<Menu> menuList = iGenericManagerJpa.loadObjects(Menu.class);
+			Map<Integer, BigDecimal> mapPrice = new HashMap<Integer, BigDecimal>();
+			for (Menu menu : menuList) {
+				mapPrice.put(menu.getId(), menu.getPrice());
+			}
 			Menu menu = new Menu();
 			BigDecimal totalAmount = new BigDecimal(0);
 			BigDecimal totalPaid = new BigDecimal(0);
@@ -83,36 +99,50 @@ public class OrderDetailManager {
 					
 					orderHeader.setOrderNo("OR".concat(dateFormat).concat(leftPadding(stan.getStanCounter(), 5, "0")));
 					orderHeader.setSeat(seat);
+					orderHeader.setUser(user);
 					orderHeader.setCarriage(carriage);
 					orderHeader.setTrain(train);
 					orderHeader.setOrderDatetime(new Date());
 					// totalPaid
 					orderHeader.setIsArchive(0);
+//					orderHeader.setTotalPaid(totalPaid);
+					orderHeader.setStatus(1);
+					orderHeader.setRemarks("ORDER");
 					
 					isOrderHeader = false;
 				}
-				totalPaid = totalPaid.add(orderDetailDTO.getOrder_detail_total_amount());
+				totalAmount = mapPrice.get(orderDetailDTO.getMenu_id()).multiply(new BigDecimal(orderDetailDTO.getOrder_detail_total_order()));
+				totalPaid = totalPaid.add(totalAmount);
+				
 				//Order Detail
 				OrderDetail order = new OrderDetail();
+				
 				order.setMenu(menu);
 				order.setOrderHeader(orderHeader);
+				order.setRemarks("ORDER");
+				order.setStatus(1);
+				order.setTotalAmount(totalAmount);
+				order.setTotalOrder(orderDetailDTO.getOrder_detail_total_order());
 				
 				orderDetailList.add(order);
 			}
 			orderHeader.setTotalPaid(totalPaid);
+			orderHeader.setOrderDetails(orderDetailList);
+			iGenericManagerJpa.saveObject(orderHeader);
+			message = getListOrderDetails(orderHeader.getOrderNo());
 		}catch(Exception e){
 			LOGGER.error("Error :".concat(e.getLocalizedMessage()), e);
 		}
-		return getListOrderDetails();		
+		return message;		
 	}	
 	
-	public Message<OrderDetails> getListOrderDetails(){
+	public Message<OrderDetails> getListOrderDetails(String orderHeaderNo){
 		
 		OrderDetails orderDetails = new OrderDetails();
 		Map<String, Object> responseHeaderMap = new HashMap<String, Object>();
 		
 		try{
-			List<OrderDetail> orderDetailList = iGenericManagerJpa.loadObjects(OrderDetail.class);
+			List<OrderDetail> orderDetailList = iGenericManagerJpa.getObjectsUsingParameter(OrderDetail.class, new String[]{"orderHeader.orderNo"}, new Object[]{orderHeaderNo}, null, null);
 			boolean isFound;
 			if (orderDetailList!=null){
 				List<OrderDetailDTO> orderDetailDTOList = new ArrayList<OrderDetailDTO>();
@@ -140,7 +170,7 @@ public class OrderDetailManager {
 	}	
 	
 	public String leftPadding(Long data, Integer paddingCount, String charPadding){
-		return String.format("%".concat(charPadding)+10+"d",data);
+		return String.format("%".concat(charPadding)+paddingCount+"d",data);
 	}
 	
 	private void setReturnStatusAndMessage(String responseCode, String responseMsg, String result, OrderDetails orderDetails, Map<String, Object> responseHeaderMap){		

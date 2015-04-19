@@ -11,12 +11,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.Message;
 import org.springframework.integration.message.GenericMessage;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.tripoin.core.domain.OrderHeaderDTO;
 import com.tripoin.core.domain.OrderHeaders;
 import com.tripoin.core.pojo.OrderHeader;
 import com.tripoin.core.service.IGenericManagerJpa;
+import com.tripoin.core.util.CustomUserDetails;
 
 @Service("orderHeaderManager")
 public class OrderHeaderManager {
@@ -25,13 +30,20 @@ public class OrderHeaderManager {
 	@Autowired
 	private IGenericManagerJpa iGenericManagerJpa;
 	
+	private String currentUserName;
+	
 	@Secured("ROLE_REST_HTTP_USER")
 	public Message<OrderHeaders> getOrderHeaders(Message<?> inMessage){
 		OrderHeaders orderHeaders = new OrderHeaders();
 		Map<String, Object> responseHeaderMap = new HashMap<String, Object>();
 		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+		    currentUserName = authentication.getName();
+		}
+		
 		try{
-			List<OrderHeader> orderHeaderList = iGenericManagerJpa.loadObjects(OrderHeader.class);
+			List<OrderHeader> orderHeaderList = iGenericManagerJpa.getObjectsUsingParameter(OrderHeader.class, new String[]{"user.username"}, new Object[]{currentUserName}, null, null);
 			boolean isFound;
 			if (orderHeaderList!=null){
 				List<OrderHeaderDTO> orderHeaderDTOList = new ArrayList<OrderHeaderDTO>();
