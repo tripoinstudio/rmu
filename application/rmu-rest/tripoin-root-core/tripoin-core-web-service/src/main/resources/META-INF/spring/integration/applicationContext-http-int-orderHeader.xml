@@ -9,6 +9,8 @@
 	xmlns:oxm="http://www.springframework.org/schema/oxm" 
 	xmlns:int-http="http://www.springframework.org/schema/integration/http">
 	
+	<int:annotation-config/>
+	
 	<!-- Inbound/Outbound Channels -->
 	<int:channel id="getOrderHeaderRequest" />
 	<int:channel id="getOrderHeaderResponse" />
@@ -21,6 +23,8 @@
 		view-name="/getOrderHeader" 
 		path="/wscontext/getOrderHeader"
 		reply-timeout="50000">
+		
+	</int-http:inbound-gateway>
 						
 	<int:service-activator id="orderHeaderServiceActivator" 
 					input-channel="getOrderHeaderRequest"

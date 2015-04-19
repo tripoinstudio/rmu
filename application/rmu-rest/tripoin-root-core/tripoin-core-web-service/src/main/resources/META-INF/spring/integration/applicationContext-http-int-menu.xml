@@ -9,6 +9,8 @@
 	xmlns:oxm="http://www.springframework.org/schema/oxm" 
 	xmlns:int-http="http://www.springframework.org/schema/integration/http">
 		
+	<int:annotation-config/>
+	
 	<!-- Inbound/Outbound Channels -->
 	<int:channel id="menuRequest" />
 	<int:channel id="menuResponse" />
