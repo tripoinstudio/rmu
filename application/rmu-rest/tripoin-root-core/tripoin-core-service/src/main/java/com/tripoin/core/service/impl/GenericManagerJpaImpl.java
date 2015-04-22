@@ -33,16 +33,16 @@ public class GenericManagerJpaImpl implements IGenericManagerJpa {
     protected Criterion orCriterion;
     
     public void resetMap(){
-    	eqMap = null;
-        notEqMap = null;
-        betweenMap = null;
-        notBetweenMap = null;
-        inMap = null;
-        notInMap = null;
-        likeMap = null;
-        notLikeMap = null;
-        orderMap = null;
-        orMap = null;
+    	eqMap = new HashMap<String, Object>();
+        notEqMap = new HashMap<String, Object>();
+        betweenMap = new HashMap<String,  Object[]>();
+        notBetweenMap = new HashMap<String,  Object[]>();
+        inMap = new HashMap<String,  Object[]>();
+        notInMap = new HashMap<String,  Object[]>();
+        likeMap = new HashMap<String, Object>();
+        notLikeMap = new HashMap<String, Object>();
+        orderMap = new HashMap<String, Object>();
+        orMap = new HashMap<String, Object>();;
         orCriterion = null;
         
         eqMap = new HashMap<String, Object>();
@@ -75,8 +75,10 @@ public class GenericManagerJpaImpl implements IGenericManagerJpa {
 	@Override
 	public <T> List<T> getObjectsUsingParameter(Class<T> objectType, String[] fields, Object[] values, String orderBy, String order) {
 		// TODO Auto-generated method stub
-		if(orderBy != null && !orderBy.trim().equalsIgnoreCase(""))
+		orderMap = new HashMap<String, Object>();
+		if(orderBy != null && !orderBy.trim().equalsIgnoreCase("")){
 			orderMap.put(orderBy, order);
+		}
 		return genericDao.getObjectsUsingJQL(objectType, fields, values, orderMap);
 	}
 
@@ -110,6 +112,16 @@ public class GenericManagerJpaImpl implements IGenericManagerJpa {
 			orderMap.put(orderBy, order);
 		
 		return genericDao.getObjectsUsingJQL(objectType, eqMap, betweenMap, orMap, orderMap);
+	}
+
+	@Override
+	public <T> List<T> getObjectsUsingParameterManualPage(Class<T> objectType, String[] fields, Object[] values, String orderBy, String order, int first, int pageSize) {
+		// TODO Auto-generated method stub
+		orderMap = new HashMap<String, Object>();
+		if(orderBy != null && !orderBy.trim().equalsIgnoreCase("")){
+			orderMap.put(orderBy, order);
+		}
+		return genericDao.getObjectsUsingManual(objectType, fields, values, orderMap, first, pageSize);
 	}
 
 	@Override

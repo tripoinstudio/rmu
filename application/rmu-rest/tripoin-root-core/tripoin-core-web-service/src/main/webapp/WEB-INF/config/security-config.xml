@@ -34,7 +34,7 @@
 		<security:authentication-provider>
 			<security:password-encoder ref="passwordEncoder"/>
 			<security:jdbc-user-service data-source-ref="dataSource"
-                    users-by-username-query="SELECT user_code AS username, user_password AS password, user_status AS enabled FROM security_user WHERE user_code = ?"
+                    users-by-username-query="SELECT user_code AS username, user_password AS password, user_enabled AS enabled FROM security_user WHERE user_code = ?"
                     authorities-by-username-query="SELECT security_user.user_code AS username, security_role.role_code AS role FROM security_user,security_role
                       WHERE security_user.user_code = ? AND security_user.role_id = security_role.role_id" />
 		</security:authentication-provider>

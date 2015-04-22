@@ -24,6 +24,7 @@ public class User {
 	private String username;
 	private String password;
 	private Integer status;
+	private Integer enabled;
 	private String remarks;
 	private Role role;
 	private List<OrderHeader> orderHeaders;
@@ -57,6 +58,15 @@ public class User {
 		this.password = password;
 	}
 
+	@Column(name="user_enabled")
+	public Integer getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Integer enabled) {
+		this.enabled = enabled;
+	}
+
 	@Column(name="user_status")
 	public Integer getStatus() {
 		return status;
@@ -65,7 +75,6 @@ public class User {
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
-
 
 	@Column(name="user_remarks", length=255)
 	public String getRemarks() {
@@ -98,7 +107,7 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password="
-				+ password + ", status=" + status + ", remarks=" + remarks
+				+ password + ", enabled=" + enabled + ", status=" + status + ", remarks=" + remarks
 				+ ", role=" + role + "]";
 	}
 }

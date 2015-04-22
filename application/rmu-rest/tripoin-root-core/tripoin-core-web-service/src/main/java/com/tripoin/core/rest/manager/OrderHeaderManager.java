@@ -41,13 +41,13 @@ public class OrderHeaderManager {
 		}
 		
 		try{
-			List<OrderHeader> orderHeaderList = iGenericManagerJpa.getObjectsUsingParameter(OrderHeader.class, new String[]{"user.username"}, new Object[]{currentUserName}, null, null);
+			List<OrderHeader> orderHeaderList = iGenericManagerJpa.getObjectsUsingParameter(OrderHeader.class, new String[]{"user.username"}, new Object[]{currentUserName}, "orderDatetime", "ASC");
 			boolean isFound;
 			if (orderHeaderList!=null){
 				List<OrderHeaderDTO> orderHeaderDTOList = new ArrayList<OrderHeaderDTO>();
 				for (OrderHeader c : orderHeaderList) {
 					LOGGER.debug("data :"+c.toString());
-					OrderHeaderDTO data = new OrderHeaderDTO(c.getOrderNo(), c.getOrderDatetime(), c.getTotalPaid(), c.getStatus(), c.getUser().getUsername(), c.getSeat().getNo(), c.getCarriage().getNo(), c.getTrain().getNo());
+					OrderHeaderDTO data = new OrderHeaderDTO(c.getOrderNo(), c.getOrderDatetime(), c.getTotalPaid(), c.getStatus(), c.getSeat().getNo(), c.getCarriage().getNo(), c.getTrain().getNo());
 					orderHeaderDTOList.add(data);
 				} 
 				orderHeaders.setTrx_order_header(orderHeaderDTOList);

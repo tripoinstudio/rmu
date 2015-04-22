@@ -5,18 +5,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.Message;
 import org.springframework.integration.message.GenericMessage;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.tripoin.core.dto.OrderHeaderDTO;
 import com.tripoin.core.dto.OrderHeaderWithUsers;
 import com.tripoin.core.dto.UserDTO;
 import com.tripoin.core.pojo.OrderHeader;
+import com.tripoin.core.pojo.User;
 import com.tripoin.core.service.IGenericManagerJpa;
 import com.tripoin.core.util.ELoggedIn;
 
@@ -26,46 +28,44 @@ import com.tripoin.core.util.ELoggedIn;
 @Service("loginManager")
 public class LoginManager {
 	
-	private static transient final Logger LOGGER = LoggerFactory.getLogger(LoginManager.class);
 	private String STATUSLOGIN = ELoggedIn.SUCCESS.toString();
 
 	@Autowired
 	private IGenericManagerJpa iGenericManagerJpa;
+
+	private String currentUserName;
 	
 	@Secured("ROLE_REST_HTTP_USER")
 	public Message<OrderHeaderWithUsers> getLogin(Message<?> inMessage){
 	
 		OrderHeaderWithUsers orderHeaderWithUsers = new OrderHeaderWithUsers();
 		Map<String, Object> responseHeaderMap = new HashMap<String, Object>();
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+		    currentUserName = authentication.getName();
+		}
 		
 		try{
-			List<OrderHeader> orderHeaderList = iGenericManagerJpa.loadObjects(OrderHeader.class);
-			
-			if (orderHeaderList!=null){
-				List<OrderHeaderDTO> orderHeaderDTOList = new ArrayList<OrderHeaderDTO>();
-				UserDTO user = new UserDTO();
-				boolean role = true;
-				for (OrderHeader o : orderHeaderList) {
-					if(role){
-						user = new UserDTO(o.getUser().getUsername(), o.getUser().getRole().getCode());
-						if(o.getUser().getStatus() == 1){
-							STATUSLOGIN = ELoggedIn.LOGGEDIN.toString();
-							break;
-						}
-						role = false;
-					}
-					
-					LOGGER.debug("data :"+o.toString());
-					OrderHeaderDTO data = new OrderHeaderDTO(o.getOrderNo(), o.getOrderDatetime(), o.getTotalPaid(), o.getStatus(), o.getUser().getUsername(), o.getSeat().getNo(), o.getCarriage().getNo(), o.getTrain().getNo());
-					orderHeaderDTOList.add(data);					
-				} 
-				if(ELoggedIn.SUCCESS.toString().equals(STATUSLOGIN)){
+			List<User> userList = iGenericManagerJpa.getObjectsUsingParameter(User.class, new String[]{"username"}, new Object[]{currentUserName}, null, null);
+			UserDTO user = new UserDTO(userList.get(0).getUsername(), userList.get(0).getRole().getCode());
+			orderHeaderWithUsers.setSecurity_user(user);
+			if(userList.get(0).getStatus() == 0){
+				List<OrderHeader> orderHeaderList = iGenericManagerJpa.getObjectsUsingParameterManualPage(OrderHeader.class, new String[]{"user.username"}, new Object[]{currentUserName}, "orderDatetime", "ASC", 0 , 20);
+				if (orderHeaderList!=null){
+					List<OrderHeaderDTO> orderHeaderDTOList = new ArrayList<OrderHeaderDTO>();
+					for (OrderHeader o : orderHeaderList) {		
+						OrderHeaderDTO data = new OrderHeaderDTO(o.getOrderNo(), o.getOrderDatetime(), o.getTotalPaid(), o.getStatus(), o.getSeat().getNo(), o.getCarriage().getNo(), o.getTrain().getNo());
+						orderHeaderDTOList.add(data);					
+					} 
 					orderHeaderWithUsers.setTrx_order_header(orderHeaderDTOList);
-					orderHeaderWithUsers.setSecurity_user(user);
-				}
-			}else{	
-				STATUSLOGIN = ELoggedIn.EMPTY.toString();
-			}			
+				}else{	
+					STATUSLOGIN = ELoggedIn.EMPTY.toString();
+				}	
+			}else{
+				STATUSLOGIN = ELoggedIn.LOGGEDIN.toString();				
+			}		
+			
 			if (ELoggedIn.SUCCESS.toString().equals(STATUSLOGIN)){
 				setReturnStatusAndMessage("0", "Load Data Success", "SUCCESS", orderHeaderWithUsers, responseHeaderMap);
 			}else if (ELoggedIn.LOGGEDIN.toString().equals(STATUSLOGIN)){

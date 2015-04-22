@@ -1,9 +1,7 @@
 package com.tripoin.core.dao.impl;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -38,46 +36,22 @@ public class GenericBaseDaoJpa extends ABaseDaoJpa {
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> List<T> getObjectsUsingJQL(Class<T> objectType, String[] fields, Object[] values, Map<String, Object> orderMap) {
-
-		String jqlQuery = "FROM " + objectType.getSimpleName() + " c ";
-		int j = 0;
-		if (fields != null && fields.length > 0) {
-			for (int i = 0; i < fields.length; i++) {
-				if (i == 0)
-					jqlQuery += " WHERE c." + fields[i] + " = ?"+i;
-				else
-					jqlQuery += " AND c." + fields[i] + " = ?"+i;
-			}
-		}
 		
-		if (orderMap != null && orderMap.size() > 0) {
-			for (Map.Entry<String, Object> entry : orderMap.entrySet()) {
-				if (j == 0) {
-					jqlQuery += " ORDER BY c." + entry.getKey() + " "
-							+ entry.getValue() + " ";
-					j++;
-				} else {
-					jqlQuery += " , c." + entry.getKey() + " "
-							+ entry.getValue() + " ";
-				}
-			}
-		}
-		
-		Query query = getEntityManager().createQuery(jqlQuery);
+		Query query = getEntityManager().createQuery(getJQL(objectType, fields, values, orderMap));
 		if (values != null && values.length > 0) {
 			for (int i = 0; i < values.length; i++) {
 				query.setParameter(i, values[i]);
 			}
-		}
-		
-		
+		}	
 		
 		List<T> result = query.getResultList();
 		return result;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> List<T> getObjectsUsingJQL(Class<T> objectType, Map<String, Object> eqMap, Map<String, Object[]> betweenMap, Map<String, Object> orMap, Map<String, Object> orderMap) {
 		// TODO Auto-generated method stub
@@ -167,6 +141,7 @@ public class GenericBaseDaoJpa extends ABaseDaoJpa {
 		return result;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> List<T> getObjectsUsingManual(String hqlString, Object[] values, int first, int pageSize) {
 		// TODO Auto-generated method stub
@@ -183,12 +158,59 @@ public class GenericBaseDaoJpa extends ABaseDaoJpa {
 		return query.getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> List<T> getObjectsUsingManual(Class<T> objectType, String[] fields, Object[] values, Map<String, Object> orderMap, int first, int pageSize) {
+		// TODO Auto-generated method stub
+		
+		Query query = getEntityManager().createQuery(getJQL(objectType, fields, values, orderMap));
+		if (values != null && values.length > 0) {
+			for (int i = 0; i < values.length; i++) {
+				query.setParameter(i, values[i]);
+			}
+		}	
+		
+		if(pageSize > 0){
+			query.setFirstResult(first);
+			query.setMaxResults(pageSize);
+		}
+		return query.getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> List<T> getObjectsUsingLike(Class<T> objectType, String field, String value) {
 		// TODO Auto-generated method stub
-//		String queryJQL = ;
 		Query query = getEntityManager().createQuery("FROM " + objectType.getSimpleName() + " c WHERE c." + field + " LIKE '%"+value+"%'");
 		return query.getResultList();
+	}
+	
+	private <T> String getJQL(Class<T> objectType, String[] fields, Object[] values, Map<String, Object> orderMap){
+
+		String jqlQuery = "FROM " + objectType.getSimpleName() + " c ";
+		int j = 0;
+		if (fields != null && fields.length > 0) {
+			for (int i = 0; i < fields.length; i++) {
+				if (i == 0)
+					jqlQuery += " WHERE c." + fields[i] + " = ?"+i;
+				else
+					jqlQuery += " AND c." + fields[i] + " = ?"+i;
+			}
+		}
+		
+		if (orderMap != null && orderMap.size() > 0) {
+			for (Map.Entry<String, Object> entry : orderMap.entrySet()) {
+				if (j == 0) {
+					jqlQuery += " ORDER BY c." + entry.getKey() + " "
+							+ entry.getValue() + " ";
+					j++;
+				} else {
+					jqlQuery += " , c." + entry.getKey() + " "
+							+ entry.getValue() + " ";
+				}
+			}
+		}
+		return jqlQuery;
 	}
 
 }

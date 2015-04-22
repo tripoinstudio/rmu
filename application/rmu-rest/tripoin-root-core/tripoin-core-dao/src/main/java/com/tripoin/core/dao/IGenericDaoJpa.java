@@ -23,5 +23,7 @@ public interface IGenericDaoJpa {
 	
 	public <T> List<T> getObjectsUsingManual(String hqlString, Object[] values, int first, int pageSize);
 	
+	public <T> List<T> getObjectsUsingManual(Class<T> objectType, String[] fields, Object[] values, Map<String, Object> orderMap, int first, int pageSize);
+	
 	public <T> List<T> getObjectsUsingLike(Class<T> objectType, String field, String value);
 }
