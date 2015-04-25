@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="demo_primary_color">#2196F3</color>
+    <color name="demo_colorPrimaryDark">#0288D1</color>
+    <color name="theme_accent_1">@color/md_light_blue_900</color>
+</resources>

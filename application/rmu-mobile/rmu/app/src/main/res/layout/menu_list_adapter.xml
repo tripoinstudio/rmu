@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="150dip"
+    android:layout_height="210dip"
+    android:orientation="vertical"
+    android:background="@drawable/bg_menu_list"
+    android:paddingTop="20dp"
+    android:paddingBottom="10dp"
+    android:paddingLeft="1dp"
+    android:id="@+id/order_item_linear">
+
+    <ImageView
+        android:id="@+id/thumb_menu_etypes"
+        android:layout_width="100dp"
+        android:layout_height="90dp"
+        android:paddingLeft="1dp"
+
+        android:scaleType="centerCrop"
+        android:layout_gravity="center"
+        android:src="@drawable/image_food1"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="6.5dp"
+        android:paddingTop="10dp"
+        android:id="@+id/linear_detail">
+        <TextView
+            android:id="@+id/product"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:textColor="@android:color/black"
+            android:gravity="center_vertical"
+            android:text="Nasi Goreng Kambing"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/category_product"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:textColor="@android:color/secondary_text_dark"
+            android:gravity="center_vertical"
+            android:text="Nasi Goreng"
+            android:paddingBottom="3dip"
+            android:textSize="12sp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="6.5dp"
+        android:paddingTop="3dp"
+        android:id="@+id/linear_detail2">
+
+        <RatingBar
+            android:id="@+id/ratingBar1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="1dip"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_centerHorizontal="true"
+            android:backgroundTint="#737373"/>
+        <TextView
+           android:id="@+id/price_product"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:textColor="@android:color/holo_green_light"
+            android:gravity="center_vertical"
+            android:text="IDR 50.000"
+            android:textSize="12sp"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>
+

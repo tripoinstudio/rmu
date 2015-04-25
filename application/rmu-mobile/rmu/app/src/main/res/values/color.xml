@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="red_dark_holo">#ffcc0000</color>
+    <color name="gray_darker">#aaa</color>
+    <color name="gray_dark_lighter">#4d817a70</color>
+    <color name="white_base">#FFFFFF</color>
+    <color name="login_color">#fff7f7f7</color>
+    <color name="login_action_base_color">#ffffffff</color>
+    <color name="action_base_color">#630000</color>
+    <color name="text_box_background">#46b9afb4</color>
+    <color name="orange_base">#FF5722</color>
+    <color name="green_base">#006400</color>
+    <color name="text_box_transparant">#46f0e6eb</color>
+    <color name="black_light">#92000000</color>
+    <color name="reska_green_base">#4caf50</color>
+
+    <color name="body_text_2">#8a000000</color>
+    <color name="body_text_1">#de000000</color>
+</resources>

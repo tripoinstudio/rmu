@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">eRestorasi</string>
+    <string name="powered_by">Powered By Tripoin</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- Activity Login -->
+    <string name="string_user_name">User Name</string>
+    <string name="string_sign_register">Enter your mobile phone number to sign in or register</string>
+    <string name="string_email">Email Address</string>
+    <string name="string_mobile_phone_number">Mobile Phone Number</string>
+    <string name="string_phone_number">Phone Number</string>
+    <string name="string_next">Next</string>
+    <string name="string_learn_about">Learn about ARIUM M-Force</string>
+
+    <!-- Activity Login Validation -->
+    <string name="string_sign_in_as">Sign in as :</string>
+    <string name="string_default_email">email@email.email</string>
+    <string name="string_sign_in">Sign In</string>
+    <string name="string_forgot_password">Forgot Password ?</string>
+    <string name="string_password">Password</string>
+    <string name="string_repassword">Repassword</string>
+    <string name="string_incorrect_password">Incorrect password</string>
+    <string name="string_show_password">Show password</string>
+
+    <!-- Activity Register new Account -->
+    <string name="string_create_new_acc">Create new account with :</string>
+    <string name="string_tos_pp">By tapping Create Account, I agree to the Terms of Service and Privacy Policy</string>
+    <string name="string_create_acc">Create Account</string>
+    <string name="string_email_default">email@email.email</string>
+    <string name="string_device_id">Device Id</string>
+    <string name="string_confirm_password">Confirm Password</string>
+    <string name="string_real_name">Real Name</string>
+    <string name="string_birth_date">Birth date</string>
+    <string name="string_address">Address</string>
+
+    <!-- Activity Activate Account -->
+    <string name="string_activate_account_with">Activate account with :</string>
+    <string name="string_activate_account">Activate Account</string>
+
+    <!-- Fragment Configuration -->
+    <string name="string_change_host">Change Host</string>
+    <string name="string_change_password">Change Password</string>
+    <string name="string_current_password">Current Password</string>
+    <string name="string_new_password">New Password</string>
+    <string name="string_confirm_new_password">Re-type New Password</string>
+    <string name="string_confirm_change_password">Change Password</string>
+
+    <!-- ActMain -->
+    <string name="string_log_out">Sign Out</string>
+    <string name="string_stop_service">Stop Service</string>
+
+    <!-- Common String Bundle -->
+    <string name="string_cancel">Cancel</string>
+    <string name="string_ok">OK</string>
+    <string name="string_favicon">favicon</string>
+    <string name="string_clear">Clear</string>
+    <string name="string_noconnection">Internet connection not available</string>
+    <string name="string_error">Error</string>
+    <string name="string_empty"></string>
+    <string name="string_space">" "</string>
+    <string name="string_information">Information</string>
+    <string name="string_an_error_occured">An error occured</string>
+    <string name="string_changed_successfully">changed successfully</string>
+    <string name="string_fail_get_configuration">Failed to retrieve configuration, server doesn\'t respond</string>
+
+    <!-- UI Messages -->
+    <string name="string_should_change_password">Password is expired, please changed your password</string>
+    <string name="string_is_not_valid">is not valid</string>
+    <string name="string_connection_error">Connection error</string>
+    <string name="string_connection_time_out">Connection time out</string>
+    <string name="string_cannot_be_empty">can not be empty</string>
+    <string name="string_not_equal_to">does not equal to</string>
+
+    <!--Drawer Item-->
+    <string name="add_order">Add Order</string>
+    <string name="menu_list">Menu List</string>
+    <string name="order_list">Order List</string>
+    <string name="update_static_order">Update Static Data</string>
+    <string name="about">About</string>
+    <string name="more_markers">more settings</string>
+    <string name="trash">trash</string>
+    <string name="change_ip">Change IP Server</string>
+    <string name="change_bluetooth">Bluetooth</string>
+    <string name="spam">spam</string>
+    <string name="setting">setting</string>
+    <string name="settings">settings</string>
+
+    <string name="search">search</string>
+    <string name="search_order_list">Search order list</string>
+    <string name="add">add</string>
+
+
+</resources>

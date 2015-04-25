@@ -1,0 +1,23 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/nliveo_green_colorPrimary</item>
+    </style>
+
+    <style name="myTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/nliveo_green_colorPrimary</item>
+        <item name="colorPrimaryDark">@color/nliveo_green_colorPrimaryDark</item>
+        <item name="colorAccent">@color/nliveo_green_colorPrimary</item>
+    </style>
+
+    <style name="nLiveoDrawer" parent="nLiveo.Theme.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/nliveo_green_colorPrimary</item>
+        <item name="colorPrimaryDark">@color/nliveo_green_alpha_colorPrimaryDark</item>
+        <item name="colorAccent">@color/nliveo_green_colorPrimary</item>
+    </style>
+
+</resources>
