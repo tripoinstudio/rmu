@@ -87,6 +87,9 @@
     <string name="setting">setting</string>
     <string name="settings">settings</string>
 
+    <string name="ip_address">IP Address</string>
+    <string name="edit_ip_address">Enter Your IP Address</string>
+
     <string name="search">search</string>
     <string name="search_order_list">Search order list</string>
     <string name="add">add</string>
