@@ -1,10 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:theme="@style/Theme.AppCompat.NoActionBar"
+    android:background="#4caf50">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/about"/>
+        android:layout_gravity="center"
+        android:layout_marginTop="150dip"
+        android:id="@+id/label_about1"
+        android:textColor="@color/nliveo_white"
+        android:textSize="30sp"
+        android:text="Multi Reska Usaha"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/label_about2"
+        android:layout_gravity="center"
+        android:textSize="25sp"
+        android:textColor="@color/nliveo_white"
+        android:text="Version 1.0.0"/>
+    <ImageView
+        android:layout_width="300dip"
+        android:layout_height="200dip"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dip"
+        android:layout_marginBottom="50dip"
+        android:src="@drawable/bisnis_cashflow"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/label_about3"
+        android:textSize="15sp"
+        android:textColor="@color/nliveo_white"
+        android:text="©2015 Application RMU"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:layout_gravity="center"
+        android:id="@+id/label_about4"
+        android:textSize="15sp"
+        android:textColor="@color/nliveo_white"
+        android:text="All Rights Reserverd."/>
 </LinearLayout>
