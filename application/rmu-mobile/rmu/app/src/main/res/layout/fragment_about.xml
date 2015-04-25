@@ -36,7 +36,7 @@
         android:id="@+id/label_about3"
         android:textSize="15sp"
         android:textColor="@color/nliveo_white"
-        android:text="©2015 Application RMU"/>
+        android:text="&#169; 2015 Application RMU"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
