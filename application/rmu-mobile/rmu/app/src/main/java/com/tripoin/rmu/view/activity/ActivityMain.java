@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.util.SparseIntArray;
 import android.view.Menu;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.tripoin.rmu.R;
@@ -32,12 +33,16 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
 
     List<String> mListNameItem;
 
+
     @Override
     public void onUserInformation() {
         this.mUserName.setText("Bangkit Pratolo");
         this.mUserEmail.setText("bangkit@gmail.com");
+        this.mUserName.setTextColor(getResources().getColor(R.color.black_light));
+        this.mUserEmail.setTextColor(getResources().getColor(R.color.black_light));
         this.mUserPhoto.setImageResource(R.drawable.ic_launcher);
-        this.mUserBackground.setImageResource(R.drawable.ic_user_background);
+        this.mUserBackground.setImageResource(R.drawable.wavy_green_background4);
+
     }
 
     @Override
