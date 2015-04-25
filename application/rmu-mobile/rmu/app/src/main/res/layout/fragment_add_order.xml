@@ -1,40 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white_base">
+
+    <TextView
+        android:layout_width="500dip"
+        android:layout_height="50dip"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dip"
+        android:paddingLeft="20dip"
+        android:paddingTop="10dip"
+        android:id="@+id/tx_username"
+        android:background="@drawable/bg_text_box_border_bottom"
+        android:textColor="@color/black_light"
+        android:text="Demo"/>
+    <TextView
+        android:layout_width="500dip"
+        android:layout_height="50dip"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dip"
+        android:paddingLeft="20dip"
+        android:paddingTop="10dip"
+        android:id="@+id/tx_dates"
+        android:background="@drawable/bg_text_box_border_bottom"
+        android:textColor="@color/black_light"
+        android:text="20/05/2015"/>
+    <Spinner
+        android:layout_width="500dip"
+        android:layout_height="50dip"
+        android:id="@+id/spinner_carriage"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dip"
+        android:paddingLeft="20dip"
+        android:paddingTop="10dip"
+        android:background="@drawable/bg_bottom_lov"/>
+    <Spinner
+        android:layout_width="500dip"
+        android:layout_height="50dip"
+        android:id="@+id/spinner_seat"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dip"
+        android:paddingLeft="20dip"
+        android:paddingTop="10dip"
+        android:background="@drawable/bg_bottom_lov"/>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dip"
+        android:paddingTop="10dip"
+        android:layout_width="500dip"
+        android:layout_height="367dip"
+        android:background="@drawable/bg_order_item">
+        <Button
+            android:layout_width="150dip"
+            android:layout_height="30dip"
+            android:layout_marginTop="5dip"
+            android:paddingLeft="20dip"
+            android:layout_marginLeft="20dip"
+            android:paddingTop="10dip"
+            android:background="@drawable/bg_add_product2"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dip"
+            android:paddingTop="2dip"
+            android:layout_width="470dip"
+            android:layout_height="300dip"
+            android:background="@drawable/bg_order_item2">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="50dip"
+                android:background="@color/white_base">
+<ImageView
+    android:layout_width="20dip"
+    android:layout_marginTop="15dip"
+    android:layout_marginLeft="20dip"
+    android:layout_height="20dip"
+    android:background="@drawable/del_item"/>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_gravity="right"
+                    android:layout_width="450dip"
+                    android:layout_height="100dip"
+                    android:background="@drawable/bg_text_box_border_bottom2">
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_gravity="left"
+                        android:layout_width="250dip"
+                        android:layout_height="50dip"
+                        android:background="@drawable/bg_text_box_border_bottom2">
 
 
-    <EditText
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:paddingLeft="10dp"
-        android:id="@+id/txt_name"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="@string/string_user_name"
-        android:inputType="text"
-        android:textColor="@android:color/white"
-        android:background="@color/text_box_background"
-        android:singleLine="true"
-        android:textSize="15sp"
-        android:autoText="false"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:paddingLeft="20dip"
+                        android:textSize="20sp"
+                        android:textColor="@color/black_light"
+                        android:text="Nasi Goreng"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="30dip"
+                        android:layout_gravity="center"
+                        android:paddingLeft="20dip"
+                        android:textSize="15sp"
+                        android:textColor="@color/black_light"
+                        android:text="2 pcs @ IDR 20.000"/>
+                    </LinearLayout>
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:inputType="date"
-        android:ems="10"
-        android:hint="MM/DD/YYYY"
+                <TextView
+                    android:layout_width="150dip"
+                    android:layout_height="50dip"
+                    android:layout_marginTop="10dip"
+                    android:layout_marginLeft="50dip"
+                    android:textSize="20sp"
+                    android:textColor="#D4a017"
+                    android:text="IDR 20.000"/>
+                </LinearLayout>
+                </LinearLayout>
 
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:paddingLeft="10dp"
-        android:id="@+id/editText"
-        android:textColor="@android:color/white"
-        android:background="@color/text_box_background"
-        android:layout_gravity="center_horizontal" />
+            </LinearLayout>
 
+        </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_width="500dip"
 
+        android:layout_marginRight="1dip"
+
+        android:layout_height="wrap_content">
+
+    <TextView
+            android:layout_width="100dip"
+            android:layout_height="50dip"
+            android:layout_marginLeft="270dip"
+            android:textSize="23sp"
+            android:textColor="@color/black_light"
+            android:text="Total :"/>
+    <TextView
+        android:layout_width="150dip"
+        android:layout_height="50dip"
+        android:layout_marginLeft="0dip"
+        android:textSize="23sp"
+        android:textStyle="bold"
+        android:textColor="@color/red_dark_holo"
+        android:text="IDR 20.000"/>
+
+        </LinearLayout>
+    <Button
+        android:layout_width="150dip"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="50dip"
+        android:layout_gravity="right"
+        android:textSize="23sp"
+        android:id="@+id/bt_bayar"
+        android:textStyle="bold"
+        android:textColor="@color/white_base"
+        android:background="@color/nliveo_blue_alpha_colorPrimaryDark"
+        android:text="Bayar"/>
 </LinearLayout>
