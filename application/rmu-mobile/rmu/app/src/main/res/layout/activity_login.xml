@@ -10,7 +10,7 @@
     android:layout_width="match_parent"
     android:layout_height="1dp"
     android:layout_marginRight="10dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="200dp"
         android:layout_marginLeft="10dp">
 </View>
     <ImageView
@@ -25,12 +25,12 @@
 
     <EditText
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:paddingLeft="60dp"
+        android:layout_marginLeft="75dp"
+        android:layout_marginRight="75dp"
+        android:paddingLeft="80dp"
         android:id="@+id/txt_username"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="65dp"
         android:hint="@string/string_user_name"
         android:inputType="text"
         android:textColor="@android:color/white"
@@ -40,12 +40,12 @@
         android:autoText="false"/>
 
     <EditText
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:paddingLeft="60dp"
+        android:layout_marginLeft="75dp"
+        android:layout_marginRight="75dp"
+        android:paddingLeft="80dp"
         android:id="@+id/txt_password"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="65dp"
         android:hint="@string/string_password"
         android:inputType="textPassword"
         android:textColor="@android:color/white"
@@ -66,7 +66,7 @@
 
     <CheckBox
         android:id="@+id/chkShowPassword"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="75dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="12sp"
@@ -77,11 +77,11 @@
 
     <Button
         android:layout_marginTop="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="75dp"
+        android:layout_marginRight="75dp"
         android:layout_marginBottom="10dp"
         android:layout_width="fill_parent"
-        android:layout_height="60dp"
+        android:layout_height="70dp"
         android:background="@drawable/bg_login_button"
         android:id="@+id/btSignIn"
         android:textColor="@android:color/white"
