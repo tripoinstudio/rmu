@@ -145,6 +145,7 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
 
     @Override
     public void onClickUserPhotoNavigation(View view) {
-        Toast.makeText(this, "open user profile", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "open user profile", Toast.LENGTH_SHORT).show();
+        setContentView(R.layout.fragment_user_profile);
     }
 }
