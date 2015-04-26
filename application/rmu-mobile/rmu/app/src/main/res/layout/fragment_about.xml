@@ -13,7 +13,7 @@
         android:id="@+id/label_about1"
         android:textColor="@color/nliveo_white"
         android:textSize="22sp"
-        android:text="Reska Multi Usahas"/>
+        android:text="Reska Multi Usaha"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
