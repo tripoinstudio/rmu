@@ -17,4 +17,5 @@
 
     <color name="body_text_2">#8a000000</color>
     <color name="body_text_1">#de000000</color>
+    <color name="bluetooth_disabled">#ff0000</color>
 </resources>

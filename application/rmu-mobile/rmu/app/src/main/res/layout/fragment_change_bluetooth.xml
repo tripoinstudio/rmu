@@ -41,7 +41,7 @@
             android:layout_marginRight="20dp"
 
             android:background="@drawable/mybuttonb"
-            android:textColor="@color/white_base"
+            android:textColor="@color/nliveo_blue_colorPrimaryDark"
             android:text="@string/text_enable" />
 
         <Button
@@ -52,7 +52,7 @@
             android:layout_width="60dp"
             android:height="60dp"
             android:background="@drawable/mybuttonb"
-            android:textColor="@color/white_base"
+            android:textColor="@color/gray_darker"
             android:text="@string/text_view_paired" />
 
         <Button
@@ -63,7 +63,7 @@
             android:layout_width="60dp"
             android:height="60dp"
             android:layout_marginRight="20dp"
-            android:textColor="@color/white_base"
+            android:textColor="@color/gray_darker"
             android:text="@string/text_scan_devices" />
 
 
@@ -85,7 +85,7 @@
             android:enabled="false"
             android:height="60dp"
             android:background="@drawable/mybuttonb"
-            android:textColor="@color/white_base"
+            android:textColor="@color/gray_darker"
             android:text="@string/text_send_devices" />
 
 

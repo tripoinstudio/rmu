@@ -239,10 +239,15 @@ public class FragmentChangeBluetooth extends Fragment {
         mStatusTv.setText("Bluetooth is unsupported by this device");
 
         mActivateBtn.setText("Enable");
+        mActivateBtn.setTextColor(Color.BLUE);
         mActivateBtn.setEnabled(false);
 
         mPairedBtn.setEnabled(false);
+        mPairedBtn.setTextColor(Color.GRAY);
         mScanBtn.setEnabled(false);
+        mScanBtn.setTextColor(Color.GRAY);
+        mSendBtn.setEnabled(false);
+        mSendBtn.setTextColor(Color.GRAY);
     }
 
     private void showToast(String message) {
@@ -254,12 +259,16 @@ public class FragmentChangeBluetooth extends Fragment {
         mStatusTv.setTextColor(Color.BLUE);
 
         mActivateBtn.setText("Disable");
+        mActivateBtn.setTextColor(getResources().getColor(R.color.bluetooth_disabled));
         mActivateBtn.setEnabled(true);
 
         mPairedBtn.setEnabled(true);
+        mPairedBtn.setTextColor(Color.WHITE);
         mScanBtn.setEnabled(true);
+        mScanBtn.setTextColor(Color.WHITE);
 //        mOpenBtn.setEnabled(true);
         mSendBtn.setEnabled(true);
+        mSendBtn.setTextColor(Color.WHITE);
 //        mCloseBtn.setEnabled(true);\
     }
 
@@ -268,12 +277,16 @@ public class FragmentChangeBluetooth extends Fragment {
         mStatusTv.setTextColor(Color.RED);
 
         mActivateBtn.setText("Enable");
+        mActivateBtn.setTextColor(Color.BLUE);
         mActivateBtn.setEnabled(true);
 
         mPairedBtn.setEnabled(false);
+        mPairedBtn.setTextColor(Color.GRAY);
         mScanBtn.setEnabled(false);
+        mScanBtn.setTextColor(Color.GRAY);
 //        mOpenBtn.setEnabled(false);
         mSendBtn.setEnabled(false);
+        mSendBtn.setTextColor(Color.GRAY);
 //        mCloseBtn.setEnabled(false);
     }
 
