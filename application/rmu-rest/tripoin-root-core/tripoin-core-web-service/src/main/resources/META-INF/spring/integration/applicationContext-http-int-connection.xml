@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd		
+		http://www.springframework.org/schema/integration/http http://www.springframework.org/schema/integration/http/spring-integration-http.xsd	
+        http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd"
+	xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:oxm="http://www.springframework.org/schema/oxm" 
+	xmlns:int-http="http://www.springframework.org/schema/integration/http">
+	
+	<int:annotation-config/>
+	
+	<!-- Inbound/Outbound Channels -->
+	<int:channel id="connectionRequest" />
+	<int:channel id="connectionResponse" />
+			
+	<int-http:inbound-gateway id="inboundCarriageRequestGateway"		
+		supported-methods="GET, POST" 
+		request-channel="connectionRequest"
+		reply-channel="connectionResponse"		
+		mapped-response-headers="Return-Status, Return-Status-Msg, HTTP_RESPONSE_HEADERS"		
+		view-name="/connection" 
+		path="/wscontext/connection"
+		reply-timeout="50000">
+		
+	</int-http:inbound-gateway>
+					
+	<int:service-activator id="connectionServiceActivator" 
+					input-channel="connectionRequest"
+					output-channel="connectionResponse" 
+					ref="connectionManager" 
+					method="getConnection" 
+					requires-reply="true"  
+					send-timeout="60000"/>			
+
+</beans>	

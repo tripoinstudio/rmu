@@ -11,13 +11,11 @@
            http://www.springframework.org/schema/context
            http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 		
-	<import resource="security-config.xml" />
-	<import resource="classpath:META-INF/spring/integration/applicationContext-http-int.xml"/>
 	<import resource="classpath:META-INF/spring/datasource/dataSourceContext_mysql.xml"/>
 	<import resource="classpath:META-INF/spring/applicationContext-jpa.xml"/>
+	<import resource="classpath:META-INF/spring/integration/applicationContext-http-int.xml"/>
 	<import resource="classpath:META-INF/spring/applicationContext-manager.xml"/>
-	
-	<context:component-scan base-package="org.springframework.integration.samples.rest"/>
+	<import resource="security-config.xml" />
 	
 	<mvc:resources mapping="/images/**" location="/images/" />
 	

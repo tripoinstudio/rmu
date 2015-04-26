@@ -14,7 +14,7 @@
 	<security:global-method-security secured-annotations="enabled" />
 	
 	<bean id="bad-credential" class="com.tripoin.core.rest.json.exception.JSONBadCredentialHandler">
-		<property name="realmName" value="access-denied"/>
+		<property name="realmName" value="This page required user credential"/>
 	</bean>
 	
 	<bean id="access-denied" class="com.tripoin.core.rest.json.exception.JSONAccessDeniedHandler"/>
