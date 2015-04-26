@@ -83,6 +83,7 @@
     <string name="trash">trash</string>
     <string name="change_ip">Change IP Server</string>
     <string name="change_bluetooth">Bluetooth</string>
+    <string name="user_profile">User Profile</string>
     <string name="spam">spam</string>
     <string name="setting">setting</string>
     <string name="settings">settings</string>
@@ -90,6 +91,9 @@
     <string name="search">search</string>
     <string name="search_order_list">Search order list</string>
     <string name="add">add</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>
