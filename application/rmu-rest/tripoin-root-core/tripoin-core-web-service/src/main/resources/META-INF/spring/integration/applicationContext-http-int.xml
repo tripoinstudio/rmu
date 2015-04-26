@@ -20,10 +20,11 @@
 	<import resource="applicationContext-http-int-login.xml" />
 	<import resource="applicationContext-http-int-orderDetail.xml" />
 	<import resource="applicationContext-http-int-orderHeader.xml" />
+	<import resource="applicationContext-http-int-connection.xml" />
 		
 	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
 		<property name="order" value="1" />	
-		<property name="defaultContentType" value="application/xml"/>
+		<property name="defaultContentType" value="application/json"/>
 		<property name="favorParameter" value="true"/>	
 		<property name="ignoreAcceptHeader" value="true" />		
 		<property name="mediaTypes">

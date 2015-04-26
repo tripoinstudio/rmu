@@ -17,8 +17,8 @@ import android.widget.TextView;
 import com.tripoin.rmu.R;
 
 /**
- * Created by Achmad Fauzi on 4/18/2015 : 1:41 AM.
- * mailto : achmad.fauzi@sigma.co.id
+ * Created by Syahrial Fandrianah on 4/18/2015 : 1:41 AM.
+ * mailto : sfandrianah2@gmail.com
  */
 public class FragmentAddOrder extends Fragment {
 

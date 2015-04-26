@@ -13,7 +13,9 @@
     <color name="text_box_transparant">#46f0e6eb</color>
     <color name="black_light">#92000000</color>
     <color name="reska_green_base">#4caf50</color>
+    <color name="black_for_title">#777777</color>
 
     <color name="body_text_2">#8a000000</color>
     <color name="body_text_1">#de000000</color>
+    <color name="bluetooth_disabled">#ff0000</color>
 </resources>

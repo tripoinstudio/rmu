@@ -3,11 +3,9 @@ package com.tripoin.rmu.view.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.Menu;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.tripoin.rmu.R;
@@ -18,7 +16,6 @@ import com.tripoin.rmu.view.fragment.impl.FragmentChangeIPServer;
 import com.tripoin.rmu.view.fragment.impl.FragmentMenuList;
 import com.tripoin.rmu.view.fragment.impl.FragmentOrderList;
 import com.tripoin.rmu.view.fragment.impl.FragmentUpdateStaticData;
-import com.tripoin.rmu.view.fragment.impl.FragmentUserProfile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +30,7 @@ import br.liveo.navigationliveo.NavigationLiveo;
  */
 public class ActivityMain extends NavigationLiveo implements NavigationLiveoListener {
 
-    private List<String> mListNameItem;
+    List<String> mListNameItem;
 
     @Override
     public void onUserInformation() {
@@ -41,9 +38,6 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
         this.mUserEmail.setText("bangkit@gmail.com");
         this.mUserPhoto.setImageResource(R.drawable.ic_launcher);
         this.mUserBackground.setImageResource(R.drawable.ic_user_background);
-//      /*  View mCustomHeader = getLayoutInflater().inflate(R.layout.fragment_user_profile, this.getListView(), false);
-//        ImageView imageView = (ImageView) mCustomHeader.findViewById(R.id.imgUserProfile);
-//        this.addCustomHeader(mCustomHeader);*/
     }
 
     @Override
@@ -61,8 +55,6 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
         mListNameItem.add(5, getString(R.string.more_markers));
         mListNameItem.add(6, getString(R.string.change_ip));
         mListNameItem.add(7, getString(R.string.change_bluetooth));
-        mListNameItem.add(8, getString(R.string.more_markers));
-        mListNameItem.add(9, getString(R.string.user_profile));
 
         // icons list items
         List<Integer> mListIconItem = new ArrayList<>();
@@ -74,8 +66,6 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
         mListIconItem.add(5, 0);
         mListIconItem.add(6, R.drawable.ic_satellite_black_24dp);
         mListIconItem.add(7, R.drawable.ic_bluetooth_audio_black_24dp);
-        mListIconItem.add(8, 0);
-        mListIconItem.add(9, R.drawable.ic_person_grey600_24dp);
 
         List<Integer> mListHeaderItem = new ArrayList<>();
         mListHeaderItem.add(5);
@@ -88,14 +78,10 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
         this.setFooterInformationDrawer(R.string.settings, R.drawable.ic_settings_black_24dp);
 
         this.setNavigationAdapter(mListNameItem, mListIconItem, mListHeaderItem, mSparseCounterItem);
-
     }
 
     @Override
     public void onItemClickNavigation(int position, int layoutContainerId) {
-        Log.d("LAYOUTCONTAINERID", String.valueOf(layoutContainerId));
-        Log.d("POSITIONCONTAINER", String.valueOf(position));
-
         FragmentManager mFragmentManager = getSupportFragmentManager();
         String listName = mListNameItem.get(position);
         FragmentMenuList fragmentMenuList = null;
@@ -105,7 +91,6 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
         FragmentChangeIPServer fragmentChangeIPServer = null;
         FragmentChangeBluetooth fragmentChangeBluetooth = null;
         FragmentUpdateStaticData fragmentUpdateStaticData = null;
-        FragmentUserProfile fragmentUserProfile = null;
         switch (position){
             case 0:
                 fragmentAddOrder = new FragmentAddOrder().newInstance(listName);
@@ -135,10 +120,6 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
                 fragmentChangeBluetooth = new FragmentChangeBluetooth().newInstance(listName);
                 mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentChangeBluetooth).commit();
                 break;
-            case 9:
-                fragmentUserProfile = new FragmentUserProfile().newInstance(listName);
-                mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentUserProfile).commit();
-                break;
             default:;
         }
     }
@@ -157,7 +138,6 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
         }
     }
 
-
     @Override
     public void onClickFooterItemNavigation(View view) {
         startActivity(new Intent(this, SettingsActivity.class));
@@ -165,24 +145,6 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
 
     @Override
     public void onClickUserPhotoNavigation(View view) {
-//        setContentView(R.layout.fragment_user_profile);
-////        super.onClickUserPhotoNavigation
-////        Log.d("VIEWUSERCLIKID", String.valueOf(view.getId()));
-//        FragmentManager mFragmentManager = getSupportFragmentManager();
-//        FragmentUserProfile fragmentUserProfile = new FragmentUserProfile().newInstance("User Profile");
-//        mFragmentManager.beginTransaction().add(view.getId(), fragmentUserProfile).commit();
-        Intent intent = new Intent(this, ActivityMain.class);
-        intent.putExtra( "user_name", "userName");
-        startActivity(intent);
-
-    }
-
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent(this, ActivityMain.class);
-        startActivity(intent);
-//        FragmentManager mFragmentManager = getSupportFragmentManager();
-//        mFragmentManager.beginTransaction().replace(super.getListView().getId(), new FragmentMenuList().newInstance(getString(R.string.menu_list))).commit();
-//        setContentView(R.layout.abc_action_menu_layout);
+        Toast.makeText(this, "open user profile", Toast.LENGTH_SHORT).show();
     }
 }
