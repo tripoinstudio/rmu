@@ -10,49 +10,49 @@
     android:layout_width="match_parent"
     android:layout_height="1dp"
     android:layout_marginRight="10dp"
-        android:layout_marginBottom="200dp"
+        android:layout_marginBottom="129dp"
         android:layout_marginLeft="10dp">
 </View>
     <ImageView
         android:id="@+id/imageLogoText"
         android:layout_gravity="center"
         android:layout_weight="0"
-        android:layout_width="300dp"
-        android:layout_height="100dp"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
         android:layout_marginBottom="20dp"
 
         android:src="@drawable/logo_text3"  />
 
     <EditText
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="75dp"
-        android:layout_marginRight="75dp"
-        android:paddingLeft="80dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginLeft="53dp"
+        android:layout_marginRight="53dp"
+        android:paddingLeft="40dp"
         android:id="@+id/txt_username"
         android:layout_width="match_parent"
-        android:layout_height="65dp"
+        android:layout_height="41dp"
         android:hint="@string/string_user_name"
         android:inputType="text"
         android:textColor="@android:color/white"
         android:background="@drawable/bg_username"
         android:singleLine="true"
-        android:textSize="15sp"
+        android:textSize="12sp"
         android:autoText="false"/>
 
     <EditText
-        android:layout_marginLeft="75dp"
-        android:layout_marginRight="75dp"
-        android:paddingLeft="80dp"
+        android:layout_marginLeft="53dp"
+        android:layout_marginRight="53dp"
+        android:paddingLeft="40dp"
         android:id="@+id/txt_password"
         android:layout_width="match_parent"
-        android:layout_height="65dp"
+        android:layout_height="41dp"
         android:hint="@string/string_password"
         android:inputType="textPassword"
         android:textColor="@android:color/white"
         android:background="@drawable/bg_password"
         android:singleLine="true"
-        android:textSize="15sp"
-        android:layout_marginBottom="20dp"
+        android:textSize="12sp"
+        android:layout_marginBottom="9dp"
 
         android:layout_marginTop="0dp"
         />
@@ -66,26 +66,28 @@
 
     <CheckBox
         android:id="@+id/chkShowPassword"
-        android:layout_marginLeft="75dp"
+        android:layout_marginLeft="53dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
+        android:textSize="11sp"
+        android:button="@drawable/checkbox"
         android:textColor="@android:color/white"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
 
         android:text="@string/string_show_password"/>
 
     <Button
         android:layout_marginTop="5dp"
-        android:layout_marginLeft="75dp"
-        android:layout_marginRight="75dp"
+        android:layout_marginLeft="53dp"
+        android:layout_marginRight="53dp"
         android:layout_marginBottom="10dp"
         android:layout_width="fill_parent"
-        android:layout_height="70dp"
+        android:layout_height="41dp"
         android:background="@drawable/bg_login_button"
         android:id="@+id/btSignIn"
         android:textColor="@android:color/white"
         android:text="@string/string_sign_in"
+        android:textSize="13dp"
         android:textStyle="bold" />
 
 </LinearLayout>
