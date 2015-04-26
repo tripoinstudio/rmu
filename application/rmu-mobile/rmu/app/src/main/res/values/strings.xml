@@ -91,5 +91,24 @@
     <string name="search_order_list">Search order list</string>
     <string name="add">add</string>
 
+    <!--bluetooth-->
+    <string name="text_bluetooth_off">Bluetooth is Off</string>
+    <string name="text_bluetooth_on">Bluetooth is On</string>
+
+    <string name="text_enable">Enable</string>
+    <string name="text_disable">Disable</string>
+
+    <string name="text_view_paired">Paired</string>
+    <string name="text_scan_devices">Scan</string>
+    <string name="text_stop_scan">Stop</string>
+
+    <string name="text_list_paired_devices">Paired Devices</string>
+    <string name="text_list_devices">List of Devices</string>
+
+    <string name="text_pair">Pair</string>
+
+    <string name="text_open_devices">Open</string>
+    <string name="text_close_devices">Close</string>
+    <string name="text_send_devices">Print</string>
 
 </resources>
