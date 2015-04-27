@@ -8,7 +8,7 @@ package com.tripoin.rmu.rest.enumeration;
  */
 public enum RestConstant {
 
-    WS_CONTEXT("tripoin-core-web-service/wscontext/"),
+    WS_CONTEXT("tripoin/wscontext/"),
     //TSK items
     HTTP("http"),
     HTTP_GET("GET"),
