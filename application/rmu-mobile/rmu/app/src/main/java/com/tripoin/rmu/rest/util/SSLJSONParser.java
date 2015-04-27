@@ -3,6 +3,7 @@ package com.tripoin.rmu.rest.util;
 import android.util.Log;
 
 import com.tripoin.rmu.rest.api.IJSONParser;
+import com.tripoin.rmu.rest.enumeration.RestConstant;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -140,14 +141,14 @@ public class SSLJSONParser implements IJSONParser{
         //Making HttpRequest
         try{
             //Check for request method
-            if ( method == "POST" ){
+            if ( method == RestConstant.HTTP_POST.toString()){
                 DefaultHttpClient defaultHttpClient = new DefaultHttpClient();
                 HttpPost httpPost = new HttpPost(url);
                 httpPost.setEntity(new UrlEncodedFormEntity(params));
                 HttpResponse httpResponse = defaultHttpClient.execute(httpPost);
                 HttpEntity httpEntity = httpResponse.getEntity();
                 inputStream = httpEntity.getContent();
-            }else if ( method == "GET" ){
+            }else if ( method == RestConstant.HTTP_GET.toString() ){
                 DefaultHttpClient defaultHttpClient = new DefaultHttpClient();
                 String paramString = URLEncodedUtils.format(params, "utf-8");
                 url+="?" + paramString;

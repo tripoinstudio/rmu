@@ -85,7 +85,6 @@ public class JSONParser implements IJSONParser{
         }catch (JSONException e){
             Log.e( "JSON Parser", "Error Parsing Data " + e.toString() );
         }
-        //return Json String
         return jsonObject;
     }
 
@@ -97,7 +96,7 @@ public class JSONParser implements IJSONParser{
             HttpGet httpGet = new HttpGet(url);
             if( !chipperText.isEmpty() ){
                 httpGet.addHeader(RestConstant.HEADER_ACCEPT.toString(), RestConstant.HEADER_APP_JSON.toString());
-                httpGet.addHeader(RestConstant.HEADER_AUTHORIZATION.toString(), RestConstant.HEADER_BASIC.toString().concat(chipperText));
+                httpGet.addHeader(RestConstant.HEADER_AUTHORIZATION.toString(), /*"Basic U3ByaW5nOnNwcmluZw=="*/RestConstant.HEADER_BASIC.toString().concat(chipperText));
             }
             HttpResponse httpResponse = defaultHttpClient.execute(httpGet);
             HttpEntity httpEntity = httpResponse.getEntity();
