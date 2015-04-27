@@ -34,8 +34,8 @@
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
-				<value>classpath*:/META-INF/properties/resources_mysql.properties</value>
-				<value>classpath*:/META-INF/properties/resources-default.properties</value>
+				<value>/WEB-INF/properties-files/resources_mysql.properties</value>
+				<value>/WEB-INF/properties-files/resources-default.properties</value>
 			</list>
 		</property>
 	</bean>

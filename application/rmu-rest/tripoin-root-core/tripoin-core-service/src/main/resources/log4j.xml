@@ -10,7 +10,11 @@
     </appender>
 
     <logger name="org.springframework">
-        <level value="ALL"/>
+        <level value="DEBUG"/>
+    </logger>
+    
+    <logger name="org.springframework">
+        <level value="ERROR"/>
     </logger>
 
     <logger name="com.tripoin.core">
