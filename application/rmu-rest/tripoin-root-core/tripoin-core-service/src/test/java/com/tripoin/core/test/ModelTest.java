@@ -1,5 +1,6 @@
 package com.tripoin.core.test;
 
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
@@ -13,9 +14,16 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.tripoin.core.pojo.Carriage;
+import com.tripoin.core.pojo.OrderDetail;
+import com.tripoin.core.pojo.OrderHeader;
 import com.tripoin.core.pojo.Role;
+import com.tripoin.core.pojo.Seat;
+import com.tripoin.core.pojo.Stan;
+import com.tripoin.core.pojo.Train;
 import com.tripoin.core.pojo.User;
 import com.tripoin.core.service.IGenericManagerJpa;
+import com.tripoin.core.service.util.IStanGenerator;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -28,6 +36,9 @@ public class ModelTest implements ApplicationContextAware  {
 	
 	@Autowired
 	private IGenericManagerJpa iGenericManagerJpa;
+	
+	@Autowired
+	private IStanGenerator stanManager;
 	
 	private ApplicationContext applicationContext;
 	
@@ -46,11 +57,12 @@ public class ModelTest implements ApplicationContextAware  {
 	
 	@Test
 	public void runTest() throws Exception {
-		List<User> datas = iGenericManagerJpa.loadObjects(User.class);
-		System.out.println("debug :"+datas.toString());
-		for(User data : datas){
-			LOGGER.debug("data :"+data.toString());
-		}
+		User user = iGenericManagerJpa.getObjectsUsingParameter(User.class, new String[]{"password"}, new Object[]{"3"}, null, null).get(0);
+		System.out.println(user);
+//		List<User> datas = iGenericManagerJpa.loadObjects(User.class);
+//		for(User data : datas){
+//			LOGGER.debug("data :"+data.toString());
+//		}
 	}
 
 }
