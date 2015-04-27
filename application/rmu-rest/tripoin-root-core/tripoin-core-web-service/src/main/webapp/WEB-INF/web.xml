@@ -4,13 +4,13 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_5.xsd"
          version="2.5">
          
-        <display-name>Spring Integration Rest HTTP Path Usage Demo</display-name>
+        <display-name>Tripoin Spring Integration Rest HTTP</display-name>
          
         <context-param>
 	        <param-name>contextConfigLocation</param-name>
 	        <param-value>
 	             <!-- Spring application context declaration -->
-	              /WEB-INF/config/web-application-config.xml        
+	             /WEB-INF/config/web-application-config.xml        
 	        </param-value>
     	</context-param>
     	
@@ -29,7 +29,7 @@
 		-->
 		<context-param>
 			<param-name>log4jConfigLocation</param-name>
-			<param-value>/WEB-INF/classes/log4j.properties</param-value>
+			<param-value>/WEB-INF/properties-files/log4j.properties</param-value>
 		</context-param>
 		
     	<!--
@@ -93,7 +93,7 @@
 		</filter-mapping>
 		
 		<servlet>
-			<servlet-name>Spring Integration Rest HTTP Path Usage</servlet-name>
+			<servlet-name>Tripoin Spring Integration</servlet-name>
 		    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		    <init-param>
 		      <param-name>contextConfigLocation</param-name>
@@ -102,7 +102,7 @@
 		    <load-on-startup>2</load-on-startup>
 		</servlet>
 		<servlet-mapping>
-		    <servlet-name>Spring Integration Rest HTTP Path Usage</servlet-name>
+		    <servlet-name>Tripoin Spring Integration</servlet-name>
 		    <url-pattern>/*</url-pattern>
 		</servlet-mapping>
 		 
