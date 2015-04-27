@@ -15,7 +15,7 @@
 	<int:channel id="connectionRequest" />
 	<int:channel id="connectionResponse" />
 			
-	<int-http:inbound-gateway id="inboundCarriageRequestGateway"		
+	<int-http:inbound-gateway id="inboundConnectionRequestGateway"		
 		supported-methods="GET, POST" 
 		request-channel="connectionRequest"
 		reply-channel="connectionResponse"		
