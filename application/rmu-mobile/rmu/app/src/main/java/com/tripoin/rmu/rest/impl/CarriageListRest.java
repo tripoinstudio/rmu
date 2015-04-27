@@ -2,7 +2,6 @@ package com.tripoin.rmu.rest.impl;
 
 import com.tripoin.rmu.model.DTO.carriage.CarriageDTO;
 import com.tripoin.rmu.rest.api.IBaseRestFinished;
-import com.tripoin.rmu.rest.base.ABaseDialogRest;
 import com.tripoin.rmu.rest.base.ARestGETAsyncTask;
 import com.tripoin.rmu.rest.enumeration.RestConstant;
 
