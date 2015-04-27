@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.tripoin.rmu.view.fragment.api.INavigationDrawerFragment;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +19,7 @@ import java.util.List;
  * Created by Achmad Fauzi on 4/25/2015 : 11:20 PM.
  * mailto : achmad.fauzi@sigma.co.id
  */
-public abstract class ABaseNavigationDrawerFragment extends Fragment{
+public abstract class ABaseNavigationDrawerFragment extends Fragment implements INavigationDrawerFragment{
 
     protected Typeface typeFaceContent;
     protected List<TextView> textViews = new ArrayList<TextView>();

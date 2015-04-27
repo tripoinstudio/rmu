@@ -4,7 +4,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.view.InflateException;
 import android.view.LayoutInflater;
@@ -17,7 +16,8 @@ import android.widget.Toast;
 
 import com.tripoin.rmu.view.activity.ActivityMain;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
-import com.tripoin.rmu.view.fragment.api.IBaseFragment;
+import com.tripoin.rmu.view.fragment.api.IRoboguiceFragment;
+import com.tripoin.rmu.view.fragment.api.base.IBaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +33,7 @@ import roboguice.RoboGuice;
  * This class is used as common functions of a fragment ( IBaseFragment )
  * Extend to RoboFragment for dependency injection
  */
-public abstract class ABaseFragment extends Fragment implements IBaseFragment {
+public abstract class ABaseFragment extends Fragment implements IRoboguiceFragment {
 
     protected Typeface typeFaceTitle;
     protected Typeface typeFaceContent;

@@ -16,7 +16,7 @@ public enum PropertyConstant {
     PRODUCTION("production"),
 
     //dev
-    SERVER_HOST_DEFAULT_VALUE("192.168.1.100"),
+    SERVER_HOST_DEFAULT_VALUE("10.10.130.20"),
     SERVER_PORT_DEFAULT_VALUE("8080"),
 
     //prod
@@ -24,6 +24,7 @@ public enum PropertyConstant {
     SERVER_PORT_DEFAULT_VALUE("443"),*/
 
 
+    CHIPPER_AUTH("CHIPPER_AUTH"),
     SERVER_PORT_KEY("SERVER_PORT") ,
     USER_NAME("user_name"),
     MNUMBER("mnumber"),
@@ -34,7 +35,6 @@ public enum PropertyConstant {
     LOGIN_FILE_NAME("rmu.login"),
     UNKNOWN("Unknown"),
     DEFAULT_WS_PATH("/mforce-rest/ws/service/"),
-    INTENT_MNUMBER_DEFAULT_KEY("mnumber"),
     START_WORKING_HOUR_KEY("START_WORKING_HOUR"),
     START_WORKING_HOUR_DEFAULT_VALUE("7"),
     STOP_WORKING_HOUR_KEY("STOP_WORKING_HOUR"),
@@ -52,6 +52,7 @@ public enum PropertyConstant {
     VALID_AGE( "17" ),
     VIDEO_VIEW_KEY("VIDEO_VIEW_KEY"),
     VIDEO_VIEW_DEFAULT_VALUE("http://techslides.com/demos/sample-videos/small.mp4");
+
 
     //https://dl.dropboxusercontent.com/s/5kis7t5rtue0jzf/telkomsel480p.mp4,https://dl.dropboxusercontent.com/s/u4phquygus9zqh5/telkomsel720p.mp4
     //http://techslides.com/demos/sample-videos/small.mp4

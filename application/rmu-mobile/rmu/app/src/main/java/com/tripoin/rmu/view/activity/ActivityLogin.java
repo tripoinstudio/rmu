@@ -1,8 +1,10 @@
 package com.tripoin.rmu.view.activity;
 
 
+import android.content.Context;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -11,7 +13,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.tripoin.rmu.R;
-import com.tripoin.rmu.security.api.ASecureActivity;
+import com.tripoin.rmu.model.DTO.user.UserDTO;
+import com.tripoin.rmu.rest.api.ILoginPost;
+import com.tripoin.rmu.rest.impl.LoginRest;
+import com.tripoin.rmu.security.base.ASecureActivity;
+import com.tripoin.rmu.util.enumeration.PropertyConstant;
+import com.tripoin.rmu.view.enumeration.ViewConstant;
 
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
@@ -22,17 +29,18 @@ import roboguice.inject.InjectView;
  */
 
 @ContentView(R.layout.activity_login)
-public class ActivityLogin extends ASecureActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+public class ActivityLogin extends ASecureActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, ILoginPost {
 
     @InjectView(R.id.txt_username) private EditText txtUserName;
     @InjectView(R.id.txt_password) private EditText txtPassword;
     @InjectView(R.id.btSignIn) private Button btSignIn;
     @InjectView(R.id.chkShowPassword) private CheckBox chkShowPassword;
+    private String chipperAuth;
+    private String userName;
 
     @Override
     protected int getOptionMenuLayoutId() {
-        return
-                R.menu.empty_menu;
+        return R.menu.empty_menu;
     }
 
     @Override
@@ -43,8 +51,12 @@ public class ActivityLogin extends ASecureActivity implements View.OnClickListen
 
     @Override
     public void initWidget() {
+    }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        detectLoginStatus();
     }
 
     @Override
@@ -56,23 +68,26 @@ public class ActivityLogin extends ASecureActivity implements View.OnClickListen
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.btSignIn ){
-            String userName = txtUserName.getText().toString();
-            String password = txtPassword.getText().toString();
             if(!generalValidation.isEmptyEditText(txtUserName)){
+                userName = txtUserName.getText().toString();
                 if(!generalValidation.isEmptyEditText(txtPassword)){
-                    /*String data = generalConverter.encodeToBase64(userName.concat(":").concat(password));
-                    Log.d("DATA", data);
-                    new LoginRest(userName, password, this).execute(data);*/
-                    gotoNextActivity(ActivityMain.class, "user_name", userName);
+                    chipperAuth = generalConverter.encodeToBase64(txtUserName.getText().toString().concat(ViewConstant.COLON.toString()).concat(txtPassword.getText().toString()));
+                    Log.d("chipperAuth", chipperAuth);
+                    if(networkConnectivity.checkConnectivity()){
+                        LoginRest loginRest = new LoginRest(this) {
+                            @Override
+                            protected Context getContext() {
+                                return ActivityLogin.this;
+                            }
+                        };
+                        loginRest.execute(chipperAuth);
+                    }
                 }else{
                     Toast.makeText(this, "Password can not be empty", Toast.LENGTH_SHORT).show();
                 }
             }else{
                 Toast.makeText(this, "User name can not be empty", Toast.LENGTH_SHORT).show();
             }
-            /*if( userName.equals("admin") && password.equals("admin") ){
-
-            }*/
         }
     }
 
@@ -85,11 +100,32 @@ public class ActivityLogin extends ASecureActivity implements View.OnClickListen
         }
     }
 
-
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         exitApplication( this );
+    }
+
+    @Override
+    public void onPostDelegate(Object objectResult) {
+        try{
+            if(objectResult != null){
+                UserDTO userDTO = (UserDTO) objectResult;
+                if(userDTO.getErr_code().equals(ViewConstant.ZERO.toString())){
+
+                    securityUtil.saveSingleProperty(PropertyConstant.USER_NAME.toString(), userName);
+                    securityUtil.saveSingleProperty(PropertyConstant.LOGIN_STATUS_KEY.toString(), PropertyConstant.LOGIN_STATUS_VALUE.toString());
+                    securityUtil.saveSingleProperty(PropertyConstant.CHIPPER_AUTH.toString(), chipperAuth);
+
+                    gotoNextActivity(ActivityMain.class, PropertyConstant.USER_NAME.toString(), userName);
+                }else {
+                    Toast.makeText(this, "An error occured ".concat(userDTO.getErr_msg()),Toast.LENGTH_SHORT).show();
+                }
+            }else{
+                Log.d(stringAnErrorOccured, "Object result Login is not found");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
