@@ -1,5 +1,6 @@
 package com.tripoin.rmu.view.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -32,12 +33,16 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
 
     List<String> mListNameItem;
 
+
     @Override
     public void onUserInformation() {
         this.mUserName.setText("Bangkit Pratolo");
         this.mUserEmail.setText("bangkit@gmail.com");
-        this.mUserPhoto.setImageResource(R.drawable.ic_launcher);
-        this.mUserBackground.setImageResource(R.drawable.ic_user_background);
+        this.mUserName.setTextColor(getResources().getColor(R.color.black_light));
+        this.mUserEmail.setTextColor(getResources().getColor(R.color.black_light));
+        this.mUserPhoto.setImageResource(R.drawable.bangkit);
+        this.mUserBackground.setImageResource(R.drawable.wavy_green_background4);
+
     }
 
     @Override
@@ -67,15 +72,18 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
         mListIconItem.add(6, R.drawable.ic_satellite_black_24dp);
         mListIconItem.add(7, R.drawable.ic_bluetooth_audio_black_24dp);
 
+
         List<Integer> mListHeaderItem = new ArrayList<>();
         mListHeaderItem.add(5);
+
+        setDefaultStartPositionNavigation(2);
 
         SparseIntArray mSparseCounterItem = new SparseIntArray();
         mSparseCounterItem.put(1, 20);
         mSparseCounterItem.put(2, 6);
 
         //If not please use the FooterDrawer use the setFooterVisible(boolean visible) method with value false
-        this.setFooterInformationDrawer(R.string.settings, R.drawable.ic_settings_black_24dp);
+        this.setFooterInformationDrawer(R.string.string_log_out, R.drawable.ic_settings_black_24dp);
 
         this.setNavigationAdapter(mListNameItem, mListIconItem, mListHeaderItem, mSparseCounterItem);
     }
@@ -109,7 +117,7 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
                 mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentUpdateStaticData).commit();
                 break;
             case 4 :
-                fragmentAbout = new FragmentAbout().newInstance(listName);
+                fragmentAbout = new FragmentAbout().newInstance();
                 mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentAbout).commit();
                 break;
             case 6 :
@@ -140,11 +148,19 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
 
     @Override
     public void onClickFooterItemNavigation(View view) {
-        startActivity(new Intent(this, SettingsActivity.class));
+        //startActivity(new Intent(this, SettingsActivity.class));
+        exitApplication(this);
     }
 
     @Override
     public void onClickUserPhotoNavigation(View view) {
         Toast.makeText(this, "open user profile", Toast.LENGTH_SHORT).show();
+    }
+
+    public void exitApplication( Context context ) {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(intent);
     }
 }
