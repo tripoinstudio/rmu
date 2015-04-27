@@ -66,7 +66,7 @@ public abstract class ASecureActivity extends ACustomActivity implements ISyncSe
 
     protected void detectLoginStatus() {
         if( checkLoginStatus() ){
-            gotoNextActivity(ActivityMain.class, PropertyConstant.INTENT_MNUMBER_DEFAULT_KEY.toString(), securityUtil.getValuePropertyMap(PropertyConstant.MNUMBER.toString()));
+//            gotoNextActivity(ActivityMain.class, PropertyConstant.INTENT_MNUMBER_DEFAULT_KEY.toString(), securityUtil.getValuePropertyMap(PropertyConstant.MNUMBER.toString()));
         }
     }
 
@@ -176,7 +176,7 @@ public abstract class ASecureActivity extends ACustomActivity implements ISyncSe
             if( loginRestDTO.getResult().equals( RestConstant.OK.toString() )){
                 securityUtil.saveSingleProperty(PropertyConstant.LOGIN_STATUS_KEY.toString(), PropertyConstant.LOGIN_STATUS_VALUE.toString());
                 securityUtil.saveSingleProperty( PropertyConstant.PASSWORD_EXPIRED_DATE.toString(), loginRestDTO.getPasswordExpiredDate() );
-                goToMainView(PropertyConstant.INTENT_MNUMBER_DEFAULT_KEY.toString(), mnumber);
+//                goToMainView(PropertyConstant.INTENT_MNUMBER_DEFAULT_KEY.toString(), mnumber);
             }else{
                 Toast.makeText( this, loginRestDTO.getErr_msg(), Toast.LENGTH_SHORT ).show();
             }
