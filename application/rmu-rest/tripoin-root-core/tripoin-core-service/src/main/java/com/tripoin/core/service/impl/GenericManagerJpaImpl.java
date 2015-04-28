@@ -73,6 +73,12 @@ public class GenericManagerJpaImpl implements IGenericManagerJpa {
 	}
 
 	@Override
+	public void updateObject(Object objectType) throws Exception {
+		LOGGER.debug("GenericManagerRPCJpa - Class name : "+objectType.toString());
+		genericDao.updateObject(objectType);		
+	}
+
+	@Override
 	public <T> List<T> getObjectsUsingParameter(Class<T> objectType, String[] fields, Object[] values, String orderBy, String order) {
 		// TODO Auto-generated method stub
 		orderMap = new HashMap<String, Object>();
@@ -136,7 +142,5 @@ public class GenericManagerJpaImpl implements IGenericManagerJpa {
 		// TODO Auto-generated method stub
 		return genericDao.getObjectsUsingLike(objectType, field, value);
 	}
-
-	
 	
 }
