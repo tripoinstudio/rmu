@@ -29,6 +29,14 @@ public class OrderHeaderManager {
 	@Autowired
 	private IGenericManagerJpa iGenericManagerJpa;
 	
+	private String order = "orderDatetime";
+	
+	private SimpleDateFormat formatDateJson = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.S");
+	
+	private int row = 10;
+	
+	private static final int maxRow = 10;
+	
 	private String currentUserName;
 	
 	@Secured("ROLE_REST_HTTP_USER")
@@ -41,14 +49,21 @@ public class OrderHeaderManager {
 		    currentUserName = authentication.getName();
 		}
 		
+		if(responseHeaderMap != null){
+			if(responseHeaderMap.containsKey("order"))
+				order = responseHeaderMap.get("order").toString();
+			if(responseHeaderMap.containsKey("page"))
+				row = (Integer)responseHeaderMap.get("page");
+		}
+		
 		try{
-			List<OrderHeader> orderHeaderList = iGenericManagerJpa.getObjectsUsingParameter(OrderHeader.class, new String[]{"user.username"}, new Object[]{currentUserName}, "orderDatetime", "ASC");
+			List<OrderHeader> orderHeaderList = iGenericManagerJpa.getObjectsUsingParameterManualPage(OrderHeader.class, new String[]{"user.username"}, new Object[]{currentUserName}, order, "ASC", (row-maxRow), row );
 			boolean isFound;
 			if (orderHeaderList!=null){
 				List<OrderHeaderDTO> orderHeaderDTOList = new ArrayList<OrderHeaderDTO>();
 				for (OrderHeader c : orderHeaderList) {
 					LOGGER.debug("data :"+c.toString());
-					OrderHeaderDTO data = new OrderHeaderDTO(c.getOrderNo(),  new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.S").format(c.getOrderDatetime()), c.getTotalPaid(), c.getStatus(), c.getSeat().getNo(), c.getCarriage().getNo(), c.getTrain().getNo());
+					OrderHeaderDTO data = new OrderHeaderDTO(c.getOrderNo(),  formatDateJson.format(c.getOrderDatetime()), c.getTotalPaid(), c.getStatus(), c.getSeat().getNo(), c.getCarriage().getNo(), c.getTrain().getNo());
 					orderHeaderDTOList.add(data);
 				} 
 				orderHeaders.setTrx_order_header(orderHeaderDTOList);
