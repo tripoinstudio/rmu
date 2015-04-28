@@ -1,7 +1,6 @@
 package com.tripoin.core.dto;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -16,7 +15,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "OrderHeader")
 public class OrderHeaderDTO {
 	private String order_header_no;
-	private Date order_header_order_datetime;
+	private String order_header_order_datetime;
 	private BigDecimal order_header_total_paid;
 	private Integer order_header_status;
 	private String seat_no;
@@ -26,7 +25,7 @@ public class OrderHeaderDTO {
 	public OrderHeaderDTO() {}
 
 	public OrderHeaderDTO(String order_header_no,
-			Date order_header_order_datetime,
+			String order_header_order_datetime,
 			BigDecimal order_header_total_paid, Integer order_header_status,
 			String seat_no, String carriage_no,
 			String train_no) {
@@ -48,11 +47,11 @@ public class OrderHeaderDTO {
 		this.order_header_no = order_header_no;
 	}
 
-	public Date getOrder_header_order_datetime() {
+	public String getOrder_header_order_datetime() {
 		return order_header_order_datetime;
 	}
 
-	public void setOrder_header_order_datetime(Date order_header_order_datetime) {
+	public void setOrder_header_order_datetime(String order_header_order_datetime) {
 		this.order_header_order_datetime = order_header_order_datetime;
 	}
 

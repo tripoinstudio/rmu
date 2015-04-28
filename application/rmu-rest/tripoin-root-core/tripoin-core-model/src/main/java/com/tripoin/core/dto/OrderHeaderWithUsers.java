@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlType;
  * @author <a href="mailto:ridla.fadilah@gmail.com">Ridla Fadilah</a>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { "security_user", "trx_order_header", "response_code", "response_msg", "result" })
+@XmlType(name = "", propOrder = { "security_user", "trx_order_header", "master_version", "response_code", "response_msg", "result" })
 @XmlRootElement(name = "OrderHeaderWithUser")
 public class OrderHeaderWithUsers {		
 	@XmlElement(name = "User", required = true)
@@ -20,6 +20,9 @@ public class OrderHeaderWithUsers {
 	
 	@XmlElement(name = "OrderHeader", required = true)
 	private List<OrderHeaderDTO> trx_order_header;
+	
+	@XmlElement(name = "Version", required = true)
+	private List<VersionDTO> master_version;
 	
 	@XmlElement(name = "response_code", required = true)
 	private String response_code;
@@ -44,6 +47,14 @@ public class OrderHeaderWithUsers {
 
 	public void setTrx_order_header(List<OrderHeaderDTO> trx_order_header) {
 		this.trx_order_header = trx_order_header;
+	}
+
+	public List<VersionDTO> getMaster_version() {
+		return master_version;
+	}
+
+	public void setMaster_version(List<VersionDTO> master_version) {
+		this.master_version = master_version;
 	}
 
 	public String getResponse_code() {
@@ -73,7 +84,8 @@ public class OrderHeaderWithUsers {
 	@Override
 	public String toString() {
 		return "OrderHeaderWithUsers [security_user=" + security_user
-				+ ", trx_order_header=" + trx_order_header + ", response_code="
+				+ ", trx_order_header=" + trx_order_header
+				+ ", master_version=" + master_version + ", response_code="
 				+ response_code + ", response_msg=" + response_msg
 				+ ", result=" + result + "]";
 	}

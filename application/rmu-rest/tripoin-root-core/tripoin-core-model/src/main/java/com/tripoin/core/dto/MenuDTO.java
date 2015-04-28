@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlType;
  * @author <a href="mailto:ridla.fadilah@gmail.com">Ridla Fadilah</a>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { "menu_id", "menu_name", "menu_type", "menu_price", "menu_image_url" })
+@XmlType(name = "", propOrder = { "menu_id", "menu_name", "menu_type", "menu_price", "menu_image_url", "menu_rating" })
 @XmlRootElement(name = "Menu")
 public class MenuDTO {
 	private Integer menu_id;
@@ -19,17 +19,19 @@ public class MenuDTO {
 	private Integer menu_type;
 	private BigDecimal menu_price;
 	private String menu_image_url;
+	private BigDecimal menu_rating;
 
 	public MenuDTO() {}
-
+	
 	public MenuDTO(Integer menu_id, String menu_name, Integer menu_type,
-			BigDecimal menu_price, String menu_image_url) {
+			BigDecimal menu_price, String menu_image_url, BigDecimal menu_rating) {
 		super();
 		this.menu_id = menu_id;
 		this.menu_name = menu_name;
 		this.menu_type = menu_type;
 		this.menu_price = menu_price;
 		this.menu_image_url = menu_image_url;
+		this.menu_rating = menu_rating;
 	}
 
 	public Integer getMenu_id() {
@@ -72,10 +74,20 @@ public class MenuDTO {
 		this.menu_image_url = menu_image_url;
 	}
 
+	public BigDecimal getMenu_rating() {
+		return menu_rating;
+	}
+
+	public void setMenu_rating(BigDecimal menu_rating) {
+		this.menu_rating = menu_rating;
+	}
+
 	@Override
 	public String toString() {
 		return "MenuDTO [menu_id=" + menu_id + ", menu_name=" + menu_name
 				+ ", menu_type=" + menu_type + ", menu_price=" + menu_price
-				+ ", menu_image_url=" + menu_image_url + "]";
+				+ ", menu_image_url=" + menu_image_url + ", menu_rating="
+				+ menu_rating + "]";
 	}
+	
 }
