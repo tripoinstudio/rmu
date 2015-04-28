@@ -25,6 +25,7 @@ public class Menu {
 	private Integer type;
 	private BigDecimal price;
 	private String imageUrl;
+	private BigDecimal rating;
 	private Integer status;
 	private String remarks;
 	private List<OrderDetail> orderDetails;
@@ -86,6 +87,15 @@ public class Menu {
 		this.imageUrl = imageUrl;
 	}
 
+	@Column(name="menu_rating")
+	public BigDecimal getRating() {
+		return rating;
+	}
+
+	public void setRating(BigDecimal rating) {
+		this.rating = rating;
+	}
+
 	@Column(name="menu_status")
 	public Integer getStatus() {
 		return status;
@@ -117,7 +127,8 @@ public class Menu {
 	public String toString() {
 		return "Menu [id=" + id + ", code=" + code + ", name=" + name
 				+ ", type=" + type + ", price=" + price + ", imageUrl="
-				+ imageUrl + ", status=" + status + ", remarks=" + remarks
-				+ "]";
+				+ imageUrl + ", rating=" + rating + ", status=" + status
+				+ ", remarks=" + remarks + "]";
 	}
+	
 }
