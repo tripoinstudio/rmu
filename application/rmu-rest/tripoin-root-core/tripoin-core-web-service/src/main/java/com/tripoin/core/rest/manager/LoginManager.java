@@ -48,9 +48,12 @@ public class LoginManager {
 		
 		try{
 			List<User> userList = iGenericManagerJpa.getObjectsUsingParameter(User.class, new String[]{"username"}, new Object[]{currentUserName}, null, null);
-			UserDTO user = new UserDTO(userList.get(0).getUsername(), userList.get(0).getRole().getCode());
-			orderHeaderWithUsers.setSecurity_user(user);
+			UserDTO userDTO = new UserDTO(userList.get(0).getUsername(), userList.get(0).getRole().getCode());
+			orderHeaderWithUsers.setSecurity_user(userDTO);
 			if(userList.get(0).getStatus() == 0){
+				User user = userList.get(0);
+				user.setStatus(1);
+				iGenericManagerJpa.updateObject(user);
 				List<OrderHeader> orderHeaderList = iGenericManagerJpa.getObjectsUsingParameterManualPage(OrderHeader.class, new String[]{"user.username"}, new Object[]{currentUserName}, "orderDatetime", "ASC", 0 , 20);
 				if (orderHeaderList!=null){
 					List<OrderHeaderDTO> orderHeaderDTOList = new ArrayList<OrderHeaderDTO>();
