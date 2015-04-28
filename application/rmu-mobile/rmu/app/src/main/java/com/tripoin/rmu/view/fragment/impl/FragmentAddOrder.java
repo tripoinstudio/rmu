@@ -50,12 +50,12 @@ public class FragmentAddOrder extends Fragment {
         TextView txus=(TextView)rootView.findViewById(R.id.tx_username);
         Typeface faces=Typeface.createFromAsset(txus.getResources().getAssets(),"font/Roboto-Light.ttf");
         txus.setTypeface(faces);
-        txus.setTextSize(18);
+        txus.setTextSize(15);
 //        txus.setTypeface(null, Typeface.BOLD);
         TextView txus2=(TextView)rootView.findViewById(R.id.tx_dates);
         Typeface faces2=Typeface.createFromAsset(txus2.getResources().getAssets(),"font/Roboto-Light.ttf");
         txus2.setTypeface(faces2);
-        txus2.setTextSize(18);
+        txus2.setTextSize(15);
 //        txus2.setTypeface(null,Typeface.BOLD);
 
         Button bt_bayar =(Button)rootView.findViewById(R.id.bt_bayar);
@@ -118,7 +118,7 @@ public class FragmentAddOrder extends Fragment {
                 holder = (ListContent) v.getTag();
             }
             holder.name.setTypeface(myFont);
-            holder.name.setTextSize(18);
+            holder.name.setTextSize(15);
             holder.name.setTextColor(getResources().getColor(R.color.black_light));
 
 //            holder.name.setTypeface(null,Typeface.BOLD);
@@ -171,7 +171,7 @@ public class FragmentAddOrder extends Fragment {
                 holder = (ListContentSeat) v.getTag();
             }
             holder.name.setTypeface(myFont);
-            holder.name.setTextSize(18);
+            holder.name.setTextSize(15);
             holder.name.setTextColor(getResources().getColor(R.color.black_light));
 //            holder.name.setTypeface(null,Typeface.BOLD);
 
