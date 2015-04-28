@@ -1,7 +1,5 @@
 package com.tripoin.core.dto;
 
-import java.util.List;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -16,7 +14,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "Users")
 public class Users {
 	@XmlElement(name = "User", required = true)
-	private List<UserDTO> security_user;
+	private UserDTO security_user;
 	
 	@XmlElement(name = "response_code", required = true)
 	private String response_code;
@@ -27,11 +25,11 @@ public class Users {
 	@XmlElement(name = "result", required = true)
 	private String result;
 
-	public List<UserDTO> getSecurity_user() {
+	public UserDTO getSecurity_user() {
 		return security_user;
 	}
 
-	public void setSecurity_user(List<UserDTO> security_user) {
+	public void setSecurity_user(UserDTO security_user) {
 		this.security_user = security_user;
 	}
 
