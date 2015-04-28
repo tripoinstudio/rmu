@@ -18,6 +18,7 @@
 	<import resource="applicationContext-http-int-carriage.xml" />
 	<import resource="applicationContext-http-int-train.xml" />
 	<import resource="applicationContext-http-int-login.xml" />
+	<import resource="applicationContext-http-int-logout.xml" />
 	<import resource="applicationContext-http-int-orderDetail.xml" />
 	<import resource="applicationContext-http-int-orderHeader.xml" />
 	<import resource="applicationContext-http-int-connection.xml" />
