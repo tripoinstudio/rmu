@@ -30,6 +30,8 @@ public class VersionManager {
 
 	@Autowired
 	private IGenericManagerJpa iGenericManagerJpa;
+	
+	private SimpleDateFormat formatDateJson = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.S");
 
 	private String currentUserName;
 	
@@ -50,7 +52,7 @@ public class VersionManager {
 			List<VersionDTO> versionDTOList = new ArrayList<VersionDTO>();
 			UserDTO userDTO = new UserDTO(userList.get(0).getUsername(), userList.get(0).getRole().getCode());
 			for(Version v : versionList){
-				VersionDTO versionDTO = new VersionDTO(v.getTable(),  new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.S").format(v.getTimestamp()));
+				VersionDTO versionDTO = new VersionDTO(v.getTable(), formatDateJson.format(v.getTimestamp()));
 				versionDTOList.add(versionDTO);
 			}
 			versions.setSecurity_user(userDTO);
