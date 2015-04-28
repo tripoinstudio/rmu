@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -45,17 +44,17 @@ public class OrderDetailManager {
 	
 	@Secured("ROLE_REST_HTTP_USER")
 	public Message<OrderDetails> getOrderDetails(Message<?> inMessage){
-		String jsonOrderDetail = "";
+		String orderHeaderNo = "";
 		try{
 
 			MessageHeaders headers = inMessage.getHeaders();
-			jsonOrderDetail = (String) headers.get("orderHeaderNo");
+			orderHeaderNo = (String) headers.get("orderHeaderNo");
 			
 		}catch(Exception e){
 			LOGGER.error("Error :".concat(e.getLocalizedMessage()), e);
 		}
-		System.out.println(jsonOrderDetail);
-		return getListOrderDetails(jsonOrderDetail);
+		System.out.println(orderHeaderNo);
+		return getListOrderDetails(orderHeaderNo);
 	}
 	
 	@Secured("ROLE_REST_HTTP_USER")

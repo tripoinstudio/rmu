@@ -23,7 +23,7 @@
 		reply-channel="getOrderDetailResponse"		
 		mapped-response-headers="Return-Status, Return-Status-Msg, HTTP_RESPONSE_HEADERS"		
 		view-name="/getOrderDetail" 
-		path="/wscontext/getOrderDetail/{orderNumber}/put"
+		path="/wscontext/getOrderDetail/{orderNumber}"
 		reply-timeout="50000">
 		
 		<int-http:header name="orderHeaderNo" expression="#pathVariables.orderNumber"/>
@@ -35,7 +35,7 @@
 		reply-channel="setOrderDetailResponse"		
 		mapped-response-headers="Return-Status, Return-Status-Msg, HTTP_RESPONSE_HEADERS"		
 		view-name="/setOrderDetail" 
-		path="/wscontext/setOrderDetail/{orderDetail}/put"
+		path="/wscontext/setOrderDetail/{orderDetail}"
 		reply-timeout="50000">
 		
 		<int-http:header name="jsonOrderDetail" expression="#pathVariables.orderDetail"/>
