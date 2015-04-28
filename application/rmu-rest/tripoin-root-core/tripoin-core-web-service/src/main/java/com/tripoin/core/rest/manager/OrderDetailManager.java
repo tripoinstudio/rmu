@@ -46,14 +46,11 @@ public class OrderDetailManager {
 	public Message<OrderDetails> getOrderDetails(Message<?> inMessage){
 		String orderHeaderNo = "";
 		try{
-
 			MessageHeaders headers = inMessage.getHeaders();
-			orderHeaderNo = (String) headers.get("orderHeaderNo");
-			
+			orderHeaderNo = (String) headers.get("orderHeaderNo");			
 		}catch(Exception e){
 			LOGGER.error("Error :".concat(e.getLocalizedMessage()), e);
 		}
-		System.out.println(orderHeaderNo);
 		return getListOrderDetails(orderHeaderNo);
 	}
 	
