@@ -29,14 +29,14 @@ public abstract class ABaseDaoJpa implements IGenericDaoJpa {
 
 	@Override
 	@Transactional
-	public void updateObject(Class<?> objectType, Serializable key) throws Exception {
+	public void updateObject(Object objectType) throws Exception {
 		getEntityManager().merge(objectType);
 		getEntityManager().flush();
 	}
 
 	@Override
 	@Transactional
-	public void deleteObject(Class<?> objectType) throws Exception {
+	public void deleteObject(Object objectType) throws Exception {
 		getEntityManager().remove(objectType);
 		getEntityManager().flush();
 	}	
