@@ -64,13 +64,16 @@ public class OrderHeaderManager {
 		Map<String, List<String>> payloadMap = (Map<String, List<String>>)inMessage.getPayload();
 		if(payloadMap != null){
 			String orderNo = "";
+			int status = 1;
 			if(payloadMap.containsKey("orderNo"))
 				orderNo = payloadMap.get("orderNo").get(0).toString();
+			if(payloadMap.containsKey("status"))
+				status = Integer.parseInt(payloadMap.get("status").get(0).toString());
 			
 			try {
 				List<OrderHeader> orderHeaderList = iGenericManagerJpa.getObjectsUsingParameter(OrderHeader.class, new String[]{"user.username", "orderNo"}, new Object[]{currentUserName, orderNo}, order, "ASC");
 				OrderHeader orderHeader = orderHeaderList.get(0);
-				orderHeader.setStatus(4);
+				orderHeader.setStatus(status);
 				iGenericManagerJpa.updateObject(orderHeader);
 			} catch (Exception e) {
 				LOGGER.error("Error Update Header : ".concat(e.getLocalizedMessage()), e);
