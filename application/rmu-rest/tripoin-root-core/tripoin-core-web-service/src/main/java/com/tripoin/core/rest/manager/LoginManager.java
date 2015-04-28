@@ -1,5 +1,6 @@
 package com.tripoin.core.rest.manager;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,8 +18,10 @@ import org.springframework.stereotype.Service;
 import com.tripoin.core.dto.OrderHeaderDTO;
 import com.tripoin.core.dto.OrderHeaderWithUsers;
 import com.tripoin.core.dto.UserDTO;
+import com.tripoin.core.dto.VersionDTO;
 import com.tripoin.core.pojo.OrderHeader;
 import com.tripoin.core.pojo.User;
+import com.tripoin.core.pojo.Version;
 import com.tripoin.core.service.IGenericManagerJpa;
 import com.tripoin.core.util.ELoggedIn;
 
@@ -51,17 +54,21 @@ public class LoginManager {
 			UserDTO userDTO = new UserDTO(userList.get(0).getUsername(), userList.get(0).getRole().getCode());
 			orderHeaderWithUsers.setSecurity_user(userDTO);
 			if(userList.get(0).getStatus() == 0){
-				User user = userList.get(0);
-				user.setStatus(1);
-				iGenericManagerJpa.updateObject(user);
 				List<OrderHeader> orderHeaderList = iGenericManagerJpa.getObjectsUsingParameterManualPage(OrderHeader.class, new String[]{"user.username"}, new Object[]{currentUserName}, "orderDatetime", "ASC", 0 , 20);
+				List<Version> versionList = iGenericManagerJpa.loadObjects(Version.class);
 				if (orderHeaderList!=null){
 					List<OrderHeaderDTO> orderHeaderDTOList = new ArrayList<OrderHeaderDTO>();
 					for (OrderHeader o : orderHeaderList) {		
-						OrderHeaderDTO data = new OrderHeaderDTO(o.getOrderNo(), o.getOrderDatetime(), o.getTotalPaid(), o.getStatus(), o.getSeat().getNo(), o.getCarriage().getNo(), o.getTrain().getNo());
+						OrderHeaderDTO data = new OrderHeaderDTO(o.getOrderNo(), new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.S").format(o.getOrderDatetime()), o.getTotalPaid(), o.getStatus(), o.getSeat().getNo(), o.getCarriage().getNo(), o.getTrain().getNo());
 						orderHeaderDTOList.add(data);					
-					} 
+					}
+					List<VersionDTO> versionDTOList = new ArrayList<VersionDTO>();
+					for(Version v : versionList){
+						VersionDTO versionDTO = new VersionDTO(v.getTable(),  new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.S").format(v.getTimestamp()));
+						versionDTOList.add(versionDTO);
+					}
 					orderHeaderWithUsers.setTrx_order_header(orderHeaderDTOList);
+					orderHeaderWithUsers.setMaster_version(versionDTOList);
 				}else{	
 					STATUSLOGIN = ELoggedIn.EMPTY.toString();
 				}	

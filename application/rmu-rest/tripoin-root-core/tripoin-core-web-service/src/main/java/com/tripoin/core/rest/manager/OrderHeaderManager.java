@@ -1,5 +1,6 @@
 package com.tripoin.core.rest.manager;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,7 +48,7 @@ public class OrderHeaderManager {
 				List<OrderHeaderDTO> orderHeaderDTOList = new ArrayList<OrderHeaderDTO>();
 				for (OrderHeader c : orderHeaderList) {
 					LOGGER.debug("data :"+c.toString());
-					OrderHeaderDTO data = new OrderHeaderDTO(c.getOrderNo(), c.getOrderDatetime(), c.getTotalPaid(), c.getStatus(), c.getSeat().getNo(), c.getCarriage().getNo(), c.getTrain().getNo());
+					OrderHeaderDTO data = new OrderHeaderDTO(c.getOrderNo(),  new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.S").format(c.getOrderDatetime()), c.getTotalPaid(), c.getStatus(), c.getSeat().getNo(), c.getCarriage().getNo(), c.getTrain().getNo());
 					orderHeaderDTOList.add(data);
 				} 
 				orderHeaders.setTrx_order_header(orderHeaderDTOList);
