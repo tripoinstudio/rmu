@@ -39,24 +39,62 @@ public class OrderHeaderManager {
 	
 	private String currentUserName;
 	
+	private Map<String, List<String>> payloads = new HashMap<String, List<String>>();
+	
 	@Secured("ROLE_REST_HTTP_USER")
 	public Message<OrderHeaders> getOrderHeaders(Message<?> inMessage){
-		OrderHeaders orderHeaders = new OrderHeaders();
-		Map<String, Object> responseHeaderMap = new HashMap<String, Object>();
-		
+
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
 		    currentUserName = authentication.getName();
 		}
 		
-		if(responseHeaderMap != null){
-			if(responseHeaderMap.containsKey("order"))
-				order = responseHeaderMap.get("order").toString();
-			if(responseHeaderMap.containsKey("page"))
-				row = (Integer)responseHeaderMap.get("page");
+		return getListOrderHeaders(inMessage, this.currentUserName);		
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Secured("ROLE_REST_HTTP_USER")
+	public Message<OrderHeaders> setOrderHeaders(Message<?> inMessage){
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+		    this.currentUserName = authentication.getName();
 		}
 		
+		Map<String, List<String>> payloadMap = (Map<String, List<String>>)inMessage.getPayload();
+		if(payloadMap != null){
+			String orderNo = "";
+			if(payloadMap.containsKey("orderNo"))
+				orderNo = payloadMap.get("orderNo").get(0).toString();
+			
+			try {
+				List<OrderHeader> orderHeaderList = iGenericManagerJpa.getObjectsUsingParameter(OrderHeader.class, new String[]{"user.username", "orderNo"}, new Object[]{currentUserName, orderNo}, order, "ASC");
+				OrderHeader orderHeader = orderHeaderList.get(0);
+				orderHeader.setStatus(4);
+				iGenericManagerJpa.updateObject(orderHeader);
+			} catch (Exception e) {
+				LOGGER.error("Error Update Header : ".concat(e.getLocalizedMessage()), e);
+			}
+		}
+		
+		return getListOrderHeaders(inMessage, this.currentUserName);	
+	}
+
+	@SuppressWarnings("unchecked")
+	public Message<OrderHeaders> getListOrderHeaders(Message<?> inMessage, String currentUserName){
+		OrderHeaders orderHeaders = new OrderHeaders();
+		Map<String, Object> responseHeaderMap = new HashMap<String, Object>();
+		payloads.clear();
+		payloads.putAll((Map<String, List<String>>)inMessage.getPayload());
+				
 		try{
+			if(payloads != null){
+				if(payloads.containsKey("order"))
+					order = payloads.get("order").get(0).toString();
+				if(payloads.containsKey("page"))
+					row = Integer.parseInt(payloads.get("page").get(0).toString());
+			}			
+			
 			List<OrderHeader> orderHeaderList = iGenericManagerJpa.getObjectsUsingParameterManualPage(OrderHeader.class, new String[]{"user.username"}, new Object[]{currentUserName}, order, "ASC", (row-maxRow), row );
 			boolean isFound;
 			if (orderHeaderList!=null){
@@ -81,7 +119,7 @@ public class OrderHeaderManager {
 			setReturnStatusAndMessage("1", "System Error"+e.getMessage(), "FAILURE", orderHeaders, responseHeaderMap);
 		}
 		Message<OrderHeaders> message = new GenericMessage<OrderHeaders>(orderHeaders, responseHeaderMap);
-		return message;	
+		return message;		
 	}
 	
 	private void setReturnStatusAndMessage(String responseCode, String responseMsg, String result, OrderHeaders orderHeaders, Map<String, Object> responseHeaderMap){
