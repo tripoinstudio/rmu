@@ -14,8 +14,10 @@
 	<!-- Inbound/Outbound Channels -->
 	<int:channel id="getOrderHeaderRequest" />
 	<int:channel id="getOrderHeaderResponse" />
+	<int:channel id="setOrderHeaderRequest" />
+	<int:channel id="setOrderHeaderResponse" />
 	
-	<int-http:inbound-gateway id="inboundOrderHeaderRequestGateway"		
+	<int-http:inbound-gateway id="inboundGetOrderHeaderRequestGateway"		
 		supported-methods="GET, POST" 
 		request-channel="getOrderHeaderRequest"
 		reply-channel="getOrderHeaderResponse"		
@@ -25,12 +27,31 @@
 		reply-timeout="50000">
 		
 	</int-http:inbound-gateway>
+	
+	<int-http:inbound-gateway id="inboundSetOrderHeaderRequestGateway"		
+		supported-methods="GET, POST" 
+		request-channel="setOrderHeaderRequest"
+		reply-channel="setOrderHeaderResponse"		
+		mapped-response-headers="Return-Status, Return-Status-Msg, HTTP_RESPONSE_HEADERS"		
+		view-name="/setOrderHeader" 
+		path="/wscontext/setOrderHeader"
+		reply-timeout="50000">
+		
+	</int-http:inbound-gateway>
 						
-	<int:service-activator id="orderHeaderServiceActivator" 
+	<int:service-activator id="getOrderHeaderServiceActivator" 
 					input-channel="getOrderHeaderRequest"
 					output-channel="getOrderHeaderResponse" 
 					ref="orderHeaderManager" 
 					method="getOrderHeaders" 
+					requires-reply="true"  
+					send-timeout="60000"/>		
+						
+	<int:service-activator id="setOrderHeaderServiceActivator" 
+					input-channel="setOrderHeaderRequest"
+					output-channel="setOrderHeaderResponse" 
+					ref="orderHeaderManager" 
+					method="setOrderHeaders" 
 					requires-reply="true"  
 					send-timeout="60000"/>			
 
