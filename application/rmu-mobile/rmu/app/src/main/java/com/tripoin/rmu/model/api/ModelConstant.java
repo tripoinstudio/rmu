@@ -183,4 +183,28 @@ public interface ModelConstant {
 
     public final String FAILED_STATUS_URL = "url";
 
+    /*Menu*/
+    public final String MENU_TABLE = "m_rmu_menu";
+
+    public final String MENU_ID = "menu_id";
+
+    public final String MENU_CODE = "menu_code";
+
+    public final String MENU_NAME = "menu_name";
+
+    public final String MENU_TYPE = "menu_type";
+
+    public final String MENU_PRICE = "menu_price";
+
+    public final String MENU_IMAGE_URL = "menu_image_url";
+
+    /*Version*/
+    public final String VERSION_TABLE = "m_rmu_version";
+
+    public final String VERSION_ID = "version_id";
+
+    public final String VERSION_NAMETABLE = "version_nametable";
+
+    public final String VERSION_TIMESTAMP = "version_timestamp";
+
 }
