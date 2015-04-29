@@ -1,18 +1,23 @@
 package com.tripoin.rmu.rest.impl;
 
+import android.content.Context;
+
 import com.tripoin.rmu.model.DTO.menu.MenuDTO;
 import com.tripoin.rmu.rest.api.IBaseRestFinished;
+import com.tripoin.rmu.rest.api.IMenuPost;
+import com.tripoin.rmu.rest.base.ARestDialogGETAsyncTask;
 import com.tripoin.rmu.rest.base.ARestGETAsyncTask;
 import com.tripoin.rmu.rest.enumeration.RestConstant;
 
 /**
  * Created by Ridla on 4/18/2015.
  */
-public class MenuListRest extends ARestGETAsyncTask{
+public abstract class MenuListRest extends ARestDialogGETAsyncTask{
+    private IMenuPost iMenuPost;
 
-
-    protected MenuListRest(IBaseRestFinished iBaseRestFinished) {
-        super(iBaseRestFinished);
+    public MenuListRest(IMenuPost iMenuPost) {
+        super(iMenuPost);
+        this.iMenuPost = iMenuPost;
     }
 
     @Override
@@ -23,5 +28,17 @@ public class MenuListRest extends ARestGETAsyncTask{
     @Override
     public Class<?> initClassResult() {
         return MenuDTO.class;
+    }
+
+
+    @Override
+    protected String getProgressDialogTitle() {
+        return "Retrieving menu";
+    }
+    
+    @Override
+    protected void onPostExecute(String s) {
+        super.onPostExecute(s);
+        iMenuPost.onPostDelegate(objectResult);
     }
 }
