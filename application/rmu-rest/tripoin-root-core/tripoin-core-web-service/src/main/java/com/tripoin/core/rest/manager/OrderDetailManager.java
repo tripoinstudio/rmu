@@ -28,6 +28,7 @@ import com.tripoin.core.pojo.Seat;
 import com.tripoin.core.pojo.Stan;
 import com.tripoin.core.pojo.Train;
 import com.tripoin.core.pojo.User;
+import com.tripoin.core.rest.util.IVersionHelper;
 import com.tripoin.core.service.IGenericManagerJpa;
 import com.tripoin.core.service.util.IStanGenerator;
 
@@ -41,6 +42,8 @@ public class OrderDetailManager {
 	@Autowired
 	private IStanGenerator stanGenerator;
 
+	@Autowired
+	private IVersionHelper iVersionHelper;
 	
 	@Secured("ROLE_REST_HTTP_USER")
 	public Message<OrderDetails> getOrderDetails(Message<?> inMessage){
@@ -99,9 +102,7 @@ public class OrderDetailManager {
 					orderHeader.setCarriage(carriage);
 					orderHeader.setTrain(train);
 					orderHeader.setOrderDatetime(new Date());
-					// totalPaid
 					orderHeader.setIsArchive(0);
-//					orderHeader.setTotalPaid(totalPaid);
 					orderHeader.setStatus(1);
 					orderHeader.setRemarks("ORDER");
 					
@@ -125,6 +126,7 @@ public class OrderDetailManager {
 			orderHeader.setTotalPaid(totalPaid);
 			orderHeader.setOrderDetails(orderDetailList);
 			iGenericManagerJpa.saveObject(orderHeader);
+			iVersionHelper.updateVerision();
 			message = getListOrderDetails(orderHeader.getOrderNo());
 		}catch(Exception e){
 			LOGGER.error("Error :".concat(e.getLocalizedMessage()), e);

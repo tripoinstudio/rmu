@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import com.tripoin.core.dto.OrderHeaderDTO;
 import com.tripoin.core.dto.OrderHeaders;
 import com.tripoin.core.pojo.OrderHeader;
+import com.tripoin.core.rest.util.IVersionHelper;
 import com.tripoin.core.service.IGenericManagerJpa;
 
 @Service("orderHeaderManager")
@@ -28,6 +29,9 @@ public class OrderHeaderManager {
 
 	@Autowired
 	private IGenericManagerJpa iGenericManagerJpa;
+	
+	@Autowired
+	private IVersionHelper iVersionHelper;
 	
 	private String order = "orderDatetime";
 	
@@ -75,6 +79,7 @@ public class OrderHeaderManager {
 				OrderHeader orderHeader = orderHeaderList.get(0);
 				orderHeader.setStatus(status);
 				iGenericManagerJpa.updateObject(orderHeader);
+				iVersionHelper.updateVerision();
 			} catch (Exception e) {
 				LOGGER.error("Error Update Header : ".concat(e.getLocalizedMessage()), e);
 			}
