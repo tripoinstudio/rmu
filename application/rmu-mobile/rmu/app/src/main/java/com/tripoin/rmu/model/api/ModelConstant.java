@@ -70,6 +70,8 @@ public interface ModelConstant {
 
     public final String VERSION_NAMETABLE = "version_nametable";
 
-    public final String VERSION_TIMESTAMP = "version_timestamp";
+    public final String VERSION_TIMESTAMP_OLD = "version_timestamp_old";
+
+    public final String VERSION_TIMESTAMP_NEW = "version_timestamp_new";
 
 }
