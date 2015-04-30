@@ -38,7 +38,7 @@ public class MenuManager {
 				List<MenuDTO> menuDTOList = new ArrayList<MenuDTO>();
 				for (Menu c : menuList) {
 					LOGGER.debug("data :"+c.toString());
-					MenuDTO data = new MenuDTO(c.getId(), c.getName(), c.getType(), c.getPrice(), c.getImageUrl(), c.getRating());
+					MenuDTO data = new MenuDTO(c.getCode(), c.getName(), c.getType(), c.getPrice(), c.getImageUrl(), c.getRating());
 					menuDTOList.add(data);
 				} 
 				menus.setMaster_menu(menuDTOList);
