@@ -3,9 +3,7 @@ package com.tripoin.rmu.persistence.orm_persistence.service;
 import android.content.Context;
 
 import com.tripoin.rmu.model.persist.MenuModel;
-import com.tripoin.rmu.model.persist.SelfTestModel;
 import com.tripoin.rmu.persistence.orm_persistence.DAO.DatabaseDAOHelper;
-import com.tripoin.rmu.persistence.orm_persistence.DAO.MenuDAOHelper;
 import com.tripoin.rmu.persistence.orm_persistence.api.IBaseDatabaseHandler;
 
 import java.sql.SQLException;
@@ -31,21 +29,21 @@ public class MenuDBManager<DATA> implements IBaseDatabaseHandler{
         return instance;
     }
 
-    private MenuDAOHelper menuDAOHelper;
+    private DatabaseDAOHelper databaseDAOHelper;
 
     public MenuDBManager(Context ctx) {
-        menuDAOHelper = new MenuDAOHelper(ctx);
+        databaseDAOHelper = new DatabaseDAOHelper(ctx);
     }
 
-    public MenuDAOHelper getMenuDAOHelper() {
-        return menuDAOHelper;
+    public DatabaseDAOHelper getDatabaseDAOHelper() {
+        return databaseDAOHelper;
     }
 
     @Override
     public int insertEntity(Object entity) {
         int result = 0;
         try {
-            result = getMenuDAOHelper().getMenuDAO().create((MenuModel) entity);
+            result = getDatabaseDAOHelper().getMenuDAO().create((MenuModel) entity);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -56,7 +54,7 @@ public class MenuDBManager<DATA> implements IBaseDatabaseHandler{
     public List<DATA> getAllData() {
         List<DATA> result = null;
         try {
-            result = (List<DATA>) getMenuDAOHelper().getMenuDAO().queryForAll();
+            result = (List<DATA>) getDatabaseDAOHelper().getMenuDAO().queryForAll();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -66,7 +64,7 @@ public class MenuDBManager<DATA> implements IBaseDatabaseHandler{
     @Override
     public void updateEntity(Object entity) {
         try {
-            getMenuDAOHelper().getMenuDAO().update((MenuModel) entity);
+            getDatabaseDAOHelper().getMenuDAO().update((MenuModel) entity);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -75,7 +73,7 @@ public class MenuDBManager<DATA> implements IBaseDatabaseHandler{
     @Override
     public void deleteEntity(Integer id) {
         try {
-            getMenuDAOHelper().getMenuDAO().deleteById(id);
+            getDatabaseDAOHelper().getMenuDAO().deleteById(id);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -83,7 +81,7 @@ public class MenuDBManager<DATA> implements IBaseDatabaseHandler{
 
     public void updateStatement( String query ){
         try{
-            getMenuDAOHelper().getMenuDAO().updateRaw( query );
+            getDatabaseDAOHelper().getMenuDAO().updateRaw( query );
         }catch (Exception e){
             e.printStackTrace();
         }

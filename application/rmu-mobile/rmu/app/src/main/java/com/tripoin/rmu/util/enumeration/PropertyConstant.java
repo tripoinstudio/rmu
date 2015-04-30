@@ -16,7 +16,7 @@ public enum PropertyConstant {
     PRODUCTION("production"),
 
     //dev
-    SERVER_HOST_DEFAULT_VALUE("192.168.1.169"),
+    SERVER_HOST_DEFAULT_VALUE("192.168.254.104"),
     SERVER_PORT_DEFAULT_VALUE("8080"),
 
     //prod
