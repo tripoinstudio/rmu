@@ -1,7 +1,7 @@
 package com.tripoin.rmu.model.DTO.menu;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tripoin.rmu.model.DTO.BaseRESTDTO;
+import com.tripoin.rmu.model.base.impl.BaseRESTDTO;
 
 import java.util.ArrayList;
 

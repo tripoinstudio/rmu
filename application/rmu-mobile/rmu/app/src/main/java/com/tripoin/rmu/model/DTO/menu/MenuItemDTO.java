@@ -2,18 +2,17 @@ package com.tripoin.rmu.model.DTO.menu;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.math.BigDecimal;
-
 /**
  * Created by Ridla on 4/18/2015.
  */
 public class MenuItemDTO {
 
-    @JsonProperty("menu_id")
-    private String menuId;
 
     @JsonProperty("menu_name")
     private String menuName;
+
+    @JsonProperty("menu_code")
+    private String menuCode;
 
     @JsonProperty("menu_type")
     private String menuType;
@@ -23,14 +22,6 @@ public class MenuItemDTO {
 
     @JsonProperty("menu_image_url")
     private String menuImage;
-
-    public String getMenuId() {
-        return menuId;
-    }
-
-    public void setMenuId(String menuId) {
-        this.menuId = menuId;
-    }
 
     public String getMenuName() {
         return menuName;
@@ -64,11 +55,19 @@ public class MenuItemDTO {
         this.menuImage = menuImage;
     }
 
+    public String getMenuCode() {
+        return menuCode;
+    }
+
+    public void setMenuCode(String menuCode) {
+        this.menuCode = menuCode;
+    }
+
     @Override
     public String toString() {
         return "MenuItemDTO{" +
-                "menuId='" + menuId + '\'' +
                 ", menuName='" + menuName + '\'' +
+                ", menuCode='" + menuCode + '\'' +
                 ", menuType='" + menuType + '\'' +
                 ", menuPrice='" + menuPrice + '\'' +
                 ", menuImage='" + menuImage + '\'' +

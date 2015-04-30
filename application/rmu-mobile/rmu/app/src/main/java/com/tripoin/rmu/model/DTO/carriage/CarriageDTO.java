@@ -1,8 +1,7 @@
 package com.tripoin.rmu.model.DTO.carriage;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tripoin.rmu.model.DTO.BaseRESTDTO;
-import com.tripoin.rmu.model.DTO.carriage.CarriageItemDTO;
+import com.tripoin.rmu.model.base.impl.BaseRESTDTO;
 
 import java.util.ArrayList;
 

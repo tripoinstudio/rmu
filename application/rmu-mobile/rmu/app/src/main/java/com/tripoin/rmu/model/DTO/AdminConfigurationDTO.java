@@ -1,6 +1,7 @@
 package com.tripoin.rmu.model.DTO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tripoin.rmu.model.base.impl.BaseRESTDTO;
 
 import java.io.Serializable;
 import java.util.ArrayList;

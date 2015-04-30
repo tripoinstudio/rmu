@@ -1,7 +1,6 @@
 package com.tripoin.rmu.model.DTO.carriage;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tripoin.rmu.model.DTO.BaseRESTDTO;
 
 /**
  * Created by Dayat on 4/18/2015.
