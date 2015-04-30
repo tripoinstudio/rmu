@@ -13,10 +13,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.tripoin.rmu.R;
+import com.tripoin.rmu.model.DTO.master.MasterVersion;
 import com.tripoin.rmu.model.DTO.user.UserDTO;
+import com.tripoin.rmu.model.persist.VersionModel;
+import com.tripoin.rmu.persistence.orm_persistence.service.VersionDBManager;
 import com.tripoin.rmu.rest.api.ILoginPost;
 import com.tripoin.rmu.rest.impl.LoginRest;
 import com.tripoin.rmu.security.base.ASecureActivity;
+import com.tripoin.rmu.util.Version;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
 
@@ -35,6 +39,7 @@ public class ActivityLogin extends ASecureActivity implements View.OnClickListen
     @InjectView(R.id.txt_password) private EditText txtPassword;
     @InjectView(R.id.btSignIn) private Button btSignIn;
     @InjectView(R.id.chkShowPassword) private CheckBox chkShowPassword;
+
     private String chipperAuth;
     private String userName;
 
@@ -56,7 +61,7 @@ public class ActivityLogin extends ASecureActivity implements View.OnClickListen
     @Override
     protected void onResume() {
         super.onResume();
-        detectLoginStatus();
+        //detectLoginStatus();
     }
 
     @Override
@@ -72,7 +77,6 @@ public class ActivityLogin extends ASecureActivity implements View.OnClickListen
                 userName = txtUserName.getText().toString();
                 if(!generalValidation.isEmptyEditText(txtPassword)){
                     chipperAuth = generalConverter.encodeToBase64(txtUserName.getText().toString().concat(ViewConstant.COLON.toString()).concat(txtPassword.getText().toString()));
-                    Log.d("chipperAuth", chipperAuth);
                     if(networkConnectivity.checkConnectivity()){
                         LoginRest loginRest = new LoginRest(this) {
                             @Override
@@ -117,7 +121,15 @@ public class ActivityLogin extends ASecureActivity implements View.OnClickListen
                     securityUtil.saveSingleProperty(PropertyConstant.LOGIN_STATUS_KEY.toString(), PropertyConstant.LOGIN_STATUS_VALUE.toString());
                     securityUtil.saveSingleProperty(PropertyConstant.CHIPPER_AUTH.toString(), chipperAuth);
 
-                    gotoNextActivity(ActivityMain.class, PropertyConstant.USER_NAME.toString(), userName);
+                    VersionDBManager.init(this);
+                    VersionModel versionModel = null;
+                    for( MasterVersion masterVersion : userDTO.getMasterVersions() ){
+                        versionModel.setVersionNameTable(masterVersion.getVersionTable());
+                        versionModel.setVersionTimestamp(masterVersion.getVersionTimeStamp());
+                        VersionDBManager.getInstance().insertEntity(versionModel);
+                    }
+
+                    gotoNextActivity(ActivityMain.class, PropertyConstant.USER_DTO.toString(), "");
                 }else {
                     Toast.makeText(this, "An error occured ".concat(userDTO.getErr_msg()),Toast.LENGTH_SHORT).show();
                 }
