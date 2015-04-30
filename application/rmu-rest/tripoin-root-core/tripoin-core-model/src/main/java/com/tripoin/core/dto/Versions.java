@@ -12,12 +12,9 @@ import javax.xml.bind.annotation.XmlType;
  * @author <a href="mailto:ridla.fadilah@gmail.com">Ridla Fadilah</a>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { "security_user", "master_version", "response_code", "response_msg", "result" })
+@XmlType(name = "", propOrder = { "master_version", "response_code", "response_msg", "result" })
 @XmlRootElement(name = "Versions")
-public class Versions {		
-	@XmlElement(name = "User", required = true)
-	private UserDTO security_user;
-	
+public class Versions {			
 	@XmlElement(name = "Version", required = true)
 	private List<VersionDTO> master_version;
 	
@@ -29,14 +26,6 @@ public class Versions {
 	
 	@XmlElement(name = "result", required = true)
 	private String result;
-
-	public UserDTO getSecurity_user() {
-		return security_user;
-	}
-
-	public void setSecurity_user(UserDTO security_user) {
-		this.security_user = security_user;
-	}
 
 	public List<VersionDTO> getMaster_version() {
 		return master_version;
@@ -72,8 +61,9 @@ public class Versions {
 
 	@Override
 	public String toString() {
-		return "Versions [security_user=" + security_user + ", master_version="
-				+ master_version + ", response_code=" + response_code
-				+ ", response_msg=" + response_msg + ", result=" + result + "]";
+		return "Versions [master_version=" + master_version
+				+ ", response_code=" + response_code + ", response_msg="
+				+ response_msg + ", result=" + result + "]";
 	}
+
 }
