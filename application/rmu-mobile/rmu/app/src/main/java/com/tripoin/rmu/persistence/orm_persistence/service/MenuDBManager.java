@@ -79,9 +79,9 @@ public class MenuDBManager<DATA> implements IBaseDatabaseHandler{
         }
     }
 
-    public void updateStatement( String query ){
+    public void executeRaw( String query ){
         try{
-            getDatabaseDAOHelper().getMenuDAO().updateRaw( query );
+            getDatabaseDAOHelper().getMenuDAO().executeRaw( query );
         }catch (Exception e){
             e.printStackTrace();
         }
