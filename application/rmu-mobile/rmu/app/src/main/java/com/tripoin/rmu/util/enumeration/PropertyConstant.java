@@ -19,6 +19,7 @@ public enum PropertyConstant {
     SERVER_HOST_DEFAULT_VALUE("192.168.254.104"),
     SERVER_PORT_DEFAULT_VALUE("8080"),
 
+
     //prod
     /*SERVER_HOST_DEFAULT_VALUE("telkomsel-mqa.telkomsigma.com"),
     SERVER_PORT_DEFAULT_VALUE("443"),*/
@@ -27,10 +28,12 @@ public enum PropertyConstant {
     CHIPPER_AUTH("CHIPPER_AUTH"),
     SERVER_PORT_KEY("SERVER_PORT") ,
     USER_NAME("user_name"),
+    USER_DTO("user_dto"),
     MNUMBER("mnumber"),
     PASSWORD_EXPIRED_DATE("password_expired_date"),
     LOGIN_STATUS_KEY("status"),
     LOGIN_STATUS_VALUE("logged_in"),
+    LOGOUT_STATUS_VALUE("logged_in"),
     PROPERTY_FILE_NAME("rmu.properties"),
     LOGIN_FILE_NAME("rmu.login"),
     UNKNOWN("Unknown"),
