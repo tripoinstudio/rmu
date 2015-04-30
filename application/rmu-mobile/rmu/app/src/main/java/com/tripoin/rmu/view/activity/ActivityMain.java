@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.Menu;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.tripoin.rmu.view.fragment.impl.FragmentChangeIPServer;
 import com.tripoin.rmu.view.fragment.impl.FragmentMenuList;
 import com.tripoin.rmu.view.fragment.impl.FragmentOrderList;
 import com.tripoin.rmu.view.fragment.impl.FragmentUpdateStaticData;
+import com.tripoin.rmu.view.fragment.impl.FragmentUserProfile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,7 @@ import br.liveo.navigationliveo.NavigationLiveo;
 public class ActivityMain extends NavigationLiveo implements NavigationLiveoListener {
 
     List<String> mListNameItem;
+    int layoutContainerIdGlobal = 0;
 
 
     @Override
@@ -88,6 +91,8 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
         this.setNavigationAdapter(mListNameItem, mListIconItem, mListHeaderItem, mSparseCounterItem);
     }
 
+
+
     @Override
     public void onItemClickNavigation(int position, int layoutContainerId) {
         FragmentManager mFragmentManager = getSupportFragmentManager();
@@ -109,6 +114,7 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
                 mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentMenuList).commit();
                 break;
             case 2 :
+                layoutContainerIdGlobal = layoutContainerId;
                 fragmentOrderList = new FragmentOrderList().newInstance(listName);
                 mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentOrderList).commit();
                 break;
@@ -148,13 +154,16 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
 
     @Override
     public void onClickFooterItemNavigation(View view) {
-        //startActivity(new Intent(this, SettingsActivity.class));
+        startActivity(new Intent(this, SettingsActivity.class));
         exitApplication(this);
     }
 
     @Override
     public void onClickUserPhotoNavigation(View view) {
-        Toast.makeText(this, "open user profile", Toast.LENGTH_SHORT).show();
+        FragmentManager mFragmentManager = getSupportFragmentManager();
+        FragmentUserProfile fragmentUserProfile = null;
+        fragmentUserProfile = new FragmentUserProfile().newInstance("User Profile");
+        mFragmentManager.beginTransaction().replace(layoutContainerIdGlobal, fragmentUserProfile).commit();
     }
 
     public void exitApplication( Context context ) {
