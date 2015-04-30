@@ -19,11 +19,8 @@ public class VersionModel {
     @DatabaseField( columnName = ModelConstant.VERSION_NAMETABLE )
     private String versionNameTable;
 
-    @DatabaseField( columnName = ModelConstant.VERSION_TIMESTAMP_OLD )
-    private String versionTimestampOld;
-
-    @DatabaseField( columnName = ModelConstant.VERSION_TIMESTAMP_NEW )
-    private String versionTimestampNew;
+    @DatabaseField( columnName = ModelConstant.VERSION_TIMESTAMP )
+    private String versionTimestamp;
 
     public int getId() {
         return id;
@@ -41,20 +38,12 @@ public class VersionModel {
         this.versionNameTable = versionNameTable;
     }
 
-    public String getVersionTimestampOld() {
-        return versionTimestampOld;
+    public String getVersionTimestamp() {
+        return versionTimestamp;
     }
 
-    public void setVersionTimestampOld(String versionTimestampOld) {
-        this.versionTimestampOld = versionTimestampOld;
-    }
-
-    public String getVersionTimestampNew() {
-        return versionTimestampNew;
-    }
-
-    public void setVersionTimestampNew(String versionTimestampNew) {
-        this.versionTimestampNew = versionTimestampNew;
+    public void setVersionTimestamp(String versionTimestamp) {
+        this.versionTimestamp = versionTimestamp;
     }
 
     @Override
@@ -62,8 +51,7 @@ public class VersionModel {
         return "VersionModel{" +
                 "id=" + id +
                 ", versionNameTable='" + versionNameTable + '\'' +
-                ", versionTimestampOld='" + versionTimestampOld + '\'' +
-                ", versionTimestampNew='" + versionTimestampNew + '\'' +
+                ", versionTimestamp='" + versionTimestamp + '\'' +
                 '}';
     }
 }

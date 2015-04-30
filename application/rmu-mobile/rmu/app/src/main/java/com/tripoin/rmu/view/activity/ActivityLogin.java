@@ -125,7 +125,7 @@ public class ActivityLogin extends ASecureActivity implements View.OnClickListen
                     VersionModel versionModel = null;
                     for( MasterVersion masterVersion : userDTO.getMasterVersions() ){
                         versionModel.setVersionNameTable(masterVersion.getVersionTable());
-                        versionModel.setVersionTimestampNew(masterVersion.getVersionTimeStamp());
+                        versionModel.setVersionTimestamp(masterVersion.getVersionTimeStamp());
                         VersionDBManager.getInstance().insertEntity(versionModel);
                     }
 
