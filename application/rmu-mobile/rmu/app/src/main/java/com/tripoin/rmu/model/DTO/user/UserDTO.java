@@ -4,7 +4,7 @@ import android.os.Parcel;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tripoin.rmu.model.base.impl.BaseRESTDTO;
-import com.tripoin.rmu.model.DTO.master.MasterVersion;
+import com.tripoin.rmu.model.DTO.master.MasterVersionItem;
 import com.tripoin.rmu.model.DTO.order_header.OrderHeaderItemDTO;
 
 import java.io.Serializable;
@@ -22,7 +22,7 @@ public class UserDTO extends BaseRESTDTO /*implements Parcelable*/ implements Se
     private ArrayList<OrderHeaderItemDTO> orderHeaderItemDTOs;
 
     @JsonProperty("master_version")
-    private ArrayList<MasterVersion> masterVersions;
+    private ArrayList<MasterVersionItem> masterVersionItems;
 
     /*public UserDTO(Parcel in) {
         readFromParcel(in);
@@ -47,18 +47,18 @@ public class UserDTO extends BaseRESTDTO /*implements Parcelable*/ implements Se
         this.orderHeaderItemDTOs = orderHeaderItemDTOs;
     }
 
-    public ArrayList<MasterVersion> getMasterVersions() {
-        return masterVersions;
+    public ArrayList<MasterVersionItem> getMasterVersionItems() {
+        return masterVersionItems;
     }
 
-    public void setMasterVersions(ArrayList<MasterVersion> masterVersions) {
-        this.masterVersions = masterVersions;
+    public void setMasterVersionItems(ArrayList<MasterVersionItem> masterVersionItems) {
+        this.masterVersionItems = masterVersionItems;
     }
 
     @Override
     public String toString() {
         return "UserDTO{" +
-                "masterVersions=" + masterVersions +
+                "masterVersions=" + masterVersionItems +
                 ", orderHeaderItemDTOs=" + orderHeaderItemDTOs +
                 ", userItemDTO=" + userItemDTO +
                 '}';

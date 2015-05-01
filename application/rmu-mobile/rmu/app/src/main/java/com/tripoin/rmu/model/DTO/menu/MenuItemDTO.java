@@ -23,6 +23,9 @@ public class MenuItemDTO {
     @JsonProperty("menu_image_url")
     private String menuImage;
 
+    @JsonProperty("menu_rating")
+    private String menuRating;
+
     public String getMenuName() {
         return menuName;
     }
@@ -63,14 +66,23 @@ public class MenuItemDTO {
         this.menuCode = menuCode;
     }
 
+    public String getMenuRating() {
+        return menuRating;
+    }
+
+    public void setMenuRating(String menuRating) {
+        this.menuRating = menuRating;
+    }
+
     @Override
     public String toString() {
         return "MenuItemDTO{" +
-                ", menuName='" + menuName + '\'' +
+                "menuName='" + menuName + '\'' +
                 ", menuCode='" + menuCode + '\'' +
                 ", menuType='" + menuType + '\'' +
                 ", menuPrice='" + menuPrice + '\'' +
                 ", menuImage='" + menuImage + '\'' +
+                ", menuRating='" + menuRating + '\'' +
                 '}';
     }
 }

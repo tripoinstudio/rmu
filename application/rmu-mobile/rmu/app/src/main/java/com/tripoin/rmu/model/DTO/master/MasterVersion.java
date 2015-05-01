@@ -1,40 +1,31 @@
 package com.tripoin.rmu.model.DTO.master;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tripoin.rmu.model.base.impl.BaseRESTDTO;
+
+import java.util.ArrayList;
 
 /**
- * Created by Achmad Fauzi on 4/29/2015 : 10:04 PM.
+ * Created by Achmad Fauzi on 4/30/2015 : 11:09 PM.
  * mailto : achmad.fauzi@sigma.co.id
  */
-public class MasterVersion {
+public class MasterVersion extends BaseRESTDTO {
 
-    @JsonProperty("version_table")
-    private String versionTable;
+    @JsonProperty("master_version")
+    private ArrayList<MasterVersionItem> masterVersionItems;
 
-    @JsonProperty("version_timestamp")
-    private String versionTimeStamp;
-
-    public String getVersionTable() {
-        return versionTable;
+    public ArrayList<MasterVersionItem> getMasterVersionItems() {
+        return masterVersionItems;
     }
 
-    public void setVersionTable(String versionTable) {
-        this.versionTable = versionTable;
-    }
-
-    public String getVersionTimeStamp() {
-        return versionTimeStamp;
-    }
-
-    public void setVersionTimeStamp(String versionTimeStamp) {
-        this.versionTimeStamp = versionTimeStamp;
+    public void setMasterVersionItems(ArrayList<MasterVersionItem> masterVersionItems) {
+        this.masterVersionItems = masterVersionItems;
     }
 
     @Override
     public String toString() {
         return "MasterVersion{" +
-                "versionTable='" + versionTable + '\'' +
-                ", versionTimeStamp='" + versionTimeStamp + '\'' +
+                "masterVersionItems=" + masterVersionItems +
                 '}';
     }
 }
