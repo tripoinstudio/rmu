@@ -14,7 +14,9 @@ import android.widget.Toast;
 
 import com.tripoin.rmu.R;
 import com.tripoin.rmu.model.DTO.master.MasterVersion;
+import com.tripoin.rmu.model.DTO.master.MasterVersionItem;
 import com.tripoin.rmu.model.DTO.user.UserDTO;
+import com.tripoin.rmu.model.api.ModelConstant;
 import com.tripoin.rmu.model.persist.VersionModel;
 import com.tripoin.rmu.persistence.orm_persistence.service.VersionDBManager;
 import com.tripoin.rmu.rest.api.ILoginPost;
@@ -23,6 +25,8 @@ import com.tripoin.rmu.security.base.ASecureActivity;
 import com.tripoin.rmu.util.Version;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
+
+import java.util.List;
 
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
@@ -123,13 +127,18 @@ public class ActivityLogin extends ASecureActivity implements View.OnClickListen
 
                     VersionDBManager.init(this);
                     VersionModel versionModel = null;
-                    for( MasterVersion masterVersion : userDTO.getMasterVersions() ){
-                        versionModel.setVersionNameTable(masterVersion.getVersionTable());
-                        versionModel.setVersionTimestamp(masterVersion.getVersionTimeStamp());
-                        VersionDBManager.getInstance().insertEntity(versionModel);
+                    try{
+                        versionModel = VersionDBManager.getInstance().selectCustomVersionModel(ModelConstant.VERSION_NAMETABLE, "master_seat");
+                    }catch (Exception e){
+                        for( MasterVersionItem masterVersion : userDTO.getMasterVersionItems() ){
+                            versionModel = new VersionModel();
+                            versionModel.setVersionNameTable(masterVersion.getVersionTable());
+                            versionModel.setVersionTimestamp("01-01-2000 23:59:59.0");
+                            VersionDBManager.getInstance().insertEntity(versionModel);
+                        }
                     }
-
-                    gotoNextActivity(ActivityMain.class, PropertyConstant.USER_DTO.toString(), "");
+                    Log.d("USER DTO LOGIN", userDTO.toString());
+                    gotoNextActivity(ActivityMain.class, PropertyConstant.USER_DTO.toString(), userDTO);
                 }else {
                     Toast.makeText(this, "An error occured ".concat(userDTO.getErr_msg()),Toast.LENGTH_SHORT).show();
                 }
