@@ -51,6 +51,8 @@ public interface ModelConstant {
     /*Menu*/
     public final String MENU_TABLE = "m_rmu_menu";
 
+    public final String REST_MENU_TABLE = "master_menu";
+
     public final String MENU_ID = "menu_id";
 
     public final String MENU_CODE = "menu_code";
