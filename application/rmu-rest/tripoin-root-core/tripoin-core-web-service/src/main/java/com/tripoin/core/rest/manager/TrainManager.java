@@ -38,7 +38,7 @@ public class TrainManager {
 				List<TrainDTO> trainDTOList = new ArrayList<TrainDTO>();
 				for (Train c : trainList) {
 					LOGGER.debug("data :"+c.toString());
-					TrainDTO data = new TrainDTO(c.getId(), c.getNo(), c.getRemarks());
+					TrainDTO data = new TrainDTO(c.getCode(), c.getNo(), c.getRemarks());
 					trainDTOList.add(data);
 				} 
 				trains.setMaster_train(trainDTOList);

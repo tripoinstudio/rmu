@@ -42,7 +42,7 @@ public class CarriageManager {
 				List<CarriageDTO> carriageDTOList = new ArrayList<CarriageDTO>();
 				for (Carriage c : carriageList) {
 					LOGGER.debug("data :"+c.toString());
-					CarriageDTO data = new CarriageDTO(c.getId(), c.getNo(), c.getRemarks());
+					CarriageDTO data = new CarriageDTO(c.getCode(), c.getNo(), c.getRemarks());
 					carriageDTOList.add(data);
 				} 
 				carriages.setMaster_carriage(carriageDTOList);

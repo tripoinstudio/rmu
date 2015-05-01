@@ -38,7 +38,7 @@ public class SeatManager {
 				List<SeatDTO> seatDTOList = new ArrayList<SeatDTO>();
 				for (Seat c : seatList) {
 					LOGGER.debug("data :"+c.toString());
-					SeatDTO data = new SeatDTO(c.getId(), c.getNo(), c.getRemarks());
+					SeatDTO data = new SeatDTO(c.getCode(), c.getNo(), c.getRemarks());
 					seatDTOList.add(data);
 				} 
 				seats.setMaster_seat(seatDTOList);

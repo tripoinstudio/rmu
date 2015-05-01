@@ -77,20 +77,19 @@ public class OrderDetailManager {
 				mapPrice.put(menu.getId(), menu.getPrice());
 			}
 			Menu menu = new Menu();
+			Seat seat = new Seat();
+			Carriage carriage = new Carriage();
+			Train train = new Train();
 			BigDecimal totalAmount = new BigDecimal(0);
 			BigDecimal totalPaid = new BigDecimal(0);
 			
 			for (OrderDetailDTO orderDetailDTO : orderDetailDTOList) {
 				// Order Header
 				if(isOrderHeader){
-					Seat seat = new Seat();
-					seat.setId(orderDetailDTO.getSeat_id());
-					Carriage carriage = new Carriage();
-					carriage.setId(orderDetailDTO.getCarriage_id());
-					Train train = new Train();
-					train.setId(orderDetailDTO.getTrain_id());
-					menu.setId(orderDetailDTO.getMenu_id());
-					
+					menu = iGenericManagerJpa.getObjectsUsingParameter(Menu.class, new String[]{"menu_code"}, new Object[]{orderDetailDTO.getMenu_code()}, null, null).get(0); 
+					seat = iGenericManagerJpa.getObjectsUsingParameter(Seat.class, new String[]{"seat_code"}, new Object[]{orderDetailDTO.getSeat_code()}, null, null).get(0);
+					carriage = iGenericManagerJpa.getObjectsUsingParameter(Carriage.class, new String[]{"carriage_code"}, new Object[]{orderDetailDTO.getCarriage_code()}, null, null).get(0);
+					train = iGenericManagerJpa.getObjectsUsingParameter(Train.class, new String[]{"train_code"}, new Object[]{orderDetailDTO.getTrain_code()}, null, null).get(0);
 					User user = iGenericManagerJpa.getObjectsUsingParameter(User.class, new String[]{"username"}, new Object[]{orderDetailDTO.getUser_code()}, null, null).get(0);
 
 					Stan stan = stanGenerator.getSystemTraceAuditNumber(Long.parseLong(user.getId().toString()));
@@ -108,7 +107,7 @@ public class OrderDetailManager {
 					
 					isOrderHeader = false;
 				}
-				totalAmount = mapPrice.get(orderDetailDTO.getMenu_id()).multiply(new BigDecimal(orderDetailDTO.getOrder_detail_total_order()));
+				totalAmount = mapPrice.get(menu.getId()).multiply(new BigDecimal(orderDetailDTO.getOrder_detail_total_order()));
 				totalPaid = totalPaid.add(totalAmount);
 				
 				//Order Detail
@@ -146,7 +145,7 @@ public class OrderDetailManager {
 				List<OrderDetailDTO> orderDetailDTOList = new ArrayList<OrderDetailDTO>();
 				for (OrderDetail o : orderDetailList) {
 					LOGGER.debug("data :"+o.toString());
-					OrderDetailDTO data = new OrderDetailDTO(o.getOrderHeader().getOrderNo(), o.getTotalOrder(), o.getTotalAmount(), o.getStatus(), o.getOrderHeader().getUser().getUsername(), o.getMenu().getId(), o.getMenu().getName(),  o.getOrderHeader().getSeat().getId(), o.getOrderHeader().getCarriage().getId(), o.getOrderHeader().getTrain().getId());
+					OrderDetailDTO data = new OrderDetailDTO(o.getOrderHeader().getOrderNo(), o.getTotalOrder(), o.getTotalAmount(), o.getStatus(), o.getOrderHeader().getUser().getUsername(), o.getMenu().getCode(), o.getMenu().getName(),  o.getOrderHeader().getSeat().getCode(), o.getOrderHeader().getCarriage().getCode(), o.getOrderHeader().getTrain().getCode());
 					orderDetailDTOList.add(data);
 				} 
 				orderDetails.setTrx_order_detail(orderDetailDTOList);
