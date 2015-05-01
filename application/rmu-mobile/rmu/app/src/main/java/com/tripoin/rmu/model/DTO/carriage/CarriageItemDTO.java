@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class CarriageItemDTO {
 
-    @JsonProperty("carriage_id")
-    private String carriageId;
+    @JsonProperty("carriage_code")
+    private String carriageCode;
 
     @JsonProperty("carriage_no")
     private String carriageNo;
@@ -16,12 +16,12 @@ public class CarriageItemDTO {
     @JsonProperty("carriage_remarks")
     private String carriageRemarks;
 
-    public String getCarriageId() {
-        return carriageId;
+    public String getCarriageCode() {
+        return carriageCode;
     }
 
-    public void setCarriageId(String carriageId) {
-        this.carriageId = carriageId;
+    public void setCarriageCode(String carriageCode) {
+        this.carriageCode = carriageCode;
     }
 
     public String getCarriageNo() {
@@ -43,7 +43,7 @@ public class CarriageItemDTO {
     @Override
     public String toString() {
         return "CarriageItemDTO{" +
-                "carriageId='" + carriageId + '\'' +
+                "carriageCode='" + carriageCode + '\'' +
                 ", carriageNo='" + carriageNo + '\'' +
                 ", carriageRemarks='" + carriageRemarks + '\'' +
                 '}';

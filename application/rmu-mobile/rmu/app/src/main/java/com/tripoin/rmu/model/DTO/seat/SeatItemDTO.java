@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class SeatItemDTO{
 
-    @JsonProperty("seat_id")
-    private String seatId;
+    @JsonProperty("seat_code")
+    private String seatCode;
 
     @JsonProperty("seat_no")
     private String seatNo;
@@ -16,12 +16,12 @@ public class SeatItemDTO{
     @JsonProperty("seat_remarks")
     private String seatRemarks;
 
-    public String getSeatId() {
-        return seatId;
+    public String getSeatCode() {
+        return seatCode;
     }
 
-    public void setSeatId(String seatId) {
-        this.seatId = seatId;
+    public void setSeatCode(String seatCode) {
+        this.seatCode = seatCode;
     }
 
     public String getSeatNo() {
@@ -43,7 +43,7 @@ public class SeatItemDTO{
     @Override
     public String toString() {
         return "SeatItemDTO{" +
-                "seatId='" + seatId + '\'' +
+                "seatCode='" + seatCode + '\'' +
                 ", seatNo='" + seatNo + '\'' +
                 ", seatRemarks='" + seatRemarks + '\'' +
                 '}';

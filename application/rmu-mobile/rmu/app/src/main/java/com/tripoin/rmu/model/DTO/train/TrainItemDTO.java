@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class TrainItemDTO {
 
-    @JsonProperty("train_id")
-    private String trainId;
+    @JsonProperty("train_code")
+    private String trainCode;
 
     @JsonProperty("train_no")
     private String trainNo;
@@ -16,12 +16,12 @@ public class TrainItemDTO {
     @JsonProperty("train_remarks")
     private String trainRemaks;
 
-    public String getTrainId() {
-        return trainId;
+    public String getTrainCode() {
+        return trainCode;
     }
 
-    public void setTrainId(String trainId) {
-        this.trainId = trainId;
+    public void setTrainCode(String trainCode) {
+        this.trainCode = trainCode;
     }
 
     public String getTrainNo() {
@@ -43,7 +43,7 @@ public class TrainItemDTO {
     @Override
     public String toString() {
         return "TrainItemDTO{" +
-                "trainId='" + trainId + '\'' +
+                "trainCode='" + trainCode + '\'' +
                 ", trainNo='" + trainNo + '\'' +
                 ", trainRemaks='" + trainRemaks + '\'' +
                 '}';
