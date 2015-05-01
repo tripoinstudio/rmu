@@ -9,28 +9,28 @@ import javax.xml.bind.annotation.XmlType;
  * @author <a href="mailto:ridla.fadilah@gmail.com">Ridla Fadilah</a>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { "seat_id", "seat_no", "seat_remarks" })
+@XmlType(name = "", propOrder = { "seat_code", "seat_no", "seat_remarks" })
 @XmlRootElement(name = "Seat")
 public class SeatDTO {
-	private Integer seat_id;
+	private String seat_code;
 	private String seat_no;
 	private String seat_remarks;
 
 	public SeatDTO() {}
-	
-	public SeatDTO(Integer seat_id, String seat_no, String seat_remarks) {
+
+	public SeatDTO(String seat_code, String seat_no, String seat_remarks) {
 		super();
-		this.seat_id = seat_id;
+		this.seat_code = seat_code;
 		this.seat_no = seat_no;
 		this.seat_remarks = seat_remarks;
 	}
 
-	public Integer getSeat_id() {
-		return seat_id;
+	public String getSeat_code() {
+		return seat_code;
 	}
 
-	public void setSeat_id(Integer seat_id) {
-		this.seat_id = seat_id;
+	public void setSeat_code(String seat_code) {
+		this.seat_code = seat_code;
 	}
 
 	public String getSeat_no() {
@@ -51,7 +51,7 @@ public class SeatDTO {
 
 	@Override
 	public String toString() {
-		return "SeatDTO [seat_id=" + seat_id + ", seat_no=" + seat_no
+		return "SeatDTO [seat_code=" + seat_code + ", seat_no=" + seat_no
 				+ ", seat_remarks=" + seat_remarks + "]";
-	}
+	}	
 }

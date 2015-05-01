@@ -9,29 +9,29 @@ import javax.xml.bind.annotation.XmlType;
  * @author <a href="mailto:ridla.fadilah@gmail.com">Ridla Fadilah</a>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { "carriage_id", "carriage_no", "carriage_remarks" })
+@XmlType(name = "", propOrder = { "carriage_code", "carriage_no", "carriage_remarks" })
 @XmlRootElement(name = "Carriage")
 public class CarriageDTO {
-	private Integer carriage_id;
+	private String carriage_code;
 	private String carriage_no;
 	private String carriage_remarks;
 
 	public CarriageDTO() {}
 
-	public CarriageDTO(Integer carriage_id, String carriage_no,
+	public CarriageDTO(String carriage_code, String carriage_no,
 			String carriage_remarks) {
 		super();
-		this.carriage_id = carriage_id;
+		this.carriage_code = carriage_code;
 		this.carriage_no = carriage_no;
 		this.carriage_remarks = carriage_remarks;
 	}
 
-	public Integer getCarriage_id() {
-		return carriage_id;
+	public String getCarriage_code() {
+		return carriage_code;
 	}
 
-	public void setCarriage_id(Integer carriage_id) {
-		this.carriage_id = carriage_id;
+	public void setCarriage_code(String carriage_code) {
+		this.carriage_code = carriage_code;
 	}
 
 	public String getCarriage_no() {
@@ -52,7 +52,7 @@ public class CarriageDTO {
 
 	@Override
 	public String toString() {
-		return "CarriageDTO [carriage_id=" + carriage_id + ", carriage_no="
+		return "CarriageDTO [carriage_code=" + carriage_code + ", carriage_no="
 				+ carriage_no + ", carriage_remarks=" + carriage_remarks + "]";
-	}	
+	}
 }

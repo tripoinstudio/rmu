@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlType;
  * @author <a href="mailto:ridla.fadilah@gmail.com">Ridla Fadilah</a>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { "order_header_no", "order_detail_total_order", "order_detail_total_amount", "order_header_status", "user_code", "menu_id", "menu_name", "seat_id", "carriage_id", "train_id" })
+@XmlType(name = "", propOrder = { "order_header_no", "order_detail_total_order", "order_detail_total_amount", "order_header_status", "user_code", "menu_code", "menu_name", "seat_code", "carriage_code", "train_code" })
 @XmlRootElement(name = "OrderDetail")
 public class OrderDetailDTO {
 	private String order_header_no;
@@ -19,30 +19,30 @@ public class OrderDetailDTO {
 	private BigDecimal order_detail_total_amount;
 	private Integer order_header_status;
 	private String user_code;
-	private Integer menu_id;
+	private String menu_code;
 	private String menu_name;
-	private Integer seat_id;
-	private Integer carriage_id;
-	private Integer train_id;
+	private String seat_code;
+	private String carriage_code;
+	private String train_code;
 	
 	public OrderDetailDTO() {}
-	
+
 	public OrderDetailDTO(String order_header_no,
 			Integer order_detail_total_order,
 			BigDecimal order_detail_total_amount, Integer order_header_status,
-			String user_code, Integer menu_id, String menu_name,
-			Integer seat_id, Integer carriage_id, Integer train_id) {
+			String user_code, String menu_code, String menu_name,
+			String seat_code, String carriage_code, String train_code) {
 		super();
 		this.order_header_no = order_header_no;
 		this.order_detail_total_order = order_detail_total_order;
 		this.order_detail_total_amount = order_detail_total_amount;
 		this.order_header_status = order_header_status;
 		this.user_code = user_code;
-		this.menu_id = menu_id;
+		this.menu_code = menu_code;
 		this.menu_name = menu_name;
-		this.seat_id = seat_id;
-		this.carriage_id = carriage_id;
-		this.train_id = train_id;
+		this.seat_code = seat_code;
+		this.carriage_code = carriage_code;
+		this.train_code = train_code;
 	}
 
 	public String getOrder_header_no() {
@@ -85,12 +85,12 @@ public class OrderDetailDTO {
 		this.user_code = user_code;
 	}
 
-	public Integer getMenu_id() {
-		return menu_id;
+	public String getMenu_code() {
+		return menu_code;
 	}
 
-	public void setMenu_id(Integer menu_id) {
-		this.menu_id = menu_id;
+	public void setMenu_code(String menu_code) {
+		this.menu_code = menu_code;
 	}
 
 	public String getMenu_name() {
@@ -101,28 +101,28 @@ public class OrderDetailDTO {
 		this.menu_name = menu_name;
 	}
 
-	public Integer getSeat_id() {
-		return seat_id;
+	public String getSeat_code() {
+		return seat_code;
 	}
 
-	public void setSeat_id(Integer seat_id) {
-		this.seat_id = seat_id;
+	public void setSeat_code(String seat_code) {
+		this.seat_code = seat_code;
 	}
 
-	public Integer getCarriage_id() {
-		return carriage_id;
+	public String getCarriage_code() {
+		return carriage_code;
 	}
 
-	public void setCarriage_id(Integer carriage_id) {
-		this.carriage_id = carriage_id;
+	public void setCarriage_code(String carriage_code) {
+		this.carriage_code = carriage_code;
 	}
 
-	public Integer getTrain_id() {
-		return train_id;
+	public String getTrain_code() {
+		return train_code;
 	}
 
-	public void setTrain_id(Integer train_id) {
-		this.train_id = train_id;
+	public void setTrain_code(String train_code) {
+		this.train_code = train_code;
 	}
 
 	@Override
@@ -131,9 +131,9 @@ public class OrderDetailDTO {
 				+ ", order_detail_total_order=" + order_detail_total_order
 				+ ", order_detail_total_amount=" + order_detail_total_amount
 				+ ", order_header_status=" + order_header_status
-				+ ", user_code=" + user_code + ", menu_id=" + menu_id
-				+ ", menu_name=" + menu_name + ", seat_id=" + seat_id
-				+ ", carriage_id=" + carriage_id + ", train_id=" + train_id
-				+ "]";
-	}
+				+ ", user_code=" + user_code + ", menu_code=" + menu_code
+				+ ", menu_name=" + menu_name + ", seat_code=" + seat_code
+				+ ", carriage_code=" + carriage_code + ", train_code="
+				+ train_code + "]";
+	}	
 }
