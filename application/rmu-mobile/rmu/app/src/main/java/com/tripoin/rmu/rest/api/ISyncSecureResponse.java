@@ -1,7 +1,7 @@
 package com.tripoin.rmu.rest.api;
 
 
-import com.tripoin.rmu.model.DTO.BaseRESTDTO;
+import com.tripoin.rmu.model.base.impl.BaseRESTDTO;
 import com.tripoin.rmu.model.DTO.LoginRestDTO;
 
 /**
