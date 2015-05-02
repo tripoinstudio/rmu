@@ -1,6 +1,7 @@
 package com.tripoin.rmu.model.DTO.user;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tripoin.rmu.model.base.impl.BaseRESTDTO;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 /**
  * Created by Ridla on 4/18/2015.
  */
-public class UserDTO extends BaseRESTDTO /*implements Parcelable*/ implements Serializable{
+public class UserDTO extends BaseRESTDTO implements Parcelable /*implements Serializable*/{
 
     @JsonProperty("security_user")
     private UserItemDTO userItemDTO;
@@ -24,9 +25,9 @@ public class UserDTO extends BaseRESTDTO /*implements Parcelable*/ implements Se
     @JsonProperty("master_version")
     private ArrayList<MasterVersionItem> masterVersionItems;
 
-    /*public UserDTO(Parcel in) {
+    public UserDTO(Parcel in) {
         readFromParcel(in);
-    }*/
+    }
 
     public UserDTO() {
     }
@@ -64,7 +65,7 @@ public class UserDTO extends BaseRESTDTO /*implements Parcelable*/ implements Se
                 '}';
     }
 
-/*@Override
+    @Override
     public int describeContents() {
         return 0;
     }
@@ -73,13 +74,16 @@ public class UserDTO extends BaseRESTDTO /*implements Parcelable*/ implements Se
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeValue(userItemDTO);
         dest.writeList(orderHeaderItemDTOs);
-    }*/
-
-    private void readFromParcel(Parcel in) {
-        //userItemDTO = in.readParcelable();
+        dest.writeList(masterVersionItems);
     }
 
-    /*Creator creator = new Creator() {
+    private void readFromParcel(Parcel in) {
+        userItemDTO = in.readParcelable(UserItemDTO.class.getClassLoader());
+        orderHeaderItemDTOs = (ArrayList<OrderHeaderItemDTO>) in.readArrayList(OrderHeaderItemDTO.class.getClassLoader());
+        masterVersionItems = (ArrayList<MasterVersionItem>) in.readArrayList(MasterVersionItem.class.getClassLoader());
+    }
+
+        public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
         @Override
         public Object createFromParcel(Parcel source) {
             return new UserDTO(source);
@@ -89,7 +93,7 @@ public class UserDTO extends BaseRESTDTO /*implements Parcelable*/ implements Se
         public Object[] newArray(int size) {
             return new UserDTO[size];
         }
-    };*/
+    };
 
 
 

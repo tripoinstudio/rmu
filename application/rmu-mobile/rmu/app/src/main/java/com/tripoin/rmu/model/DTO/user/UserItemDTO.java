@@ -10,7 +10,7 @@ import java.io.Serializable;
 /**
  * Created by Ridla on 4/18/2015.
  */
-public class UserItemDTO /*implements Parcelable*/ implements Serializable{
+public class UserItemDTO implements Parcelable{
 
     @JsonProperty("user_code")
     private String userCode;
@@ -18,9 +18,12 @@ public class UserItemDTO /*implements Parcelable*/ implements Serializable{
     @JsonProperty("role_code")
     private String roleCode;
 
-    /*public UserItemDTO(Parcel in) {
+    public UserItemDTO(Parcel in) {
         readFromParcel(in);
-    }*/
+    }
+
+    public UserItemDTO() {
+    }
 
     public String getUserCode() {
         return userCode;
@@ -46,23 +49,23 @@ public class UserItemDTO /*implements Parcelable*/ implements Serializable{
                 '}';
     }
 
-    /*@Override
+    @Override
     public int describeContents() {
         return 0;
-    }*/
+    }
 
-    /*@Override
+    @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(userCode);
         dest.writeString(roleCode);
-    }*/
+    }
 
-    /*private void readFromParcel(Parcel in) {
+    private void readFromParcel(Parcel in) {
         userCode = in.readString();
         roleCode = in.readString();
-    }*/
+    }
 
-    /*Creator creator = new Creator() {
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
         @Override
         public Object createFromParcel(Parcel source) {
             return new UserItemDTO(source);
@@ -72,5 +75,5 @@ public class UserItemDTO /*implements Parcelable*/ implements Serializable{
         public Object[] newArray(int size) {
             return new UserItemDTO[size];
         }
-    };*/
+    };
 }
