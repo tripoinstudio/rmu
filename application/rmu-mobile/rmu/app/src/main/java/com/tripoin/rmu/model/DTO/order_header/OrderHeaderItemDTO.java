@@ -1,11 +1,14 @@
 package com.tripoin.rmu.model.DTO.order_header;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by Dayat on 4/18/2015.
  */
-public class OrderHeaderItemDTO {
+public class OrderHeaderItemDTO implements Parcelable{
 
     @JsonProperty("order_header_no")
     private String orderHeaderNo;
@@ -27,6 +30,13 @@ public class OrderHeaderItemDTO {
 
     @JsonProperty("train_no")
     private String trainNo;
+
+    public OrderHeaderItemDTO(Parcel in) {
+        readFromParcel(in);
+    }
+
+    public OrderHeaderItemDTO() {
+    }
 
     public String getOrderHeaderNo() {
         return orderHeaderNo;
@@ -96,4 +106,39 @@ public class OrderHeaderItemDTO {
                 ", trainNo='" + trainNo + '\'' +
                 '}';
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(orderHeaderNo);
+        dest.writeString(orderHeaderDateTime);
+        dest.writeString(orderTotalPaid);
+        dest.writeString(orderHeaderStatus);
+        dest.writeString(seatNo);
+        dest.writeString(carriageNo);
+        dest.writeString(trainNo);
+    }
+
+    private void readFromParcel(Parcel in) {
+        orderHeaderNo = in.readString();
+        orderHeaderDateTime = in.readString();
+        orderTotalPaid = in.readString();
+        orderHeaderStatus = in.readString();
+        seatNo = in.readString();
+        carriageNo = in.readString();
+        trainNo = in.readString();
+    }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public OrderHeaderItemDTO createFromParcel(Parcel in) {
+            return new OrderHeaderItemDTO(in);
+        }
+        public OrderHeaderItemDTO[] newArray(int size) {
+            return new OrderHeaderItemDTO[size];
+        }
+    };
 }
