@@ -16,13 +16,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.tripoin.rmu.R;
+
 import com.tripoin.rmu.model.base.impl.BaseRESTDTO;
 import com.tripoin.rmu.rest.api.IConnectionPost;
 import com.tripoin.rmu.rest.impl.ConnectionRest;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
-
 
 /**
  * Created by Achmad Fauzi on 4/18/2015 : 2:33 PM.
@@ -41,6 +42,9 @@ public class FragmentChangeIPServer extends Fragment implements IConnectionPost{
 
     public FragmentChangeIPServer newInstance(String text){
         FragmentChangeIPServer mFragment = new FragmentChangeIPServer();
+        /*Bundle mBundle = new Bundle();
+        mBundle.putString(TEXT_FRAGMENT, text);
+        mFragment.setArguments(mBundle);*/
         return mFragment;
     }
 
