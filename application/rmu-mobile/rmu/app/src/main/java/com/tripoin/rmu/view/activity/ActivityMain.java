@@ -150,7 +150,7 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
                 mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentUpdateStaticData).commit();
                 break;
             case 4 :
-                fragmentAbout = new FragmentAbout().newInstance();
+                fragmentAbout = new FragmentAbout().newInstance(listName);
                 mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentAbout).commit();
                 break;
             case 6 :
