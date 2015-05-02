@@ -18,6 +18,7 @@ public enum RestConstant {
     HTTP_POST("POST"),
     TSK_CHECK_PHONE_NUMBER("CHECK_MNUMBER"),
     TSK_LOGIN("login"),
+    TSK_CONNECTION("connection"),
     TSK_SEAT("seat"),
     TSK_CARRIAGE("carriage"),
     TSK_MENU("menu"),
@@ -136,6 +137,7 @@ public enum RestConstant {
     //Rest dialog messages
     CHECKING_PHONE_NUMBER("Checking phone number"),
     AUTHENTICATING("Authenticating"),
+    TESTING("Testing connection"),
     ACTIVATING_ACCOUNT("Activating account"),
     SIGN_OUT("Sign out"),
     PROCESSING_CHANGE_PASSWORD("Processing change password"),
