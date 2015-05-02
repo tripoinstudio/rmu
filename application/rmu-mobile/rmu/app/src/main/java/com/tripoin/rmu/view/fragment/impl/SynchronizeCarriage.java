@@ -93,4 +93,9 @@ public class SynchronizeCarriage extends ASynchronizeData implements ICarriagePo
     public String getTableName() {
         return tableName;
     }
+
+    @Override
+    public void selectRelatedTable() {
+
+    }
 }

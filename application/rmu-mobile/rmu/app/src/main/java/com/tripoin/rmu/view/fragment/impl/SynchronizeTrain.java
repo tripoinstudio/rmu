@@ -94,4 +94,9 @@ public class SynchronizeTrain extends ASynchronizeData implements ITrainPost {
     public String getTableName() {
         return tableName;
     }
+
+    @Override
+    public void selectRelatedTable() {
+
+    }
 }

@@ -94,4 +94,9 @@ public class SynchronizeSeat extends ASynchronizeData implements ISeatPost {
     public String getTableName() {
         return tableName;
     }
+
+    @Override
+    public void selectRelatedTable() {
+
+    }
 }
