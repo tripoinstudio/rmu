@@ -28,13 +28,13 @@
 
     <!--@dimen/carddemo_gplay_grid_columnwidth-->
     <it.gmariotti.cardslib.library.view.CardGridView
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:columnWidth="@dimen/carddemo_gplay_grid_columnwidth"
-        android:numColumns="2"
+        android:numColumns="3"
         android:verticalSpacing="3dp"
         android:horizontalSpacing="2dp"
         android:stretchMode="columnWidth"

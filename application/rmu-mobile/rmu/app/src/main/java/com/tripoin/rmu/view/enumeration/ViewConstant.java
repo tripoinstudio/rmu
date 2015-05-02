@@ -50,6 +50,7 @@ public enum ViewConstant {
     IDR("IDR"),
     CARRIAGE_NO("Carriage No :"),
     SEAT_NO("Seat No :"),
+    CURRENCY_IDR("IDR "),
     ;
 
 

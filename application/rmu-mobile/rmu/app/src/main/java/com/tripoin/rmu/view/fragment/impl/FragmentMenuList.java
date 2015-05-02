@@ -1,6 +1,8 @@
 package com.tripoin.rmu.view.fragment.impl;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,8 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.GridView;
-import android.widget.HorizontalScrollView;
 import android.widget.RatingBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -27,6 +27,8 @@ import com.tripoin.rmu.model.persist.MenuModel;
 import com.tripoin.rmu.persistence.orm_persistence.service.MenuDBManager;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
+import com.tripoin.rmu.view.enumeration.ViewConstant;
+import com.tripoin.rmu.view.ui.CustomCardSource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +50,9 @@ public class FragmentMenuList extends Fragment {
     private boolean mSearchCheck;
     View rootView = null;
     private PropertyUtil securityUtil;
+    private String imageName;
+    private String subtitle;
+    private String price;
 
     public FragmentMenuList newInstance(String text){
         FragmentMenuList mFragment = new FragmentMenuList();
@@ -58,7 +63,7 @@ public class FragmentMenuList extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_menu_list, container, false);
         securityUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(), rootView.getContext());
-        Log.d("MENU", "1");
+        MenuDBManager.init(rootView.getContext());
         new MenuASync().execute();
         return rootView;
     }
@@ -67,28 +72,23 @@ public class FragmentMenuList extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
-        initCards();
+
     }
 
     private void initCards() {
+        List<MenuModel> menuModels = MenuDBManager.getInstance().getAllData();
         ArrayList<Card> cards = new ArrayList<Card>();
-        for (int i = 0; i < 200; i++) {
-            GplayGridCard card = new GplayGridCard(getActivity());
-            card.headerTitle = "App example " + i;
-            card.secondaryTitle = "Some text here " + i;
-            card.rating = (float) (Math.random() * (5.0));
-            if ((i % 6 == 0)) {
-                card.resourceIdThumbnail = R.drawable.ic_ic_dh_bat;
-            } else if ((i % 6 == 1)) {
-                card.resourceIdThumbnail = R.drawable.ic_ic_dh_net;
-            } else if ((i % 6 == 2)) {
-                card.resourceIdThumbnail = R.drawable.ic_tris;
-            } else if ((i % 6 == 3)) {
-                card.resourceIdThumbnail = R.drawable.ic_info;
-            } else if ((i % 6 == 4)) {
-                card.resourceIdThumbnail = R.drawable.ic_smile;
-            }
-            card.init();
+        for (MenuModel menuModel : menuModels) {
+            if(menuModel.getMenuType().equalsIgnoreCase("1"))
+                subtitle = "Makanan";
+            else
+                subtitle = "Minuman";
+            price = menuModel.getMenuPrice();
+            GplayGridCard card = new GplayGridCard(getActivity(), menuModel.getMenuName(), subtitle, price);
+            card.rating = (float)(Float.valueOf(menuModel.getMenuRating()));
+            imageName = menuModel.getMenuImageURL();
+            CardThumbnail.CustomSource customSource = new CustomCardSource(rootView.getContext(),imageName ).getCustomSource();
+            card.init(customSource);
             cards.add(card);
         }
 
@@ -142,34 +142,26 @@ public class FragmentMenuList extends Fragment {
         protected int resourceIdThumbnail = -1;
         protected int count;
 
-        protected String headerTitle;
         protected String secondaryTitle;
+        protected String price;
         protected float rating;
+        protected String headerTitle;
 
-        public GplayGridCard(Context context) {
+        public GplayGridCard(Context context, String headerTitle, String secondaryTitle, String price) {
             super(context, R.layout.carddemo_gplay_inner_content);
+            this.secondaryTitle = secondaryTitle;
+            this.price = price;
+            this.headerTitle = headerTitle;
         }
 
         public GplayGridCard(Context context, int innerLayout) {
             super(context, innerLayout);
         }
 
-        private void init() {
-            CardHeader header = new CardHeader(getContext());
-            header.setButtonOverflowVisible(true);
-            header.setTitle(headerTitle);
-            header.setPopupMenu(R.menu.popupmain, new CardHeader.OnClickCardHeaderPopupMenuListener() {
-                @Override
-                public void onMenuItemClick(BaseCard card, MenuItem item) {
-                    Toast.makeText(getContext(), "Item " + item.getTitle(), Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            addCardHeader(header);
-
+        private void init(CardThumbnail.CustomSource customSource) {
             GplayGridThumb thumbnail = new GplayGridThumb(getContext());
-            if (resourceIdThumbnail > -1)
-                thumbnail.setDrawableResource(resourceIdThumbnail);
+            if (customSource != null)
+                thumbnail.setCustomSource(customSource);
             else
                 thumbnail.setDrawableResource(R.drawable.ic_launcher);
             addCardThumbnail(thumbnail);
@@ -184,17 +176,17 @@ public class FragmentMenuList extends Fragment {
 
         @Override
         public void setupInnerViewElements(ViewGroup parent, View view) {
+            TextView headerTitle = (TextView) view.findViewById(R.id.card_title);
+            headerTitle.setText(this.headerTitle);
+
             TextView title = (TextView) view.findViewById(R.id.carddemo_gplay_main_inner_title);
-            title.setText("FREE");
+            title.setText(ViewConstant.CURRENCY_IDR.toString().concat(price).concat(",-"));
 
             TextView subtitle = (TextView) view.findViewById(R.id.carddemo_gplay_main_inner_subtitle);
             subtitle.setText(secondaryTitle);
 
             RatingBar mRatingBar = (RatingBar) parent.findViewById(R.id.carddemo_gplay_main_inner_ratingBar);
 
-            mRatingBar.setNumStars(5);
-            mRatingBar.setMax(5);
-            mRatingBar.setStepSize(0.5f);
             mRatingBar.setRating(rating);
         }
 
@@ -245,7 +237,10 @@ public class FragmentMenuList extends Fragment {
             return null;
         }
 
-
+        @Override
+        protected void onPostExecute(Object o) {
+            initCards();
+        }
     }
 
 }

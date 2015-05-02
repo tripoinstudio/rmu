@@ -22,7 +22,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_marginLeft="3dp"
-                android:layout_height="60dp"
+                android:layout_height="61dp"
                 android:layout_marginTop="5dp">
 
     <TextView
@@ -38,7 +38,6 @@
         android:id="@+id/carddemo_gplay_main_inner_ratingBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_marginTop="24dp"
         android:numStars="5"
         android:max="5"
@@ -50,7 +49,7 @@
     <TextView
         android:id="@+id/carddemo_gplay_main_inner_title"
         android:layout_width="wrap_content"
-        android:textSize="10sp"
+        android:textSize="12sp"
         android:textColor="@android:color/holo_green_light"
         android:layout_marginTop="25dp"
         android:layout_marginRight="5dp"
@@ -59,7 +58,7 @@
 
     <TextView
         android:id="@+id/carddemo_gplay_main_inner_subtitle"
-        android:textSize="11sp"
+        android:textSize="12sp"
         android:textColor="#BBB"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="5dp"

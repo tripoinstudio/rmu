@@ -16,6 +16,9 @@ public class MenuModel {
     @DatabaseField( generatedId = true, canBeNull = false, columnName = ModelConstant.MENU_ID )
     private int id;
 
+    @DatabaseField( columnName = ModelConstant.MENU_CODE )
+    private String menuCode;
+
     @DatabaseField( columnName = ModelConstant.MENU_NAME )
     private String menuName;
 
@@ -24,6 +27,9 @@ public class MenuModel {
 
     @DatabaseField( columnName = ModelConstant.MENU_PRICE )
     private String menuPrice;
+
+    @DatabaseField( columnName = ModelConstant.MENU_RATING )
+    private String menuRating;
 
     @DatabaseField( columnName = ModelConstant.MENU_IMAGE_URL )
     private String menuImageURL;
@@ -34,6 +40,14 @@ public class MenuModel {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getMenuCode() {
+        return menuCode;
+    }
+
+    public void setMenuCode(String menuCode) {
+        this.menuCode = menuCode;
     }
 
     public String getMenuName() {
@@ -60,6 +74,14 @@ public class MenuModel {
         this.menuPrice = menuPrice;
     }
 
+    public String getMenuRating() {
+        return menuRating;
+    }
+
+    public void setMenuRating(String menuRating) {
+        this.menuRating = menuRating;
+    }
+
     public String getMenuImageURL() {
         return menuImageURL;
     }
@@ -72,9 +94,11 @@ public class MenuModel {
     public String toString() {
         return "MenuModel{" +
                 "id=" + id +
+                ", menuCode='" + menuCode + '\'' +
                 ", menuName='" + menuName + '\'' +
                 ", menuType='" + menuType + '\'' +
                 ", menuPrice='" + menuPrice + '\'' +
+                ", menuRating='" + menuRating + '\'' +
                 ", menuImageURL='" + menuImageURL + '\'' +
                 '}';
     }
