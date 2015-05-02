@@ -65,6 +65,11 @@ public class SynchronizeMenu extends ASynchronizeData implements IMenuPost{
         return tableName;
     }
 
+    @Override
+    public void selectRelatedTable() {
+
+    }
+
 
     @Override
     public void onPostSyncMenu(Object objectResult) {
