@@ -8,7 +8,7 @@ import android.widget.Toast;
 import com.google.inject.Inject;
 import com.tripoin.rmu.R;
 import com.tripoin.rmu.model.DTO.AdminConfigurationDTO;
-import com.tripoin.rmu.model.DTO.BaseRESTDTO;
+import com.tripoin.rmu.model.base.impl.BaseRESTDTO;
 import com.tripoin.rmu.model.DTO.LoginRestDTO;
 import com.tripoin.rmu.model.DTO.PasswordExpiredDTO;
 import com.tripoin.rmu.rest.api.ISyncReloadConfiguration;
@@ -65,7 +65,7 @@ public abstract class ASecureActivity extends ACustomActivity implements ISyncSe
 
     protected void detectLoginStatus() {
         if( checkLoginStatus() ){
-//            gotoNextActivity(ActivityMain.class, PropertyConstant.INTENT_MNUMBER_DEFAULT_KEY.toString(), securityUtil.getValuePropertyMap(PropertyConstant.MNUMBER.toString()));
+            gotoNextActivity(ActivityMain.class, PropertyConstant.USER_NAME.toString(), securityUtil.getValuePropertyMap(PropertyConstant.MNUMBER.toString()));
         }
     }
 
@@ -76,7 +76,7 @@ public abstract class ASecureActivity extends ACustomActivity implements ISyncSe
     public boolean checkLoginStatus(){
         boolean result;
         try {
-            result = (!securityUtil.getValuePropertyMap(PropertyConstant.MNUMBER.toString()).equals(stringEmpty)) && !(securityUtil.getValuePropertyMap(PropertyConstant.LOGIN_STATUS_KEY.toString()).equals(stringEmpty));
+            result = (!securityUtil.getValuePropertyMap(PropertyConstant.USER_NAME.toString()).equals(stringEmpty)) && !(securityUtil.getValuePropertyMap(PropertyConstant.LOGIN_STATUS_KEY.toString()).equals(stringEmpty));
         }catch ( Exception e){
             result = false;
         }
@@ -175,7 +175,7 @@ public abstract class ASecureActivity extends ACustomActivity implements ISyncSe
             if( loginRestDTO.getResult().equals( RestConstant.OK.toString() )){
                 securityUtil.saveSingleProperty(PropertyConstant.LOGIN_STATUS_KEY.toString(), PropertyConstant.LOGIN_STATUS_VALUE.toString());
                 securityUtil.saveSingleProperty( PropertyConstant.PASSWORD_EXPIRED_DATE.toString(), loginRestDTO.getPasswordExpiredDate() );
-//                goToMainView(PropertyConstant.INTENT_MNUMBER_DEFAULT_KEY.toString(), mnumber);
+                goToMainView(PropertyConstant.USER_NAME.toString(), mnumber);
             }else{
                 Toast.makeText( this, loginRestDTO.getErr_msg(), Toast.LENGTH_SHORT ).show();
             }
@@ -189,7 +189,6 @@ public abstract class ASecureActivity extends ACustomActivity implements ISyncSe
         private ISyncSecureResponse delegate = null;
 
         public CheckPhoneNumberRest(ISyncSecureResponse delegate) {
-            super(null);
             this.delegate = delegate;
         }
 
@@ -231,7 +230,6 @@ public abstract class ASecureActivity extends ACustomActivity implements ISyncSe
         private ISyncSecureResponse delegate = null;
 
         public ProcessLoginRest(ISyncSecureResponse delegate) {
-            super(null);
             this.delegate = delegate;
         }
 
@@ -273,7 +271,6 @@ public abstract class ASecureActivity extends ACustomActivity implements ISyncSe
         private ISyncReloadConfiguration delegate = null;
 
         public ReadAdminConfigRest(ISyncReloadConfiguration delegate) {
-            super(null);
             this.delegate = delegate;
         }
 
@@ -380,7 +377,6 @@ public abstract class ASecureActivity extends ACustomActivity implements ISyncSe
         private String message;
 
         public LogoutRest(boolean exit, String message) {
-            super(null);
             this.exit = exit;
             this.message = message;
         }
