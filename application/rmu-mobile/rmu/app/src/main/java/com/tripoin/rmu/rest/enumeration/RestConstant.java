@@ -132,6 +132,7 @@ public enum RestConstant {
     DOWNLOAD("download"),
     LATENCY_UPPERCASE("LATENCY"),
     DOWNLOAD_UPPERCASE("DOWNLOAD"),
+    IMAGE("images/"),
 
 
     //Rest dialog messages
