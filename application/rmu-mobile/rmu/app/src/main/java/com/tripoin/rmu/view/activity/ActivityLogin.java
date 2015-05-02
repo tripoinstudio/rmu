@@ -138,7 +138,7 @@ public class ActivityLogin extends ASecureActivity implements View.OnClickListen
                         }
                     }
                     Log.d("USER DTO LOGIN", userDTO.toString());
-                    gotoNextActivity(ActivityMain.class, PropertyConstant.USER_DTO.toString(), "");
+                    gotoNextActivity(ActivityMain.class, PropertyConstant.USER_DTO.toString(), userDTO);
                 }else {
                     Toast.makeText(this, "An error occured ".concat(userDTO.getErr_msg()),Toast.LENGTH_SHORT).show();
                 }
