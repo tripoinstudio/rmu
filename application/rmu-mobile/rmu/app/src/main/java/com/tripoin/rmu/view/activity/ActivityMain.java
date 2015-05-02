@@ -28,6 +28,7 @@ import com.tripoin.rmu.view.fragment.impl.FragmentChangeIPServer;
 import com.tripoin.rmu.view.fragment.impl.FragmentMenuList;
 import com.tripoin.rmu.view.fragment.impl.FragmentOrderList;
 import com.tripoin.rmu.view.fragment.impl.FragmentUpdateStaticData;
+import com.tripoin.rmu.view.fragment.impl.FragmentUserProfile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,7 @@ import br.liveo.navigationliveo.NavigationLiveo;
 public class ActivityMain extends NavigationLiveo implements NavigationLiveoListener, ILogoutPost {
 
     private List<String> mListNameItem;
+    int layoutContainerIdGlobal = 0;
     private UserDTO userDTO;
 
     private PropertyUtil securityUtil;
@@ -142,6 +144,7 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
                 mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentMenuList).commit();
                 break;
             case 2 :
+                layoutContainerIdGlobal = layoutContainerId;
                 fragmentOrderList = new FragmentOrderList().newInstance(userDTO);
                 mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentOrderList).commit();
                 break;
@@ -187,7 +190,10 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
 
     @Override
     public void onClickUserPhotoNavigation(View view) {
-        Toast.makeText(this, "open user profile", Toast.LENGTH_SHORT).show();
+        FragmentManager mFragmentManager = getSupportFragmentManager();
+        FragmentUserProfile fragmentUserProfile = null;
+        fragmentUserProfile = new FragmentUserProfile().newInstance("User Profile");
+        mFragmentManager.beginTransaction().replace(layoutContainerIdGlobal, fragmentUserProfile).commit();
     }
 
     public void exitApplication( Context context ) {
