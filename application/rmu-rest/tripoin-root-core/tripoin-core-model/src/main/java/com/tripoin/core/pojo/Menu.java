@@ -24,12 +24,11 @@ public class Menu {
 	private String name;
 	private Integer type;
 	private BigDecimal price;
-	private String imageUrl;
 	private BigDecimal rating;
 	private Integer status;
 	private String remarks;
 	private List<OrderDetail> orderDetails;
-
+	private List<Image> images;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -78,15 +77,6 @@ public class Menu {
 		this.price = price;
 	}
 
-	@Column(name="menu_image_url", length=250)
-	public String getImageUrl() {
-		return imageUrl;
-	}
-
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
-	}
-
 	@Column(name="menu_rating")
 	public BigDecimal getRating() {
 		return rating;
@@ -123,11 +113,20 @@ public class Menu {
 		this.orderDetails = orderDetails;
 	}
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "menu", cascade=CascadeType.ALL)
+	public List<Image> getImages() {
+		return images;
+	}
+
+	public void setImages(List<Image> images) {
+		this.images = images;
+	}
+
 	@Override
 	public String toString() {
 		return "Menu [id=" + id + ", code=" + code + ", name=" + name
-				+ ", type=" + type + ", price=" + price + ", imageUrl="
-				+ imageUrl + ", rating=" + rating + ", status=" + status
+				+ ", type=" + type + ", price=" + price
+				+ ", rating=" + rating + ", status=" + status
 				+ ", remarks=" + remarks + "]";
 	}
 	

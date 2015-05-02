@@ -12,14 +12,11 @@ import javax.xml.bind.annotation.XmlType;
  * @author <a href="mailto:ridla.fadilah@gmail.com">Ridla Fadilah</a>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { "security_user", "master_version", "response_code", "response_msg", "result" })
-@XmlRootElement(name = "Users")
-public class Users {
-	@XmlElement(name = "User", required = true)
-	private UserDTO security_user;
-	
-	@XmlElement(name = "Version", required = true)
-	private List<VersionDTO> master_version;
+@XmlType(name = "", propOrder = { "master_image", "response_code", "response_msg", "result" })
+@XmlRootElement(name = "Images")
+public class Images {	
+	@XmlElement(name = "Image", required = true)
+	private List<ImageDTO> master_image;
 	
 	@XmlElement(name = "response_code", required = true)
 	private String response_code;
@@ -30,20 +27,12 @@ public class Users {
 	@XmlElement(name = "result", required = true)
 	private String result;
 
-	public UserDTO getSecurity_user() {
-		return security_user;
+	public List<ImageDTO> getMaster_image() {
+		return master_image;
 	}
 
-	public void setSecurity_user(UserDTO security_user) {
-		this.security_user = security_user;
-	}
-
-	public List<VersionDTO> getMaster_version() {
-		return master_version;
-	}
-
-	public void setMaster_version(List<VersionDTO> master_version) {
-		this.master_version = master_version;
+	public void setMaster_image(List<ImageDTO> master_image) {
+		this.master_image = master_image;
 	}
 
 	public String getResponse_code() {
@@ -69,12 +58,4 @@ public class Users {
 	public void setResult(String result) {
 		this.result = result;
 	}
-
-	@Override
-	public String toString() {
-		return "Users [security_user=" + security_user + ", master_version="
-				+ master_version + ", response_code=" + response_code
-				+ ", response_msg=" + response_msg + ", result=" + result + "]";
-	}
-
 }
