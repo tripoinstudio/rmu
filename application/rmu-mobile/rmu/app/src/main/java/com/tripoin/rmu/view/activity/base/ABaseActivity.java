@@ -6,6 +6,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.Window;
@@ -19,6 +20,7 @@ import com.tripoin.rmu.util.GeneralValidation;
 import com.tripoin.rmu.view.activity.ActivityMain;
 import com.tripoin.rmu.view.activity.api.IBaseActivity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +51,7 @@ public abstract class ABaseActivity extends RoboActionBarActivity implements IBa
         super.onCreate(savedInstanceState);
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-       setupActionBar();
+        setupActionBar();
         setupTypeFace();
         initWidget();
         setupValues();
@@ -63,6 +65,20 @@ public abstract class ABaseActivity extends RoboActionBarActivity implements IBa
 
     @Override
     public void gotoNextActivity(Class<?> clazz, String extraKey, String extraContent ) {
+        Intent intent = new Intent( this, clazz );
+        intent.putExtra( extraKey, extraContent );
+        startActivity( intent );
+    }
+
+    @Override
+    public void gotoNextActivity(Class<?> clazz, String extraKey, Serializable extraContent ) {
+        Intent intent = new Intent( this, clazz );
+        intent.putExtra( extraKey, extraContent );
+        startActivity( intent );
+    }
+
+    @Override
+    public void gotoNextActivity(Class<?> clazz, String extraKey, Parcelable extraContent) {
         Intent intent = new Intent( this, clazz );
         intent.putExtra( extraKey, extraContent );
         startActivity( intent );

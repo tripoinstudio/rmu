@@ -1,6 +1,9 @@
 package com.tripoin.rmu.view.activity.api;
 
 import android.content.Context;
+import android.os.Parcelable;
+
+import java.io.Serializable;
 
 /**
  * Created by Achmad Fauzi on 11/19/2014.
@@ -17,6 +20,23 @@ public interface IBaseActivity {
      * @param extraContent String
      */
     public void gotoNextActivity(Class<?> clazz, String extraKey, String extraContent);
+
+    /**
+     * This method is used to initiate next Activity from current active Activity
+     * @param clazz Class
+     * @param extraKey String
+     * @param extraContent Serializable
+     */
+    public void gotoNextActivity(Class<?> clazz, String extraKey, Serializable extraContent);
+
+
+    /**
+     * This method is used to initiate next Activity from current active Activity
+     * @param clazz Class
+     * @param extraKey String
+     * @param extraContent Parcel
+     */
+    public void gotoNextActivity(Class<?> clazz, String extraKey, Parcelable extraContent);
 
 
     /**

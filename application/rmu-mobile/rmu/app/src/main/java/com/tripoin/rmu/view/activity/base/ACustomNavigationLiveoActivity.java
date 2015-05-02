@@ -2,8 +2,11 @@ package com.tripoin.rmu.view.activity.base;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 
 import com.tripoin.rmu.view.activity.api.IBaseActivity;
+
+import java.io.Serializable;
 
 import br.liveo.navigationliveo.NavigationLiveo;
 import roboguice.activity.RoboActionBarActivity;
@@ -28,6 +31,16 @@ public class ACustomNavigationLiveoActivity extends NavigationLiveo implements I
 
     @Override
     public void gotoNextActivity(Class<?> clazz, String extraKey, String extraContent) {
+
+    }
+
+    @Override
+    public void gotoNextActivity(Class<?> clazz, String extraKey, Serializable extraContent) {
+
+    }
+
+    @Override
+    public void gotoNextActivity(Class<?> clazz, String extraKey, Parcelable extraContent) {
 
     }
 
