@@ -13,6 +13,8 @@ import android.widget.Toast;
 import com.tripoin.rmu.R;
 import com.tripoin.rmu.model.base.impl.BaseRESTDTO;
 import com.tripoin.rmu.model.DTO.user.UserDTO;
+import com.tripoin.rmu.model.persist.OrderListModel;
+import com.tripoin.rmu.persistence.orm_persistence.service.OrderListDBManager;
 import com.tripoin.rmu.rest.api.ILogoutPost;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
@@ -28,7 +30,6 @@ import com.tripoin.rmu.view.fragment.impl.FragmentChangeIPServer;
 import com.tripoin.rmu.view.fragment.impl.FragmentMenuList;
 import com.tripoin.rmu.view.fragment.impl.FragmentOrderList;
 import com.tripoin.rmu.view.fragment.impl.FragmentUpdateStaticData;
-import com.tripoin.rmu.view.fragment.impl.FragmentUserProfile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,12 +45,12 @@ import br.liveo.navigationliveo.NavigationLiveo;
 public class ActivityMain extends NavigationLiveo implements NavigationLiveoListener, ILogoutPost {
 
     private List<String> mListNameItem;
-    int layoutContainerIdGlobal = 0;
     private UserDTO userDTO;
 
     private PropertyUtil securityUtil;
     private IMainUtilActivity iMainActivityUtil;
     private ILogoutHandler iLogoutHandler;
+    private List<OrderListModel> orderListModels;
 
 
     @Override
@@ -78,12 +79,14 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
         iLogoutHandler = new LogoutHandlerImpl(securityUtil, this);
 
         //iMainActivityUtil.detectLoginStatus(iLogoutHandler);
-        /*if(bundle != null){*/
+
+        try{
             userDTO = (UserDTO) getIntent().getExtras().getParcelable(PropertyConstant.USER_DTO.toString());
-            Log.d("USERDTO", userDTO.toString());
-        /*}else{
-            Log.d("USER DTO", "null");
-        }*/
+            Log.d("USERDTO act main", userDTO.toString());
+        }catch (Exception e){
+            OrderListDBManager.init(this);
+            orderListModels = OrderListDBManager.getInstance().getAllData();
+        }
 
         // name of the list items
         mListNameItem = new ArrayList<>();
@@ -144,8 +147,7 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
                 mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentMenuList).commit();
                 break;
             case 2 :
-                layoutContainerIdGlobal = layoutContainerId;
-                fragmentOrderList = new FragmentOrderList().newInstance(userDTO);
+                fragmentOrderList = new FragmentOrderList().newInstance(userDTO, orderListModels);
                 mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentOrderList).commit();
                 break;
             case 3 :
@@ -190,10 +192,7 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
 
     @Override
     public void onClickUserPhotoNavigation(View view) {
-        FragmentManager mFragmentManager = getSupportFragmentManager();
-        FragmentUserProfile fragmentUserProfile = null;
-        fragmentUserProfile = new FragmentUserProfile().newInstance("User Profile");
-        mFragmentManager.beginTransaction().replace(layoutContainerIdGlobal, fragmentUserProfile).commit();
+        Toast.makeText(this, "open user profile", Toast.LENGTH_SHORT).show();
     }
 
     public void exitApplication( Context context ) {
