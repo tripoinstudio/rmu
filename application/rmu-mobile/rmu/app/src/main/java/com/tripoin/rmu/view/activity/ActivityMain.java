@@ -77,7 +77,7 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
 
         //iMainActivityUtil.detectLoginStatus(iLogoutHandler);
         /*if(bundle != null){*/
-            //userDTO = (UserDTO) getIntent().getExtras().getParcelable(PropertyConstant.USER_DTO.toString());
+            userDTO = (UserDTO) getIntent().getExtras().getParcelable(PropertyConstant.USER_DTO.toString());
             Log.d("USERDTO", userDTO.toString());
         /*}else{
             Log.d("USER DTO", "null");
@@ -150,7 +150,7 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
                 mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentUpdateStaticData).commit();
                 break;
             case 4 :
-                fragmentAbout = new FragmentAbout().newInstance(listName);
+                fragmentAbout = new FragmentAbout().newInstance();
                 mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentAbout).commit();
                 break;
             case 6 :
