@@ -10,21 +10,33 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.graphics.drawable.LayerDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.tripoin.rmu.R;
+import com.tripoin.rmu.model.api.ModelConstant;
+import com.tripoin.rmu.persistence.orm_persistence.service.MenuDBManager;
+import com.tripoin.rmu.util.enumeration.PropertyConstant;
+import com.tripoin.rmu.util.impl.PropertyUtil;
 import com.tripoin.rmu.view.ui.RoundedImageView;
 
 import java.util.HashMap;
@@ -41,11 +53,14 @@ public class FragmentAddMenu extends Fragment {
     private RoundedImageView menuImage2;
     private Canvas canvasRoundedCorner;
     private SliderLayout mDemoSlider;
+    private boolean mSearchCheck;
+    private PropertyUtil securityUtil;
     private int numtest;
     View rootView;
 
     public FragmentAddMenu newInstance(String text){
         FragmentAddMenu mFragment = new FragmentAddMenu();
+        Log.d("code",text);
         return mFragment;
     }
 
@@ -54,7 +69,9 @@ public class FragmentAddMenu extends Fragment {
 
 
         rootView = inflater.inflate(R.layout.fragment_add_menu, container, false);
-
+        securityUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(), rootView.getContext());
+        MenuDBManager.init(rootView.getContext());
+        new MenuASync().execute();
         menuName = (TextView)rootView.findViewById(R.id.menuName);
         menuName.setText("Nasi Goreng");
         TextView txus2=(TextView)rootView.findViewById(R.id.tx_dates);
@@ -186,6 +203,76 @@ public class FragmentAddMenu extends Fragment {
         return result;
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu, menu);
 
+        final MenuItem menuItem = menu.findItem(R.id.menu_search);
+        menuItem.setVisible(true);
+
+        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setQueryHint(this.getString(R.string.search));
+
+        ((EditText) searchView.findViewById(R.id.search_src_text)).setHintTextColor(getResources().getColor(R.color.nliveo_white));
+        searchView.setOnQueryTextListener(onQuerySearchView);
+
+        menu.findItem(R.id.menu_add).setVisible(true);
+
+        mSearchCheck = false;
+    }
+
+    private SearchView.OnQueryTextListener onQuerySearchView = new SearchView.OnQueryTextListener() {
+        @Override
+        public boolean onQueryTextSubmit(String s) {
+            return false;
+        }
+
+        @Override
+        public boolean onQueryTextChange(String s) {
+            if (mSearchCheck){
+                // implement your search here
+            }
+            return false;
+        }
+    };
+
+    private class MenuASync extends AsyncTask {
+
+        SynchronizeMenu synchronizeMenu;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Log.d("MENU", "2");
+            synchronizeMenu = new SynchronizeMenu(securityUtil, rootView.getContext(), ModelConstant.REST_MENU_TABLE.toString());
+        }
+
+        @Override
+        protected Object doInBackground(Object[] params) {
+            Log.d("MENU", "detect version");
+            synchronizeMenu.detectVersionDiff();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+           // initCards();
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_add:
+                Toast.makeText(getActivity(), R.string.add, Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.menu_search:
+                mSearchCheck = true;
+                Toast.makeText(getActivity(), R.string.search, Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return true;
+    }
 
 }

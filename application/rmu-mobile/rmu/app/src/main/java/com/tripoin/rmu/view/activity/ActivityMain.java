@@ -181,8 +181,8 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
                 menu.findItem(R.id.menu_search).setVisible(!visible);*/
                 break;
             case 1:
-                menu.findItem(R.id.menu_add).setVisible(!visible);
-                menu.findItem(R.id.menu_search).setVisible(!visible);
+//                menu.findItem(R.id.menu_add).setVisible(!visible);
+//                menu.findItem(R.id.menu_search).setVisible(!visible);
                 break;
         }
     }

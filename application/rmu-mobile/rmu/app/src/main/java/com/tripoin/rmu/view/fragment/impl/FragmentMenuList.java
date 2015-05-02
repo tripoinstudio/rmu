@@ -1,5 +1,7 @@
 package com.tripoin.rmu.view.fragment.impl;
 
+
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -7,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,6 +40,7 @@ import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardGridArrayAdapter;
 import it.gmariotti.cardslib.library.internal.CardHeader;
 import it.gmariotti.cardslib.library.internal.CardThumbnail;
+import it.gmariotti.cardslib.library.internal.ViewToClickToExpand;
 import it.gmariotti.cardslib.library.internal.base.BaseCard;
 import it.gmariotti.cardslib.library.view.CardGridView;
 
@@ -53,6 +57,8 @@ public class FragmentMenuList extends Fragment {
     private String imageName;
     private String subtitle;
     private String price;
+  //  FragmentDetailOrderList fragmentDetailOrderList = null;
+
 
     public FragmentMenuList newInstance(String text){
         FragmentMenuList mFragment = new FragmentMenuList();
@@ -103,18 +109,39 @@ public class FragmentMenuList extends Fragment {
     private void initCards() {
         List<MenuModel> menuModels = MenuDBManager.getInstance().getAllData();
         ArrayList<Card> cards = new ArrayList<Card>();
-        for (MenuModel menuModel : menuModels) {
+
+        for (final MenuModel menuModel : menuModels) {
             if(menuModel.getMenuType().equalsIgnoreCase("1"))
                 subtitle = "Makanan";
             else
                 subtitle = "Minuman";
             price = menuModel.getMenuPrice();
+
             GplayGridCard card = new GplayGridCard(getActivity(), menuModel.getMenuName(), subtitle, price);
             card.rating = (float)(Float.valueOf(menuModel.getMenuRating()));
+
             imageName = menuModel.getMenuImageURL();
+
             CardThumbnail.CustomSource customSource = new CustomCardSource(rootView.getContext(),imageName ).getCustomSource();
             card.init(customSource);
+        //    final FragmentManager mFragmentManager = ((FragmentActivity) rootView.getContext()).getSupportFragmentManager();
+            card.setOnClickListener(new Card.OnCardClickListener() {
+                @Override
+                public void onClick(Card card, View view) {
+
+                    Toast.makeText(view.getContext(), "Click listener TesCode MENU = "+menuModel.getMenuCode() , Toast.LENGTH_SHORT).show();
+
+                    FragmentAddMenu fragmentMenuList = new FragmentAddMenu().newInstance(menuModel.getMenuCode());
+                    FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
+                    mFragmentManager.beginTransaction().replace(R.id.container, fragmentMenuList).commit();
+                    Toast.makeText(view.getContext(), "Sampai Fragment " , Toast.LENGTH_SHORT).show();
+
+
+                }
+
+            });
             cards.add(card);
+
         }
 
         CardGridArrayAdapter mCardArrayAdapter = new CardGridArrayAdapter(getActivity(), cards);
@@ -268,5 +295,6 @@ public class FragmentMenuList extends Fragment {
             initCards();
         }
     }
+
 
 }
