@@ -1,11 +1,15 @@
 package com.tripoin.rmu.view.fragment.impl;
 
 
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,63 +18,101 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.a;
 import com.tripoin.rmu.R;
+import com.tripoin.rmu.model.DTO.carriage.CarriageDTO;
+import com.tripoin.rmu.model.DTO.carriage.CarriageItemDTO;
+import com.tripoin.rmu.model.DTO.seat.SeatDTO;
+import com.tripoin.rmu.model.DTO.seat.SeatItemDTO;
+import com.tripoin.rmu.model.api.ModelConstant;
+import com.tripoin.rmu.model.persist.CarriageModel;
+import com.tripoin.rmu.model.persist.SeatModel;
+import com.tripoin.rmu.persistence.orm_persistence.service.CarriageDBManager;
+import com.tripoin.rmu.persistence.orm_persistence.service.SeatDBManager;
+import com.tripoin.rmu.persistence.orm_persistence.service.TrainDBManager;
+import com.tripoin.rmu.rest.api.IBaseRestFinished;
+import com.tripoin.rmu.rest.api.ICarriagePost;
+import com.tripoin.rmu.rest.api.ISeatPost;
+import com.tripoin.rmu.rest.impl.CarriageListRest;
+import com.tripoin.rmu.rest.impl.SeatListRest;
+import com.tripoin.rmu.util.enumeration.PropertyConstant;
+import com.tripoin.rmu.util.impl.PropertyUtil;
+import com.tripoin.rmu.view.activity.ActivityMain;
+import com.tripoin.rmu.view.enumeration.ViewConstant;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Syahrial Fandrianah on 4/18/2015 : 1:41 AM.
  * mailto : sfandrianah2@gmail.com
  */
-public class FragmentAddOrder extends Fragment {
+public class FragmentAddOrder extends Fragment{
 
     private String array_spinner_carriage[];
-    private static final String[] COUNTRIES = new String[] { "Gerbong 1",
-            "Gerbong 2", "Gerbong 3", "Gerbong 4", "Gerbong 5" };
-    private static final String[] SEATS = new String[] { "Seat 1",
-            "Seat 2", "Seat 3", "Seat 4", "Seat 5" };
+    private String array_spinner_seat[];
+    private static final String[] COUNTRIES = new String[] { "Gerbong 1","Gerbong 2", "Gerbong 3", "Gerbong 4", "Gerbong 5" };
+    private static final String[] SEATS = new String[] { "Seat 1","Seat 2", "Seat 3", "Seat 4", "Seat 5" };
     View rootView;
+    View viewMenuList;
     private Typeface myFont;
     private Spinner mySpinner;
-
     private Typeface myFontSeat;
     private Spinner mySpinnerSeat;
+    PropertyUtil propertyUtil;
+    CarriageListRest carriageListRest;
+    MyArrayAdapter ma;
+    SeatListRest seatListRest;
+    MyArrayAdapterSeat maSeat;
+    private String today;
+    private CarriageASync carriageASync;
+    private SeatASync seatASync;
+    private TrainASync trainASync;
 
     public FragmentAddOrder newInstance(String text){
         FragmentAddOrder mFragment = new FragmentAddOrder();
-
-        /*Bundle mBundle = new Bundle();
-        mBundle.putString(TEXT_FRAGMENT, text);
-        mFragment.setArguments(mBundle);*/
-
         return mFragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_add_order, container, false);
+        propertyUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(),rootView.getContext());
         TextView txus=(TextView)rootView.findViewById(R.id.tx_username);
         Typeface faces=Typeface.createFromAsset(txus.getResources().getAssets(),"font/Roboto-Light.ttf");
+        txus.setText(propertyUtil.getValuePropertyMap(PropertyConstant.USER_NAME.toString()));
         txus.setTypeface(faces);
-        txus.setTextSize(15);
+        txus.setTextSize(18);
 //        txus.setTypeface(null, Typeface.BOLD);
         TextView txus2=(TextView)rootView.findViewById(R.id.tx_dates);
         Typeface faces2=Typeface.createFromAsset(txus2.getResources().getAssets(),"font/Roboto-Light.ttf");
+        today  = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+        txus2.setText(today);
         txus2.setTypeface(faces2);
-        txus2.setTextSize(15);
+        txus2.setTextSize(18);
 //        txus2.setTypeface(null,Typeface.BOLD);
 
         Button bt_bayar =(Button)rootView.findViewById(R.id.bt_bayar);
         bt_bayar.setTypeface(faces2);
+        Button bt_add_order = (Button) rootView.findViewById(R.id.btn_add_order);
 
-        mySpinner = (Spinner) rootView.findViewById(R.id.spinner_carriage);
-        myFont = Typeface.createFromAsset(mySpinner.getResources().getAssets(), "font/Roboto-Light.ttf");
-        MyArrayAdapter ma = new MyArrayAdapter(rootView.getContext());
-        mySpinner.setAdapter(ma);
+        carriageASync = new CarriageASync();
+        seatASync = new SeatASync();
+        trainASync = new TrainASync();
 
-        mySpinnerSeat = (Spinner) rootView.findViewById(R.id.spinner_seat);
-        myFontSeat = Typeface.createFromAsset(mySpinnerSeat.getResources().getAssets(), "font/Roboto-Light.ttf");
-        MyArrayAdapterSeat mas = new MyArrayAdapterSeat(rootView.getContext());
-        mySpinnerSeat.setAdapter(mas);
+        carriageASync.execute();
+        seatASync.execute();
+        trainASync.execute();
 
+        bt_add_order.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentMenuList fragmentMenuList = new FragmentMenuList();
+                FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
+                mFragmentManager.beginTransaction().replace(R.id.container, fragmentMenuList).commit();
+            }
+        });
 
         rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT ));
         return rootView;
@@ -84,13 +126,12 @@ public class FragmentAddOrder extends Fragment {
 
     private class MyArrayAdapter extends BaseAdapter {
         private LayoutInflater mInflater;
-    public MyArrayAdapter(Context context){
-        mInflater = LayoutInflater.from(context);
-    }
-
+        public MyArrayAdapter(Context context){
+            mInflater = LayoutInflater.from(context);
+        }
         @Override
         public int getCount(){
-            return COUNTRIES.length;
+            return array_spinner_carriage.length;
         }
         @Override
         public Object getItem(int position){
@@ -118,21 +159,16 @@ public class FragmentAddOrder extends Fragment {
                 holder = (ListContent) v.getTag();
             }
             holder.name.setTypeface(myFont);
-            holder.name.setTextSize(15);
+            holder.name.setTextSize(18);
             holder.name.setTextColor(getResources().getColor(R.color.black_light));
-
-//            holder.name.setTypeface(null,Typeface.BOLD);
-
-            holder.name.setText(""+COUNTRIES[position]);
+            //            holder.name.setTypeface(null,Typeface.BOLD);
+            holder.name.setText(""+array_spinner_carriage[position]);
             return v;
         }
-
     }
 
     static class ListContent {
-
         TextView name;
-
     }
 
     private class MyArrayAdapterSeat extends BaseAdapter {
@@ -143,7 +179,7 @@ public class FragmentAddOrder extends Fragment {
 
         @Override
         public int getCount(){
-            return SEATS.length;
+            return array_spinner_seat.length;
         }
         @Override
         public Object getItem(int position){
@@ -171,11 +207,11 @@ public class FragmentAddOrder extends Fragment {
                 holder = (ListContentSeat) v.getTag();
             }
             holder.name.setTypeface(myFont);
-            holder.name.setTextSize(15);
+            holder.name.setTextSize(18);
             holder.name.setTextColor(getResources().getColor(R.color.black_light));
 //            holder.name.setTypeface(null,Typeface.BOLD);
 
-            holder.name.setText(""+SEATS[position]);
+            holder.name.setText(""+array_spinner_seat[position]);
             return v;
         }
 
@@ -184,6 +220,94 @@ public class FragmentAddOrder extends Fragment {
     static class ListContentSeat {
 
         TextView name;
+
+    }
+
+    private class CarriageASync extends AsyncTask {
+
+        SynchronizeCarriage synchronizeCarriage;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Log.d("CARRIAGE", "2");
+            synchronizeCarriage = new SynchronizeCarriage(propertyUtil, rootView.getContext(), ModelConstant.REST_CARRIAGE_TABLE.toString());
+        }
+
+        @Override
+        protected Object doInBackground(Object[] params) {
+            Log.d("CARRIAGE", "detect version");
+            synchronizeCarriage.detectVersionDiff();
+            return null;
+        }
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+            List<CarriageModel> carriageModels = CarriageDBManager.getInstance().getAllData();
+            int array = carriageModels.size();
+            array_spinner_carriage = new String[array];
+            for(int i = 0; i<array;i++){
+                array_spinner_carriage[i] = carriageModels.get(i).getCarriageNo();
+            }
+            mySpinner = (Spinner) rootView.findViewById(R.id.spinner_carriage);
+            myFont = Typeface.createFromAsset(mySpinner.getResources().getAssets(), "font/Roboto-Light.ttf");
+            ma = new MyArrayAdapter(rootView.getContext());
+            mySpinner.setAdapter(ma);
+        }
+
+    }
+
+    private class SeatASync extends AsyncTask {
+
+        SynchronizeSeat synchronizeSeat;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Log.d("SEAT", "2");
+            SeatDBManager.init(rootView.getContext());
+            synchronizeSeat = new SynchronizeSeat(propertyUtil, rootView.getContext(), ModelConstant.REST_SEAT_TABLE.toString());
+        }
+
+        @Override
+        protected Object doInBackground(Object[] params) {
+            Log.d("SEAT", "detect version");
+            synchronizeSeat.detectVersionDiff();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+            List<SeatModel> seatModels = SeatDBManager.getInstance().getAllData();
+            int array = seatModels.size();
+            array_spinner_seat = new String[array];
+            for(int i = 0; i<array;i++){
+                array_spinner_seat[i] = seatModels.get(i).getSeatNo();
+            }
+
+            mySpinnerSeat = (Spinner) rootView.findViewById(R.id.spinner_seat);
+            myFont = Typeface.createFromAsset(mySpinner.getResources().getAssets(), "font/Roboto-Light.ttf");
+            maSeat = new MyArrayAdapterSeat(rootView.getContext());
+            mySpinnerSeat.setAdapter(maSeat);
+        }
+    }
+
+    private class TrainASync extends AsyncTask {
+
+        SynchronizeTrain synchronizeTrain;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Log.d("TRAIN", "2");
+            TrainDBManager.init(rootView.getContext());
+            synchronizeTrain = new SynchronizeTrain(propertyUtil, rootView.getContext(), ModelConstant.REST_TRAIN_TABLE.toString());
+        }
+
+        @Override
+        protected Object doInBackground(Object[] params) {
+            Log.d("TRAIN", "detect version");
+            synchronizeTrain.detectVersionDiff();
+            return null;
+        }
 
     }
 
