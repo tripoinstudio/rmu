@@ -96,31 +96,6 @@ public class FragmentChangeIPServer extends Fragment implements IConnectionPost{
 
                 editIpPort = (EditText) dialogView.findViewById(R.id.edit_ip_port);
                 editIpPort.setText(label_textIp.getText().toString());
-                InputFilter[] filters = new InputFilter[1];
-                filters[0] = new InputFilter() {
-                    @Override
-                    public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-                        if (end > start){
-                            String destTxt = dest.toString();
-                            String resultingTxt = destTxt.substring(0, dstart) +
-                                    source.subSequence(start, end) +
-                                    destTxt.substring(dend);
-                            if (!resultingTxt.matches ("^\\d{1,3}(\\." +
-                                    "(\\d{1,4}(\\.(\\d{1,4}(\\.(\\d{1,4})?)?)?)?)?)?")) {
-                                return "";
-                            } else {
-                                String[] splits = resultingTxt.split("\\.");
-                                for (int i=0; i<splits.length; i++) {
-                                    if (Integer.valueOf(splits[i]) > 255) {
-                                        return "";
-                                    }
-                                }
-                            }
-                        }
-                        return null;
-                    }
-                };
-                editIpPort.setFilters(filters);
 
                 alertDialogBuilder.setCancelable(false).setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override
