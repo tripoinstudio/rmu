@@ -19,8 +19,8 @@ public class UserDTO extends BaseRESTDTO implements Parcelable /*implements Seri
     @JsonProperty("security_user")
     private UserItemDTO userItemDTO;
 
-    @JsonProperty("trx_order_header")
-    private ArrayList<OrderHeaderItemDTO> orderHeaderItemDTOs;
+    /*@JsonProperty("trx_order_header")
+    private ArrayList<OrderHeaderItemDTO> orderHeaderItemDTOs;*/
 
     @JsonProperty("master_version")
     private ArrayList<MasterVersionItem> masterVersionItems;
@@ -40,13 +40,13 @@ public class UserDTO extends BaseRESTDTO implements Parcelable /*implements Seri
         this.userItemDTO = userItemDTO;
     }
 
-    public ArrayList<OrderHeaderItemDTO> getOrderHeaderItemDTOs() {
+    /*public ArrayList<OrderHeaderItemDTO> getOrderHeaderItemDTOs() {
         return orderHeaderItemDTOs;
     }
 
     public void setOrderHeaderItemDTOs(ArrayList<OrderHeaderItemDTO> orderHeaderItemDTOs) {
         this.orderHeaderItemDTOs = orderHeaderItemDTOs;
-    }
+    }*/
 
     public ArrayList<MasterVersionItem> getMasterVersionItems() {
         return masterVersionItems;
@@ -60,7 +60,7 @@ public class UserDTO extends BaseRESTDTO implements Parcelable /*implements Seri
     public String toString() {
         return "UserDTO{" +
                 "masterVersions=" + masterVersionItems +
-                ", orderHeaderItemDTOs=" + orderHeaderItemDTOs +
+                /*", orderHeaderItemDTOs=" + orderHeaderItemDTOs +*/
                 ", userItemDTO=" + userItemDTO +
                 '}';
     }
@@ -73,13 +73,13 @@ public class UserDTO extends BaseRESTDTO implements Parcelable /*implements Seri
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeValue(userItemDTO);
-        dest.writeList(orderHeaderItemDTOs);
+        /*dest.writeList(orderHeaderItemDTOs);*/
         dest.writeList(masterVersionItems);
     }
 
     private void readFromParcel(Parcel in) {
         userItemDTO = (UserItemDTO) in.readValue(UserItemDTO.class.getClassLoader());
-        orderHeaderItemDTOs = (ArrayList<OrderHeaderItemDTO>) in.readArrayList(OrderHeaderItemDTO.class.getClassLoader());
+        /*orderHeaderItemDTOs = (ArrayList<OrderHeaderItemDTO>) in.readArrayList(OrderHeaderItemDTO.class.getClassLoader());*/
         masterVersionItems = (ArrayList<MasterVersionItem>) in.readArrayList(MasterVersionItem.class.getClassLoader());
     }
 
