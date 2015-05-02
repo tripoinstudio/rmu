@@ -1,10 +1,12 @@
 package com.tripoin.rmu.view.fragment.impl;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,8 +22,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tripoin.rmu.R;
+import com.tripoin.rmu.model.api.ModelConstant;
+import com.tripoin.rmu.model.persist.MenuModel;
+import com.tripoin.rmu.persistence.orm_persistence.service.MenuDBManager;
+import com.tripoin.rmu.util.enumeration.PropertyConstant;
+import com.tripoin.rmu.util.impl.PropertyUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardGridArrayAdapter;
@@ -39,6 +47,7 @@ public class FragmentMenuList extends Fragment {
     protected ScrollView mScrollView;
     private boolean mSearchCheck;
     View rootView = null;
+    private PropertyUtil securityUtil;
 
     public FragmentMenuList newInstance(String text){
         FragmentMenuList mFragment = new FragmentMenuList();
@@ -48,6 +57,9 @@ public class FragmentMenuList extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_menu_list, container, false);
+        securityUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(), rootView.getContext());
+        Log.d("MENU", "1");
+        new MenuASync().execute();
         return rootView;
     }
 
@@ -215,4 +227,25 @@ public class FragmentMenuList extends Fragment {
             return false;
         }
     };
+
+    private class MenuASync extends AsyncTask{
+
+        SynchronizeMenu synchronizeMenu;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Log.d("MENU", "2");
+            synchronizeMenu = new SynchronizeMenu(securityUtil, rootView.getContext(), ModelConstant.REST_MENU_TABLE.toString());
+        }
+
+        @Override
+        protected Object doInBackground(Object[] params) {
+            Log.d("MENU", "detect version");
+            synchronizeMenu.detectVersionDiff();
+            return null;
+        }
+
+
+    }
+
 }

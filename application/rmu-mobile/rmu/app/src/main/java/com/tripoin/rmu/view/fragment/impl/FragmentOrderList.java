@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.tripoin.rmu.R;
 import com.tripoin.rmu.model.DTO.order_list.OrderListDTO;
+import com.tripoin.rmu.model.DTO.user.UserDTO;
 import com.tripoin.rmu.view.ui.CustomCardOrderList;
 
 import java.net.URL;
@@ -34,16 +35,15 @@ import it.gmariotti.cardslib.library.view.CardListView;
  */
 public class FragmentOrderList extends Fragment {
 
-
-
     private boolean mSearchCheck;
-    View rootView = null;
+    private View rootView = null;
+    private UserDTO userDTO;
 
-    public FragmentOrderList newInstance(String text){
+    public FragmentOrderList newInstance(UserDTO userDTO){
         FragmentOrderList mFragment = new FragmentOrderList();
+        this.userDTO = userDTO;
         return mFragment;
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
