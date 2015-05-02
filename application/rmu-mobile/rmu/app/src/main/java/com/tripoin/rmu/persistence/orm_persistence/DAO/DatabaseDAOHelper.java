@@ -8,8 +8,11 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+import com.tripoin.rmu.model.persist.CarriageModel;
 import com.tripoin.rmu.model.persist.MenuModel;
+import com.tripoin.rmu.model.persist.SeatModel;
 import com.tripoin.rmu.model.persist.SelfTestModel;
+import com.tripoin.rmu.model.persist.TrainModel;
 import com.tripoin.rmu.model.persist.VersionModel;
 import com.tripoin.rmu.persistence.enumeration.DatabaseConstant;
 
@@ -25,6 +28,9 @@ public class DatabaseDAOHelper extends OrmLiteSqliteOpenHelper{
     private Dao<SelfTestModel, Integer> selfTestDAO = null;
     private Dao<VersionModel, Integer> versionDAO = null;
     private Dao<MenuModel, Integer> menuDAO = null;
+    private Dao<CarriageModel, Integer> carriageDAO = null;
+    private Dao<SeatModel, Integer> seatDAO = null;
+    private Dao<TrainModel, Integer> trainDAO = null;
 
     public DatabaseDAOHelper(Context ctx) {
         super( ctx, DatabaseConstant.DB_NAME.toString(), null, Integer.parseInt( DatabaseConstant.DB_VERSION.toString() ) );
@@ -38,6 +44,9 @@ public class DatabaseDAOHelper extends OrmLiteSqliteOpenHelper{
             TableUtils.createTable(connectionSource, VersionModel.class);
             TableUtils.createTable(connectionSource, MenuModel.class);
             /*Add here to add some connections*/
+            TableUtils.createTable(connectionSource, CarriageModel.class);
+            TableUtils.createTable(connectionSource, SeatModel.class);
+            TableUtils.createTable(connectionSource, TrainModel.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -49,6 +58,9 @@ public class DatabaseDAOHelper extends OrmLiteSqliteOpenHelper{
             TableUtils.dropTable(connectionSource, SelfTestModel.class, true);
             TableUtils.dropTable(connectionSource, VersionModel.class, true);
             TableUtils.dropTable(connectionSource, MenuModel.class, true);
+            TableUtils.dropTable(connectionSource, CarriageModel.class, true);
+            TableUtils.dropTable(connectionSource, SeatModel.class, true);
+            TableUtils.dropTable(connectionSource, TrainModel.class, true);
             onCreate(database, connectionSource);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -86,5 +98,38 @@ public class DatabaseDAOHelper extends OrmLiteSqliteOpenHelper{
             }
         }
         return menuDAO;
+    }
+
+    public Dao<CarriageModel, Integer> getCarriageDAO() {
+        if( menuDAO == null ){
+            try {
+                carriageDAO = getDao(CarriageModel.class);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return carriageDAO;
+    }
+
+    public Dao<SeatModel, Integer> getSeatDAO() {
+        if( menuDAO == null ){
+            try {
+                seatDAO = getDao(SeatModel.class);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return seatDAO;
+    }
+
+    public Dao<TrainModel, Integer> getTrainDAO() {
+        if( menuDAO == null ){
+            try {
+                trainDAO = getDao(TrainModel.class);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return trainDAO;
     }
 }

@@ -10,7 +10,6 @@ import java.util.ArrayList;
  */
 public class CarriageDTO extends BaseRESTDTO {
 
-
     @JsonProperty("master_carriage")
     private ArrayList<CarriageItemDTO> carriageItemDTOs;
 
