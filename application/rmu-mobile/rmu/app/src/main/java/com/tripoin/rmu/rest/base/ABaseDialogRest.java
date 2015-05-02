@@ -15,10 +15,6 @@ public abstract class ABaseDialogRest extends ABaseRest{
 
     protected ProgressDialog progressDialog = new ProgressDialog( getContext() );
 
-    protected ABaseDialogRest(IBaseRestFinished iBaseRestFinished) {
-        super(iBaseRestFinished);
-    }
-
     protected abstract Context getContext();
 
     protected abstract String getProgressDialogTitle();

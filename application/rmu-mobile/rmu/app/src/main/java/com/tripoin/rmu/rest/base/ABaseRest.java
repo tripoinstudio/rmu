@@ -31,10 +31,8 @@ public abstract class ABaseRest extends AsyncTask< String, String, String > impl
     protected Object objectResult;
     protected JSONObject jsonObject;
 
-    private IBaseRestFinished iBaseRestFinished;
 
-    protected ABaseRest(IBaseRestFinished iBaseRestFinished) {
-        this.iBaseRestFinished = iBaseRestFinished;
+    protected ABaseRest() {
     }
 
     public static String BASE_URL =
@@ -42,7 +40,6 @@ public abstract class ABaseRest extends AsyncTask< String, String, String > impl
             concat(ViewConstant.COLON.toString().
             concat(ViewConstant.SLASH.toString()).
             concat(ViewConstant.SLASH.toString()).
-            /*concat("SPRING:spring@").*/
             concat(PropertyConstant.SERVER_HOST_DEFAULT_VALUE.toString()).
             concat(ViewConstant.COLON.toString()).
             concat(PropertyConstant.SERVER_PORT_DEFAULT_VALUE.toString()).
@@ -74,9 +71,4 @@ public abstract class ABaseRest extends AsyncTask< String, String, String > impl
         return PropertyConstant.APP_MODE.toString();
     }
 
-    @Override
-    protected void onPostExecute(String s) {
-        super.onPostExecute(s);
-        iBaseRestFinished.onPostDelegate(objectResult);
-    }
 }

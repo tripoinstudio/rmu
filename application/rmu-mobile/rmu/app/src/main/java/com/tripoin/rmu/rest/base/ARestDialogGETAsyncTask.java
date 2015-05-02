@@ -15,10 +15,6 @@ import java.io.IOException;
  */
 public abstract class ARestDialogGETAsyncTask extends ABaseDialogRest{
 
-    protected ARestDialogGETAsyncTask(IBaseRestFinished iBaseRestFinished) {
-        super(iBaseRestFinished);
-    }
-
     @Override
     protected String doInBackground(String... params) {
         Log.e("URL WS", processUrl());
