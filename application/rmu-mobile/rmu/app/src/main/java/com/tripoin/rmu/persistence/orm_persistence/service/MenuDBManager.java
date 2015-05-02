@@ -1,12 +1,16 @@
 package com.tripoin.rmu.persistence.orm_persistence.service;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.tripoin.rmu.model.persist.MenuModel;
 import com.tripoin.rmu.persistence.orm_persistence.DAO.DatabaseDAOHelper;
 import com.tripoin.rmu.persistence.orm_persistence.api.IBaseDatabaseHandler;
 
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -87,6 +91,21 @@ public class MenuDBManager<DATA> implements IBaseDatabaseHandler{
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public List<DATA> getAllDataFromQuery(String s) {
+        QueryBuilder<MenuModel, Integer> queryBuilder = null;
+        PreparedQuery<MenuModel> preparedQuery = null;
+                List<DATA> result = null;
+        try {
+            queryBuilder = getDatabaseDAOHelper().getMenuDAO().queryBuilder();
+            queryBuilder.where().like("menu_name","%"+s+"%");
+            preparedQuery = queryBuilder.prepare();
+            result = (List<DATA>) getDatabaseDAOHelper().getMenuDAO().query(preparedQuery);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
 }

@@ -75,6 +75,31 @@ public class FragmentMenuList extends Fragment {
 
     }
 
+    private void initSearchCards(String s) {
+        List<MenuModel> menuModels = MenuDBManager.getInstance().getAllDataFromQuery(s);
+        ArrayList<Card> cards = new ArrayList<Card>();
+        for (MenuModel menuModel : menuModels) {
+            if(menuModel.getMenuType().equalsIgnoreCase("1"))
+                subtitle = "Makanan";
+            else
+                subtitle = "Minuman";
+            price = menuModel.getMenuPrice();
+            GplayGridCard card = new GplayGridCard(getActivity(), menuModel.getMenuName(), subtitle, price);
+            card.rating = (float)(Float.valueOf(menuModel.getMenuRating()));
+            imageName = menuModel.getMenuImageURL();
+            CardThumbnail.CustomSource customSource = new CustomCardSource(rootView.getContext(),imageName ).getCustomSource();
+            card.init(customSource);
+            cards.add(card);
+        }
+
+        CardGridArrayAdapter mCardArrayAdapter = new CardGridArrayAdapter(getActivity(), cards);
+
+        CardGridView listView = (CardGridView) getActivity().findViewById(R.id.carddemo_grid_base1);
+        if (listView != null) {
+            listView.setAdapter(mCardArrayAdapter);
+        }
+    }
+
     private void initCards() {
         List<MenuModel> menuModels = MenuDBManager.getInstance().getAllData();
         ArrayList<Card> cards = new ArrayList<Card>();
@@ -215,6 +240,7 @@ public class FragmentMenuList extends Fragment {
         public boolean onQueryTextChange(String s) {
             if (mSearchCheck){
                 // implement your search here
+                initSearchCards(s);
             }
             return false;
         }
