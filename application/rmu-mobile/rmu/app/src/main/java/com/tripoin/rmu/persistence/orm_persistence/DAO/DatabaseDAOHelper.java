@@ -10,6 +10,7 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.tripoin.rmu.model.persist.CarriageModel;
 import com.tripoin.rmu.model.persist.MenuModel;
+import com.tripoin.rmu.model.persist.OrderListModel;
 import com.tripoin.rmu.model.persist.SeatModel;
 import com.tripoin.rmu.model.persist.SelfTestModel;
 import com.tripoin.rmu.model.persist.TrainModel;
@@ -28,6 +29,7 @@ public class DatabaseDAOHelper extends OrmLiteSqliteOpenHelper{
     private Dao<SelfTestModel, Integer> selfTestDAO = null;
     private Dao<VersionModel, Integer> versionDAO = null;
     private Dao<MenuModel, Integer> menuDAO = null;
+    private Dao<OrderListModel, Integer> orderListDAO = null;
     private Dao<CarriageModel, Integer> carriageDAO = null;
     private Dao<SeatModel, Integer> seatDAO = null;
     private Dao<TrainModel, Integer> trainDAO = null;
@@ -43,6 +45,7 @@ public class DatabaseDAOHelper extends OrmLiteSqliteOpenHelper{
             TableUtils.createTable(connectionSource, SelfTestModel.class);
             TableUtils.createTable(connectionSource, VersionModel.class);
             TableUtils.createTable(connectionSource, MenuModel.class);
+            TableUtils.createTable(connectionSource, OrderListModel.class);
             /*Add here to add some connections*/
             TableUtils.createTable(connectionSource, CarriageModel.class);
             TableUtils.createTable(connectionSource, SeatModel.class);
@@ -58,6 +61,7 @@ public class DatabaseDAOHelper extends OrmLiteSqliteOpenHelper{
             TableUtils.dropTable(connectionSource, SelfTestModel.class, true);
             TableUtils.dropTable(connectionSource, VersionModel.class, true);
             TableUtils.dropTable(connectionSource, MenuModel.class, true);
+            TableUtils.dropTable(connectionSource, OrderListModel.class, true);
             TableUtils.dropTable(connectionSource, CarriageModel.class, true);
             TableUtils.dropTable(connectionSource, SeatModel.class, true);
             TableUtils.dropTable(connectionSource, TrainModel.class, true);
@@ -98,6 +102,17 @@ public class DatabaseDAOHelper extends OrmLiteSqliteOpenHelper{
             }
         }
         return menuDAO;
+    }
+
+    public Dao<OrderListModel, Integer> getOrderListDAO(){
+        if( orderListDAO == null ){
+            try {
+                orderListDAO = getDao(OrderListModel.class);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return orderListDAO;
     }
 
     public Dao<CarriageModel, Integer> getCarriageDAO() {
