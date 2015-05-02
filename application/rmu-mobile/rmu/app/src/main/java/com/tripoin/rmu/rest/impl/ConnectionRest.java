@@ -1,6 +1,6 @@
 package com.tripoin.rmu.rest.impl;
 
-import com.tripoin.rmu.model.DTO.BaseRESTDTO;
+import com.tripoin.rmu.model.base.impl.BaseRESTDTO;
 import com.tripoin.rmu.rest.api.IConnectionPost;
 import com.tripoin.rmu.rest.base.ARestDialogGETAsyncTask;
 import com.tripoin.rmu.rest.enumeration.RestConstant;
