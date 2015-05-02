@@ -127,13 +127,13 @@ public interface ModelConstant {
 
     public final String REST_TRAIN_TABLE = "master_train";
 
-    public final String TRAIN_CODE = "seat_code";
+    public final String TRAIN_CODE = "train_code";
 
-    public final String TRAIN_NO = "seat_no";
+    public final String TRAIN_NO = "train_no";
 
-    public final String TRAIN_REMARKS = "seat_remarks";
+    public final String TRAIN_REMARKS = "train_remarks";
 
-    public final String TRAIN_ID = "seat_id";
+    public final String TRAIN_ID = "train_id";
 
 
 }
