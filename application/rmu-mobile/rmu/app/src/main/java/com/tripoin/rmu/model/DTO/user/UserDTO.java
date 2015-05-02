@@ -78,7 +78,7 @@ public class UserDTO extends BaseRESTDTO implements Parcelable /*implements Seri
     }
 
     private void readFromParcel(Parcel in) {
-        userItemDTO = in.readParcelable(UserItemDTO.class.getClassLoader());
+        userItemDTO = (UserItemDTO) in.readValue(UserItemDTO.class.getClassLoader());
         orderHeaderItemDTOs = (ArrayList<OrderHeaderItemDTO>) in.readArrayList(OrderHeaderItemDTO.class.getClassLoader());
         masterVersionItems = (ArrayList<MasterVersionItem>) in.readArrayList(MasterVersionItem.class.getClassLoader());
     }
