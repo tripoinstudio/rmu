@@ -1,6 +1,7 @@
 package com.tripoin.rmu.persistence.orm_persistence.service;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.tripoin.rmu.model.persist.VersionModel;
 import com.tripoin.rmu.persistence.orm_persistence.DAO.DatabaseDAOHelper;
@@ -85,6 +86,17 @@ public class VersionDBManager<DATA> implements IBaseDatabaseHandler{
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public VersionModel selectCustomVersionModel(String field, String value){
+        List<VersionModel> models = null;
+        try {
+            models = getDatabaseDAOHelper().getVersionDAO().queryForEq(field, value);
+            Log.d("MODELVERSIONSIZE", String.valueOf(models.size()));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return models.get(0);
     }
 
 }

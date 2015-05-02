@@ -1,6 +1,7 @@
 package com.tripoin.rmu.persistence.orm_persistence.service;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.tripoin.rmu.model.persist.MenuModel;
 import com.tripoin.rmu.persistence.orm_persistence.DAO.DatabaseDAOHelper;
@@ -80,8 +81,9 @@ public class MenuDBManager<DATA> implements IBaseDatabaseHandler{
     }
 
     public void executeRaw( String query ){
+        Log.d("QUERY", query);
         try{
-            getDatabaseDAOHelper().getMenuDAO().executeRaw( query );
+            getDatabaseDAOHelper().getMenuDAO().executeRaw(query);
         }catch (Exception e){
             e.printStackTrace();
         }
