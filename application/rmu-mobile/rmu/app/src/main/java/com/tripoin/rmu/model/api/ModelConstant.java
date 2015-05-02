@@ -65,6 +65,8 @@ public interface ModelConstant {
 
     public final String MENU_IMAGE_URL = "menu_image_url";
 
+    public final String MENU_RATING = "menu_rating";
+
     /*Version*/
     public final String VERSION_TABLE = "m_rmu_version";
 
@@ -73,7 +75,6 @@ public interface ModelConstant {
     public final String VERSION_NAMETABLE = "version_nametable";
 
     public final String VERSION_TIMESTAMP = "version_timestamp";
-
     /*Order List*/
     public final String ORDER_LIST_TABLE = "m_rmu_order_list";
 
