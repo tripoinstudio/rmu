@@ -17,11 +17,8 @@ import com.tripoin.rmu.R;
  */
 public class FragmentAbout extends Fragment {
 
-    public FragmentAbout newInstance(String text){
+    public FragmentAbout newInstance(){
         FragmentAbout mFragment = new FragmentAbout();
-        /*Bundle mBundle = new Bundle();
-        mBundle.putString(TEXT_FRAGMENT, text);
-        mFragment.setArguments(mBundle);*/
         return mFragment;
     }
 
