@@ -10,11 +10,6 @@ import com.tripoin.rmu.rest.enumeration.RestConstant;
  */
 public class SeatListRest extends ARestGETAsyncTask{
 
-
-    protected SeatListRest(IBaseRestFinished iBaseRestFinished) {
-        super(iBaseRestFinished);
-    }
-
     @Override
     public String initUrl() {
         return RestConstant.TSK_SEAT.toString();

@@ -11,10 +11,6 @@ import com.tripoin.rmu.rest.enumeration.RestConstant;
 public class OrderDetailListRest extends ARestGETAsyncTask {
 
 
-    protected OrderDetailListRest(IBaseRestFinished iBaseRestFinished) {
-        super(iBaseRestFinished);
-    }
-
     @Override
     public String initUrl() {
         return RestConstant.TSK_ORDER_DETAIL.toString();

@@ -11,10 +11,6 @@ import com.tripoin.rmu.rest.enumeration.RestConstant;
 public class CarriageListRest extends ARestGETAsyncTask{
 
 
-    protected CarriageListRest(IBaseRestFinished iBaseRestFinished) {
-        super(iBaseRestFinished);
-    }
-
     @Override
     public String initUrl() {
         return RestConstant.TSK_CARRIAGE.toString();

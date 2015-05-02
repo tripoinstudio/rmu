@@ -13,10 +13,10 @@ import com.tripoin.rmu.rest.enumeration.RestConstant;
  * Created by Ridla on 4/18/2015.
  */
 public abstract class MenuListRest extends ARestDialogGETAsyncTask{
+
     private IMenuPost iMenuPost;
 
-    public MenuListRest(IMenuPost iMenuPost) {
-        super(iMenuPost);
+    protected MenuListRest(IMenuPost iMenuPost) {
         this.iMenuPost = iMenuPost;
     }
 
@@ -39,6 +39,6 @@ public abstract class MenuListRest extends ARestDialogGETAsyncTask{
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        iMenuPost.onPostDelegate(objectResult);
+        iMenuPost.onPostSyncMenu(objectResult);
     }
 }

@@ -14,7 +14,6 @@ public abstract class LoginRest extends ARestDialogGETAsyncTask {
     private ILoginPost iLoginPost;
 
     public LoginRest(ILoginPost iLoginPost) {
-        super(iLoginPost);
         this.iLoginPost = iLoginPost;
     }
 
