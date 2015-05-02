@@ -1,11 +1,9 @@
 package com.tripoin.rmu.rest.base;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tripoin.rmu.common.IApplicationSetup;
-import com.tripoin.rmu.rest.api.IBaseRestFinished;
 import com.tripoin.rmu.rest.enumeration.RestConstant;
 import com.tripoin.rmu.rest.util.JSONParser;
 import com.tripoin.rmu.rest.util.SSLJSONParser;
@@ -14,8 +12,6 @@ import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
 
 import org.json.JSONObject;
-
-import java.io.IOException;
 
 
 /**
@@ -36,7 +32,7 @@ public abstract class ABaseRest extends AsyncTask< String, String, String > impl
     }
 
     public static String BASE_URL =
-            RestConstant.HTTP.toString().
+            RestConstant.HTTP_REST.toString().
             concat(ViewConstant.COLON.toString().
             concat(ViewConstant.SLASH.toString()).
             concat(ViewConstant.SLASH.toString()).

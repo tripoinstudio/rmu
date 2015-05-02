@@ -1,5 +1,8 @@
 package com.tripoin.rmu.rest.enumeration;
 
+import com.tripoin.rmu.util.enumeration.PropertyConstant;
+import com.tripoin.rmu.view.enumeration.ViewConstant;
+
 /**
  * Created by Achmad Fauzi on 12/30/2014.
  * fauzi.knightmaster.achmad@gmail.com
@@ -10,7 +13,7 @@ public enum RestConstant {
 
     WS_CONTEXT("tripoin/wscontext/"),
     //TSK items
-    HTTP("http"),
+    HTTP_REST("http"),
     HTTP_GET("GET"),
     HTTP_POST("POST"),
     TSK_CHECK_PHONE_NUMBER("CHECK_MNUMBER"),
@@ -170,7 +173,18 @@ public enum RestConstant {
     HEADER_ACCEPT("Accept"),
     HEADER_APP_JSON("application/json"),
     HEADER_AUTHORIZATION("Authorization"),
-    HEADER_BASIC("Basic ")
+    HEADER_BASIC("Basic "),
+
+    BASE_URL(HTTP_REST.toString().
+            concat(ViewConstant.COLON.toString().
+            concat(ViewConstant.SLASH.toString()).
+            concat(ViewConstant.SLASH.toString()).
+            concat(PropertyConstant.SERVER_HOST_DEFAULT_VALUE.toString()).
+            concat(ViewConstant.COLON.toString()).
+            concat(PropertyConstant.SERVER_PORT_DEFAULT_VALUE.toString()).
+            concat(ViewConstant.SLASH.toString()).
+            concat(RestConstant.WS_CONTEXT.toString())))
+
     ;
 
 

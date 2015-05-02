@@ -20,7 +20,7 @@ public class HttpDownloadUtil {
 
     /**
      * Downloads a file from a URL
-     * @param fileURL HTTP URL of the file to be downloaded
+     * @param fileURL HTTP_REST URL of the file to be downloaded
      * @param saveDir path of the directory to save the file
      * @throws java.io.IOException
      */
@@ -34,7 +34,7 @@ public class HttpDownloadUtil {
             httpConn = (HttpURLConnection) url.openConnection();
             httpConn.setConnectTimeout(1000 * 30); // mTimeout is in seconds
             int responseCode = httpConn.getResponseCode();
-            // always check HTTP response code first
+            // always check HTTP_REST response code first
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 String fileName = "";
                 String disposition = httpConn.getHeaderField("Content-Disposition");
@@ -55,7 +55,7 @@ public class HttpDownloadUtil {
                 downloadHolderDTO.setSize( contentLength );
                 downloadHolderDTO.setType( contentType );
 
-                // opens input stream from the HTTP connection
+                // opens input stream from the HTTP_REST connection
                 InputStream inputStream = httpConn.getInputStream();
                 String saveFilePath = saveDir + File.separator + fileName;
                 // opens an output stream to save into file
@@ -68,8 +68,8 @@ public class HttpDownloadUtil {
                 outputStream.close();
                 inputStream.close();
             } else {
-                downloadHolderDTO.setErrMessage("No file to download. Server replied HTTP code: "+responseCode);
-                Log.e("No file to download. Server replied HTTP code: ", String.valueOf(responseCode));
+                downloadHolderDTO.setErrMessage("No file to download. Server replied HTTP_REST code: "+responseCode);
+                Log.e("No file to download. Server replied HTTP_REST code: ", String.valueOf(responseCode));
             }
         /*}catch ( Exception e ){
             downloadHolderDTO.setErrMessage("Error occured when downloading "+ e.toString());
