@@ -39,6 +39,7 @@ public class FragmentAbout extends Fragment {
         Typeface faces4=Typeface.createFromAsset(label4.getResources().getAssets(),"font/Roboto-Light.ttf");
         label4.setTypeface(faces4);
         rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT ));
+
         return rootView;
     }
 

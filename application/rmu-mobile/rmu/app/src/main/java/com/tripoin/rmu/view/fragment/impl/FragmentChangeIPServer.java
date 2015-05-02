@@ -3,37 +3,26 @@ package com.tripoin.rmu.view.fragment.impl;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.res.ColorStateList;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.InputFilter;
-import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.internal.co;
 import com.tripoin.rmu.R;
-import com.tripoin.rmu.model.DTO.BaseRESTDTO;
+import com.tripoin.rmu.model.base.impl.BaseRESTDTO;
 import com.tripoin.rmu.rest.api.IConnectionPost;
 import com.tripoin.rmu.rest.impl.ConnectionRest;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 
 /**
  * Created by Achmad Fauzi on 4/18/2015 : 2:33 PM.
@@ -52,9 +41,6 @@ public class FragmentChangeIPServer extends Fragment implements IConnectionPost{
 
     public FragmentChangeIPServer newInstance(String text){
         FragmentChangeIPServer mFragment = new FragmentChangeIPServer();
-        /*Bundle mBundle = new Bundle();
-        mBundle.putString(TEXT_FRAGMENT, text);
-        mFragment.setArguments(mBundle);*/
         return mFragment;
     }
 

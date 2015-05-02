@@ -11,4 +11,6 @@ public interface ISynchronizeData<DATA> {
 
     public String getTableName();
 
+    public void selectRelatedTable();
+
 }

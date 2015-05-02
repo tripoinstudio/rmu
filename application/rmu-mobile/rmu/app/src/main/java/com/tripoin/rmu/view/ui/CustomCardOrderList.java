@@ -1,7 +1,10 @@
 package com.tripoin.rmu.view.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Vibrator;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -9,8 +12,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tripoin.rmu.R;
-import com.tripoin.rmu.model.DTO.order_list.OrderListDTO;
+import com.tripoin.rmu.model.persist.OrderListModel;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
+import com.tripoin.rmu.view.fragment.impl.FragmentDetailOrderList;
 
 import it.gmariotti.cardslib.library.internal.Card;
 
@@ -20,25 +24,37 @@ import it.gmariotti.cardslib.library.internal.Card;
  */
 public class CustomCardOrderList extends Card {
 
-    private OrderListDTO orderListDTO;
+    private OrderListModel orderListModel;
     private TextView txtOrderId;
     private ImageView imgOrderType;
     private TextView txtCarriage;
     private TextView txtSeat;
     private TextView txtTotalPaid;
     private TextView txtOrderTime;
+    private FragmentActivity activity;
 
     public CustomCardOrderList(Context context) {
         super(context);
     }
 
-    public CustomCardOrderList(Context context, int innerLayout, OrderListDTO orderListDTO) {
+    public CustomCardOrderList(FragmentActivity context, int innerLayout, OrderListModel orderListModel) {
         super(context, innerLayout);
-        this.orderListDTO = orderListDTO;
+        this.activity = context;
+        this.orderListModel = orderListModel;
         init();
     }
 
     private void init(){
+
+        setOnClickListener(new OnCardClickListener() {
+            @Override
+            public void onClick(Card card, View view) {
+                FragmentManager mFragmentManager = activity.getSupportFragmentManager();
+                FragmentDetailOrderList fragmentDetailOrderList = new FragmentDetailOrderList().newInstance(txtOrderId.getText().toString());
+                mFragmentManager.beginTransaction().replace(R.id.container, fragmentDetailOrderList).commit();
+            }
+        });
+
         setOnLongClickListener(new OnLongCardClickListener() {
             @Override
             public boolean onLongClick(Card card, View view) {
@@ -60,23 +76,23 @@ public class CustomCardOrderList extends Card {
         imgOrderType = (ImageView) view.findViewById(R.id.imgThumbOrder);
 
         if(txtOrderId != null){
-            txtOrderId.setText(orderListDTO.getOrderId());
+            txtOrderId.setText(orderListModel.getOrderId());
         }
         if(txtCarriage != null){
-            txtCarriage.setText(ViewConstant.CARRIAGE_NO.toString().concat(ViewConstant.SPACE.toString()).concat(orderListDTO.getCarriageNumber()));
+            txtCarriage.setText(ViewConstant.CARRIAGE_NO.toString().concat(ViewConstant.SPACE.toString()).concat(orderListModel.getCarriageNumber()));
         }
         if(txtSeat != null){
-            txtSeat.setText(ViewConstant.SEAT_NO.toString().concat(ViewConstant.SPACE.toString()).concat(orderListDTO.getSeatNumber()));
+            txtSeat.setText(ViewConstant.SEAT_NO.toString().concat(ViewConstant.SPACE.toString()).concat(orderListModel.getSeatNumber()));
         }
         if(txtTotalPaid != null){
-            txtTotalPaid.setText(ViewConstant.IDR.toString().concat(ViewConstant.SPACE.toString()).concat(orderListDTO.getTotalPaid()));
+            txtTotalPaid.setText(ViewConstant.IDR.toString().concat(ViewConstant.SPACE.toString()).concat(orderListModel.getTotalPaid()));
         }
         if(txtOrderTime != null){
-            txtOrderTime.setText(orderListDTO.getOrderTime());
+            txtOrderTime.setText(orderListModel.getOrderTime());
         }
         if(imgOrderType != null){
             //imgOrderType.setImageDrawable(new RoundedImage(BitmapFactory.decodeResource(view.getResources(), getImageOrderType(orderListDTO.getProcessStatus()))));
-            imgOrderType.setImageResource(getImageOrderType(orderListDTO.getProcessStatus()));
+            imgOrderType.setImageResource(getImageOrderType(orderListModel.getProcessStatus()));
         }
     }
 

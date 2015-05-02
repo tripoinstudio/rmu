@@ -54,7 +54,7 @@ public abstract class ASynchronizeData implements ISynchronizeData, IMasterVersi
                         Log.d("MENU", "version model null");
                         updateContent(versionItem.getVersionTimeStamp());
                     }else{
-                        Log.d("MENU", "select current related database");
+                        selectRelatedTable();
                         //updateContent();
                     }
                     break;
@@ -64,10 +64,8 @@ public abstract class ASynchronizeData implements ISynchronizeData, IMasterVersi
     }
 
     public int tableDiff(String latestVersion) {
-        Log.d("MENU", "8");
         Log.d("VERSIONSIZE", String.valueOf(VersionDBManager.getInstance().getAllData().size()));
         VersionModel versionModel = VersionDBManager.getInstance().selectCustomVersionModel(ModelConstant.VERSION_NAMETABLE, getTableName());
-        Log.d("MENU", "9");
         GeneralConverter generalConverter = new GeneralConverter();
         Date newVersion = generalConverter.getDateToComparator(latestVersion);
         Date oldVersion = generalConverter.getDateToComparator(versionModel.getVersionTimestamp());
