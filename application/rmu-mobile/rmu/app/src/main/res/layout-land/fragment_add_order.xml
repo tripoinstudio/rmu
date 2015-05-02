@@ -14,7 +14,8 @@
         android:paddingTop="10dip"
         android:id="@+id/tx_username"
         android:background="@drawable/bg_text_box_border_bottom"
-        android:textColor="@color/black_light"/>
+        android:textColor="@color/black_light"
+        android:text="Demo"/>
     <TextView
         android:layout_width="350dip"
         android:layout_height="35dip"
@@ -24,7 +25,8 @@
         android:paddingTop="10dip"
         android:id="@+id/tx_dates"
         android:background="@drawable/bg_text_box_border_bottom"
-        android:textColor="@color/black_light"/>
+        android:textColor="@color/black_light"
+        android:text="20/05/2015"/>
     <Spinner
         android:layout_width="350dip"
         android:layout_height="35dip"
@@ -52,7 +54,6 @@
         android:layout_height="250dip"
         android:background="@drawable/bg_order_item">
         <Button
-            android:id="@+id/btn_add_order"
             android:layout_width="150dip"
             android:layout_height="30dip"
             android:layout_marginTop="5dip"
@@ -83,7 +84,7 @@
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_gravity="right"
-                    android:layout_width="310dip"
+                    android:layout_width="450dip"
                     android:layout_height="50dip"
                     android:background="@drawable/bg_text_box_border_bottom2">
                     <LinearLayout
@@ -104,7 +105,7 @@
                         android:text="Nasi Goreng"/>
                     <TextView
                         android:layout_width="150dp"
-                        android:layout_height="25dip"
+                        android:layout_height="30dip"
                         android:layout_gravity="left"
                         android:paddingLeft="20dip"
                         android:textSize="15sp"
