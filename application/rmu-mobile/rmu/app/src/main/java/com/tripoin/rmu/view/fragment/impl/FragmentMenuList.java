@@ -2,6 +2,7 @@ package com.tripoin.rmu.view.fragment.impl;
 
 
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -31,6 +32,7 @@ import com.tripoin.rmu.persistence.orm_persistence.service.MenuDBManager;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
+import com.tripoin.rmu.view.fragment.api.base.ISynchronizeMenuList;
 import com.tripoin.rmu.view.ui.CustomCardSource;
 
 import java.util.ArrayList;
@@ -48,7 +50,7 @@ import it.gmariotti.cardslib.library.view.CardGridView;
  * Created by Achmad Fauzi on 4/18/2015 : 1:31 AM.
  * mailto : achmad.fauzi@sigma.co.id
  */
-public class FragmentMenuList extends Fragment {
+public class FragmentMenuList extends Fragment implements ISynchronizeMenuList {
 
     protected ScrollView mScrollView;
     private boolean mSearchCheck;
@@ -69,7 +71,6 @@ public class FragmentMenuList extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_menu_list, container, false);
         securityUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(), rootView.getContext());
-        MenuDBManager.init(rootView.getContext());
         new MenuASync().execute();
         return rootView;
     }
@@ -106,8 +107,7 @@ public class FragmentMenuList extends Fragment {
         }
     }
 
-    private void initCards() {
-        List<MenuModel> menuModels = MenuDBManager.getInstance().getAllData();
+    private void initCards(List<MenuModel> menuModels) {
         ArrayList<Card> cards = new ArrayList<Card>();
 
         for (final MenuModel menuModel : menuModels) {
@@ -273,26 +273,42 @@ public class FragmentMenuList extends Fragment {
         }
     };
 
+    @Override
+    public void onPostFirstSyncOrderList(List<MenuModel> menuModels) {
+        initCards(menuModels);
+    }
+
+    @Override
+    public void onPostContSyncOrderList(List<MenuModel> menuModels) {
+        initCards(menuModels);
+    }
+
     private class MenuASync extends AsyncTask{
 
+        private ProgressDialog progressDialog;
         SynchronizeMenu synchronizeMenu;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            Log.d("MENU", "2");
-            synchronizeMenu = new SynchronizeMenu(securityUtil, rootView.getContext(), ModelConstant.REST_MENU_TABLE.toString());
+            MenuDBManager.init(rootView.getContext());
+            progressDialog = new ProgressDialog(rootView.getContext());
+            progressDialog.setMessage("Loading menu list");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+            synchronizeMenu = new SynchronizeMenu(securityUtil, rootView.getContext(), ModelConstant.REST_MENU_TABLE.toString(), FragmentMenuList.this);
         }
 
         @Override
         protected Object doInBackground(Object[] params) {
-            Log.d("MENU", "detect version");
             synchronizeMenu.detectVersionDiff();
             return null;
         }
 
         @Override
         protected void onPostExecute(Object o) {
-            initCards();
+            super.onPostExecute(o);
+            progressDialog.dismiss();
         }
     }
 

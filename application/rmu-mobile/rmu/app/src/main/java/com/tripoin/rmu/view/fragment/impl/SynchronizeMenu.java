@@ -17,6 +17,7 @@ import com.tripoin.rmu.rest.impl.MenuListRest;
 import com.tripoin.rmu.util.ImageDownloader;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
+import com.tripoin.rmu.view.fragment.api.base.ISynchronizeMenuList;
 import com.tripoin.rmu.view.fragment.base.ASynchronizeData;
 
 import java.util.List;
@@ -25,22 +26,25 @@ import java.util.List;
  * Created by Achmad Fauzi on 5/1/2015 : 12:07 AM.
  * mailto : achmad.fauzi@sigma.co.id
  */
-public class SynchronizeMenu extends ASynchronizeData implements IMenuPost{
+public class SynchronizeMenu extends ASynchronizeData implements IMenuPost, ISynchronizeMenuList{
 
     private String tableName;
     private Context context;
     private PropertyUtil securityUtil;
     private String latestVersion;
+    private ISynchronizeMenuList iSynchronizeMenuList;
+    private List<MenuModel> menuModels;
 
     protected SynchronizeMenu(PropertyUtil securityUtil, Context context) {
         super(securityUtil, context);
     }
 
-    protected SynchronizeMenu(PropertyUtil securityUtil, Context context, String tableName) {
+    protected SynchronizeMenu(PropertyUtil securityUtil, Context context, String tableName, ISynchronizeMenuList iSynchronizeMenuList) {
         super(securityUtil, context);
         this.tableName = tableName;
         this.context = context;
         this.securityUtil = securityUtil;
+        this.iSynchronizeMenuList = iSynchronizeMenuList;
         MenuDBManager.init(context);
     }
 
@@ -67,9 +71,8 @@ public class SynchronizeMenu extends ASynchronizeData implements IMenuPost{
 
     @Override
     public void selectRelatedTable() {
-
+        onPostContSyncOrderList(MenuDBManager.getInstance().getAllData());
     }
-
 
     @Override
     public void onPostSyncMenu(Object objectResult) {
@@ -87,22 +90,29 @@ public class SynchronizeMenu extends ASynchronizeData implements IMenuPost{
                 menuModel.setMenuRating(itemDTO.getMenuRating());
 //                new ImageDownloader(RestConstant.BASE_URL.toString().concat(RestConstant.IMAGE.toString()).concat(itemDTO.getMenuImage()), PropertyConstant.PROPERTIES_PATH.toString().concat(params[0].toString())).downloadImage();
                 new DownloadImage().execute(itemDTO.getMenuImage());
-                /*menuModels.add(menuModel);*/
-                MenuDBManager.getInstance().insertEntity(menuModel);
-            }
 
-            Log.d("MENU", "post detect version");
-            List<MenuModel> menuModels = MenuDBManager.getInstance().getAllData();
-            for(MenuModel model: menuModels){
-                Log.d("MenuModel", model.toString());
+                MenuDBManager.getInstance().insertEntity(menuModel);
             }
 
             VersionModel versionModel = VersionDBManager.getInstance().selectCustomVersionModel(ModelConstant.VERSION_NAMETABLE, getTableName());
             versionModel.setVersionTimestamp(latestVersion);
             VersionDBManager.getInstance().updateEntity(versionModel);
+
+            menuModels = MenuDBManager.getInstance().getAllData();
+            iSynchronizeMenuList.onPostFirstSyncOrderList(menuModels);
         }else{
             Log.d("Sync Menu Object Result", "not found");
         }
+    }
+
+    @Override
+    public void onPostFirstSyncOrderList(List<MenuModel> menuModels) {
+        iSynchronizeMenuList.onPostFirstSyncOrderList(menuModels);
+    }
+
+    @Override
+    public void onPostContSyncOrderList(List<MenuModel> menuModels) {
+        iSynchronizeMenuList.onPostContSyncOrderList(menuModels);
     }
 
     private class DownloadImage extends AsyncTask {
@@ -113,4 +123,5 @@ public class SynchronizeMenu extends ASynchronizeData implements IMenuPost{
             return null;
         }
     }
+
 }

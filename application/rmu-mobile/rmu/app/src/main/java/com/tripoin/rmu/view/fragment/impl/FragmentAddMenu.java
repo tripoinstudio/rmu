@@ -1,5 +1,6 @@
 package com.tripoin.rmu.view.fragment.impl;
 
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -34,19 +35,22 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.tripoin.rmu.R;
 import com.tripoin.rmu.model.api.ModelConstant;
+import com.tripoin.rmu.model.persist.MenuModel;
 import com.tripoin.rmu.persistence.orm_persistence.service.MenuDBManager;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
+import com.tripoin.rmu.view.fragment.api.base.ISynchronizeMenuList;
 import com.tripoin.rmu.view.ui.RoundedImageView;
 
 import java.util.HashMap;
+import java.util.List;
 
 
 /**
  * Created by Achmad Fauzi on 4/18/2015 : 1:41 AM.
  * mailto : achmad.fauzi@sigma.co.id
  */
-public class FragmentAddMenu extends Fragment {
+public class FragmentAddMenu extends Fragment implements ISynchronizeMenuList {
     private TextView menuName;
     private RoundedImageView menuImage;
     private RoundedImageView menuImage1;
@@ -237,29 +241,6 @@ public class FragmentAddMenu extends Fragment {
         }
     };
 
-    private class MenuASync extends AsyncTask {
-
-        SynchronizeMenu synchronizeMenu;
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            Log.d("MENU", "2");
-            synchronizeMenu = new SynchronizeMenu(securityUtil, rootView.getContext(), ModelConstant.REST_MENU_TABLE.toString());
-        }
-
-        @Override
-        protected Object doInBackground(Object[] params) {
-            Log.d("MENU", "detect version");
-            synchronizeMenu.detectVersionDiff();
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Object o) {
-           // initCards();
-        }
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -273,6 +254,46 @@ public class FragmentAddMenu extends Fragment {
                 break;
         }
         return true;
+    }
+
+    @Override
+    public void onPostFirstSyncOrderList(List<MenuModel> menuModels) {
+//        initCards(menuModels);
+    }
+
+    @Override
+    public void onPostContSyncOrderList(List<MenuModel> menuModels) {
+//        initCards(menuModels);
+    }
+
+    private class MenuASync extends AsyncTask {
+
+        private ProgressDialog progressDialog;
+        SynchronizeMenu synchronizeMenu;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            MenuDBManager.init(rootView.getContext());
+            progressDialog = new ProgressDialog(rootView.getContext());
+            progressDialog.setMessage("Loading menu list");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+            synchronizeMenu = new SynchronizeMenu(securityUtil, rootView.getContext(), ModelConstant.REST_MENU_TABLE.toString(), FragmentAddMenu.this);
+        }
+
+        @Override
+        protected Object doInBackground(Object[] params) {
+            Log.d("MENU", "detect version");
+            synchronizeMenu.detectVersionDiff();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+            progressDialog.dismiss();
+        }
     }
 
 }
