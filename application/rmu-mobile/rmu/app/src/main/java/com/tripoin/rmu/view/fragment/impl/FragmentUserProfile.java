@@ -5,15 +5,10 @@ import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.InputFilter;
-import android.text.Spanned;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.app.Fragment;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,7 +23,7 @@ import com.tripoin.rmu.util.impl.PropertyUtil;
 
 public class FragmentUserProfile extends Fragment {
 
-    private TextView nameUser, jabatanUser, emailUser, summmaryUser, lblEditText;
+    private TextView nameUser, jabatanUser, emailUser, summmaryUser, lblEditText, lblViewPhoto, lblChangePhoto;
     private ImageView imgUserProfile, imgNameUser, imgJabatanUser, imgEmailUser, imgSummmaryUses;
     private EditText editText;
     private PropertyUtil propertyUtil;
@@ -48,14 +43,28 @@ public class FragmentUserProfile extends Fragment {
             @Override
             public void onClick(View v) {
                 LayoutInflater layoutInflater = LayoutInflater.from(rootView.getContext());
-                View dialogView = layoutInflater.inflate(R.layout.fragment_user_profile_change_image, null);
+                View dialogView = layoutInflater.inflate(R.layout.fragment_user_profile_photo_dialog, null);
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(rootView.getContext());
                 alertDialogBuilder.setView(dialogView);
 
+                lblViewPhoto = (TextView) dialogView.findViewById(R.id.lbl_view_photo);
+                lblViewPhoto.setOnClickListener( new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v) {
+                        LayoutInflater layoutInflater = LayoutInflater.from(rootView.getContext());
+                        View dialogView = layoutInflater.inflate(R.layout.fragment_view_photo_profile, null);
+
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(rootView.getContext());
+                        alertDialogBuilder.setView(dialogView);
+
+                        AlertDialog alertD = alertDialogBuilder.create();
+                        alertD.show();
+                    }
+                });
+
                 AlertDialog alertD = alertDialogBuilder.create();
                 alertD.show();
-
             }
         });
 
