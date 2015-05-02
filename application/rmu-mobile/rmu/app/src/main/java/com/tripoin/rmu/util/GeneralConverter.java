@@ -179,7 +179,7 @@ public class GeneralConverter {
      * @return
      */
     public Date getDateToComparator( String date ){
-        simpleDateFormat = new SimpleDateFormat( "dd-MM-yyyy" );
+        simpleDateFormat = new SimpleDateFormat( "dd-MM-yyyy HH:mm:ss.S" );
         Date result = null;
         try {
             result = simpleDateFormat.parse( date );
