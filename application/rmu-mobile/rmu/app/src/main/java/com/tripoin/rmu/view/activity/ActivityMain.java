@@ -11,6 +11,16 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.tripoin.rmu.R;
+import com.tripoin.rmu.model.base.impl.BaseRESTDTO;
+import com.tripoin.rmu.model.DTO.user.UserDTO;
+import com.tripoin.rmu.rest.api.ILogoutPost;
+import com.tripoin.rmu.util.enumeration.PropertyConstant;
+import com.tripoin.rmu.util.impl.PropertyUtil;
+import com.tripoin.rmu.view.activity.api.ILogoutHandler;
+import com.tripoin.rmu.view.activity.api.IMainUtilActivity;
+import com.tripoin.rmu.view.activity.impl.LogoutHandlerImpl;
+import com.tripoin.rmu.view.activity.impl.MainUtilImplActivity;
+import com.tripoin.rmu.view.enumeration.ViewConstant;
 import com.tripoin.rmu.view.fragment.impl.FragmentAbout;
 import com.tripoin.rmu.view.fragment.impl.FragmentAddOrder;
 import com.tripoin.rmu.view.fragment.impl.FragmentChangeBluetooth;
@@ -18,7 +28,6 @@ import com.tripoin.rmu.view.fragment.impl.FragmentChangeIPServer;
 import com.tripoin.rmu.view.fragment.impl.FragmentMenuList;
 import com.tripoin.rmu.view.fragment.impl.FragmentOrderList;
 import com.tripoin.rmu.view.fragment.impl.FragmentUpdateStaticData;
-import com.tripoin.rmu.view.fragment.impl.FragmentUserProfile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,10 +40,14 @@ import br.liveo.navigationliveo.NavigationLiveo;
  * fauzi.knightmaster.achmad@gmail.com
  *
  */
-public class ActivityMain extends NavigationLiveo implements NavigationLiveoListener {
+public class ActivityMain extends NavigationLiveo implements NavigationLiveoListener, ILogoutPost {
 
-    List<String> mListNameItem;
-    int layoutContainerIdGlobal = 0;
+    private List<String> mListNameItem;
+    private UserDTO userDTO;
+
+    private PropertyUtil securityUtil;
+    private IMainUtilActivity iMainActivityUtil;
+    private ILogoutHandler iLogoutHandler;
 
 
     @Override
@@ -49,9 +62,26 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
     }
 
     @Override
-    public void onInt(Bundle bundle) {
+    protected void onResume() {
+        super.onResume();
+        //iMainActivityUtil.detectLoginStatus(iLogoutHandler);
+    }
 
+
+    @Override
+    public void onInt(Bundle bundle) {
         this.setNavigationListener(this);
+        securityUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(), this);
+        iMainActivityUtil = new MainUtilImplActivity(this);
+        iLogoutHandler = new LogoutHandlerImpl(securityUtil, this);
+
+        //iMainActivityUtil.detectLoginStatus(iLogoutHandler);
+        /*if(bundle != null){*/
+            userDTO = (UserDTO) getIntent().getExtras().getParcelable(PropertyConstant.USER_DTO.toString());
+            Log.d("USERDTO", userDTO.toString());
+        /*}else{
+            Log.d("USER DTO", "null");
+        }*/
 
         // name of the list items
         mListNameItem = new ArrayList<>();
@@ -91,8 +121,6 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
         this.setNavigationAdapter(mListNameItem, mListIconItem, mListHeaderItem, mSparseCounterItem);
     }
 
-
-
     @Override
     public void onItemClickNavigation(int position, int layoutContainerId) {
         FragmentManager mFragmentManager = getSupportFragmentManager();
@@ -114,8 +142,7 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
                 mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentMenuList).commit();
                 break;
             case 2 :
-                layoutContainerIdGlobal = layoutContainerId;
-                fragmentOrderList = new FragmentOrderList().newInstance(listName);
+                fragmentOrderList = new FragmentOrderList().newInstance(userDTO);
                 mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentOrderList).commit();
                 break;
             case 3 :
@@ -123,7 +150,7 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
                 mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentUpdateStaticData).commit();
                 break;
             case 4 :
-                fragmentAbout = new FragmentAbout().newInstance(listName);
+                fragmentAbout = new FragmentAbout().newInstance();
                 mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentAbout).commit();
                 break;
             case 6 :
@@ -154,16 +181,13 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
 
     @Override
     public void onClickFooterItemNavigation(View view) {
-        startActivity(new Intent(this, SettingsActivity.class));
-        exitApplication(this);
+        securityUtil.saveSingleProperty(PropertyConstant.LOGIN_STATUS_KEY.toString(), PropertyConstant.LOGOUT_STATUS_VALUE.toString());
+        iMainActivityUtil.exitApplication();
     }
 
     @Override
     public void onClickUserPhotoNavigation(View view) {
-        FragmentManager mFragmentManager = getSupportFragmentManager();
-        FragmentUserProfile fragmentUserProfile = null;
-        fragmentUserProfile = new FragmentUserProfile().newInstance("User Profile");
-        mFragmentManager.beginTransaction().replace(layoutContainerIdGlobal, fragmentUserProfile).commit();
+        Toast.makeText(this, "open user profile", Toast.LENGTH_SHORT).show();
     }
 
     public void exitApplication( Context context ) {
@@ -171,5 +195,17 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
         intent.addCategory(Intent.CATEGORY_HOME);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(intent);
+    }
+
+    @Override
+    public void onPostDelegate(Object objectResult) {
+        if(objectResult != null){
+            BaseRESTDTO baseRESTDTO = (BaseRESTDTO) objectResult;
+            if(baseRESTDTO.getErr_code().equals(ViewConstant.ZERO.toString())){
+                Log.d("Success", "logout");
+                securityUtil.saveSingleProperty(PropertyConstant.LOGIN_STATUS_KEY.toString(), PropertyConstant.LOGOUT_STATUS_VALUE.toString());
+                exitApplication(this);
+            }
+        }
     }
 }
