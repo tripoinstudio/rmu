@@ -1,6 +1,7 @@
 package com.tripoin.rmu.view.fragment.impl;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.tripoin.rmu.model.DTO.menu.MenuDTO;
@@ -11,7 +12,9 @@ import com.tripoin.rmu.model.persist.VersionModel;
 import com.tripoin.rmu.persistence.orm_persistence.service.MenuDBManager;
 import com.tripoin.rmu.persistence.orm_persistence.service.VersionDBManager;
 import com.tripoin.rmu.rest.api.IMenuPost;
+import com.tripoin.rmu.rest.enumeration.RestConstant;
 import com.tripoin.rmu.rest.impl.MenuListRest;
+import com.tripoin.rmu.util.ImageDownloader;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
 import com.tripoin.rmu.view.fragment.base.ASynchronizeData;
@@ -62,11 +65,6 @@ public class SynchronizeMenu extends ASynchronizeData implements IMenuPost{
         return tableName;
     }
 
-    @Override
-    public void selectRelatedTable() {
-
-    }
-
 
     @Override
     public void onPostSyncMenu(Object objectResult) {
@@ -80,6 +78,10 @@ public class SynchronizeMenu extends ASynchronizeData implements IMenuPost{
                 menuModel.setMenuPrice(itemDTO.getMenuPrice());
                 menuModel.setMenuType(itemDTO.getMenuType());
                 menuModel.setMenuImageURL(itemDTO.getMenuImage());
+                menuModel.setMenuCode(itemDTO.getMenuCode());
+                menuModel.setMenuRating(itemDTO.getMenuRating());
+//                new ImageDownloader(RestConstant.BASE_URL.toString().concat(RestConstant.IMAGE.toString()).concat(itemDTO.getMenuImage()), PropertyConstant.PROPERTIES_PATH.toString().concat(params[0].toString())).downloadImage();
+                new DownloadImage().execute(itemDTO.getMenuImage());
                 /*menuModels.add(menuModel);*/
                 MenuDBManager.getInstance().insertEntity(menuModel);
             }
@@ -95,6 +97,15 @@ public class SynchronizeMenu extends ASynchronizeData implements IMenuPost{
             VersionDBManager.getInstance().updateEntity(versionModel);
         }else{
             Log.d("Sync Menu Object Result", "not found");
+        }
+    }
+
+    private class DownloadImage extends AsyncTask {
+
+        @Override
+        protected Object doInBackground(Object[] params) {
+            new ImageDownloader(RestConstant.BASE_URL.toString().concat(RestConstant.IMAGE.toString()).concat(params[0].toString()), PropertyConstant.PROPERTIES_PATH.toString().concat(params[0].toString())).downloadImage();
+            return null;
         }
     }
 }
