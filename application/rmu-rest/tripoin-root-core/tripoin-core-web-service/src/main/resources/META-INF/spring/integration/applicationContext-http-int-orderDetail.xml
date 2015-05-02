@@ -23,10 +23,9 @@
 		reply-channel="getOrderDetailResponse"		
 		mapped-response-headers="Return-Status, Return-Status-Msg, HTTP_RESPONSE_HEADERS"		
 		view-name="/getOrderDetail" 
-		path="/wscontext/getOrderDetail/{orderNumber}"
+		path="/wscontext/getOrderDetail"
 		reply-timeout="50000">
-		
-		<int-http:header name="orderHeaderNo" expression="#pathVariables.orderNumber"/>
+
 	</int-http:inbound-gateway>
 	
 	<int-http:inbound-gateway id="inboundSetOrderDetailRequestGateway"		
@@ -35,10 +34,9 @@
 		reply-channel="setOrderDetailResponse"		
 		mapped-response-headers="Return-Status, Return-Status-Msg, HTTP_RESPONSE_HEADERS"		
 		view-name="/setOrderDetail" 
-		path="/wscontext/setOrderDetail/{orderDetail}"
+		path="/wscontext/setOrderDetail"
 		reply-timeout="50000">
 		
-		<int-http:header name="jsonOrderDetail" expression="#pathVariables.orderDetail"/>
 	</int-http:inbound-gateway>
 					
 	<int:service-activator id="getOrderDetailServiceActivator" 

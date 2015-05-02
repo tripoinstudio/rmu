@@ -13,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.Message;
-import org.springframework.integration.MessageHeaders;
 import org.springframework.integration.message.GenericMessage;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
@@ -45,24 +44,34 @@ public class OrderDetailManager {
 	@Autowired
 	private IVersionHelper iVersionHelper;
 	
+	@SuppressWarnings("unchecked")
 	@Secured("ROLE_REST_HTTP_USER")
 	public Message<OrderDetails> getOrderDetails(Message<?> inMessage){
 		String orderHeaderNo = "";
 		try{
-			MessageHeaders headers = inMessage.getHeaders();
-			orderHeaderNo = (String) headers.get("orderHeaderNo");			
+			Map<String, List<String>> payloadMap = (Map<String, List<String>>)inMessage.getPayload();
+			if(payloadMap != null){
+				if(payloadMap.containsKey("orderHeaderNo"))
+					orderHeaderNo = payloadMap.get("orderHeaderNo").get(0).toString();
+			}			
 		}catch(Exception e){
 			LOGGER.error("Error :".concat(e.getLocalizedMessage()), e);
 		}
 		return getListOrderDetails(orderHeaderNo);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Secured("ROLE_REST_HTTP_USER")
 	public Message<OrderDetails> setOrderDetails(Message<?> inMessage){	
 		Message<OrderDetails> message = null;
 		try{
-			MessageHeaders headers = inMessage.getHeaders();
-			String jsonOrderDetail = (String)headers.get("jsonOrderDetail");
+			String jsonOrderDetail = "";
+			Map<String, List<String>> payloadMap = (Map<String, List<String>>)inMessage.getPayload();
+			if(payloadMap != null){
+				if(payloadMap.containsKey("jsonOrderDetail"))
+					jsonOrderDetail = payloadMap.get("jsonOrderDetail").get(0).toString();
+			}	
+			
 			ObjectMapper om = new ObjectMapper();
 			OrderDetails orderDetails = om.readValue(jsonOrderDetail, OrderDetails.class);
 			List<OrderDetailDTO> orderDetailDTOList = orderDetails.getTrx_order_detail();

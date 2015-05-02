@@ -15,11 +15,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.tripoin.core.dto.OrderHeaderDTO;
-import com.tripoin.core.dto.OrderHeaderWithUsers;
 import com.tripoin.core.dto.UserDTO;
+import com.tripoin.core.dto.Users;
 import com.tripoin.core.dto.VersionDTO;
-import com.tripoin.core.pojo.OrderHeader;
 import com.tripoin.core.pojo.User;
 import com.tripoin.core.pojo.Version;
 import com.tripoin.core.service.IGenericManagerJpa;
@@ -39,9 +37,9 @@ public class LoginManager {
 	private String currentUserName;
 	
 	@Secured("ROLE_REST_HTTP_USER")
-	public Message<OrderHeaderWithUsers> getLogin(Message<?> inMessage){
+	public Message<Users> getLogin(Message<?> inMessage){
 	
-		OrderHeaderWithUsers orderHeaderWithUsers = new OrderHeaderWithUsers();
+		Users users = new Users();
 		Map<String, Object> responseHeaderMap = new HashMap<String, Object>();
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -52,56 +50,45 @@ public class LoginManager {
 		try{
 			List<User> userList = iGenericManagerJpa.getObjectsUsingParameter(User.class, new String[]{"username"}, new Object[]{currentUserName}, null, null);
 			UserDTO userDTO = new UserDTO(userList.get(0).getUsername(), userList.get(0).getRole().getCode());
-			orderHeaderWithUsers.setSecurity_user(userDTO);
+			users.setSecurity_user(userDTO);
 			if(userList.get(0).getStatus() == 0){
-				List<OrderHeader> orderHeaderList = iGenericManagerJpa.getObjectsUsingParameterManualPage(OrderHeader.class, new String[]{"user.username"}, new Object[]{currentUserName}, "orderDatetime", "ASC", 0 , 20);
 				List<Version> versionList = iGenericManagerJpa.loadObjects(Version.class);
-				if (orderHeaderList!=null){
-					List<OrderHeaderDTO> orderHeaderDTOList = new ArrayList<OrderHeaderDTO>();
-					for (OrderHeader o : orderHeaderList) {		
-						OrderHeaderDTO data = new OrderHeaderDTO(o.getOrderNo(), new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.S").format(o.getOrderDatetime()), o.getTotalPaid(), o.getStatus(), o.getSeat().getNo(), o.getCarriage().getNo(), o.getTrain().getNo());
-						orderHeaderDTOList.add(data);					
-					}
-					List<VersionDTO> versionDTOList = new ArrayList<VersionDTO>();
-					for(Version v : versionList){
-						VersionDTO versionDTO = new VersionDTO(v.getTable(),  new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.S").format(v.getTimestamp()));
-						versionDTOList.add(versionDTO);
-					}
-					orderHeaderWithUsers.setTrx_order_header(orderHeaderDTOList);
-					orderHeaderWithUsers.setMaster_version(versionDTOList);
-				}else{	
-					STATUSLOGIN = ELoggedIn.EMPTY.toString();
-				}	
+				List<VersionDTO> versionDTOList = new ArrayList<VersionDTO>();
+				for(Version v : versionList){
+					VersionDTO versionDTO = new VersionDTO(v.getTable(),  new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.S").format(v.getTimestamp()));
+					versionDTOList.add(versionDTO);
+				}
+				users.setMaster_version(versionDTOList);
 			}else{
 				STATUSLOGIN = ELoggedIn.LOGGEDIN.toString();				
 			}		
 			
 			if (ELoggedIn.SUCCESS.toString().equals(STATUSLOGIN)){
-				setReturnStatusAndMessage("0", "Load Data Success", "SUCCESS", orderHeaderWithUsers, responseHeaderMap);
+				setReturnStatusAndMessage("0", "Load Data Success", "SUCCESS", users, responseHeaderMap);
 			}else if (ELoggedIn.LOGGEDIN.toString().equals(STATUSLOGIN)){
-				setReturnStatusAndMessage("1", "User Has Been Login", "LOGGEDIN", orderHeaderWithUsers, responseHeaderMap);
+				setReturnStatusAndMessage("1", "User Has Been Login", "LOGGEDIN", users, responseHeaderMap);
 			}else if (ELoggedIn.EMPTY.toString().equals(STATUSLOGIN)){
-				setReturnStatusAndMessage("2", "Order Not Found", "EMPTY", orderHeaderWithUsers, responseHeaderMap);								
+				setReturnStatusAndMessage("2", "Order Not Found", "EMPTY", users, responseHeaderMap);								
 			}else {
-				setReturnStatusAndMessage("3", "User Blocked", "BLOCKED", orderHeaderWithUsers, responseHeaderMap);								
+				setReturnStatusAndMessage("3", "User Blocked", "BLOCKED", users, responseHeaderMap);								
 			}
 			
 		}catch (Exception e){
-			setReturnStatusAndMessage("4", "System Error : "+e.getMessage(), "FAILURE", orderHeaderWithUsers, responseHeaderMap);
+			setReturnStatusAndMessage("4", "System Error : "+e.getMessage(), "FAILURE", users, responseHeaderMap);
 		}
-		Message<OrderHeaderWithUsers> message = new GenericMessage<OrderHeaderWithUsers>(orderHeaderWithUsers, responseHeaderMap);
+		Message<Users> message = new GenericMessage<Users>(users, responseHeaderMap);
 		return message;		
 	}
 	
 	private void setReturnStatusAndMessage(String responseCode, 
 						String responseMsg,
 						String result,
-						OrderHeaderWithUsers orderHeaderWithUsers, 
+						Users users, 
 						Map<String, Object> responseHeaderMap){
 		
-		orderHeaderWithUsers.setResponse_code(responseCode);
-		orderHeaderWithUsers.setResponse_msg(responseMsg);
-		orderHeaderWithUsers.setResult(result);
+		users.setResponse_code(responseCode);
+		users.setResponse_msg(responseMsg);
+		users.setResult(result);
 		responseHeaderMap.put("Return-Status", responseCode);
 		responseHeaderMap.put("Return-Status-Msg", responseMsg);
 	}

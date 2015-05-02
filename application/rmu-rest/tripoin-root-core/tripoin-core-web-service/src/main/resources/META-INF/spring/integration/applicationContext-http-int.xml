@@ -15,6 +15,7 @@
 	
 	<import resource="applicationContext-http-int-menu.xml" />
 	<import resource="applicationContext-http-int-connection.xml" />
+	<import resource="applicationContext-http-int-image.xml" />
 	<import resource="applicationContext-http-int-seat.xml" />
 	<import resource="applicationContext-http-int-carriage.xml" />
 	<import resource="applicationContext-http-int-train.xml" />

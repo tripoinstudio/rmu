@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.Message;
 import org.springframework.integration.message.GenericMessage;
@@ -15,12 +13,12 @@ import org.springframework.stereotype.Service;
 
 import com.tripoin.core.dto.MenuDTO;
 import com.tripoin.core.dto.Menus;
+import com.tripoin.core.pojo.Image;
 import com.tripoin.core.pojo.Menu;
 import com.tripoin.core.service.IGenericManagerJpa;
 
 @Service("menuManager")
 public class MenuManager {
-	private static transient final Logger LOGGER = LoggerFactory.getLogger(MenuManager.class);
 
 	@Autowired
 	private IGenericManagerJpa iGenericManagerJpa;
@@ -32,13 +30,16 @@ public class MenuManager {
 		Map<String, Object> responseHeaderMap = new HashMap<String, Object>();
 		
 		try{
-			List<Menu> menuList = iGenericManagerJpa.loadObjects(Menu.class);
+			List<Menu> menuList = iGenericManagerJpa.loadObjects(Menu.class);			
 			boolean isFound;
 			if (menuList!=null){
 				List<MenuDTO> menuDTOList = new ArrayList<MenuDTO>();
 				for (Menu c : menuList) {
-					LOGGER.debug("data :"+c.toString());
-					MenuDTO data = new MenuDTO(c.getCode(), c.getName(), c.getType(), c.getPrice(), c.getImageUrl(), c.getRating());
+					List<Image> imageList = iGenericManagerJpa.getObjectsUsingParameter(Image.class, new String[]{"menu", "status"}, new Object[]{c, 1}, null, null);
+					String menuImage = "";
+					if(imageList.get(0).getStatus() == 1)
+						menuImage = imageList.get(0).getName();
+					MenuDTO data = new MenuDTO(c.getCode(), c.getName(), c.getType(), c.getPrice(), menuImage, c.getRating());
 					menuDTOList.add(data);
 				} 
 				menus.setMaster_menu(menuDTOList);

@@ -1,5 +1,7 @@
 package com.tripoin.core.rest.manager;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +17,9 @@ import org.springframework.stereotype.Service;
 
 import com.tripoin.core.dto.UserDTO;
 import com.tripoin.core.dto.Users;
+import com.tripoin.core.dto.VersionDTO;
 import com.tripoin.core.pojo.User;
+import com.tripoin.core.pojo.Version;
 import com.tripoin.core.service.IGenericManagerJpa;
 
 /**
@@ -45,6 +49,13 @@ public class LoggedInManager {
 			User user = userList.get(0);
 			user.setStatus(1);
 			UserDTO userDTO = new UserDTO(userList.get(0).getUsername(), userList.get(0).getRole().getCode());
+			List<Version> versionList = iGenericManagerJpa.loadObjects(Version.class);
+			List<VersionDTO> versionDTOList = new ArrayList<VersionDTO>();
+			for(Version v : versionList){
+				VersionDTO versionDTO = new VersionDTO(v.getTable(),  new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.S").format(v.getTimestamp()));
+				versionDTOList.add(versionDTO);
+			}
+			users.setMaster_version(versionDTOList);
 			users.setSecurity_user(userDTO);
 			iGenericManagerJpa.updateObject(user);		
 			
