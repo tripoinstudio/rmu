@@ -74,43 +74,23 @@ public interface ModelConstant {
 
     public final String VERSION_TIMESTAMP = "version_timestamp";
 
-    /*Carriage*/
-    public final String CARRIAGE_TABLE = "m_rmu_carriage";
+    /*Order List*/
+    public final String ORDER_LIST_TABLE = "m_rmu_order_list";
 
-    public final String REST_CARRIAGE_TABLE = "master_carriage";
+    public final String ORDER_LIST_ID = "order_list_id";
 
-    public final String CARRIAGE_CODE = "carrige_code";
+    public final String ORDER_LIST_ORDER_ID = "order_list_order_id";
 
-    public final String CARRIAGE_NO = "carriage_no";
+    public final String ORDER_LIST_CARRIAGE_NUMBER = "order_list_carriage_number";
 
-    public final String CARRIAGE_REMARKS = "carriage_remarks";
+    public final String ORDER_LIST_SEAT_NUMBER = "order_list_seat_number";
 
-    public final String CARRIAGE_ID = "carriage_id";
+    public final String ORDER_LIST_TOTAL_PAID = "order_list_total_paid";
 
-    /*Seat*/
-    public final String SEAT_TABLE = "m_rmu_seat";
+    public final String ORDER_LIST_ORDER_TIME = "order_list_order_time";
 
-    public final String REST_SEAT_TABLE = "master_seat";
+    public final String ORDER_LIST_PROCESS_STATUS = "order_list_process_status";
 
-    public final String SEAT_CODE = "seat_code";
-
-    public final String SEAT_NO = "seat_no";
-
-    public final String SEAT_REMARKS = "seat_remarks";
-
-    public final String SEAT_ID = "seat_id";
-
-    /*Train*/
-    public final String TRAIN_TABLE = "m_rmu_train";
-
-    public final String REST_TRAIN_TABLE = "master_train";
-
-    public final String TRAIN_CODE = "train_code";
-
-    public final String TRAIN_NO = "train_no";
-
-    public final String TRAIN_REMARKS = "train_remarks";
-
-    public final String TRAIN_ID = "train_id";
+    public final String REST_ORDER_HEADER_TABLE = "trx_order_header";
 
 }
