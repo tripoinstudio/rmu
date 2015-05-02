@@ -18,6 +18,7 @@ public enum RestConstant {
     TSK_SEAT("seat"),
     TSK_CARRIAGE("carriage"),
     TSK_MENU("menu"),
+    TSK_VERSION("version"),
     TSK_ORDER_DETAIL("orderDetail"),
     TSK_ORDER_HEADER("orderHeader"),
     TSK_TRAIN("train"),
