@@ -18,8 +18,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/edit_ip_address"
-            android:id="@+id/lbl_change_ip"
+            android:text=""
+            android:id="@+id/lbl_change_ip_port"
             android:paddingLeft="6dp"
             android:textSize="18sp"
             android:gravity="center_vertical"/>
@@ -33,7 +33,7 @@
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/edit_ip"/>
+            android:id="@+id/edit_ip_port"/>
     </RelativeLayout>
 
 </LinearLayout>

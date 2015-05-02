@@ -77,6 +77,9 @@
     <!-- IP Server -->
     <string name="edit_ip_address">Enter Your IP Address</string>
     <string name="ip_address">IP Address</string>
+    <string name="edit_port_address">Enter Your Port</string>
+    <string name="port">Port</string>
+    <string name="connection_test">Test Connection</string>
 
     <!--Drawer Item-->
     <string name="add_order">Add Order</string>

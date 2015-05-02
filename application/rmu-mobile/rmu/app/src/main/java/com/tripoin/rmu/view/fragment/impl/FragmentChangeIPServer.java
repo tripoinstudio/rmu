@@ -1,7 +1,9 @@
 package com.tripoin.rmu.view.fragment.impl;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.ColorStateList;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Environment;
@@ -16,10 +18,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.internal.co;
 import com.tripoin.rmu.R;
+import com.tripoin.rmu.model.DTO.BaseRESTDTO;
+import com.tripoin.rmu.rest.api.IConnectionPost;
+import com.tripoin.rmu.rest.impl.ConnectionRest;
+import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
 
 import java.io.BufferedWriter;
@@ -31,16 +39,16 @@ import java.io.IOException;
  * Created by Achmad Fauzi on 4/18/2015 : 2:33 PM.
  * mailto : achmad.fauzi@sigma.co.id
  */
-public class FragmentChangeIPServer extends Fragment {
+public class FragmentChangeIPServer extends Fragment implements IConnectionPost{
 
-    private EditText editIP;
-    private Button btnOk;
-    private TextView label_textIp, lblTxt;
-    private ImageView imgView;
+    private EditText editIpPort;
+    private TextView label_textIp, lblHeaderIp, label_textPort, lblHeaderPort, labelEditIpPort, labelNotif, labelTest;
+    private Button testConn;
 
     private PropertyUtil propertyUtil;
+    private PropertyUtil securityUtil;
+    private Typeface fontFace, fontFace2, fontFace3;
 
-    private final static String IPSETTING = "ip-setting.txt";
 
     public FragmentChangeIPServer newInstance(String text){
         FragmentChangeIPServer mFragment = new FragmentChangeIPServer();
@@ -56,10 +64,23 @@ public class FragmentChangeIPServer extends Fragment {
         rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
         label_textIp = (TextView) rootView.findViewById(R.id.label_ip);
-        lblTxt = (TextView) rootView.findViewById(R.id.lbl_txt_ip);
-        Typeface fontFace = Typeface.createFromAsset(lblTxt.getResources().getAssets(),"font/Roboto-Light.ttf");
-        lblTxt.setTypeface(fontFace);
-        lblTxt.setTextSize(18);
+        label_textPort = (TextView) rootView.findViewById(R.id.label_port);
+
+        lblHeaderPort = (TextView) rootView.findViewById(R.id.lbl_txt_port);
+        fontFace2 = Typeface.createFromAsset(lblHeaderPort.getResources().getAssets(),"font/Roboto-Light.ttf");
+        lblHeaderPort.setTypeface(fontFace2);
+        lblHeaderPort.setTextSize(18);
+
+        lblHeaderIp = (TextView) rootView.findViewById(R.id.lbl_txt_ip);
+        fontFace = Typeface.createFromAsset(lblHeaderIp.getResources().getAssets(),"font/Roboto-Light.ttf");
+        lblHeaderIp.setTypeface(fontFace);
+        lblHeaderIp.setTextSize(18);
+
+        labelTest = (TextView) rootView.findViewById(R.id.label_test_status);
+        fontFace = Typeface.createFromAsset(labelTest.getResources().getAssets(), "font/Roboto-Light.ttf");
+        labelTest.setTypeface(fontFace3);
+        labelTest.setText("Not Connected");
+        labelTest.setTextColor(getResources().getColor(R.color.gray_dark_lighter));
 
         label_textIp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,11 +88,14 @@ public class FragmentChangeIPServer extends Fragment {
                 LayoutInflater layoutInflater = LayoutInflater.from(rootView.getContext());
                 View dialogView = layoutInflater.inflate(R.layout.fragment_change_ip_server, null);
 
+                labelEditIpPort = (TextView) dialogView.findViewById(R.id.lbl_change_ip_port);
+                labelEditIpPort.setText("Enter Your IP Address");
+
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(rootView.getContext());
                 alertDialogBuilder.setView(dialogView);
 
-                editIP = (EditText) dialogView.findViewById(R.id.edit_ip);
-                editIP.setText(label_textIp.getText().toString());
+                editIpPort = (EditText) dialogView.findViewById(R.id.edit_ip_port);
+                editIpPort.setText(label_textIp.getText().toString());
                 InputFilter[] filters = new InputFilter[1];
                 filters[0] = new InputFilter() {
                     @Override
@@ -96,14 +120,14 @@ public class FragmentChangeIPServer extends Fragment {
                         return null;
                     }
                 };
-                editIP.setFilters(filters);
+                editIpPort.setFilters(filters);
 
                 alertDialogBuilder.setCancelable(false).setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        propertyUtil.saveSingleProperty("IP_CONFIG", editIP.getText().toString());
+                        propertyUtil.saveSingleProperty("IP_CONFIG", editIpPort.getText().toString());
                         label_textIp.setText(propertyUtil.getValuePropertyMap("IP_CONFIG"));
-                        Toast.makeText(rootView.getContext(),"IP Server Change to : " +editIP.getText().toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(rootView.getContext(),"IP Server Change to : " +editIpPort.getText().toString(), Toast.LENGTH_SHORT).show();
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
@@ -117,9 +141,63 @@ public class FragmentChangeIPServer extends Fragment {
             }
         });
 
-        propertyUtil = new PropertyUtil(IPSETTING , rootView.getContext());
+        label_textPort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater layoutInflater2 = LayoutInflater.from(rootView.getContext());
+                View dialogView2 = layoutInflater2.inflate(R.layout.fragment_change_ip_server, null);
+
+                labelEditIpPort = (TextView) dialogView2.findViewById(R.id.lbl_change_ip_port);
+                labelEditIpPort.setText("Enter Your Port");
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(rootView.getContext());
+                alertDialogBuilder.setView(dialogView2);
+
+                editIpPort = (EditText) dialogView2.findViewById(R.id.edit_ip_port);
+                editIpPort.setText(label_textIp.getText().toString());
+
+                alertDialogBuilder.setCancelable(false).setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        propertyUtil.saveSingleProperty("PORT", editIpPort.getText().toString());
+                        label_textPort.setText(propertyUtil.getValuePropertyMap("PORT"));
+                        Toast.makeText(rootView.getContext(),"PORT Server Change to : " +editIpPort.getText().toString(), Toast.LENGTH_SHORT).show();
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                AlertDialog alertD = alertDialogBuilder.create();
+                alertD.show();
+            }
+        });
+
+        propertyUtil = new PropertyUtil(PropertyConstant.PROPERTY_FILE_NAME.toString(), rootView.getContext());
+        securityUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(), rootView.getContext());
 
         label_textIp.setText(propertyUtil.getValuePropertyMap("IP_CONFIG"));
+        label_textPort.setText(propertyUtil.getValuePropertyMap("PORT"));
+
+
+        testConn = (Button) rootView.findViewById(R.id.test_conn);
+        testConn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ConnectionRest connectionRest = new ConnectionRest(FragmentChangeIPServer.this) {
+                    @Override
+                    protected Context getContext() {
+                        return rootView.getContext();
+                    }
+                };
+                connectionRest.execute(securityUtil.getValuePropertyMap(PropertyConstant.CHIPPER_AUTH.toString()));
+                labelTest.setText("Connection Successfull");
+                labelTest.setTextColor(getResources().getColor(R.color.green_base));
+            }
+        });
+
+
 
         return rootView;
     }
@@ -128,5 +206,13 @@ public class FragmentChangeIPServer extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(false);
+    }
+
+    @Override
+    public void onPostDelegate(Object objectResult) {
+        if (objectResult != null){
+            BaseRESTDTO baseRESTDTO = (BaseRESTDTO) objectResult;
+            Log.d("test", baseRESTDTO.toString());
+        }
     }
 }
