@@ -93,4 +93,6 @@ public interface ModelConstant {
 
     public final String REST_ORDER_HEADER_TABLE = "trx_order_header";
 
+    /*Override model const*/
+
 }
