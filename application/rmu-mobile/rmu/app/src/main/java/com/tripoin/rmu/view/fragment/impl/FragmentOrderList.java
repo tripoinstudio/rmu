@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -96,6 +97,9 @@ public class FragmentOrderList extends Fragment implements ISynchronizeOrderList
         switch (item.getItemId()) {
             case R.id.menu_add:
                 Toast.makeText(getActivity(), R.string.add, Toast.LENGTH_SHORT).show();
+                FragmentAddOrder fragmentAddOrder = new FragmentAddOrder();
+                FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
+                mFragmentManager.beginTransaction().replace(R.id.container, fragmentAddOrder).commit();
                 break;
 
             case R.id.menu_search:
@@ -116,6 +120,7 @@ public class FragmentOrderList extends Fragment implements ISynchronizeOrderList
         public boolean onQueryTextChange(String s) {
             if (mSearchCheck){
                 Toast.makeText(rootView.getContext(), "SEARCH", Toast.LENGTH_LONG).show();
+
             }
             return false;
         }

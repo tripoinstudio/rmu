@@ -35,6 +35,7 @@ import com.tripoin.rmu.view.fragment.api.ISynchronizeMaster;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Syahrial Fandrianah on 4/18/2015 : 1:41 AM.
@@ -86,7 +87,7 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster {
         txus.setTypeface(faces);
         txus2=(TextView)rootView.findViewById(R.id.tx_dates);
         faces2=Typeface.createFromAsset(txus2.getResources().getAssets(),"font/Roboto-Light.ttf");
-        today  = new SimpleDateFormat("E, dd MMMMMM yyyy HH:mm:ss").format(new Date());
+        today  = new SimpleDateFormat("EEEE, dd MMMMMM yyyy HH:mm:ss", new Locale("ID")).format(new Date());
         txus2.setText("Order Date   : ".concat(today));
         txus2.setTypeface(faces2);
         lbl1 = (TextView)rootView.findViewById(R.id.lbl_carriage);

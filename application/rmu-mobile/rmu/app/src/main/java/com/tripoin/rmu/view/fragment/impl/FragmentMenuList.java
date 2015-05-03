@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -123,13 +124,12 @@ public class FragmentMenuList extends Fragment implements ISynchronizeMenuList {
                 @Override
                 public void onClick(Card card, View view) {
 
-                    Toast.makeText(view.getContext(), "Click listener TesCode MENU = "+menuModel.getMenuCode() , Toast.LENGTH_SHORT).show();
-
-                    FragmentAddMenu fragmentMenuList = new FragmentAddMenu().newInstance(menuModel.getMenuCode());
+//                    Toast.makeText(view.getContext(), "Click listener TesCode MENU = "+menuModel.getMenuCode() , Toast.LENGTH_SHORT).show();
+//                    Log.d("mnucde",menuModel.getMenuCode());
+                    FragmentAddMenu fragmentAddMenu = new FragmentAddMenu().newInstance(menuModel.getMenuCode());
                     FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
-                    mFragmentManager.beginTransaction().replace(R.id.container, fragmentMenuList).commit();
-                    Toast.makeText(view.getContext(), "Sampai Fragment " , Toast.LENGTH_SHORT).show();
-
+                    mFragmentManager.beginTransaction().replace(R.id.container, fragmentAddMenu).commit();
+//                    Toast.makeText(view.getContext(), "Sampai Fragment " , Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -169,7 +169,10 @@ public class FragmentMenuList extends Fragment implements ISynchronizeMenuList {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_add:
-                Toast.makeText(getActivity(), R.string.add, Toast.LENGTH_SHORT).show();
+                FragmentAddOrder fragmentAddOrder = new FragmentAddOrder().newInstance("");
+                FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
+                mFragmentManager.beginTransaction().replace(R.id.container, fragmentAddOrder).commit();
+//                Toast.makeText(getActivity(), R.string.add, Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.menu_search:
