@@ -24,7 +24,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tripoin.rmu.R;
-import com.tripoin.rmu.feature.synchronizer.impl.SynchronizeMenu;
 import com.tripoin.rmu.model.api.ModelConstant;
 import com.tripoin.rmu.model.persist.MenuModel;
 import com.tripoin.rmu.persistence.orm_persistence.service.MenuDBManager;
@@ -55,7 +54,8 @@ public class FragmentMenuList extends Fragment implements ISynchronizeMenuList {
     private String imageName;
     private String subtitle;
     private String price;
-  //  FragmentDetailOrderList fragmentDetailOrderList = null;
+    private GplayGridCard card;
+    //  FragmentDetailOrderList fragmentDetailOrderList = null;
 
 
     public FragmentMenuList newInstance(String text){
@@ -87,7 +87,7 @@ public class FragmentMenuList extends Fragment implements ISynchronizeMenuList {
             else
                 subtitle = "Minuman";
             price = menuModel.getMenuPrice();
-            GplayGridCard card = new GplayGridCard(getActivity(), menuModel.getMenuName(), subtitle, price);
+            card = new GplayGridCard(getActivity(), menuModel.getMenuName(), subtitle, price);
             card.rating = (float)(Float.valueOf(menuModel.getMenuRating()));
             imageName = menuModel.getMenuImageURL();
             CardThumbnail.CustomSource customSource = new CustomCardSource(rootView.getContext(),imageName ).getCustomSource();
@@ -113,7 +113,7 @@ public class FragmentMenuList extends Fragment implements ISynchronizeMenuList {
                 subtitle = "Minuman";
             price = menuModel.getMenuPrice();
 
-            GplayGridCard card = new GplayGridCard(getActivity(), menuModel.getMenuName(), subtitle, price);
+            card = new GplayGridCard(getActivity(), menuModel.getMenuName(), subtitle, price);
             card.rating = (float)(Float.valueOf(menuModel.getMenuRating()));
 
             imageName = menuModel.getMenuImageURL();
