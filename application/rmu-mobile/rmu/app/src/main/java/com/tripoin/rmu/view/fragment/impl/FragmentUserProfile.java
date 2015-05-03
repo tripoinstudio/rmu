@@ -161,7 +161,7 @@ public class FragmentUserProfile extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         propertyUtil.saveSingleProperty("NAMA_USER", editText.getText().toString());
-                        jabatanUser.setText(propertyUtil.getValuePropertyMap("NAMA_USER"));
+                        nameUser.setText(propertyUtil.getValuePropertyMap("NAMA_USER"));
                         Toast.makeText(rootView.getContext(), "Nama profil change to : " + editText.getText().toString(), Toast.LENGTH_SHORT).show();
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
