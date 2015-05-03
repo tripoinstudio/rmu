@@ -13,6 +13,9 @@ public enum RestConstant {
 
     WS_CONTEXT("tripoin/wscontext/"),
     //TSK items
+
+    ORDER_HEADER_NO("orderHeaderNo"),
+
     HTTP_REST("http"),
     HTTP_GET("GET"),
     HTTP_POST("POST"),

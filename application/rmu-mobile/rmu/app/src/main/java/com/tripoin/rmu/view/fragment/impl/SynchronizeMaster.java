@@ -3,6 +3,7 @@ package com.tripoin.rmu.view.fragment.impl;
 import android.content.Context;
 import android.util.Log;
 
+import com.tripoin.rmu.feature.synchronizer.base.ASynchronizeData;
 import com.tripoin.rmu.model.DTO.carriage.CarriageDTO;
 import com.tripoin.rmu.model.DTO.carriage.CarriageItemDTO;
 import com.tripoin.rmu.model.DTO.seat.SeatDTO;
@@ -27,7 +28,6 @@ import com.tripoin.rmu.rest.impl.TrainListRest;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
 import com.tripoin.rmu.view.fragment.api.ISynchronizeMaster;
-import com.tripoin.rmu.view.fragment.base.ASynchronizeData;
 
 import java.util.List;
 

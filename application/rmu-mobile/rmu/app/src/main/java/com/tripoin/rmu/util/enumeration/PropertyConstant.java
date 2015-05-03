@@ -17,6 +17,7 @@ public enum PropertyConstant {
 
     //dev
     SERVER_HOST_DEFAULT_VALUE("tripoin-rdlfdl.rhcloud.com"),
+    /*SERVER_HOST_DEFAULT_VALUE("192.168.1.107"),*/
     SERVER_PORT_DEFAULT_VALUE("80"),
 
     //prod

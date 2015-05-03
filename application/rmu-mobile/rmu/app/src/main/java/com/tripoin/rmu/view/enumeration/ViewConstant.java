@@ -35,6 +35,8 @@ public enum ViewConstant {
     MILISECOND("ms"),
     COLON(":"),
     SLASH("/"),
+    QUESTION("?"),
+    EQUALS("="),
     LEFT_PARENTHESES("("),
     RIGHT_PARENTHESES(")"),
     SPACE(" "),
@@ -50,7 +52,10 @@ public enum ViewConstant {
     IDR("IDR"),
     CARRIAGE_NO("Carriage No :"),
     SEAT_NO("Seat No :"),
+    TRAIN_NO("Train No :"),
     CURRENCY_IDR("IDR "),
+    TOTAL_ORDER("Total Order :"),
+    TOTAL_PAID("Total Paid :"),
     ;
 
 

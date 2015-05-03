@@ -11,10 +11,10 @@ public class OrderDetailItemDTO {
     private String orderHeaderNo;
 
     @JsonProperty("order_detail_total_order")
-    private String ord_detail_total_order;
+    private String orderDetailTotalOrder;
 
     @JsonProperty("order_detail_total_amount")
-    private String ord_detail_total_amount;
+    private String orderDetailTotalAmount;
 
     @JsonProperty("order_header_status")
     private String orderHeaderStatus;
@@ -22,20 +22,20 @@ public class OrderDetailItemDTO {
     @JsonProperty("user_code")
     private String userCode;
 
-    @JsonProperty("menu_id")
-    private String menuId;
+    @JsonProperty("menu_code")
+    private String menuCode;
 
     @JsonProperty("menu_name")
-    private String menu_name;
+    private String menuName;
 
-    @JsonProperty("seat_id")
-    private String seatId;
+    @JsonProperty("seat_code")
+    private String seatCode;
 
-    @JsonProperty("carriage_id")
-    private String carriageId;
+    @JsonProperty("carriage_code")
+    private String carriageCode;
 
-    @JsonProperty("train_id")
-    private String trainId;
+    @JsonProperty("train_code")
+    private String trainCode;
 
     public String getOrderHeaderNo() {
         return orderHeaderNo;
@@ -45,20 +45,20 @@ public class OrderDetailItemDTO {
         this.orderHeaderNo = orderHeaderNo;
     }
 
-    public String getOrd_detail_total_order() {
-        return ord_detail_total_order;
+    public String getOrderDetailTotalOrder() {
+        return orderDetailTotalOrder;
     }
 
-    public void setOrd_detail_total_order(String ord_detail_total_order) {
-        this.ord_detail_total_order = ord_detail_total_order;
+    public void setOrderDetailTotalOrder(String orderDetailTotalOrder) {
+        this.orderDetailTotalOrder = orderDetailTotalOrder;
     }
 
-    public String getOrd_detail_total_amount() {
-        return ord_detail_total_amount;
+    public String getOrderDetailTotalAmount() {
+        return orderDetailTotalAmount;
     }
 
-    public void setOrd_detail_total_amount(String ord_detail_total_amount) {
-        this.ord_detail_total_amount = ord_detail_total_amount;
+    public void setOrderDetailTotalAmount(String orderDetailTotalAmount) {
+        this.orderDetailTotalAmount = orderDetailTotalAmount;
     }
 
     public String getOrderHeaderStatus() {
@@ -77,59 +77,59 @@ public class OrderDetailItemDTO {
         this.userCode = userCode;
     }
 
-    public String getMenuId() {
-        return menuId;
+    public String getMenuName() {
+        return menuName;
     }
 
-    public void setMenuId(String menuId) {
-        this.menuId = menuId;
+    public void setMenuName(String menuName) {
+        this.menuName = menuName;
     }
 
-    public String getMenu_name() {
-        return menu_name;
+    public String getSeatCode() {
+        return seatCode;
     }
 
-    public void setMenu_name(String menu_name) {
-        this.menu_name = menu_name;
+    public void setSeatCode(String seatCode) {
+        this.seatCode = seatCode;
     }
 
-    public String getSeatId() {
-        return seatId;
+    public String getCarriageCode() {
+        return carriageCode;
     }
 
-    public void setSeatId(String seatId) {
-        this.seatId = seatId;
+    public void setCarriageCode(String carriageCode) {
+        this.carriageCode = carriageCode;
     }
 
-    public String getCarriageId() {
-        return carriageId;
+    public String getTrainCode() {
+        return trainCode;
     }
 
-    public void setCarriageId(String carriageId) {
-        this.carriageId = carriageId;
+    public void setTrainCode(String trainCode) {
+        this.trainCode = trainCode;
     }
 
-    public String getTrainId() {
-        return trainId;
+    public String getMenuCode() {
+        return menuCode;
     }
 
-    public void setTrainId(String trainId) {
-        this.trainId = trainId;
+    public void setMenuCode(String menuCode) {
+        this.menuCode = menuCode;
     }
 
     @Override
     public String toString() {
         return "OrderDetailItemDTO{" +
                 "orderHeaderNo='" + orderHeaderNo + '\'' +
-                ", ord_detail_total_order='" + ord_detail_total_order + '\'' +
-                ", ord_detail_total_amount='" + ord_detail_total_amount + '\'' +
+                ", orderDetailTotalOrder='" + orderDetailTotalOrder + '\'' +
+                ", orderDetailTotalAmount='" + orderDetailTotalAmount + '\'' +
                 ", orderHeaderStatus='" + orderHeaderStatus + '\'' +
                 ", userCode='" + userCode + '\'' +
-                ", menuId='" + menuId + '\'' +
-                ", menu_name='" + menu_name + '\'' +
-                ", seatId='" + seatId + '\'' +
-                ", carriageId='" + carriageId + '\'' +
-                ", trainId='" + trainId + '\'' +
+                ", menuCode='" + menuCode + '\'' +
+                ", menuName='" + menuName + '\'' +
+                ", seatCode='" + seatCode + '\'' +
+                ", carriageCode='" + carriageCode + '\'' +
+                ", trainCode='" + trainCode + '\'' +
                 '}';
     }
 }

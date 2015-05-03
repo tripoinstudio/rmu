@@ -6,27 +6,97 @@
     android:background="@color/white_base"
     android:layout_height="match_parent">
 
-    <it.gmariotti.cardslib.library.view.CardListView
-        android:id="@+id/listStatusOption"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        card:list_card_layout_resourceID="@layout/list_card_thumbnail_layout"
-        style="@style/list_card.thumbnail"/>
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:background="@drawable/background_stroke_drawable">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtChangeStatus"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:text="@string/change_order_status"/>
+
+        <it.gmariotti.cardslib.library.view.CardListView
+            android:id="@+id/listStatusOption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            card:list_card_layout_resourceID="@layout/list_card_thumbnail_layout"
+            style="@style/list_card.thumbnail"/>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/background_stroke_drawable"
         android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="15dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtOrderId"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                android:text="Order Id"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtTrainCode"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                android:text="Train Code"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtCarriageCode"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                android:text="Carriage Code"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtSeatCode"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                android:text="Seat Code"/>
+        </LinearLayout>
+
+        <it.gmariotti.cardslib.library.view.CardListView
+            android:id="@+id/listOrderDetailItem"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            card:list_card_layout_resourceID="@layout/list_card_thumbnail_layout"
+            style="@style/list_card.thumbnail"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/txtOrderId"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_marginRight="10dp"
+            android:id="@+id/txtTotalPaid"
+            android:textSize="20sp"
+            android:layout_gravity="right"
+            android:textColor="@android:color/black"
+            android:text="Total Paid"/>
 
     </LinearLayout>
 

@@ -136,6 +136,32 @@ public interface ModelConstant {
 
     public final String TRAIN_ID = "train_id";
 
+    /*Detail Order*/
+    public final String ORDER_DETAIL_TABLE = "m_rmu_order_detail";
+
+    public final String ORDER_DETAIL_ID = "order_detail_id";
+
+    public final String REST_ORDER_DETAIL_TABLE = "trx_order_detail";
+
+    public final String ORDER_DETAIL_ORDER_HEADER_NO = "order_detail_order_header_no";
+
+    public final String ORDER_DETAIL_ORDER_DETAIL_TOTAL_ORDER = "order_detail_order_detail_total_order";
+
+    public final String ORDER_DETAIL_ORDER_DETAIL_TOTAL_AMOUNT = "order_detail_order_detail_total_amount";
+
+    public final String ORDER_DETAIL_ORDER_HEADER_STATUS = "order_header_status";
+
+    public final String ORDER_DETAIL_USER_CODE = "order_detail_user_code";
+
+    public final String ORDER_DETAIL_MENU_CODE = "order_detail_menu_code";
+
+    public final String ORDER_DETAIL_MENU_NAME = "order_detail_menu_name";
+
+    public final String ORDER_DETAIL_SEAT_CODE = "order_detail_seat_code";
+
+    public final String ORDER_DETAIL_CARRIAGE_CODE = "order_detail_carriage_code";
+
+    public final String ORDER_DETAIL_TRAIN_CODE = "order_detail_train_code";
 
 
     public final String REST_MASTER_TABLE = "master_component";

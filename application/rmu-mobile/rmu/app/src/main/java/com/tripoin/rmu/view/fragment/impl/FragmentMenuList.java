@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tripoin.rmu.R;
+import com.tripoin.rmu.feature.synchronizer.impl.SynchronizeMenu;
 import com.tripoin.rmu.model.api.ModelConstant;
 import com.tripoin.rmu.model.persist.MenuModel;
 import com.tripoin.rmu.persistence.orm_persistence.service.MenuDBManager;

@@ -1,10 +1,10 @@
 package com.tripoin.rmu.view.ui;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Vibrator;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.tripoin.rmu.R;
 import com.tripoin.rmu.model.persist.OrderListModel;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
-import com.tripoin.rmu.view.fragment.impl.FragmentDetailOrderList;
+import com.tripoin.rmu.view.fragment.impl.FragmentOrderDetail;
 
 import it.gmariotti.cardslib.library.internal.Card;
 
@@ -41,6 +41,7 @@ public class CustomCardOrderList extends Card {
         super(context, innerLayout);
         this.activity = context;
         this.orderListModel = orderListModel;
+        Log.d("ORDERHEADERSTATUS", String.valueOf(orderListModel.getProcessStatus()));
         init();
     }
 
@@ -50,8 +51,8 @@ public class CustomCardOrderList extends Card {
             @Override
             public void onClick(Card card, View view) {
                 FragmentManager mFragmentManager = activity.getSupportFragmentManager();
-                FragmentDetailOrderList fragmentDetailOrderList = new FragmentDetailOrderList().newInstance(txtOrderId.getText().toString());
-                mFragmentManager.beginTransaction().replace(R.id.container, fragmentDetailOrderList).commit();
+                FragmentOrderDetail fragmentOrderDetail = new FragmentOrderDetail().newInstance(txtOrderId.getText().toString());
+                mFragmentManager.beginTransaction().replace(R.id.container, fragmentOrderDetail).commit();
             }
         });
 
@@ -91,20 +92,21 @@ public class CustomCardOrderList extends Card {
             txtOrderTime.setText(orderListModel.getOrderTime());
         }
         if(imgOrderType != null){
-            //imgOrderType.setImageDrawable(new RoundedImage(BitmapFactory.decodeResource(view.getResources(), getImageOrderType(orderListDTO.getProcessStatus()))));
             imgOrderType.setImageResource(getImageOrderType(orderListModel.getProcessStatus()));
         }
     }
 
     private int getImageOrderType(int processStatus){
+        int result = 0;
         if(processStatus == 1){
-            return R.drawable.ic_list_new;
+            result = R.drawable.ic_list_new;
         }else if(processStatus == 2){
-            return R.drawable.ic_list_process;
+            result = R.drawable.ic_list_process;
         }else if(processStatus == 3){
-            return R.drawable.ic_list_delivery;
-        }else{
-            return R.drawable.ic_list_cancel;
+            result = R.drawable.ic_list_delivery;
+        }else if(processStatus == 4){
+            result = R.drawable.ic_list_cancel;
         }
+        return result;
     }
 }

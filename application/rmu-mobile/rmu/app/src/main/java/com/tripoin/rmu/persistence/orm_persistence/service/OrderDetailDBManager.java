@@ -3,36 +3,34 @@ package com.tripoin.rmu.persistence.orm_persistence.service;
 import android.content.Context;
 import android.util.Log;
 
-import com.tripoin.rmu.model.persist.VersionModel;
+import com.tripoin.rmu.model.persist.OrderDetailModel;
 import com.tripoin.rmu.persistence.orm_persistence.DAO.DatabaseDAOHelper;
 import com.tripoin.rmu.persistence.orm_persistence.api.IBaseDatabaseHandler;
 
 import java.sql.SQLException;
 import java.util.List;
 
-
 /**
- * Created by Achmad Fauzi on 1/26/2015.
- * fauzi.knightmaster.achmad@gmail.com
- * @param <DATA>
+ * Created by Achmad Fauzi on 5/2/2015 : 8:32 PM.
+ * mailto : achmad.fauzi@sigma.co.id
  */
-public class VersionDBManager<DATA> implements IBaseDatabaseHandler{
+public class OrderDetailDBManager<DATA>  implements IBaseDatabaseHandler{
 
-    static private VersionDBManager instance;
+    static private OrderDetailDBManager instance;
 
     static public void init( Context ctx ){
         if( instance == null ){
-            instance = new VersionDBManager( ctx );
+            instance = new OrderDetailDBManager( ctx );
         }
     }
 
-    static public VersionDBManager getInstance(){
+    static public OrderDetailDBManager getInstance(){
         return instance;
     }
 
     private DatabaseDAOHelper databaseDAOHelper;
 
-    public VersionDBManager(Context ctx) {
+    public OrderDetailDBManager(Context ctx) {
         databaseDAOHelper = new DatabaseDAOHelper(ctx);
     }
 
@@ -44,7 +42,7 @@ public class VersionDBManager<DATA> implements IBaseDatabaseHandler{
     public int insertEntity(Object entity) {
         int result = 0;
         try {
-            result = getDatabaseDAOHelper().getVersionDAO().create((VersionModel) entity);
+            result = getDatabaseDAOHelper().getOrderDetailDAO().create((OrderDetailModel) entity);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -55,7 +53,7 @@ public class VersionDBManager<DATA> implements IBaseDatabaseHandler{
     public List<DATA> getAllData() {
         List<DATA> result = null;
         try {
-            result = (List<DATA>) getDatabaseDAOHelper().getVersionDAO().queryForAll();
+            result = (List<DATA>) getDatabaseDAOHelper().getOrderDetailDAO().queryForAll();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -65,7 +63,7 @@ public class VersionDBManager<DATA> implements IBaseDatabaseHandler{
     @Override
     public void updateEntity(Object entity) {
         try {
-            getDatabaseDAOHelper().getVersionDAO().update((VersionModel) entity);
+            getDatabaseDAOHelper().getOrderDetailDAO().update((OrderDetailModel) entity);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -74,28 +72,19 @@ public class VersionDBManager<DATA> implements IBaseDatabaseHandler{
     @Override
     public void deleteEntity(Integer id) {
         try {
-            getDatabaseDAOHelper().getVersionDAO().deleteById(id);
+            getDatabaseDAOHelper().getOrderDetailDAO().deleteById(id);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void updateStatement( String query ){
+    public void executeRaw( String query ){
+        Log.d("QUERY", query);
         try{
-            getDatabaseDAOHelper().getVersionDAO().updateRaw( query );
+            getDatabaseDAOHelper().getOrderDetailDAO().executeRaw(query);
         }catch (Exception e){
             e.printStackTrace();
         }
-    }
-
-    public VersionModel selectCustomVersionModel(String field, String value){
-        List<VersionModel> models = null;
-        try {
-            models = getDatabaseDAOHelper().getVersionDAO().queryForEq(field, value);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return models.get(0);
     }
 
 }
