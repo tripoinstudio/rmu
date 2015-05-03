@@ -35,11 +35,11 @@ public class BluetoothUtils {
     private Thread workerThread;
     private Fragment fragmentUtils;
 
-    private BluetoothUtils(Fragment fragment){
-        fragmentUtils = fragment;
+    public BluetoothUtils(Fragment fragment){
+       fragmentUtils = fragment;
     }
 
-    private void turnOnBluetooth(){
+    public void turnOnBluetooth(){
         if (mBluetoothAdapter.isEnabled()) {
             mBluetoothAdapter.disable();
         } else {
@@ -49,14 +49,14 @@ public class BluetoothUtils {
         }
     }
 
-    private ArrayList<BluetoothDevice> pairedDevices(){
+    public ArrayList<BluetoothDevice> pairedDevices(){
         Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
         final ArrayList<BluetoothDevice> listPaired = new ArrayList<BluetoothDevice>();
         listPaired.addAll(pairedDevices);
         return listPaired;
     }
 
-    private void unpairDevice(BluetoothDevice device) {
+    public void unpairDevice(BluetoothDevice device) {
         try {
             Method method = device.getClass().getMethod("removeBond", (Class[]) null);
             method.invoke(device, (Object[]) null);
@@ -65,7 +65,7 @@ public class BluetoothUtils {
         }
     }
 
-    private void pairDevice(BluetoothDevice device) {
+    public void pairDevice(BluetoothDevice device) {
         try {
             Method method = device.getClass().getMethod("createBond", (Class[]) null);
             method.invoke(device, (Object[]) null);
@@ -74,15 +74,15 @@ public class BluetoothUtils {
         }
     }
 
-    private void scanDeviceAround(){
+    public void scanDeviceAround(){
         mBluetoothAdapter.startDiscovery();
     }
 
-    private void cancelScanDeviceAround(){
+    public void cancelScanDeviceAround(){
         mBluetoothAdapter.cancelDiscovery();
     }
 
-    private List<BluetoothDevice> bluetoothDeviceList(){
+    public List<BluetoothDevice> bluetoothDeviceList(){
         return new ArrayList<BluetoothDevice>();
     }
 
@@ -203,7 +203,7 @@ public class BluetoothUtils {
         }
     }
 
-    private void printData(String dataBePrint) throws IOException {
+    public void printData(String dataBePrint) throws IOException {
         findBT();
         openBT();
         sendData(dataBePrint);
