@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tripoin.rmu.R;
+import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
 
 import java.io.File;
@@ -63,7 +64,15 @@ import java.io.OutputStream;
 
 public class FragmentUserProfile extends Fragment {
 
-    private TextView nameUser, jabatanUser, emailUser, summmaryUser, lblEditText, lblViewPhoto, lblChangePhotoGallery, lblChangePhotoCamera;
+    private String temp;
+    private TextView nameUser;
+    private TextView jabatanUser;
+    private TextView emailUser;
+    private TextView summmaryUser;
+    private TextView lblEditText;
+    private TextView lblViewPhoto;
+    private TextView lblChangePhotoGallery;
+    private TextView lblChangePhotoCamera;
     private ImageView imgUserProfile, imgNameUser, imgJabatanUser, imgEmailUser, imgSummmaryUses;
     private EditText editText;
     private PropertyUtil propertyUtil;
@@ -77,6 +86,7 @@ public class FragmentUserProfile extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_user_profile, container, false);
         rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        propertyUtil = new PropertyUtil(PropertyConstant.PROPERTY_FILE_NAME.toString(), rootView.getContext());
 
         imgUserProfile = (ImageView) rootView.findViewById(R.id.imgUserProfile);
         imgUserProfile.setOnLongClickListener(new View.OnLongClickListener() {
@@ -141,6 +151,10 @@ public class FragmentUserProfile extends Fragment {
         nameUser = (TextView) rootView.findViewById(R.id.txNameUser);
         Typeface fontFaceName = Typeface.createFromAsset(nameUser.getResources().getAssets(),"font/Roboto-Medium.ttf");
         nameUser.setTypeface(fontFaceName);
+        temp=propertyUtil.getValuePropertyMap("NAMA_USER");
+        if(temp!=null){
+            nameUser.setText("Nama : "+temp);
+        }
         imgNameUser = (ImageView) rootView.findViewById(R.id.imgNameUser);
         imgNameUser.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -161,7 +175,7 @@ public class FragmentUserProfile extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         propertyUtil.saveSingleProperty("NAMA_USER", editText.getText().toString());
-                        nameUser.setText(propertyUtil.getValuePropertyMap("NAMA_USER"));
+                        nameUser.setText("Nama : " + propertyUtil.getValuePropertyMap("NAMA_USER"));
                         Toast.makeText(rootView.getContext(), "Nama profil change to : " + editText.getText().toString(), Toast.LENGTH_SHORT).show();
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -179,6 +193,10 @@ public class FragmentUserProfile extends Fragment {
         jabatanUser = (TextView) rootView.findViewById(R.id.txJabatanUser);
         Typeface fontFaceJabatan = Typeface.createFromAsset(jabatanUser.getResources().getAssets(),"font/Roboto-Medium.ttf");
         jabatanUser.setTypeface(fontFaceJabatan);
+        temp=propertyUtil.getValuePropertyMap("JABATAN_USER");
+        if(temp!=null){
+            jabatanUser.setText("Jabatan : "+temp);
+        }
         imgJabatanUser = (ImageView) rootView.findViewById(R.id.imgJabatanUser);
         imgJabatanUser.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,7 +217,7 @@ public class FragmentUserProfile extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         propertyUtil.saveSingleProperty("JABATAN_USER", editText.getText().toString());
-                        jabatanUser.setText(propertyUtil.getValuePropertyMap("JABATAN_USER"));
+                        jabatanUser.setText("Jabatan : " + propertyUtil.getValuePropertyMap("JABATAN_USER"));
                         Toast.makeText(rootView.getContext(), "Profil Jabatan change to : " + editText.getText().toString(), Toast.LENGTH_SHORT).show();
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -217,6 +235,10 @@ public class FragmentUserProfile extends Fragment {
         emailUser = (TextView) rootView.findViewById(R.id.txEmailUser);
         Typeface fontFaceEmail = Typeface.createFromAsset(emailUser.getResources().getAssets(),"font/Roboto-Medium.ttf");
         emailUser.setTypeface(fontFaceEmail);
+        temp=propertyUtil.getValuePropertyMap("EMAIL_USER");
+        if(temp!=null){
+            emailUser.setText("Email : "+temp);
+        }
         imgEmailUser = (ImageView) rootView.findViewById(R.id.imgEmailUser);
         imgEmailUser.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -237,7 +259,7 @@ public class FragmentUserProfile extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         propertyUtil.saveSingleProperty("EMAIL_USER", editText.getText().toString());
-                        emailUser.setText(propertyUtil.getValuePropertyMap("EMAIL_USER"));
+                        emailUser.setText("Email : " + propertyUtil.getValuePropertyMap("EMAIL_USER"));
                         Toast.makeText(rootView.getContext(),"Email change to : " +editText.getText().toString(), Toast.LENGTH_SHORT).show();
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -255,6 +277,10 @@ public class FragmentUserProfile extends Fragment {
         summmaryUser = (TextView) rootView.findViewById(R.id.txSummmaryUser);
         Typeface fontFaceSummary = Typeface.createFromAsset(summmaryUser.getResources().getAssets(),"font/Roboto-Medium.ttf");
         summmaryUser.setTypeface(fontFaceSummary);
+        temp=propertyUtil.getValuePropertyMap("SUMMARY_USER");
+        if(temp!=null){
+            summmaryUser.setText("Summary :\n"+temp);
+        }
         imgSummmaryUses = (ImageView) rootView.findViewById(R.id.imgSummaryUser);
         imgSummmaryUses.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -275,7 +301,7 @@ public class FragmentUserProfile extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         propertyUtil.saveSingleProperty("SUMMARY_USER", editText.getText().toString());
-                        summmaryUser.setText(propertyUtil.getValuePropertyMap("SUMMARY_USER"));
+                        summmaryUser.setText("Summary :\n"+propertyUtil.getValuePropertyMap("SUMMARY_USER"));
                         Toast.makeText(rootView.getContext(), "Summary changed : " + editText.getText().toString(), Toast.LENGTH_SHORT).show();
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -289,8 +315,6 @@ public class FragmentUserProfile extends Fragment {
 
             }
         });
-
-        propertyUtil = new PropertyUtil("UserProfileData.txt" , rootView.getContext());
 
         return rootView;
     }
