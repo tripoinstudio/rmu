@@ -65,7 +65,7 @@ public class SynchronizeMenu extends ASynchronizeData implements IMenuPost, ISyn
     }
 
     @Override
-    public String getTableNameTrain() {
+    public String getTableName() {
         return tableName;
     }
 
@@ -94,7 +94,7 @@ public class SynchronizeMenu extends ASynchronizeData implements IMenuPost, ISyn
                 MenuDBManager.getInstance().insertEntity(menuModel);
             }
 
-            VersionModel versionModel = VersionDBManager.getInstance().selectCustomVersionModel(ModelConstant.VERSION_NAMETABLE, getTableNameTrain());
+            VersionModel versionModel = VersionDBManager.getInstance().selectCustomVersionModel(ModelConstant.VERSION_NAMETABLE, getTableName());
             versionModel.setVersionTimestamp(latestVersion);
             VersionDBManager.getInstance().updateEntity(versionModel);
 

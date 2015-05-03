@@ -13,7 +13,15 @@ import java.util.List;
  */
 public interface ISynchronizeMaster {
 
-    public void onPostFirstSyncOrderList(List<CarriageModel> carriageModels, List<SeatModel> seatModels, List<TrainModel> trainModels);
+    public void onPostFirstSyncMasterCarriage(List<CarriageModel> carriageModels);
 
-    public void onPostContSyncOrderList(List<CarriageModel> carriageModels, List<SeatModel> seatModels, List<TrainModel> trainModels);
+    public void onPostContSyncMasterCarriage(List<CarriageModel> carriageModels);
+
+    public void onPostFirstSyncMasterSeat(List<SeatModel> seatModels);
+
+    public void onPostContSyncMasterSeat(List<SeatModel> seatModels);
+
+    public void onPostFirstSyncMasterTrain(List<TrainModel> trainModels);
+
+    public void onPostContSyncMasterTrain(List<TrainModel> trainModels);
 }

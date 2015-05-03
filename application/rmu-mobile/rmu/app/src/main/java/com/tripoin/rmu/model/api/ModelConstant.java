@@ -137,4 +137,8 @@ public interface ModelConstant {
     public final String TRAIN_ID = "train_id";
 
 
+
+    public final String REST_MASTER_TABLE = "master_component";
+
+
 }

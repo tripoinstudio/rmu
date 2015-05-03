@@ -61,7 +61,7 @@ public class SynchronizeTrain extends ASynchronizeData implements ITrainPost {
                 Log.d("TrainModel", model.toString());
             }
 
-            VersionModel versionModel = VersionDBManager.getInstance().selectCustomVersionModel(ModelConstant.VERSION_NAMETABLE, getTableNameTrain());
+            VersionModel versionModel = VersionDBManager.getInstance().selectCustomVersionModel(ModelConstant.VERSION_NAMETABLE, getTableName());
             versionModel.setVersionTimestamp(latestVersion);
             VersionDBManager.getInstance().updateEntity(versionModel);
         }else{
@@ -85,7 +85,7 @@ public class SynchronizeTrain extends ASynchronizeData implements ITrainPost {
     }
 
     @Override
-    public String getTableNameTrain() {
+    public String getTableName() {
         return tableName;
     }
 

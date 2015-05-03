@@ -9,7 +9,7 @@ public interface ISynchronizeData<DATA> {
 
     public void updateContent(String latestVersion);
 
-    public String getTableNameTrain();
+    public String getTableName();
 
     public void selectRelatedTable();
     /*sync data commit*/

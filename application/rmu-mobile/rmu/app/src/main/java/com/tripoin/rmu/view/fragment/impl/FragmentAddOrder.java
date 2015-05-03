@@ -1,9 +1,8 @@
 package com.tripoin.rmu.view.fragment.impl;
 
 
-import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,12 +18,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.google.android.gms.ads.a;
 import com.tripoin.rmu.R;
-import com.tripoin.rmu.model.DTO.carriage.CarriageDTO;
-import com.tripoin.rmu.model.DTO.carriage.CarriageItemDTO;
-import com.tripoin.rmu.model.DTO.seat.SeatDTO;
-import com.tripoin.rmu.model.DTO.seat.SeatItemDTO;
 import com.tripoin.rmu.model.api.ModelConstant;
 import com.tripoin.rmu.model.persist.CarriageModel;
 import com.tripoin.rmu.model.persist.SeatModel;
@@ -32,15 +26,10 @@ import com.tripoin.rmu.model.persist.TrainModel;
 import com.tripoin.rmu.persistence.orm_persistence.service.CarriageDBManager;
 import com.tripoin.rmu.persistence.orm_persistence.service.SeatDBManager;
 import com.tripoin.rmu.persistence.orm_persistence.service.TrainDBManager;
-import com.tripoin.rmu.rest.api.IBaseRestFinished;
-import com.tripoin.rmu.rest.api.ICarriagePost;
-import com.tripoin.rmu.rest.api.ISeatPost;
 import com.tripoin.rmu.rest.impl.CarriageListRest;
 import com.tripoin.rmu.rest.impl.SeatListRest;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
-import com.tripoin.rmu.view.activity.ActivityMain;
-import com.tripoin.rmu.view.enumeration.ViewConstant;
 import com.tripoin.rmu.view.fragment.api.ISynchronizeMaster;
 
 import java.text.SimpleDateFormat;
@@ -69,9 +58,7 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster {
     SeatListRest seatListRest;
     MyArrayAdapterSeat maSeat;
     private String today;
-    private CarriageASync carriageASync;
-    private SeatASync seatASync;
-    private TrainASync trainASync;
+    private MasterASync masterASync;
     private Button bt_add_order;
     private Button bt_bayar;
     private TextView txus2;
@@ -126,15 +113,8 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster {
             }
         });
 
-        carriageASync = new CarriageASync();
-        seatASync = new SeatASync();
-        trainASync = new TrainASync();
-
-        carriageASync.execute();
-        seatASync.execute();
-        trainASync.execute();
-
-
+        masterASync = new MasterASync();
+        masterASync.execute();
 
         rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT ));
         return rootView;
@@ -144,16 +124,6 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(false);
-    }
-
-    @Override
-    public void onPostFirstSyncOrderList(List<CarriageModel> carriageModels, List<SeatModel> seatModels, List<TrainModel> trainModels) {
-
-    }
-
-    @Override
-    public void onPostContSyncOrderList(List<CarriageModel> carriageModels, List<SeatModel> seatModels, List<TrainModel> trainModels) {
-
     }
 
     private class MyArrayAdapter extends BaseAdapter {
@@ -250,98 +220,182 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster {
     }
 
     static class ListContentSeat {
-
         TextView name;
 
     }
 
-    private class CarriageASync extends AsyncTask {
+//    private class CarriageASync extends AsyncTask {
+//
+//        SynchronizeCarriage synchronizeCarriage;
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            Log.d("CARRIAGE", "2");
+//            synchronizeCarriage = new SynchronizeCarriage(propertyUtil, rootView.getContext(), ModelConstant.REST_CARRIAGE_TABLE.toString());
+//        }
+//
+//        @Override
+//        protected Object doInBackground(Object[] params) {
+//            Log.d("CARRIAGE", "detect version");
+//            synchronizeCarriage.detectVersionDiff();
+//            return null;
+//        }
+//        @Override
+//        protected void onPostExecute(Object o) {
+//            super.onPostExecute(o);
+//            List<CarriageModel> carriageModels = CarriageDBManager.getInstance().getAllData();
+//            int array = carriageModels.size();
+//            array_spinner_carriage = new String[array];
+//            for(int i = 0; i<array;i++){
+//                array_spinner_carriage[i] = carriageModels.get(i).getCarriageNo();
+//            }
+//            mySpinner = (Spinner) rootView.findViewById(R.id.spinner_carriage);
+//            myFont = Typeface.createFromAsset(mySpinner.getResources().getAssets(), "font/Roboto-Light.ttf");
+//            ma = new MyArrayAdapter(rootView.getContext());
+//            mySpinner.setAdapter(ma);
+//        }
+//
+//    }
+//
+//    private class SeatASync extends AsyncTask {
+//
+//        SynchronizeSeat synchronizeSeat;
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            Log.d("SEAT", "2");
+//            SeatDBManager.init(rootView.getContext());
+//            synchronizeSeat = new SynchronizeSeat(propertyUtil, rootView.getContext(), ModelConstant.REST_SEAT_TABLE.toString());
+//        }
+//
+//        @Override
+//        protected Object doInBackground(Object[] params) {
+//            Log.d("SEAT", "detect version");
+//            synchronizeSeat.detectVersionDiff();
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Object o) {
+//            super.onPostExecute(o);
+//            List<SeatModel> seatModels = SeatDBManager.getInstance().getAllData();
+//            int array = seatModels.size();
+//            array_spinner_seat = new String[array];
+//            for(int i = 0; i<array;i++){
+//                array_spinner_seat[i] = seatModels.get(i).getSeatNo();
+//            }
+//
+//            mySpinnerSeat = (Spinner) rootView.findViewById(R.id.spinner_seat);
+//            myFont = Typeface.createFromAsset(mySpinner.getResources().getAssets(), "font/Roboto-Light.ttf");
+//            maSeat = new MyArrayAdapterSeat(rootView.getContext());
+//            mySpinnerSeat.setAdapter(maSeat);
+//        }
+//    }
+//
+//    private class TrainASync extends AsyncTask {
+//
+//        SynchronizeTrain synchronizeTrain;
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            Log.d("TRAIN", "2");
+//            TrainDBManager.init(rootView.getContext());
+//            synchronizeTrain = new SynchronizeTrain(propertyUtil, rootView.getContext(), ModelConstant.REST_TRAIN_TABLE.toString());
+//        }
+//
+//        @Override
+//        protected Object doInBackground(Object[] params) {
+//            Log.d("TRAIN", "detect version");
+//            synchronizeTrain.detectVersionDiff();
+//            return null;
+//        }
+//
+//    }
 
-        SynchronizeCarriage synchronizeCarriage;
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            Log.d("CARRIAGE", "2");
-            synchronizeCarriage = new SynchronizeCarriage(propertyUtil, rootView.getContext(), ModelConstant.REST_CARRIAGE_TABLE.toString());
+
+    public void initSpinnerCarriage(List<CarriageModel> carriageModels) {
+        int array =  carriageModels.size();
+        array_spinner_carriage = new String[array];
+        for(int i = 0; i<array;i++){
+            array_spinner_carriage[i] = carriageModels.get(i).getCarriageNo();
+        }
+        mySpinner = (Spinner) rootView.findViewById(R.id.spinner_carriage);
+        myFont = Typeface.createFromAsset(mySpinner.getResources().getAssets(), "font/Roboto-Light.ttf");
+        ma = new MyArrayAdapter(rootView.getContext());
+        mySpinner.setAdapter(ma);
+    }
+
+    public void initSpinnerSeat(List<SeatModel> seatModels) {
+        int array = seatModels.size();
+        array_spinner_seat = new String[array];
+        for(int i = 0; i<array;i++){
+            array_spinner_seat[i] = seatModels.get(i).getSeatNo();
         }
 
-        @Override
-        protected Object doInBackground(Object[] params) {
-            Log.d("CARRIAGE", "detect version");
-            synchronizeCarriage.detectVersionDiff();
-            return null;
-        }
-        @Override
-        protected void onPostExecute(Object o) {
-            super.onPostExecute(o);
-            List<CarriageModel> carriageModels = CarriageDBManager.getInstance().getAllData();
-            int array = carriageModels.size();
-            array_spinner_carriage = new String[array];
-            for(int i = 0; i<array;i++){
-                array_spinner_carriage[i] = carriageModels.get(i).getCarriageNo();
-            }
-            mySpinner = (Spinner) rootView.findViewById(R.id.spinner_carriage);
-            myFont = Typeface.createFromAsset(mySpinner.getResources().getAssets(), "font/Roboto-Light.ttf");
-            ma = new MyArrayAdapter(rootView.getContext());
-            mySpinner.setAdapter(ma);
-        }
+        mySpinnerSeat = (Spinner) rootView.findViewById(R.id.spinner_seat);
+        myFont = Typeface.createFromAsset(mySpinner.getResources().getAssets(), "font/Roboto-Light.ttf");
+        maSeat = new MyArrayAdapterSeat(rootView.getContext());
+        mySpinnerSeat.setAdapter(maSeat);
+    }
+
+    @Override
+    public void onPostFirstSyncMasterCarriage(List<CarriageModel> carriageModels) {
+        initSpinnerCarriage(carriageModels);
+    }
+
+    @Override
+    public void onPostContSyncMasterCarriage(List<CarriageModel> carriageModels) {
+        initSpinnerCarriage(carriageModels);
+    }
+
+    @Override
+    public void onPostFirstSyncMasterSeat(List<SeatModel> seatModels) {
+        initSpinnerSeat(seatModels);
+    }
+
+    @Override
+    public void onPostContSyncMasterSeat(List<SeatModel> seatModels) {
+        initSpinnerSeat(seatModels);
+    }
+
+    @Override
+    public void onPostFirstSyncMasterTrain(List<TrainModel> trainModels) {
 
     }
 
-    private class SeatASync extends AsyncTask {
+    @Override
+    public void onPostContSyncMasterTrain(List<TrainModel> trainModels) {
 
-        SynchronizeSeat synchronizeSeat;
+    }
+
+    private class MasterASync extends AsyncTask {
+        SynchronizeMaster synchronizeMaster;
+        private ProgressDialog progressDialog;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            Log.d("SEAT", "2");
+            progressDialog = new ProgressDialog(rootView.getContext());
+            progressDialog.setMessage("Loading menu list");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+            CarriageDBManager.init(rootView.getContext());
             SeatDBManager.init(rootView.getContext());
-            synchronizeSeat = new SynchronizeSeat(propertyUtil, rootView.getContext(), ModelConstant.REST_SEAT_TABLE.toString());
+            TrainDBManager.init(rootView.getContext());
+            synchronizeMaster = new SynchronizeMaster(propertyUtil, rootView.getContext(), ModelConstant.REST_MASTER_TABLE.toString(), FragmentAddOrder.this);
         }
 
         @Override
         protected Object doInBackground(Object[] params) {
-            Log.d("SEAT", "detect version");
-            synchronizeSeat.detectVersionDiff();
+            synchronizeMaster.detectVersionDiff();
             return null;
         }
 
         @Override
         protected void onPostExecute(Object o) {
             super.onPostExecute(o);
-            List<SeatModel> seatModels = SeatDBManager.getInstance().getAllData();
-            int array = seatModels.size();
-            array_spinner_seat = new String[array];
-            for(int i = 0; i<array;i++){
-                array_spinner_seat[i] = seatModels.get(i).getSeatNo();
-            }
-
-            mySpinnerSeat = (Spinner) rootView.findViewById(R.id.spinner_seat);
-            myFont = Typeface.createFromAsset(mySpinner.getResources().getAssets(), "font/Roboto-Light.ttf");
-            maSeat = new MyArrayAdapterSeat(rootView.getContext());
-            mySpinnerSeat.setAdapter(maSeat);
+            progressDialog.dismiss();
         }
     }
-
-    private class TrainASync extends AsyncTask {
-
-        SynchronizeTrain synchronizeTrain;
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            Log.d("TRAIN", "2");
-            TrainDBManager.init(rootView.getContext());
-            synchronizeTrain = new SynchronizeTrain(propertyUtil, rootView.getContext(), ModelConstant.REST_TRAIN_TABLE.toString());
-        }
-
-        @Override
-        protected Object doInBackground(Object[] params) {
-            Log.d("TRAIN", "detect version");
-            synchronizeTrain.detectVersionDiff();
-            return null;
-        }
-
-    }
-
 
 }

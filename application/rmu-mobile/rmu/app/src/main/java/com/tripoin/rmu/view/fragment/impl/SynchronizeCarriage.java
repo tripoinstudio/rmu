@@ -61,7 +61,7 @@ public class SynchronizeCarriage extends ASynchronizeData implements ICarriagePo
                 Log.d("CarriageModel", model.toString());
             }
 
-            VersionModel versionModel = VersionDBManager.getInstance().selectCustomVersionModel(ModelConstant.VERSION_NAMETABLE, getTableNameTrain());
+            VersionModel versionModel = VersionDBManager.getInstance().selectCustomVersionModel(ModelConstant.VERSION_NAMETABLE, getTableName());
             versionModel.setVersionTimestamp(latestVersion);
             VersionDBManager.getInstance().updateEntity(versionModel);
         }else{
@@ -85,7 +85,7 @@ public class SynchronizeCarriage extends ASynchronizeData implements ICarriagePo
     }
 
     @Override
-    public String getTableNameTrain() {
+    public String getTableName() {
         return tableName;
     }
 

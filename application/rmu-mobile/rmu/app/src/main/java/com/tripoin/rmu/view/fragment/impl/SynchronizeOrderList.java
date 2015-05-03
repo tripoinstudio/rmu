@@ -62,7 +62,7 @@ public class SynchronizeOrderList extends ASynchronizeData implements IOrderList
     }
 
     @Override
-    public String getTableNameTrain() {
+    public String getTableName() {
         return tableName;
     }
 
@@ -89,7 +89,7 @@ public class SynchronizeOrderList extends ASynchronizeData implements IOrderList
                 OrderListDBManager.getInstance().insertEntity(orderListModel);
             }
 
-            VersionModel versionModel = VersionDBManager.getInstance().selectCustomVersionModel(ModelConstant.VERSION_NAMETABLE, getTableNameTrain());
+            VersionModel versionModel = VersionDBManager.getInstance().selectCustomVersionModel(ModelConstant.VERSION_NAMETABLE, getTableName());
             versionModel.setVersionTimestamp(latestVersion);
             VersionDBManager.getInstance().updateEntity(versionModel);
 
