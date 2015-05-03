@@ -187,11 +187,11 @@ public class BluetoothUtils {
     }
 
 
-    private void sendData(String dataBePrinted) throws IOException {
+    private void sendData(String dataBePrint) throws IOException {
         try {
             // the text typed by the user
             /*String msg = myTextbox.getText().toString();*/
-            String msg = dataBePrinted;
+            String msg = dataBePrint;
             msg += "\n";
             mOutputStream.write(msg.getBytes());
             // tell the user data were sent
@@ -201,5 +201,11 @@ public class BluetoothUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void printData(String dataBePrint) throws IOException {
+        findBT();
+        openBT();
+        sendData(dataBePrint);
     }
 }
