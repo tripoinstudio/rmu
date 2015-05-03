@@ -169,7 +169,7 @@ public class FragmentUserProfile extends Fragment {
                 alertDialogBuilder.setView(dialogView);
 
                 editText = (EditText) dialogView.findViewById(R.id.tf_edit_text);
-                editText.setText(nameUser.getText().toString());
+                editText.setText(temp);
 
                 alertDialogBuilder.setCancelable(false).setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override
@@ -211,7 +211,7 @@ public class FragmentUserProfile extends Fragment {
                 alertDialogBuilder.setView(dialogView);
 
                 editText = (EditText) dialogView.findViewById(R.id.tf_edit_text);
-                editText.setText(jabatanUser.getText().toString());
+                editText.setText(temp);
 
                 alertDialogBuilder.setCancelable(false).setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override
@@ -253,7 +253,7 @@ public class FragmentUserProfile extends Fragment {
                 alertDialogBuilder.setView(dialogView);
 
                 editText = (EditText) dialogView.findViewById(R.id.tf_edit_text);
-                editText.setText(emailUser.getText().toString());
+                editText.setText(temp);
 
                 alertDialogBuilder.setCancelable(false).setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override
@@ -295,7 +295,7 @@ public class FragmentUserProfile extends Fragment {
                 alertDialogBuilder.setView(dialogView);
 
                 editText = (EditText) dialogView.findViewById(R.id.tf_edit_text);
-                editText.setText(summmaryUser.getText().toString());
+                editText.setText(temp);
 
                 alertDialogBuilder.setCancelable(false).setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override
