@@ -74,7 +74,7 @@ public class FragmentOrderDetail extends Fragment implements ISynchronizeOrderDe
         txtTrainCode = (TextView) rootView.findViewById(R.id.txtTrainCode);
         txtCarriageCode = (TextView) rootView.findViewById(R.id.txtCarriageCode);
         txtSeatCode = (TextView) rootView.findViewById(R.id.txtSeatCode);
-        txtTotalPaid = rootView
+        txtTotalPaid = (TextView) rootView.findViewById(R.id.txtTotalPaid);
         txtOrderListId.setText(orderListId);
         return rootView;
     }
@@ -178,10 +178,13 @@ public class FragmentOrderDetail extends Fragment implements ISynchronizeOrderDe
         txtCarriageCode.setText(ViewConstant.CARRIAGE_NO.toString().concat(orderDetailModels.get(0).getCarriageCode()));
         txtSeatCode.setText(ViewConstant.SEAT_NO.toString().concat(orderDetailModels.get(0).getSeatCode()));
         ArrayList<Card> cards = new ArrayList<Card>();
+        int totalPaid = 0;
         for (int i = 0; i<orderDetailModels.size(); i++) {
             Card card = new CustomCardOrderDetail(getActivity(), R.layout.order_detail_card, orderDetailModels.get(i));
+            totalPaid += Integer.parseInt(orderDetailModels.get(i).getOrderDetailTotalAmount());
             cards.add(card);
         }
+        txtTotalPaid.setText(ViewConstant.TOTAL_PAID.toString().concat(String.valueOf(totalPaid)));
 
         CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(rootView.getContext(), cards);
 
