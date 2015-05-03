@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.tripoin.rmu.R;
+import com.tripoin.rmu.feature.synchronizer.impl.SynchronizeOrderList;
 import com.tripoin.rmu.model.DTO.user.UserDTO;
 import com.tripoin.rmu.model.api.ModelConstant;
 import com.tripoin.rmu.model.persist.OrderListModel;
@@ -120,7 +121,6 @@ public class FragmentOrderList extends Fragment implements ISynchronizeOrderList
         public boolean onQueryTextChange(String s) {
             if (mSearchCheck){
                 Toast.makeText(rootView.getContext(), "SEARCH", Toast.LENGTH_LONG).show();
-
             }
             return false;
         }
