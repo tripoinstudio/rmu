@@ -116,7 +116,7 @@ public class DatabaseDAOHelper extends OrmLiteSqliteOpenHelper{
     }
 
     public Dao<CarriageModel, Integer> getCarriageDAO() {
-        if( menuDAO == null ){
+        if( carriageDAO == null ){
             try {
                 carriageDAO = getDao(CarriageModel.class);
             } catch (SQLException e) {
@@ -127,7 +127,7 @@ public class DatabaseDAOHelper extends OrmLiteSqliteOpenHelper{
     }
 
     public Dao<SeatModel, Integer> getSeatDAO() {
-        if( menuDAO == null ){
+        if( seatDAO == null ){
             try {
                 seatDAO = getDao(SeatModel.class);
             } catch (SQLException e) {
@@ -138,7 +138,7 @@ public class DatabaseDAOHelper extends OrmLiteSqliteOpenHelper{
     }
 
     public Dao<TrainModel, Integer> getTrainDAO() {
-        if( menuDAO == null ){
+        if( trainDAO == null ){
             try {
                 trainDAO = getDao(TrainModel.class);
             } catch (SQLException e) {

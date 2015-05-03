@@ -1,166 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white_base">
 
     <TextView
-        android:layout_width="500dip"
-        android:layout_height="50dip"
+        android:layout_width="match_parent"
+        android:layout_height="35dip"
         android:layout_gravity="center"
-        android:layout_marginTop="20dip"
-        android:paddingLeft="20dip"
-        android:paddingTop="10dip"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:paddingLeft="15dp"
+        android:paddingBottom="10dp"
+        android:textSize="20sp"
         android:id="@+id/tx_username"
-        android:background="@drawable/bg_text_box_border_bottom"
-        android:textColor="@color/black_light"
-        android:text="Demo"/>
+        android:background="@drawable/textlines"
+        android:textColor="@color/black_light"/>
     <TextView
-        android:layout_width="500dip"
-        android:layout_height="50dip"
+        android:layout_width="match_parent"
+        android:layout_height="35dip"
         android:layout_gravity="center"
-        android:layout_marginTop="10dip"
-        android:paddingLeft="20dip"
-        android:paddingTop="10dip"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:paddingLeft="15dp"
+        android:paddingBottom="10dp"
+        android:textSize="20sp"
         android:id="@+id/tx_dates"
-        android:background="@drawable/bg_text_box_border_bottom"
-        android:textColor="@color/black_light"
-        android:text="20/05/2015"/>
-    <Spinner
-        android:layout_width="500dip"
+        android:background="@drawable/textlines"
+        android:textColor="@color/black_light"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="50dip"
-        android:id="@+id/spinner_carriage"
         android:layout_gravity="center"
-        android:layout_marginTop="10dip"
-        android:paddingLeft="20dip"
-        android:paddingTop="10dip"
-        android:background="@drawable/bg_bottom_lov"/>
-    <Spinner
-        android:layout_width="500dip"
-        android:layout_height="50dip"
-        android:id="@+id/spinner_seat"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dip"
-        android:paddingLeft="20dip"
-        android:paddingTop="10dip"
-        android:background="@drawable/bg_bottom_lov"/>
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="35dip"
+            android:layout_gravity="center"
+            android:paddingLeft="15dp"
+            android:paddingBottom="10dp"
+            android:textSize="20sp"
+            android:text="Gerbong        : "
+            android:id="@+id/lbl_carriage"
+            android:background="@drawable/textlines"
+            android:textColor="@color/black_light"/>
+        <Spinner
+            android:layout_width="100dip"
+            android:layout_height="40dip"
+            android:layout_gravity="center"
+            android:paddingLeft="7dp"
+            android:paddingRight="7dp"
+            android:id="@+id/spinner_carriage"
+            android:background="@drawable/bg_bottom_lov"
+            android:scrollbarStyle="insideInset"
+            android:popupBackground="#FBFBFB"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="35dip"
+            android:layout_gravity="center"
+            android:layout_marginLeft="65dp"
+            android:paddingLeft="15dp"
+            android:paddingBottom="10dp"
+            android:textSize="20sp"
+            android:text="Kursi           : "
+            android:id="@+id/lbl_seat"
+            android:background="@drawable/textlines"
+            android:textColor="@color/black_light"/>
+        <Spinner
+            android:layout_width="100dp"
+            android:layout_height="35dip"
+            android:layout_gravity="center"
+            android:paddingLeft="7dp"
+            android:id="@+id/spinner_seat"
+            android:background="@drawable/bg_bottom_lov"/>
+    </LinearLayout>
+
     <LinearLayout
         android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="500dip"
         android:layout_gravity="center"
-        android:layout_marginTop="10dip"
-        android:paddingTop="10dip"
-        android:layout_width="500dip"
-        android:layout_height="367dip"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:paddingLeft="15dp"
+        android:paddingBottom="10dp"
         android:background="@drawable/bg_order_item">
         <Button
+            android:id="@+id/btn_add_order"
             android:layout_width="150dip"
             android:layout_height="30dip"
-            android:layout_marginTop="5dip"
-            android:paddingLeft="20dip"
-            android:layout_marginLeft="20dip"
+            android:layout_marginTop="10dip"
             android:paddingTop="10dip"
             android:background="@drawable/bg_add_product2"/>
+
         <LinearLayout
             android:orientation="vertical"
             android:layout_gravity="center"
             android:layout_marginTop="10dip"
+            android:layout_marginLeft="2dip"
+            android:layout_marginRight="10dip"
             android:paddingTop="2dip"
-            android:layout_width="470dip"
-            android:layout_height="300dip"
-            android:background="@drawable/bg_order_item2">
+            android:layout_width="match_parent"
+            android:layout_height="438dip"
+            android:background="@drawable/textlines_large">
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="50dip"
                 android:background="@color/white_base">
-<ImageView
-    android:layout_width="20dip"
-    android:layout_marginTop="15dip"
-    android:layout_marginLeft="20dip"
-    android:layout_height="20dip"
-    android:background="@drawable/del_item"/>
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_gravity="right"
-                    android:layout_width="450dip"
-                    android:layout_height="100dip"
-                    android:background="@drawable/bg_text_box_border_bottom2">
-                    <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_gravity="left"
-                        android:layout_width="250dip"
-                        android:layout_height="50dip"
-                        android:background="@drawable/bg_text_box_border_bottom2">
-
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:paddingLeft="20dip"
-                        android:textSize="20sp"
-                        android:textColor="@color/black_light"
-                        android:text="Nasi Goreng"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="30dip"
-                        android:layout_gravity="center"
-                        android:paddingLeft="20dip"
-                        android:textSize="15sp"
-                        android:textColor="@color/black_light"
-                        android:text="2 pcs @ IDR 20.000"/>
-                    </LinearLayout>
+            <ImageView
+                android:layout_width="20dip"
+                android:layout_marginTop="15dip"
+                android:layout_marginLeft="15dip"
+                android:layout_height="20dip"
+                android:background="@drawable/del_item"/>
 
                 <TextView
-                    android:layout_width="150dip"
-                    android:layout_height="50dip"
-                    android:layout_marginTop="10dip"
-                    android:layout_marginLeft="50dip"
+                    android:layout_width="320dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingLeft="20dip"
                     android:textSize="20sp"
+                    android:id="@+id/lbl_menu_name"
+                    android:textColor="@color/black_light"
+                    android:text="Nasi Goreng @ 2 pcs"/>
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="150dp"
+                    android:layout_gravity="center"
+                    android:textSize="20sp"
+                    android:id="@+id/lbl_menu_price"
                     android:textColor="#D4a017"
                     android:text="IDR 20.000"/>
-                </LinearLayout>
                 </LinearLayout>
 
             </LinearLayout>
 
-        </LinearLayout>
+    </LinearLayout>
     <LinearLayout
-        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_width="500dip"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:paddingLeft="15dp"
+        android:paddingBottom="10dp">
 
-        android:layout_marginRight="1dip"
-
-        android:layout_height="wrap_content">
-
-    <TextView
-            android:layout_width="100dip"
-            android:layout_height="50dip"
-            android:layout_marginLeft="270dip"
-            android:textSize="23sp"
+        <TextView
+            android:layout_width="70dip"
+            android:layout_height="40dip"
+            android:layout_marginTop="5dp"
+            android:textSize="18sp"
             android:textColor="@color/black_light"
             android:text="Total :"/>
-    <TextView
-        android:layout_width="150dip"
-        android:layout_height="50dip"
-        android:layout_marginLeft="0dip"
-        android:textSize="23sp"
-        android:textStyle="bold"
-        android:textColor="@color/red_dark_holo"
-        android:text="IDR 20.000"/>
+        <TextView
+            android:layout_width="315dp"
+            android:layout_height="40dip"
+            android:layout_marginLeft="0dip"
+            android:layout_marginTop="5dp"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:id="@+id/lbl_menu_total"
+            android:textColor="@color/red_dark_holo"
+            android:text="IDR 20.000"/>
+        <Button
+            android:layout_width="120dip"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dip"
+            android:layout_gravity="right"
+            android:textSize="22sp"
+            android:id="@+id/bt_bayar"
+            android:textStyle="bold"
+            android:textColor="@color/white_base"
+            android:background="@color/nliveo_blue_alpha_colorPrimaryDark"
+            android:text="Bayar"/>
 
-        </LinearLayout>
-    <Button
-        android:layout_width="150dip"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="50dip"
-        android:layout_gravity="right"
-        android:textSize="23sp"
-        android:id="@+id/bt_bayar"
-        android:textStyle="bold"
-        android:textColor="@color/white_base"
-        android:background="@color/nliveo_blue_alpha_colorPrimaryDark"
-        android:text="Bayar"/>
+    </LinearLayout>
 </LinearLayout>

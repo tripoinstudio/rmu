@@ -5,18 +5,13 @@ import android.util.Log;
 
 import com.tripoin.rmu.model.DTO.carriage.CarriageDTO;
 import com.tripoin.rmu.model.DTO.carriage.CarriageItemDTO;
-import com.tripoin.rmu.model.DTO.menu.MenuDTO;
-import com.tripoin.rmu.model.DTO.menu.MenuItemDTO;
 import com.tripoin.rmu.model.api.ModelConstant;
 import com.tripoin.rmu.model.persist.CarriageModel;
-import com.tripoin.rmu.model.persist.MenuModel;
 import com.tripoin.rmu.model.persist.VersionModel;
 import com.tripoin.rmu.persistence.orm_persistence.service.CarriageDBManager;
-import com.tripoin.rmu.persistence.orm_persistence.service.MenuDBManager;
 import com.tripoin.rmu.persistence.orm_persistence.service.VersionDBManager;
 import com.tripoin.rmu.rest.api.ICarriagePost;
 import com.tripoin.rmu.rest.impl.CarriageListRest;
-import com.tripoin.rmu.rest.impl.MenuListRest;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
 import com.tripoin.rmu.view.fragment.base.ASynchronizeData;
@@ -66,7 +61,7 @@ public class SynchronizeCarriage extends ASynchronizeData implements ICarriagePo
                 Log.d("CarriageModel", model.toString());
             }
 
-            VersionModel versionModel = VersionDBManager.getInstance().selectCustomVersionModel(ModelConstant.VERSION_NAMETABLE, getTableName());
+            VersionModel versionModel = VersionDBManager.getInstance().selectCustomVersionModel(ModelConstant.VERSION_NAMETABLE, getTableNameTrain());
             versionModel.setVersionTimestamp(latestVersion);
             VersionDBManager.getInstance().updateEntity(versionModel);
         }else{
@@ -90,7 +85,7 @@ public class SynchronizeCarriage extends ASynchronizeData implements ICarriagePo
     }
 
     @Override
-    public String getTableName() {
+    public String getTableNameTrain() {
         return tableName;
     }
 
@@ -98,4 +93,5 @@ public class SynchronizeCarriage extends ASynchronizeData implements ICarriagePo
     public void selectRelatedTable() {
 
     }
+
 }

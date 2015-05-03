@@ -45,7 +45,7 @@ public abstract class ASynchronizeData implements ISynchronizeData, IMasterVersi
             MasterVersion masterVersion = (MasterVersion) objectResult;
             for(MasterVersionItem versionItem : masterVersion.getMasterVersionItems()){
                 Log.d("MENU", "5");
-                if(versionItem.getVersionTable().equals(getTableName())){
+                if(versionItem.getVersionTable().equals(getTableNameTrain())){
                     Log.d("MENU", "6");
                     int diff = tableDiff(versionItem.getVersionTimeStamp());
                     Log.d("diff", String.valueOf(diff));
@@ -65,7 +65,7 @@ public abstract class ASynchronizeData implements ISynchronizeData, IMasterVersi
 
     public int tableDiff(String latestVersion) {
         Log.d("VERSIONSIZE", String.valueOf(VersionDBManager.getInstance().getAllData().size()));
-        VersionModel versionModel = VersionDBManager.getInstance().selectCustomVersionModel(ModelConstant.VERSION_NAMETABLE, getTableName());
+        VersionModel versionModel = VersionDBManager.getInstance().selectCustomVersionModel(ModelConstant.VERSION_NAMETABLE, getTableNameTrain());
         GeneralConverter generalConverter = new GeneralConverter();
         Date newVersion = generalConverter.getDateToComparator(latestVersion);
         Date oldVersion = generalConverter.getDateToComparator(versionModel.getVersionTimestamp());

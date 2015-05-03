@@ -3,6 +3,7 @@ package com.tripoin.rmu.view.fragment.impl;
 
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ import com.tripoin.rmu.model.DTO.seat.SeatItemDTO;
 import com.tripoin.rmu.model.api.ModelConstant;
 import com.tripoin.rmu.model.persist.CarriageModel;
 import com.tripoin.rmu.model.persist.SeatModel;
+import com.tripoin.rmu.model.persist.TrainModel;
 import com.tripoin.rmu.persistence.orm_persistence.service.CarriageDBManager;
 import com.tripoin.rmu.persistence.orm_persistence.service.SeatDBManager;
 import com.tripoin.rmu.persistence.orm_persistence.service.TrainDBManager;
@@ -39,6 +41,7 @@ import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
 import com.tripoin.rmu.view.activity.ActivityMain;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
+import com.tripoin.rmu.view.fragment.api.ISynchronizeMaster;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -48,7 +51,7 @@ import java.util.List;
  * Created by Syahrial Fandrianah on 4/18/2015 : 1:41 AM.
  * mailto : sfandrianah2@gmail.com
  */
-public class FragmentAddOrder extends Fragment{
+public class FragmentAddOrder extends Fragment implements ISynchronizeMaster {
 
     private String array_spinner_carriage[];
     private String array_spinner_seat[];
@@ -69,6 +72,17 @@ public class FragmentAddOrder extends Fragment{
     private CarriageASync carriageASync;
     private SeatASync seatASync;
     private TrainASync trainASync;
+    private Button bt_add_order;
+    private Button bt_bayar;
+    private TextView txus2;
+    private Typeface faces2;
+    private TextView txus;
+    private Typeface faces;
+    private TextView lbl1;
+    private TextView lbl2;
+    private TextView menuName;
+    private TextView menuPrice;
+    private TextView menuTotal;
 
     public FragmentAddOrder newInstance(String text){
         FragmentAddOrder mFragment = new FragmentAddOrder();
@@ -77,33 +91,31 @@ public class FragmentAddOrder extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_add_order, container, false);
+        this.rootView = inflater.inflate(R.layout.fragment_add_order, container, false);
         propertyUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(),rootView.getContext());
-        TextView txus=(TextView)rootView.findViewById(R.id.tx_username);
-        Typeface faces=Typeface.createFromAsset(txus.getResources().getAssets(),"font/Roboto-Light.ttf");
-        txus.setText(propertyUtil.getValuePropertyMap(PropertyConstant.USER_NAME.toString()));
+        txus=(TextView)rootView.findViewById(R.id.tx_username);
+        faces=Typeface.createFromAsset(txus.getResources().getAssets(),"font/Roboto-Light.ttf");
+        txus.setText("Username      : ".concat(propertyUtil.getValuePropertyMap(PropertyConstant.USER_NAME.toString())));
         txus.setTypeface(faces);
-        txus.setTextSize(18);
-//        txus.setTypeface(null, Typeface.BOLD);
-        TextView txus2=(TextView)rootView.findViewById(R.id.tx_dates);
-        Typeface faces2=Typeface.createFromAsset(txus2.getResources().getAssets(),"font/Roboto-Light.ttf");
-        today  = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
-        txus2.setText(today);
+        txus2=(TextView)rootView.findViewById(R.id.tx_dates);
+        faces2=Typeface.createFromAsset(txus2.getResources().getAssets(),"font/Roboto-Light.ttf");
+        today  = new SimpleDateFormat("E, dd MMMMMM yyyy HH:mm:ss").format(new Date());
+        txus2.setText("Order Date   : ".concat(today));
         txus2.setTypeface(faces2);
-        txus2.setTextSize(18);
-//        txus2.setTypeface(null,Typeface.BOLD);
+        lbl1 = (TextView)rootView.findViewById(R.id.lbl_carriage);
+        lbl1.setTypeface(Typeface.createFromAsset(lbl1.getResources().getAssets(),"font/Roboto-Light.ttf"));
+        lbl2 = (TextView)rootView.findViewById(R.id.lbl_seat);
+        lbl2.setTypeface(Typeface.createFromAsset(lbl2.getResources().getAssets(), "font/Roboto-Light.ttf"));
+        menuName = (TextView)rootView.findViewById(R.id.lbl_menu_name);
+        menuName.setTypeface(Typeface.createFromAsset(menuName.getResources().getAssets(),"font/Roboto-Light.ttf"));
+        menuPrice = (TextView)rootView.findViewById(R.id.lbl_menu_price);
+        menuPrice.setTypeface(Typeface.createFromAsset(menuPrice.getResources().getAssets(),"font/Roboto-Light.ttf"));
+        menuTotal = (TextView)rootView.findViewById(R.id.lbl_menu_total);
+        menuTotal.setTypeface(Typeface.createFromAsset(menuTotal.getResources().getAssets(),"font/Roboto-Light.ttf"));
 
-        Button bt_bayar =(Button)rootView.findViewById(R.id.bt_bayar);
+        bt_bayar =(Button)rootView.findViewById(R.id.bt_bayar);
         bt_bayar.setTypeface(faces2);
-        Button bt_add_order = (Button) rootView.findViewById(R.id.btn_add_order);
-
-        carriageASync = new CarriageASync();
-        seatASync = new SeatASync();
-        trainASync = new TrainASync();
-
-        carriageASync.execute();
-        seatASync.execute();
-        trainASync.execute();
+        bt_add_order = (Button) rootView.findViewById(R.id.btn_add_order);
 
         bt_add_order.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,6 +126,16 @@ public class FragmentAddOrder extends Fragment{
             }
         });
 
+        carriageASync = new CarriageASync();
+        seatASync = new SeatASync();
+        trainASync = new TrainASync();
+
+        carriageASync.execute();
+        seatASync.execute();
+        trainASync.execute();
+
+
+
         rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT ));
         return rootView;
     }
@@ -122,6 +144,16 @@ public class FragmentAddOrder extends Fragment{
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(false);
+    }
+
+    @Override
+    public void onPostFirstSyncOrderList(List<CarriageModel> carriageModels, List<SeatModel> seatModels, List<TrainModel> trainModels) {
+
+    }
+
+    @Override
+    public void onPostContSyncOrderList(List<CarriageModel> carriageModels, List<SeatModel> seatModels, List<TrainModel> trainModels) {
+
     }
 
     private class MyArrayAdapter extends BaseAdapter {

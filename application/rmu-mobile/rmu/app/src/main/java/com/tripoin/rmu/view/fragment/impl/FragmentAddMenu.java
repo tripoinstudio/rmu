@@ -39,7 +39,7 @@ import com.tripoin.rmu.model.persist.MenuModel;
 import com.tripoin.rmu.persistence.orm_persistence.service.MenuDBManager;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
-import com.tripoin.rmu.view.fragment.api.base.ISynchronizeMenuList;
+import com.tripoin.rmu.view.fragment.api.ISynchronizeMenuList;
 import com.tripoin.rmu.view.ui.RoundedImageView;
 
 import java.util.HashMap;

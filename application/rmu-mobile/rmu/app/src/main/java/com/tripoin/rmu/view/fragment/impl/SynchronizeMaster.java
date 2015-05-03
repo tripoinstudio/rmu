@@ -1,7 +1,6 @@
 package com.tripoin.rmu.view.fragment.impl;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.tripoin.rmu.model.DTO.train.TrainDTO;
 import com.tripoin.rmu.model.DTO.train.TrainItemDTO;
@@ -10,63 +9,38 @@ import com.tripoin.rmu.model.persist.TrainModel;
 import com.tripoin.rmu.model.persist.VersionModel;
 import com.tripoin.rmu.persistence.orm_persistence.service.TrainDBManager;
 import com.tripoin.rmu.persistence.orm_persistence.service.VersionDBManager;
+import com.tripoin.rmu.rest.api.ICarriagePost;
+import com.tripoin.rmu.rest.api.ISeatPost;
 import com.tripoin.rmu.rest.api.ITrainPost;
 import com.tripoin.rmu.rest.impl.TrainListRest;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
 import com.tripoin.rmu.view.fragment.base.ASynchronizeData;
 
-import java.util.List;
-
 /**
  * Created by bangkit on 5/2/2015.
  */
-public class SynchronizeTrain extends ASynchronizeData implements ITrainPost {
+public class SynchronizeMaster extends ASynchronizeData implements ICarriagePost, ISeatPost, ITrainPost {
 
-    private String tableName;
+    private String tableNameTrain;
+    private String tableNameCarriage;
+    private String tableNameSeat;
     private Context context;
     private PropertyUtil securityUtil;
     private String latestVersion;
 
-    protected SynchronizeTrain(PropertyUtil securityUtil, Context context) {
+    protected SynchronizeMaster(PropertyUtil securityUtil, Context context) {
         super(securityUtil, context);
     }
 
-    protected SynchronizeTrain(PropertyUtil securityUtil, Context context, String tableName) {
+    protected SynchronizeMaster(PropertyUtil securityUtil, Context context, String tableNameCarriage, String tableNameSeat, String tableNameTrain) {
         super(securityUtil, context);
-        this.tableName = tableName;
+        this.tableNameTrain = tableNameTrain;
+        this.tableNameCarriage = tableNameCarriage;
+        this.tableNameSeat = tableNameSeat;
         this.context = context;
         this.securityUtil = securityUtil;
         TrainDBManager.init(context);
-    }
-
-    @Override
-    public void onPostSyncTrain(Object objectResult) {
-        if(objectResult != null){
-            TrainDTO trainDTO = (TrainDTO) objectResult;
-            /*List<MenuModel> menuModels = new ArrayList<MenuModel>();*/
-            TrainModel trainModel = null;
-            for(TrainItemDTO itemDTO : trainDTO.getTrainItemDTOs()){
-                trainModel = new TrainModel();
-                trainModel.setTrainCode(itemDTO.getTrainCode());
-                trainModel.setTrainNo(itemDTO.getTrainNo());
-                trainModel.setTrainRemarks(itemDTO.getTrainRemaks());
-                /*carriageModels.add(carriageModel);*/
-                TrainDBManager.getInstance().insertEntity(trainModel);
-            }
-
-            Log.d("TRAIN", "post detect version");
-            List<TrainModel> trainModels = TrainDBManager.getInstance().getAllData();
-            for(TrainModel model: trainModels){
-                Log.d("TrainModel", model.toString());
-            }
-
-            VersionModel versionModel = VersionDBManager.getInstance().selectCustomVersionModel(ModelConstant.VERSION_NAMETABLE, getTableNameTrain());
-            versionModel.setVersionTimestamp(latestVersion);
-            VersionDBManager.getInstance().updateEntity(versionModel);
-        }else{
-//            Log.d("Sync Carriage Object Result", "not found");
-        }
     }
 
     @Override
@@ -86,11 +60,42 @@ public class SynchronizeTrain extends ASynchronizeData implements ITrainPost {
 
     @Override
     public String getTableNameTrain() {
-        return tableName;
+        return tableNameTrain;
     }
 
     @Override
     public void selectRelatedTable() {
+
+    }
+
+    @Override
+    public void onPostSyncTrain(Object objectResult) {
+        if(objectResult != null){
+            TrainDTO trainDTO = (TrainDTO) objectResult;
+            TrainModel trainModel = null;
+            for(TrainItemDTO itemDTO : trainDTO.getTrainItemDTOs()){
+                trainModel = new TrainModel();
+                trainModel.setTrainCode(itemDTO.getTrainCode());
+                trainModel.setTrainNo(itemDTO.getTrainNo());
+                trainModel.setTrainRemarks(itemDTO.getTrainRemaks());
+                TrainDBManager.getInstance().insertEntity(trainModel);
+            }
+
+            VersionModel versionModel = VersionDBManager.getInstance().selectCustomVersionModel(ModelConstant.VERSION_NAMETABLE, getTableNameTrain());
+            versionModel.setVersionTimestamp(latestVersion);
+            VersionDBManager.getInstance().updateEntity(versionModel);
+        }else{
+
+        }
+    }
+
+    @Override
+    public void onPostSyncCarriage(Object objectResult) {
+
+    }
+
+    @Override
+    public void onPostSyncSeat(Object objectResult) {
 
     }
 }

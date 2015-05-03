@@ -17,7 +17,7 @@ import com.tripoin.rmu.rest.impl.MenuListRest;
 import com.tripoin.rmu.util.ImageDownloader;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
-import com.tripoin.rmu.view.fragment.api.base.ISynchronizeMenuList;
+import com.tripoin.rmu.view.fragment.api.ISynchronizeMenuList;
 import com.tripoin.rmu.view.fragment.base.ASynchronizeData;
 
 import java.util.List;
@@ -65,7 +65,7 @@ public class SynchronizeMenu extends ASynchronizeData implements IMenuPost, ISyn
     }
 
     @Override
-    public String getTableName() {
+    public String getTableNameTrain() {
         return tableName;
     }
 
@@ -94,7 +94,7 @@ public class SynchronizeMenu extends ASynchronizeData implements IMenuPost, ISyn
                 MenuDBManager.getInstance().insertEntity(menuModel);
             }
 
-            VersionModel versionModel = VersionDBManager.getInstance().selectCustomVersionModel(ModelConstant.VERSION_NAMETABLE, getTableName());
+            VersionModel versionModel = VersionDBManager.getInstance().selectCustomVersionModel(ModelConstant.VERSION_NAMETABLE, getTableNameTrain());
             versionModel.setVersionTimestamp(latestVersion);
             VersionDBManager.getInstance().updateEntity(versionModel);
 
