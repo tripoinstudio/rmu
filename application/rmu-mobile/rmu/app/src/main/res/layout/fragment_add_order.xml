@@ -14,7 +14,7 @@
         android:layout_marginRight="30dp"
         android:paddingLeft="5dp"
         android:paddingBottom="10dp"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:id="@+id/tx_username"
         android:background="@drawable/textlines"
         android:textColor="@color/black_light"/>
@@ -27,7 +27,7 @@
         android:layout_marginRight="30dp"
         android:paddingLeft="5dp"
         android:paddingBottom="10dp"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:id="@+id/tx_dates"
         android:background="@drawable/textlines"
         android:textColor="@color/black_light"/>
