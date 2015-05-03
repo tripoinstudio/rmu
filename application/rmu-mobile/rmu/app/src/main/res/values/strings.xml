@@ -119,4 +119,11 @@
     <string name="text_close_devices">Close</string>
     <string name="text_send_devices">Print</string>
 
+    <!--Order Detail-->
+    <string name="change_order_status">Change Order Status</string>
+    <string name="status_new">New</string>
+    <string name="status_processed">Processed</string>
+    <string name="status_delivered">Delivered</string>
+    <string name="status_cancelled">Cancelled</string>
+
 </resources>
