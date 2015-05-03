@@ -270,7 +270,6 @@ public class FragmentUserProfile extends Fragment {
                 });
                 AlertDialog alertD = alertDialogBuilder.create();
                 alertD.show();
-
             }
         });
 
