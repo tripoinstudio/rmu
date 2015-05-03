@@ -15,6 +15,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -61,26 +62,32 @@ public class FragmentAddMenu extends Fragment implements ISynchronizeMenuList {
     private PropertyUtil securityUtil;
     private int numtest;
     View rootView;
+    private String menuCode;
+    private Button btnOrder;
+    private final String MENU_CODE = "menu_code";
+    private MenuModel menuModel;
 
-    public FragmentAddMenu newInstance(String text){
+    public FragmentAddMenu newInstance(String menuCode){
+        Log.d("menu code f add menu", menuCode);
         FragmentAddMenu mFragment = new FragmentAddMenu();
-        Log.d("code",text);
+        Bundle bundle = new Bundle();
+        bundle.putString(MENU_CODE, menuCode);
+        mFragment.setArguments(bundle);
         return mFragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-
         rootView = inflater.inflate(R.layout.fragment_add_menu, container, false);
         securityUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(), rootView.getContext());
         MenuDBManager.init(rootView.getContext());
         new MenuASync().execute();
         menuName = (TextView)rootView.findViewById(R.id.menuName);
-        menuName.setText("Nasi Goreng");
+        menuName.setText(getArguments().getString(MENU_CODE));
         TextView txus2=(TextView)rootView.findViewById(R.id.tx_dates);
         Typeface faces1=Typeface.createFromAsset(getResources().getAssets(),"font/Roboto-Light.ttf");
         menuName.setTypeface(faces1);
+        btnOrder = (Button) rootView.findViewById(R.id.btn_order);
 
         Button buttonplus = (Button) rootView.findViewById(R.id.bt_plus);
         buttonplus.setOnClickListener(new View.OnClickListener() {
@@ -100,9 +107,17 @@ public class FragmentAddMenu extends Fragment implements ISynchronizeMenuList {
                 if(numtest == -1) {
                     numtest = 0;
                 } else {
-
                     t.setText(numtest + "");
                 }
+            }
+        });
+
+        btnOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentAddOrder fragmentAddOrder = new FragmentAddOrder().newInstance("");
+                FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
+                mFragmentManager.beginTransaction().replace(R.id.container, fragmentAddOrder).commit();
             }
         });
 
