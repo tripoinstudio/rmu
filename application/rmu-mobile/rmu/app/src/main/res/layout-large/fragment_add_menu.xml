@@ -195,7 +195,8 @@
             android:layout_marginRight="80dp"
             android:background="@color/red_dark_holo"
             android:textColor="@color/white_base"
-            android:text="Order"/>
+            android:text="Order"
+            android:id="@+id/btn_order"/>
 
     </LinearLayout>
 
