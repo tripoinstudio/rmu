@@ -84,7 +84,6 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
 
         try{
             userDTO = (UserDTO) getIntent().getExtras().getParcelable(PropertyConstant.USER_DTO.toString());
-            Log.d("USERDTO act main", userDTO.toString());
         }catch (Exception e){
             OrderListDBManager.init(this);
             orderListModels = OrderListDBManager.getInstance().getAllData();
@@ -181,8 +180,8 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
                 menu.findItem(R.id.menu_search).setVisible(!visible);*/
                 break;
             case 1:
-//                menu.findItem(R.id.menu_add).setVisible(!visible);
-//                menu.findItem(R.id.menu_search).setVisible(!visible);
+                menu.findItem(R.id.menu_add).setVisible(!visible);
+                menu.findItem(R.id.menu_search).setVisible(!visible);
                 break;
         }
     }
