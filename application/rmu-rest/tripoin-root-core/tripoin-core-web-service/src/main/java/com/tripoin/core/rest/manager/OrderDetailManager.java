@@ -154,7 +154,7 @@ public class OrderDetailManager {
 				List<OrderDetailDTO> orderDetailDTOList = new ArrayList<OrderDetailDTO>();
 				for (OrderDetail o : orderDetailList) {
 					LOGGER.debug("data :"+o.toString());
-					OrderDetailDTO data = new OrderDetailDTO(o.getOrderHeader().getOrderNo(), o.getTotalOrder(), o.getTotalAmount(), o.getStatus(), o.getOrderHeader().getUser().getUsername(), o.getMenu().getCode(), o.getMenu().getName(),  o.getOrderHeader().getSeat().getCode(), o.getOrderHeader().getCarriage().getCode(), o.getOrderHeader().getTrain().getCode());
+					OrderDetailDTO data = new OrderDetailDTO(o.getOrderHeader().getOrderNo(), o.getTotalOrder(), o.getTotalAmount(), o.getOrderHeader().getStatus(), o.getOrderHeader().getUser().getUsername(), o.getMenu().getCode(), o.getMenu().getName(),  o.getOrderHeader().getSeat().getCode(), o.getOrderHeader().getCarriage().getCode(), o.getOrderHeader().getTrain().getCode());
 					orderDetailDTOList.add(data);
 				} 
 				orderDetails.setTrx_order_detail(orderDetailDTOList);
