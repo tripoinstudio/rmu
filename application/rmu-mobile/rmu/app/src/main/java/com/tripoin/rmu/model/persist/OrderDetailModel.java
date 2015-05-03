@@ -4,35 +4,45 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.tripoin.rmu.model.api.ModelConstant;
 
-
 /**
- * Created by Achmad Fauzi on 1/26/2015.
- * fauzi.knightmaster.achmad@gmail.com
+ * Created by Achmad Fauzi on 5/2/2015 : 7:58 PM.
+ * mailto : achmad.fauzi@sigma.co.id
  */
-
-@DatabaseTable( tableName = ModelConstant.MENU_TABLE )
+@DatabaseTable( tableName = ModelConstant.ORDER_DETAIL_TABLE)
 public class OrderDetailModel {
 
-    @DatabaseField( generatedId = true, canBeNull = false, columnName = ModelConstant.MENU_ID )
+    @DatabaseField( generatedId = true, canBeNull = false, columnName = ModelConstant.ORDER_DETAIL_ID)
     private int id;
 
-    @DatabaseField( columnName = ModelConstant.MENU_CODE )
+    @DatabaseField( columnName = ModelConstant.ORDER_DETAIL_ORDER_HEADER_NO)
+    private String orderHeaderNo;
+
+    @DatabaseField( columnName = ModelConstant.ORDER_DETAIL_ORDER_DETAIL_TOTAL_ORDER )
+    private String orderDetailTotalOrder;
+
+    @DatabaseField( columnName = ModelConstant.ORDER_DETAIL_ORDER_DETAIL_TOTAL_AMOUNT )
+    private String orderDetailTotalAmount;
+
+    @DatabaseField( columnName = ModelConstant.ORDER_DETAIL_ORDER_HEADER_STATUS )
+    private String orderHeaderStatus;
+
+    @DatabaseField( columnName = ModelConstant.ORDER_DETAIL_USER_CODE )
+    private String userCode;
+
+    @DatabaseField( columnName = ModelConstant.ORDER_DETAIL_MENU_CODE )
     private String menuCode;
 
-    @DatabaseField( columnName = ModelConstant.MENU_NAME )
+    @DatabaseField( columnName = ModelConstant.ORDER_DETAIL_MENU_NAME )
     private String menuName;
 
-    @DatabaseField( columnName = ModelConstant.MENU_TYPE )
-    private String menuType;
+    @DatabaseField( columnName = ModelConstant.ORDER_DETAIL_SEAT_CODE )
+    private String seatCode;
 
-    @DatabaseField( columnName = ModelConstant.MENU_PRICE )
-    private String menuPrice;
+    @DatabaseField( columnName = ModelConstant.ORDER_DETAIL_CARRIAGE_CODE)
+    private String carriageCode;
 
-    @DatabaseField( columnName = ModelConstant.MENU_RATING )
-    private String menuRating;
-
-    @DatabaseField( columnName = ModelConstant.MENU_IMAGE_URL )
-    private String menuImageURL;
+    @DatabaseField( columnName = ModelConstant.ORDER_DETAIL_TRAIN_CODE)
+    private String trainCode;
 
     public int getId() {
         return id;
@@ -40,6 +50,46 @@ public class OrderDetailModel {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getOrderHeaderNo() {
+        return orderHeaderNo;
+    }
+
+    public void setOrderHeaderNo(String orderHeaderNo) {
+        this.orderHeaderNo = orderHeaderNo;
+    }
+
+    public String getOrderDetailTotalOrder() {
+        return orderDetailTotalOrder;
+    }
+
+    public void setOrderDetailTotalOrder(String orderDetailTotalOrder) {
+        this.orderDetailTotalOrder = orderDetailTotalOrder;
+    }
+
+    public String getOrderDetailTotalAmount() {
+        return orderDetailTotalAmount;
+    }
+
+    public void setOrderDetailTotalAmount(String orderDetailTotalAmount) {
+        this.orderDetailTotalAmount = orderDetailTotalAmount;
+    }
+
+    public String getOrderHeaderStatus() {
+        return orderHeaderStatus;
+    }
+
+    public void setOrderHeaderStatus(String orderHeaderStatus) {
+        this.orderHeaderStatus = orderHeaderStatus;
+    }
+
+    public String getUserCode() {
+        return userCode;
+    }
+
+    public void setUserCode(String userCode) {
+        this.userCode = userCode;
     }
 
     public String getMenuCode() {
@@ -58,48 +108,44 @@ public class OrderDetailModel {
         this.menuName = menuName;
     }
 
-    public String getMenuType() {
-        return menuType;
+    public String getSeatCode() {
+        return seatCode;
     }
 
-    public void setMenuType(String menuType) {
-        this.menuType = menuType;
+    public void setSeatCode(String seatCode) {
+        this.seatCode = seatCode;
     }
 
-    public String getMenuPrice() {
-        return menuPrice;
+    public String getCarriageCode() {
+        return carriageCode;
     }
 
-    public void setMenuPrice(String menuPrice) {
-        this.menuPrice = menuPrice;
+    public void setCarriageCode(String carriageCode) {
+        this.carriageCode = carriageCode;
     }
 
-    public String getMenuRating() {
-        return menuRating;
+    public String getTrainCode() {
+        return trainCode;
     }
 
-    public void setMenuRating(String menuRating) {
-        this.menuRating = menuRating;
-    }
-
-    public String getMenuImageURL() {
-        return menuImageURL;
-    }
-
-    public void setMenuImageURL(String menuImageURL) {
-        this.menuImageURL = menuImageURL;
+    public void setTrainCode(String trainCode) {
+        this.trainCode = trainCode;
     }
 
     @Override
     public String toString() {
-        return "MenuModel{" +
+        return "DetailOrderModel{" +
                 "id=" + id +
+                ", orderHeaderNo='" + orderHeaderNo + '\'' +
+                ", orderDetailTotalOrder='" + orderDetailTotalOrder + '\'' +
+                ", orderDetailTotalAmount='" + orderDetailTotalAmount + '\'' +
+                ", orderHeaderStatus='" + orderHeaderStatus + '\'' +
+                ", userCode='" + userCode + '\'' +
                 ", menuCode='" + menuCode + '\'' +
                 ", menuName='" + menuName + '\'' +
-                ", menuType='" + menuType + '\'' +
-                ", menuPrice='" + menuPrice + '\'' +
-                ", menuRating='" + menuRating + '\'' +
-                ", menuImageURL='" + menuImageURL + '\'' +
+                ", seatCode='" + seatCode + '\'' +
+                ", carriageCode='" + carriageCode + '\'' +
+                ", trainCode='" + trainCode + '\'' +
                 '}';
     }
 }
