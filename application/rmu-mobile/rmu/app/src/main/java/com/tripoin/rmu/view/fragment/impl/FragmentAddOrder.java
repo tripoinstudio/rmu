@@ -28,10 +28,12 @@ import com.tripoin.rmu.persistence.orm_persistence.service.SeatDBManager;
 import com.tripoin.rmu.persistence.orm_persistence.service.TrainDBManager;
 import com.tripoin.rmu.rest.impl.CarriageListRest;
 import com.tripoin.rmu.rest.impl.SeatListRest;
+import com.tripoin.rmu.util.BluetoothUtils;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
 import com.tripoin.rmu.view.fragment.api.ISynchronizeMaster;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -71,6 +73,7 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster {
     private TextView menuName;
     private TextView menuPrice;
     private TextView menuTotal;
+    private BluetoothUtils bluetoothUtils = new BluetoothUtils(FragmentAddOrder.this);
 
     public FragmentAddOrder newInstance(String text){
         FragmentAddOrder mFragment = new FragmentAddOrder();
@@ -103,6 +106,7 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster {
 
         bt_bayar =(Button)rootView.findViewById(R.id.bt_bayar);
         bt_bayar.setTypeface(faces2);
+        bt_bayar.setEnabled(true);
         bt_add_order = (Button) rootView.findViewById(R.id.btn_add_order);
 
         bt_add_order.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +117,30 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster {
                 mFragmentManager.beginTransaction().replace(R.id.container, fragmentMenuList).commit();
             }
         });
-
+        bt_bayar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String data = "\n\n\nPT. Reska Multi Usaha\n"
+                        .concat("eRestorasi version 1.0\n")
+                        .concat("Jln. Kapt Subidjanto\n")
+                        .concat("Telp : 0212345678\n\n\n")
+                        .concat("--------------------------------\n")
+                        .concat("Order No : OR0001\n")
+                        .concat("--------------------------------\n")
+                        .concat("Nasi Goreng(2) |    Rp. 20.000,-\n")
+                        .concat("Aqua(1)        |    Rp.  6.000,-\n")
+                        .concat("--------------------------------\n")
+                        .concat("Total          :    Rp. 16.000,-\n\n")
+                        .concat("--------------------------------\n")
+                        .concat("Thank You For Order,-\n")
+                        .concat("Terima Kasih Atas Kunjungan Anda\n\n\n");
+                try {
+                    bluetoothUtils.printData(data);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         masterASync = new MasterASync();
         masterASync.execute();
 
@@ -212,7 +239,6 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster {
             holder.name.setTypeface(myFont);
             holder.name.setTextSize(18);
             holder.name.setTextColor(getResources().getColor(R.color.black_light));
-//            holder.name.setTypeface(null,Typeface.BOLD);
 
             holder.name.setText(""+array_spinner_seat[position]);
             return v;
@@ -224,95 +250,6 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster {
         TextView name;
 
     }
-
-//    private class CarriageASync extends AsyncTask {
-//
-//        SynchronizeCarriage synchronizeCarriage;
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//            Log.d("CARRIAGE", "2");
-//            synchronizeCarriage = new SynchronizeCarriage(propertyUtil, rootView.getContext(), ModelConstant.REST_CARRIAGE_TABLE.toString());
-//        }
-//
-//        @Override
-//        protected Object doInBackground(Object[] params) {
-//            Log.d("CARRIAGE", "detect version");
-//            synchronizeCarriage.detectVersionDiff();
-//            return null;
-//        }
-//        @Override
-//        protected void onPostExecute(Object o) {
-//            super.onPostExecute(o);
-//            List<CarriageModel> carriageModels = CarriageDBManager.getInstance().getAllData();
-//            int array = carriageModels.size();
-//            array_spinner_carriage = new String[array];
-//            for(int i = 0; i<array;i++){
-//                array_spinner_carriage[i] = carriageModels.get(i).getCarriageNo();
-//            }
-//            mySpinner = (Spinner) rootView.findViewById(R.id.spinner_carriage);
-//            myFont = Typeface.createFromAsset(mySpinner.getResources().getAssets(), "font/Roboto-Light.ttf");
-//            ma = new MyArrayAdapter(rootView.getContext());
-//            mySpinner.setAdapter(ma);
-//        }
-//
-//    }
-//
-//    private class SeatASync extends AsyncTask {
-//
-//        SynchronizeSeat synchronizeSeat;
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//            Log.d("SEAT", "2");
-//            SeatDBManager.init(rootView.getContext());
-//            synchronizeSeat = new SynchronizeSeat(propertyUtil, rootView.getContext(), ModelConstant.REST_SEAT_TABLE.toString());
-//        }
-//
-//        @Override
-//        protected Object doInBackground(Object[] params) {
-//            Log.d("SEAT", "detect version");
-//            synchronizeSeat.detectVersionDiff();
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Object o) {
-//            super.onPostExecute(o);
-//            List<SeatModel> seatModels = SeatDBManager.getInstance().getAllData();
-//            int array = seatModels.size();
-//            array_spinner_seat = new String[array];
-//            for(int i = 0; i<array;i++){
-//                array_spinner_seat[i] = seatModels.get(i).getSeatNo();
-//            }
-//
-//            mySpinnerSeat = (Spinner) rootView.findViewById(R.id.spinner_seat);
-//            myFont = Typeface.createFromAsset(mySpinner.getResources().getAssets(), "font/Roboto-Light.ttf");
-//            maSeat = new MyArrayAdapterSeat(rootView.getContext());
-//            mySpinnerSeat.setAdapter(maSeat);
-//        }
-//    }
-//
-//    private class TrainASync extends AsyncTask {
-//
-//        SynchronizeTrain synchronizeTrain;
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//            Log.d("TRAIN", "2");
-//            TrainDBManager.init(rootView.getContext());
-//            synchronizeTrain = new SynchronizeTrain(propertyUtil, rootView.getContext(), ModelConstant.REST_TRAIN_TABLE.toString());
-//        }
-//
-//        @Override
-//        protected Object doInBackground(Object[] params) {
-//            Log.d("TRAIN", "detect version");
-//            synchronizeTrain.detectVersionDiff();
-//            return null;
-//        }
-//
-//    }
-
 
     public void initSpinnerCarriage(List<CarriageModel> carriageModels) {
         int array =  carriageModels.size();

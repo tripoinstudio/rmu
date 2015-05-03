@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tripoin.rmu.R;
+import com.tripoin.rmu.util.BluetoothUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -70,6 +71,7 @@ public class FragmentChangeBluetooth extends Fragment {
     private int counter;
     private volatile boolean stopWorker;
     private volatile boolean openedSocket = false;
+    private BluetoothUtils bluetoothUtils = new BluetoothUtils(FragmentChangeBluetooth.this);
 
 
     public FragmentChangeBluetooth newInstance(String text){
@@ -202,9 +204,13 @@ public class FragmentChangeBluetooth extends Fragment {
                 @Override
                 public void onClick(View v) {
                     try {
-                        findBT();
-                        openBT();
-                        sendData();
+                        //findBT();
+                        //openBT();
+                        String data = "\n\nPT. Reska Multi Usaha\n"
+                                .concat("eRestorasi version 1.0\n\n")
+                                .concat("   ---- Print Success ----\n\n");
+                        bluetoothUtils.printData(data);
+                        //sendData();
                     } catch (IOException ex) {
                     }
                 }
