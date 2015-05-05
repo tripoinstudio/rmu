@@ -24,7 +24,9 @@ import com.tripoin.rmu.model.persist.OrderListModel;
 import com.tripoin.rmu.persistence.orm_persistence.service.OrderListDBManager;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
+import com.tripoin.rmu.view.enumeration.ViewConstant;
 import com.tripoin.rmu.view.fragment.api.ISynchronizeOrderList;
+import com.tripoin.rmu.view.fragment.base.ABaseNavigationDrawerFragment;
 import com.tripoin.rmu.view.ui.CustomCardOrderList;
 
 import java.util.ArrayList;
@@ -38,33 +40,14 @@ import it.gmariotti.cardslib.library.view.CardListView;
  * Created by Achmad Fauzi on 4/18/2015 : 11:32 AM.
  * mailto : achmad.fauzi@sigma.co.id
  */
-public class FragmentOrderList extends Fragment implements ISynchronizeOrderList{
+public class FragmentOrderList extends ABaseNavigationDrawerFragment implements ISynchronizeOrderList{
 
     private boolean mSearchCheck;
-    private View rootView = null;
-    /*private UserDTO userDTO;
-    private List<OrderListModel> orderListModels;*/
     private PropertyUtil securityUtil;
 
-    public FragmentOrderList newInstance(UserDTO userDTO, List<OrderListModel> orderListModels){
+    public FragmentOrderList newInstance(){
         FragmentOrderList mFragment = new FragmentOrderList();
-        /*if( userDTO != null ){
-            this.userDTO = userDTO;
-        }else{
-            this.orderListModels = orderListModels;
-            Log.d("ORDELISTMODEL", orderListModels.toString());
-        }*/
-
         return mFragment;
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_order_list, container, false);
-        securityUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(), rootView.getContext());
-        new OrderListAsync().execute();
-        rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT ));
-        return rootView;
     }
 
     @Override
@@ -103,6 +86,7 @@ public class FragmentOrderList extends Fragment implements ISynchronizeOrderList
                 mFragmentManager.beginTransaction().replace(R.id.container, fragmentAddOrder).commit();
                 break;
 
+
             case R.id.menu_search:
                 mSearchCheck = true;
                 Toast.makeText(getActivity(), R.string.search, Toast.LENGTH_SHORT).show();
@@ -120,7 +104,7 @@ public class FragmentOrderList extends Fragment implements ISynchronizeOrderList
         @Override
         public boolean onQueryTextChange(String s) {
             if (mSearchCheck){
-                Toast.makeText(rootView.getContext(), "SEARCH", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "SEARCH", Toast.LENGTH_LONG).show();
             }
             return false;
         }
@@ -143,12 +127,28 @@ public class FragmentOrderList extends Fragment implements ISynchronizeOrderList
             cards.add(card);
         }
 
-        CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(rootView.getContext(), cards);
+        CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(getActivity(), cards);
 
-        CardListView listView = (CardListView) rootView.findViewById(R.id.listOrder);
+        CardListView listView = (CardListView) getActivity().findViewById(R.id.listOrder);
         if (listView != null) {
             listView.setAdapter(mCardArrayAdapter);
         }
+    }
+
+    @Override
+    public String getFragmentTitle() {
+        return ViewConstant.FRAGMENT_ORDER_LIST_TITLE.toString();
+    }
+
+    @Override
+    public void initWidget() {
+        securityUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(), getActivity());
+        new OrderListAsync().execute();
+    }
+
+    @Override
+    public int getViewLayoutId() {
+        return R.layout.fragment_order_list;
     }
 
     private class OrderListAsync extends AsyncTask{
@@ -159,12 +159,12 @@ public class FragmentOrderList extends Fragment implements ISynchronizeOrderList
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            OrderListDBManager.init(rootView.getContext());
-            progressDialog = new ProgressDialog(rootView.getContext());
+            OrderListDBManager.init(getActivity());
+            progressDialog = new ProgressDialog(getActivity());
             progressDialog.setMessage("Loading order list");
             progressDialog.setCancelable(false);
             progressDialog.show();
-            synchronizeOrderList = new SynchronizeOrderList(securityUtil, rootView.getContext(), ModelConstant.REST_ORDER_HEADER_TABLE.toString(), FragmentOrderList.this);
+            synchronizeOrderList = new SynchronizeOrderList(securityUtil, getActivity(), ModelConstant.REST_ORDER_HEADER_TABLE.toString(), FragmentOrderList.this);
         }
 
         @Override

@@ -51,7 +51,7 @@ public abstract class SynchronizeOrderDetail extends ASynchronizeData implements
         OrderDetailDBManager.getInstance().executeRaw("Delete from ".concat(ModelConstant.ORDER_DETAIL_TABLE));
         OrderDetailListRest orderDetailListRest = new OrderDetailListRest(this) {
             @Override
-            protected Context getContext() {
+            public Context getContext() {
                 return context;
             }
 

@@ -16,15 +16,9 @@ import java.util.List;
 public interface IBaseFragment {
 
     /**
-     * Method ini digunakan untuk inisiasi widget- widget activity yang sedang aktif
+     * Method ini digunakan untuk inisiasi widget- widget activity yang sedang aktif termasuk variabel
      */
     public void initWidget();
-
-    /**
-     * Method ini digunakan untuk inisiasi values widget- widget activity yang sedang aktif
-     * + inisiasi Listener untk widget
-     */
-    public void setupValues();
 
     public int getViewLayoutId();
 

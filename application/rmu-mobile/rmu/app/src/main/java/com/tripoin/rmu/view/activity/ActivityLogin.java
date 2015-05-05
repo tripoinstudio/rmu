@@ -4,7 +4,6 @@ package com.tripoin.rmu.view.activity;
 import android.content.Context;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -13,7 +12,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.tripoin.rmu.R;
-import com.tripoin.rmu.model.DTO.master.MasterVersion;
 import com.tripoin.rmu.model.DTO.master.MasterVersionItem;
 import com.tripoin.rmu.model.DTO.user.UserDTO;
 import com.tripoin.rmu.model.api.ModelConstant;
@@ -22,7 +20,6 @@ import com.tripoin.rmu.persistence.orm_persistence.service.VersionDBManager;
 import com.tripoin.rmu.rest.api.ILoginPost;
 import com.tripoin.rmu.rest.impl.LoginRest;
 import com.tripoin.rmu.security.base.ASecureActivity;
-import com.tripoin.rmu.util.Version;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
 
@@ -84,7 +81,7 @@ public class ActivityLogin extends ASecureActivity implements View.OnClickListen
                     if(networkConnectivity.checkConnectivity()){
                         LoginRest loginRest = new LoginRest(this) {
                             @Override
-                            protected Context getContext() {
+                            public Context getContext() {
                                 return ActivityLogin.this;
                             }
                         };
@@ -137,13 +134,12 @@ public class ActivityLogin extends ASecureActivity implements View.OnClickListen
                             VersionDBManager.getInstance().insertEntity(versionModel);
                         }
                     }
-                    Log.d("USER DTO LOGIN", userDTO.toString());
                     gotoNextActivity(ActivityMain.class, PropertyConstant.USER_DTO.toString(), userDTO);
                 }else {
-                    Toast.makeText(this, "An error occured ".concat(userDTO.getErr_msg()),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "An error occurred ".concat(userDTO.getErr_msg()),Toast.LENGTH_SHORT).show();
                 }
             }else{
-                Log.d(stringAnErrorOccured, "Object result Login is not found");
+                Toast.makeText(this, "An error occurred, please your check connection", Toast.LENGTH_SHORT).show();
             }
         }catch (Exception e){
             e.printStackTrace();

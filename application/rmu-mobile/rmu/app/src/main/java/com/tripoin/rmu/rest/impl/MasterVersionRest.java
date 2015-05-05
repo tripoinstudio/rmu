@@ -10,7 +10,7 @@ import com.tripoin.rmu.rest.enumeration.RestConstant;
  * Created by Achmad Fauzi on 4/30/2015 : 11:01 PM.
  * mailto : achmad.fauzi@sigma.co.id
  */
-public class MasterVersionRest extends ARestGETAsyncTask {
+public abstract class MasterVersionRest extends ARestGETAsyncTask {
 
     private IMasterVersionPost iMasterVersionPost;
 

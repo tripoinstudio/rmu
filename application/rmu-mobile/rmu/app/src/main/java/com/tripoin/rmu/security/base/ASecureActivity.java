@@ -203,7 +203,7 @@ public abstract class ASecureActivity extends ACustomActivity implements ISyncSe
         }
 
         @Override
-        protected Context getContext() {
+        public Context getContext() {
             return ASecureActivity.this;
         }
 
@@ -244,7 +244,7 @@ public abstract class ASecureActivity extends ACustomActivity implements ISyncSe
         }
 
         @Override
-        protected Context getContext() {
+        public Context getContext() {
             return ASecureActivity.this;
         }
 
@@ -272,6 +272,11 @@ public abstract class ASecureActivity extends ACustomActivity implements ISyncSe
 
         public ReadAdminConfigRest(ISyncReloadConfiguration delegate) {
             this.delegate = delegate;
+        }
+
+        @Override
+        public Context getContext() {
+            return ASecureActivity.this;
         }
 
         @Override
@@ -389,7 +394,7 @@ public abstract class ASecureActivity extends ACustomActivity implements ISyncSe
         }
 
         @Override
-        protected Context getContext() {
+        public Context getContext() {
             return ASecureActivity.this;
         }
 

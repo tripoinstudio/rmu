@@ -77,7 +77,7 @@ public class SynchronizeSeat extends ASynchronizeData implements ISeatPost {
         //select new Object
         SeatListRest seatListRest = new SeatListRest(this) {
             @Override
-            protected Context getContext() {
+            public Context getContext() {
                 return context;
             }
         };

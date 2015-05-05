@@ -7,4 +7,7 @@ import com.tripoin.rmu.view.fragment.api.base.IBaseFragment;
  * mailto : achmad.fauzi@sigma.co.id
  */
 public interface INavigationDrawerFragment extends IBaseFragment {
+
+    public String getFragmentTitle();
+
 }

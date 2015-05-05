@@ -57,7 +57,7 @@ public class SynchronizeMenu extends ASynchronizeData implements IMenuPost, ISyn
         //select new Object
         MenuListRest menuListRest = new MenuListRest(this) {
             @Override
-            protected Context getContext() {
+            public Context getContext() {
                 return context;
             }
         };

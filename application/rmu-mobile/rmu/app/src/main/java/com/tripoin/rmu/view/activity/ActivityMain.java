@@ -47,12 +47,10 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
 
     private List<String> mListNameItem;
     int layoutContainerIdGlobal = 0;
-    private UserDTO userDTO;
 
     private PropertyUtil securityUtil;
     private IMainUtilActivity iMainActivityUtil;
     private ILogoutHandler iLogoutHandler;
-    private List<OrderListModel> orderListModels;
 
 
     @Override
@@ -81,13 +79,6 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
         iLogoutHandler = new LogoutHandlerImpl(securityUtil, this);
 
         //iMainActivityUtil.detectLoginStatus(iLogoutHandler);
-
-        try{
-            userDTO = (UserDTO) getIntent().getExtras().getParcelable(PropertyConstant.USER_DTO.toString());
-        }catch (Exception e){
-            OrderListDBManager.init(this);
-            orderListModels = OrderListDBManager.getInstance().getAllData();
-        }
 
         // name of the list items
         mListNameItem = new ArrayList<>();
@@ -149,7 +140,7 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
                 break;
             case 2 :
                 layoutContainerIdGlobal = layoutContainerId;
-                fragmentOrderList = new FragmentOrderList().newInstance(userDTO, orderListModels);
+                fragmentOrderList = new FragmentOrderList().newInstance();
                 mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentOrderList).commit();
                 break;
             case 3 :
@@ -180,8 +171,8 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
                 menu.findItem(R.id.menu_search).setVisible(!visible);*/
                 break;
             case 1:
-                menu.findItem(R.id.menu_add).setVisible(!visible);
-                menu.findItem(R.id.menu_search).setVisible(!visible);
+                /*menu.findItem(R.id.menu_add).setVisible(!visible);
+                menu.findItem(R.id.menu_search).setVisible(!visible);*/
                 break;
         }
     }

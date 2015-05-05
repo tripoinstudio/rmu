@@ -8,12 +8,26 @@ package com.tripoin.rmu.view.enumeration;
  */
 public enum ViewConstant {
 
+    FONT_ROBOT_BLACK("font/Roboto-Black.ttf"),
+    FONT_ROBOT_BLACK_ITALIC("font/Roboto-BlackItalic.ttf"),
+    FONT_ROBOT_BOLD("font/Roboto-Bold.ttf"),
+    FONT_ROBOT_ITALIC("font/Roboto-Italic.ttf"),
+    FONT_ROBOT_BOLD_ITALIC("font/Roboto-BoldItalic.ttf"),
+    FONT_ROBOT_LIGHT("font/Roboto-Light.ttf"),
+    FONT_ROBOT_LIGHT_ITALIC("font/Roboto-LightItalic.ttf"),
+    FONT_ROBOT_MEDIUM("font/Roboto-Medium.ttf"),
+    FONT_ROBOT_MEDIUM_ITALIC("font/Roboto-MediumItalic.ttf"),
+    FONT_ROBOT_REGULAR("font/Roboto-Regular.ttf"),
+    FONT_ROBOT_THIN("font/Roboto-Thin.ttf"),
+    FONT_ROBOT_THIN_ITALIC("font/Roboto-ThinItalic.ttf"),
     FONT_ADAM("font/ADAM.CG PRO.otf"),
-    FONT_BGOTHL("font/Bgothl.ttf"),
     FONT_OPEN_SANS_LIGHT("font/OpenSans-Light.ttf"),
-    FONT_UBUNTU("font/Ubuntu-R.ttf"),
 
     ACTION_BAR_TITLE("eRestorasi"),
+
+    /*Fragment Titles*/
+    FRAGMENT_ABOUT_TITLE("About Application"),
+    FRAGMENT_ORDER_LIST_TITLE("Order List"),
 
     ERROR("ERROR"),
     ZERO("0"),
@@ -55,7 +69,7 @@ public enum ViewConstant {
     TRAIN_NO("Train No :"),
     CURRENCY_IDR("IDR "),
     TOTAL_ORDER("Total Order :"),
-    TOTAL_PAID("Total Paid :"),
+    TOTAL_PAID("Total Paid : "),
     ;
 
 

@@ -77,7 +77,7 @@ public class SynchronizeCarriage extends ASynchronizeData implements ICarriagePo
         //select new Object
         CarriageListRest carriageListRest = new CarriageListRest(this) {
             @Override
-            protected Context getContext() {
+            public Context getContext() {
                 return context;
             }
         };

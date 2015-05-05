@@ -77,7 +77,7 @@ public class SynchronizeTrain extends ASynchronizeData implements ITrainPost {
         //select new Object
         TrainListRest trainListRest = new TrainListRest(this) {
             @Override
-            protected Context getContext() {
+            public Context getContext() {
                 return context;
             }
         };

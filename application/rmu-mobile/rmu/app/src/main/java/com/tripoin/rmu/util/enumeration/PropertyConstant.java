@@ -2,11 +2,14 @@ package com.tripoin.rmu.util.enumeration;
 
 import android.os.Environment;
 
+import com.tripoin.rmu.util.impl.PropertyUtil;
+
 /**
  * Created by Achmad Fauzi on 12/30/2014.
  * fauzi.knightmaster.achmad@gmail.com
  */
 public enum PropertyConstant {
+
     COMPANY_NAME( "RMU" ),
     PROPERTIES_PATH( Environment.getExternalStorageDirectory().getPath().concat( "/RMU/" ).concat( COMPANY_NAME.toString().concat("/") ) ),
     SERVER_HOST_KEY("SERVER_HOST"),
@@ -17,7 +20,7 @@ public enum PropertyConstant {
 
     //dev
     SERVER_HOST_DEFAULT_VALUE("tripoin-rdlfdl.rhcloud.com"),
-    /*SERVER_HOST_DEFAULT_VALUE("192.168.1.107"),*/
+    /*SERVER_HOST_DEFAULT_VALUE("192.168.43.23"),*/
     SERVER_PORT_DEFAULT_VALUE("80"),
 
     //prod
@@ -64,6 +67,7 @@ public enum PropertyConstant {
 //    "http://techslides.com/demos/sample-videos/small.mp4,
 
     private String internalValue;
+
 
     private PropertyConstant( String code ){
         this.internalValue = code;

@@ -33,7 +33,12 @@ public abstract class ASynchronizeData implements ISynchronizeData, IMasterVersi
     }
 
     public void detectVersionDiff() {
-        MasterVersionRest masterVersionRest = new MasterVersionRest(this);
+        MasterVersionRest masterVersionRest = new MasterVersionRest(this) {
+            @Override
+            public Context getContext() {
+                return context;
+            }
+        };
         masterVersionRest.execute(securityUtil.getValuePropertyMap(PropertyConstant.CHIPPER_AUTH.toString()));
     }
 

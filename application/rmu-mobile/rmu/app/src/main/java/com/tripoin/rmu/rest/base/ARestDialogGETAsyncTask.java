@@ -17,8 +17,8 @@ public abstract class ARestDialogGETAsyncTask extends ABaseDialogRest{
 
     @Override
     protected String doInBackground(String... params) {
-        Log.e("URL WS", processUrl());
-        jsonObject = getJsonParser().retrieveJSONAsGet( processUrl(), params[0] );
+        Log.e("URL WS", processedURL());
+        jsonObject = getJsonParser().retrieveJSONAsGet( processedURL(), params[0] );
         try {
             objectResult = objectMapper.readValue( String.valueOf(jsonObject), initClassResult() );
         } catch (IOException e) {
@@ -26,11 +26,4 @@ public abstract class ARestDialogGETAsyncTask extends ABaseDialogRest{
         }
         return null;
     }
-
-
-    public String processUrl(){
-        return BASE_URL.concat(initUrl());
-        /*return "http://192.168.1.100:8080/tripoin-core-web-service/wscontext/login";*/
-    }
-
 }

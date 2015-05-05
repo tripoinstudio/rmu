@@ -15,8 +15,6 @@ public abstract class ABaseDialogRest extends ABaseRest{
 
     protected ProgressDialog progressDialog = new ProgressDialog( getContext() );
 
-    protected abstract Context getContext();
-
     protected abstract String getProgressDialogTitle();
 
     @Override

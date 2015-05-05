@@ -1,21 +1,32 @@
 package com.tripoin.rmu.view.fragment.impl;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tripoin.rmu.R;
+import com.tripoin.rmu.view.enumeration.ViewConstant;
+import com.tripoin.rmu.view.fragment.base.ABaseNavigationDrawerFragment;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.InjectView;
+import butterknife.OnClick;
 
 /**
  * Created by Achmad Fauzi on 4/18/2015 : 11:33 AM.
  * mailto : achmad.fauzi@sigma.co.id
  */
-public class FragmentAbout extends Fragment {
+public class FragmentAbout extends ABaseNavigationDrawerFragment {
+
+    @InjectView(R.id.label_about1) TextView lblAbout1;
+    @InjectView(R.id.label_about2) TextView lblAbout2;
+    @InjectView(R.id.label_about3) TextView lblAbout3;
+
+    private String data1;
 
     public FragmentAbout newInstance(){
         FragmentAbout mFragment = new FragmentAbout();
@@ -23,29 +34,43 @@ public class FragmentAbout extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_about, container, false);
-
-        TextView label1=(TextView)rootView.findViewById(R.id.label_about1);
-        Typeface faces1=Typeface.createFromAsset(label1.getResources().getAssets(),"font/Roboto-Light.ttf");
-        label1.setTypeface(faces1);
-        TextView label2=(TextView)rootView.findViewById(R.id.label_about1);
-        Typeface faces2=Typeface.createFromAsset(label2.getResources().getAssets(),"font/Roboto-Light.ttf");
-        label2.setTypeface(faces2);
-        TextView label3=(TextView)rootView.findViewById(R.id.label_about1);
-        Typeface faces3=Typeface.createFromAsset(label3.getResources().getAssets(),"font/Roboto-Light.ttf");
-        label3.setTypeface(faces3);
-        TextView label4=(TextView)rootView.findViewById(R.id.label_about1);
-        Typeface faces4=Typeface.createFromAsset(label4.getResources().getAssets(),"font/Roboto-Light.ttf");
-        label4.setTypeface(faces4);
-        rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT ));
-
-        return rootView;
-    }
-
-    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(false);
     }
+
+    @Override
+    public void initWidget() {
+        data1 = "DATA KE 1";
+    }
+
+    @Override
+    public int getViewLayoutId() {
+        return R.layout.fragment_about;
+    }
+
+    @Override
+    public List<TextView> getContentTextViews() {
+        textViews = new ArrayList<TextView>();
+        textViews.add(lblAbout1);
+        textViews.add(lblAbout2);
+        textViews.add(lblAbout3);
+        return textViews;
+    }
+
+    @Override
+    public String getFragmentTitle() {
+        return ViewConstant.FRAGMENT_ABOUT_TITLE.toString();
+    }
+
+    @OnClick(R.id.label_about1)
+    public void klikAbot(){
+        Toast.makeText(getActivity(), "KLIK ABOT ".concat(data1), Toast.LENGTH_SHORT).show();
+    }
+
+    @OnClick(R.id.label_about2)
+    public void klik2(){
+        Log.d("KLIK2", "klik2");
+    }
+
 }

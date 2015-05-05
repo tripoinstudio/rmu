@@ -17,14 +17,12 @@ import android.widget.Toast;
 import com.tripoin.rmu.view.activity.ActivityMain;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
 import com.tripoin.rmu.view.fragment.api.IRoboguiceFragment;
-import com.tripoin.rmu.view.fragment.api.base.IBaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import roboguice.RoboGuice;
 
-/*import static com.tripoin.rmu.R.content_frame;*/
 
 /**
  * Created by Achmad Fauzi on 11/24/2014.
@@ -84,7 +82,6 @@ public abstract class ABaseFragment extends Fragment implements IRoboguiceFragme
 
             }
         }
-
         setupActionBar();
         return rootView;
     }
@@ -92,7 +89,6 @@ public abstract class ABaseFragment extends Fragment implements IRoboguiceFragme
     private void initializeFragment(){
         try{
             initWidget();
-            setupValues();
         }catch ( Exception e ){
             Toast.makeText(getActivity(), "Application error", Toast.LENGTH_SHORT).show();
         }
@@ -162,9 +158,9 @@ public abstract class ABaseFragment extends Fragment implements IRoboguiceFragme
      */
     public String[] initAssetName() {
         return new String[]{
-                ViewConstant.FONT_ADAM.toString(),
-                ViewConstant.FONT_OPEN_SANS_LIGHT.toString(),
-                ViewConstant.FONT_OPEN_SANS_LIGHT.toString()
+                ViewConstant.FONT_ROBOT_BLACK.toString(),
+                ViewConstant.FONT_ROBOT_BLACK_ITALIC.toString(),
+                ViewConstant.FONT_ROBOT_BOLD_ITALIC.toString()
         };
     }
 

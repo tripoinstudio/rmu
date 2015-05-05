@@ -67,7 +67,7 @@ public class SynchronizeMaster extends ASynchronizeData implements ICarriagePost
         TrainDBManager.getInstance().executeRaw("Delete from ".concat(ModelConstant.TRAIN_TABLE));
         TrainListRest trainListRest = new TrainListRest(this) {
             @Override
-            protected Context getContext() {
+            public Context getContext() {
                 return context;
             }
         };
@@ -75,7 +75,7 @@ public class SynchronizeMaster extends ASynchronizeData implements ICarriagePost
         CarriageDBManager.getInstance().executeRaw("Delete from ".concat(ModelConstant.CARRIAGE_TABLE));
         CarriageListRest carriageListRest = new CarriageListRest(this) {
             @Override
-            protected Context getContext() {
+            public Context getContext() {
                 return context;
             }
         };
@@ -83,7 +83,7 @@ public class SynchronizeMaster extends ASynchronizeData implements ICarriagePost
         SeatDBManager.getInstance().executeRaw("Delete from ".concat(ModelConstant.SEAT_TABLE));
         SeatListRest seatListRest = new SeatListRest(this) {
             @Override
-            protected Context getContext() {
+            public Context getContext() {
                 return context;
             }
         };

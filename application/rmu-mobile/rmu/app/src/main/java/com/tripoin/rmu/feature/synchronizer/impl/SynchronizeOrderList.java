@@ -54,7 +54,7 @@ public class SynchronizeOrderList extends ASynchronizeData implements IOrderList
         //select new Object
         OrderHeaderListRest orderHeaderListRest = new OrderHeaderListRest(this) {
             @Override
-            protected Context getContext() {
+            public Context getContext() {
                 return context;
             }
         };
