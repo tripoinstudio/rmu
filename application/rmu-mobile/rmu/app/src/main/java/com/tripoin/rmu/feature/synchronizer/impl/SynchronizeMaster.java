@@ -49,7 +49,7 @@ public class SynchronizeMaster extends ASynchronizeData implements ICarriagePost
         super(securityUtil, context);
     }
 
-    protected SynchronizeMaster(PropertyUtil securityUtil, Context context, String tableName, ISynchronizeMaster iSynchronizeMaster) {
+    public SynchronizeMaster(PropertyUtil securityUtil, Context context, String tableName, ISynchronizeMaster iSynchronizeMaster) {
         super(securityUtil, context);
         this.tableName = tableName;
         this.context = context;
