@@ -10,8 +10,6 @@ import java.util.List;
  */
 public interface ISynchronizeOrderDetail {
 
-    public void onPostFirstSyncOrderDetail(OrderDetailModel orderDetailModel, List<OrderDetailModel> orderDetailModels);
-
-    public void onPostContSyncOrderDetail(OrderDetailModel orderDetailModel, List<OrderDetailModel> orderDetailModels);
+    public void onPostSyncOrderDetail(List<OrderDetailModel> orderDetailModels);
 
 }

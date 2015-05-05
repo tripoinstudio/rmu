@@ -74,42 +74,22 @@ public class FragmentOrderDetail extends ABaseNavigationDrawerFragment implement
         setHasOptionsMenu(false);
     }
 
+
     @Override
-    public void onPostFirstSyncOrderDetail(OrderDetailModel orderDetailModel, List<OrderDetailModel> orderDetailModels2) {
-        for( OrderDetailModel detailModel: orderDetailModels2){
-            Log.d("frag order derak model", detailModel.toString());
-        }
+    public void onPostSyncOrderDetail(List<OrderDetailModel> detailModels) {
+        int[] headerId = getProcessStatus(Integer.parseInt(detailModels.get(0).getOrderHeaderStatus()));
         List<OrderDetailModel> orderDetailModels = new ArrayList<OrderDetailModel>();
-        Log.d("CURRENTSTATUS first", orderDetailModel.getOrderHeaderStatus());
-        int[] headerId = getProcessStatus(Integer.parseInt(orderDetailModel.getOrderHeaderStatus()));
         for (int i = 0; i < headerId.length; i++) {
             if (headerId[i] != 0) {
                 OrderDetailModel detailModel = new OrderDetailModel();
-                detailModel.setOrderHeaderNo(orderDetailModel.getOrderHeaderNo());
+                detailModel.setOrderHeaderNo(detailModels.get(0).getOrderHeaderNo());
                 detailModel.setOrderHeaderStatus(String.valueOf(headerId[i]));
                 orderDetailModels.add(detailModel);
             }
         }
         initCards(orderDetailModels);
-        initDetailCards(orderDetailModels2);
+        initDetailCards(detailModels);
     }
-
-        @Override
-        public void onPostContSyncOrderDetail(OrderDetailModel orderDetailModel, List<OrderDetailModel> orderDetailModels2){
-            List<OrderDetailModel> orderDetailModels = new ArrayList<OrderDetailModel>();
-            Log.d("CURRENTSTATUS cont", orderDetailModel.getOrderHeaderStatus());
-            int[] headerId = getProcessStatus(Integer.parseInt(orderDetailModel.getOrderHeaderStatus()));
-            for (int i = 0; i < headerId.length; i++) {
-                if (headerId[i] != 0) {
-                    OrderDetailModel detailModel = new OrderDetailModel();
-                    detailModel.setOrderHeaderNo(orderDetailModel.getOrderHeaderNo());
-                    detailModel.setOrderHeaderStatus(String.valueOf(headerId[i]));
-                    orderDetailModels.add(detailModel);
-                }
-            }
-            initCards(orderDetailModels);
-            initDetailCards(orderDetailModels2);
-        }
 
     @Override
     public String getFragmentTitle() {
@@ -195,7 +175,7 @@ public class FragmentOrderDetail extends ABaseNavigationDrawerFragment implement
 
     public int[] getProcessStatus(int currentStatus){
       int [] result = new int[5];
-      for(int a=1; a<5; a++){
+      for(int a=2; a<5; a++){
           if(a!=currentStatus){
               result[a] = a;
           }else{
