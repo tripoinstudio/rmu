@@ -121,7 +121,7 @@ public abstract class SynchronizeOrderDetail extends ASynchronizeData implements
     @Override
     public void onPostContSyncOrderDetail(OrderDetailModel orderDetailModel, List<OrderDetailModel> orderDetailModels) {
         for(OrderDetailModel detailModel: orderDetailModels){
-            Log.d("post first sync", detailModel.toString());
+            Log.d("post cont sync", detailModel.toString());
         }
         iSynchronizeOrderDetail.onPostContSyncOrderDetail(orderDetailModel, orderDetailModels);
     }
