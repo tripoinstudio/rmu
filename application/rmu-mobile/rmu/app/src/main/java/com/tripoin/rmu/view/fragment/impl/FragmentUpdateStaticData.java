@@ -11,7 +11,7 @@ import com.tripoin.rmu.R;
 
 /**
  * Created by Achmad Fauzi on 4/18/2015 : 11:32 AM.
- * mailto : achmad.fauzi@sigma.co.id
+ * mailto : fauzi.knightmaster.achmad@gmail.com
  */
 public class FragmentUpdateStaticData extends Fragment {
 

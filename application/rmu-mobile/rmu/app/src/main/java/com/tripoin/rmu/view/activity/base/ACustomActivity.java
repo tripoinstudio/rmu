@@ -17,7 +17,7 @@ import roboguice.inject.InjectResource;
 
 /**
  * Created by Achmad Fauzi on 11/19/2014.
- * achmad.fauzi@sigma.co.id
+ * mailto : fauzi.knightmaster.achmad@gmail.com
  *
  * This class is used for Activity which need capability to manipulate property file
  */

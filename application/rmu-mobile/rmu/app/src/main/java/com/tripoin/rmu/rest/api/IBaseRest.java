@@ -4,7 +4,7 @@ import android.content.Context;
 
 /**
  * Created by Achmad Fauzi on 5/4/2015 : 10:21 AM.
- * mailto : achmad.fauzi@sigma.co.id
+ * mailto : fauzi.knightmaster.achmad@gmail.com
  */
 public interface IBaseRest {
 

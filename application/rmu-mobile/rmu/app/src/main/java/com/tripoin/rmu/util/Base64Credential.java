@@ -4,7 +4,7 @@ import android.util.Base64;
 
 /**
  * Created by Achmad Fauzi on 4/16/2015 : 12:04 AM.
- * mailto : achmad.fauzi@sigma.co.id
+ * mailto : fauzi.knightmaster.achmad@gmail.com
  */
 public class Base64Credential {
 

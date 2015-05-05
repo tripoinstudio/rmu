@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 /**
  * Created by Achmad Fauzi on 11/19/2014.
- * achmad.fauzi@sigma.co.id
+ * mailto : fauzi.knightmaster.achmad@gmail.com
  *
  * This interface is used as common functions for Activity
  */

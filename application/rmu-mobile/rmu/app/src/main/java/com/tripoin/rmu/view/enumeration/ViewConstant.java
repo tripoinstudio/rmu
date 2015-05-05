@@ -2,7 +2,7 @@ package com.tripoin.rmu.view.enumeration;
 
 /**
  * Created by Achmad Fauzi on 12/30/2014.
- * achmad.fauzi@sigma.co.id
+ * mailto : fauzi.knightmaster.achmad@gmail.com
  *
  * All Strings for UI message as Constant
  */
@@ -28,7 +28,9 @@ public enum ViewConstant {
     /*Fragment Titles*/
     FRAGMENT_ABOUT_TITLE("About Application"),
     FRAGMENT_ORDER_LIST_TITLE("Order List"),
+    FRAGMENT_ORDER_DETAIL_TITLE("Order Detail"),
 
+    EMPTY(""),
     ERROR("ERROR"),
     ZERO("0"),
     ONE("1"),

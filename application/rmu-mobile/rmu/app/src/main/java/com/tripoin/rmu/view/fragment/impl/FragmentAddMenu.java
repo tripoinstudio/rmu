@@ -50,7 +50,7 @@ import java.util.List;
 
 /**
  * Created by Achmad Fauzi on 4/18/2015 : 1:41 AM.
- * mailto : achmad.fauzi@sigma.co.id
+ * mailto : fauzi.knightmaster.achmad@gmail.com
  */
 public class FragmentAddMenu extends Fragment implements ISynchronizeMenuList {
     private TextView menuName;

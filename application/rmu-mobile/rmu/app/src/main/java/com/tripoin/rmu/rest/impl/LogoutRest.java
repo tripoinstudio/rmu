@@ -7,7 +7,7 @@ import com.tripoin.rmu.rest.enumeration.RestConstant;
 
 /**
  * Created by Achmad Fauzi on 4/28/2015 : 10:59 AM.
- * mailto : achmad.fauzi@sigma.co.id
+ * mailto : fauzi.knightmaster.achmad@gmail.com
  */
 public abstract  class LogoutRest extends ARestDialogGETAsyncTask {
 

@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  * Created by Achmad Fauzi on 4/28/2015 : 12:48 PM.
- * mailto : achmad.fauzi@sigma.co.id
+ * mailto : fauzi.knightmaster.achmad@gmail.com
  */
 public interface INavigationActivity {
 

@@ -28,7 +28,7 @@ import roboguice.activity.RoboActionBarActivity;
 
 /**
  * Created by Achmad Fauzi on 11/19/2014.
- * achmad.fauzi@sigma.co.id
+ * mailto : fauzi.knightmaster.achmad@gmail.com
  *
  * This class is used as common functions for an Activity ( IBaseActivity)
  * Extends towards RoboActivity for dependency injection

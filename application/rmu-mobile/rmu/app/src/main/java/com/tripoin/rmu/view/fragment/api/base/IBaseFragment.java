@@ -1,6 +1,5 @@
 package com.tripoin.rmu.view.fragment.api.base;
 
-import android.content.Context;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -9,7 +8,7 @@ import java.util.List;
 
 /**
  * Created by Achmad Fauzi on 11/24/2014.
- * achmad.fauzi@sigma.co.id
+ * mailto : fauzi.knightmaster.achmad@gmail.com
  *
  * Interface ini digunakan sebagai fungsi- fungsi common sebuah fragment
  */

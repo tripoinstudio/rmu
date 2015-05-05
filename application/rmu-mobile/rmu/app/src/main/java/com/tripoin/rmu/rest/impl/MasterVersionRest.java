@@ -8,7 +8,7 @@ import com.tripoin.rmu.rest.enumeration.RestConstant;
 
 /**
  * Created by Achmad Fauzi on 4/30/2015 : 11:01 PM.
- * mailto : achmad.fauzi@sigma.co.id
+ * mailto : fauzi.knightmaster.achmad@gmail.com
  */
 public abstract class MasterVersionRest extends ARestGETAsyncTask {
 

@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  * Created by Achmad Fauzi on 5/2/2015 : 2:49 PM.
- * mailto : achmad.fauzi@sigma.co.id
+ * mailto : fauzi.knightmaster.achmad@gmail.com
  */
 public class SynchronizeOrderList extends ASynchronizeData implements IOrderListPost, ISynchronizeOrderList {
 

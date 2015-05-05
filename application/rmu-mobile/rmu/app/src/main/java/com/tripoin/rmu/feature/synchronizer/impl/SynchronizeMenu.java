@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  * Created by Achmad Fauzi on 5/1/2015 : 12:07 AM.
- * mailto : achmad.fauzi@sigma.co.id
+ * mailto : fauzi.knightmaster.achmad@gmail.com
  */
 public class SynchronizeMenu extends ASynchronizeData implements IMenuPost, ISynchronizeMenuList{
 

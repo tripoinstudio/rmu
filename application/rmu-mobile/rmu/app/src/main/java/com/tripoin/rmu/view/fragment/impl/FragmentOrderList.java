@@ -38,7 +38,7 @@ import it.gmariotti.cardslib.library.view.CardListView;
 
 /**
  * Created by Achmad Fauzi on 4/18/2015 : 11:32 AM.
- * mailto : achmad.fauzi@sigma.co.id
+ * mailto : fauzi.knightmaster.achmad@gmail.com
  */
 public class FragmentOrderList extends ABaseNavigationDrawerFragment implements ISynchronizeOrderList{
 

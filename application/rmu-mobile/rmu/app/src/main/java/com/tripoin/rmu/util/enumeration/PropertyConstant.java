@@ -24,7 +24,7 @@ public enum PropertyConstant {
     SERVER_PORT_DEFAULT_VALUE("80"),
 
     //prod
-    /*SERVER_HOST_DEFAULT_VALUE("telkomsel-mqa.telkomsigma.com"),
+    /*SERVER_HOST_DEFAULT_VALUE("tripoin-rdlfdl.rhcloud.com"),
     SERVER_PORT_DEFAULT_VALUE("443"),*/
 
 

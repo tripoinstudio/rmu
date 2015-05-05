@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by Achmad Fauzi on 4/15/2015 : 11:47 PM.
- * mailto : achmad.fauzi@sigma.co.id
+ * mailto : fauzi.knightmaster.achmad@gmail.com
  */
 public class EmployeeDTO {
     @JsonProperty("employeeId")

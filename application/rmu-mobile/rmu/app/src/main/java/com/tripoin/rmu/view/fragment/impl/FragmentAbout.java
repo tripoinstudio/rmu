@@ -18,7 +18,7 @@ import butterknife.OnClick;
 
 /**
  * Created by Achmad Fauzi on 4/18/2015 : 11:33 AM.
- * mailto : achmad.fauzi@sigma.co.id
+ * mailto : fauzi.knightmaster.achmad@gmail.com
  */
 public class FragmentAbout extends ABaseNavigationDrawerFragment {
 

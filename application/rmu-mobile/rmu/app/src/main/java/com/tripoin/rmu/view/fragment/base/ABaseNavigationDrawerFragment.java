@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
 
 /**
  * Created by Achmad Fauzi on 4/25/2015 : 11:20 PM.
- * mailto : achmad.fauzi@sigma.co.id
+ * mailto : fauzi.knightmaster.achmad@gmail.com
  */
 public abstract class ABaseNavigationDrawerFragment extends Fragment implements INavigationDrawerFragment{
 

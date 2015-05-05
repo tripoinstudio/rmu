@@ -19,7 +19,7 @@ import java.util.Date;
 
 /**
  * Created by Achmad Fauzi on 4/30/2015 : 10:56 PM.
- * mailto : achmad.fauzi@sigma.co.id
+ * mailto : fauzi.knightmaster.achmad@gmail.com
  */
 public abstract class ASynchronizeData implements ISynchronizeData, IMasterVersionPost{
 

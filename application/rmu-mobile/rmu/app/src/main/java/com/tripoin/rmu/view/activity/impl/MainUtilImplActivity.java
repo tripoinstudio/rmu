@@ -12,7 +12,7 @@ import java.io.Serializable;
 
 /**
  * Created by Achmad Fauzi on 4/28/2015 : 11:20 AM.
- * mailto : achmad.fauzi@sigma.co.id
+ * mailto : fauzi.knightmaster.achmad@gmail.com
  */
 public class MainUtilImplActivity implements IMainUtilActivity {
 

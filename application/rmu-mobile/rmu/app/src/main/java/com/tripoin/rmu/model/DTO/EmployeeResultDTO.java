@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Achmad Fauzi on 4/15/2015 : 11:50 PM.
- * mailto : achmad.fauzi@sigma.co.id
+ * mailto : fauzi.knightmaster.achmad@gmail.com
  */
 public class EmployeeResultDTO {
 

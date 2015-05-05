@@ -28,7 +28,7 @@ import com.tripoin.rmu.view.enumeration.ViewConstant;
 
 /**
  * Created by Achmad Fauzi on 4/18/2015 : 2:33 PM.
- * mailto : achmad.fauzi@sigma.co.id
+ * mailto : fauzi.knightmaster.achmad@gmail.com
  */
 public class FragmentChangeIPServer extends Fragment implements IConnectionPost{
 

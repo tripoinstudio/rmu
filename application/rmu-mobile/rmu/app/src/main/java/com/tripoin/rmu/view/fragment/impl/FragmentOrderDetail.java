@@ -4,11 +4,7 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.tripoin.rmu.R;
@@ -20,30 +16,35 @@ import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
 import com.tripoin.rmu.view.fragment.api.ISynchronizeOrderDetail;
+import com.tripoin.rmu.view.fragment.base.ABaseNavigationDrawerFragment;
 import com.tripoin.rmu.view.ui.CustomCardOrderDetail;
 import com.tripoin.rmu.view.ui.CustomCardStatusOrderDetail;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.InjectView;
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 import it.gmariotti.cardslib.library.view.CardListView;
 
 /**
  * Created by Achmad Fauzi on 5/2/2015 : 5:38 PM.
- * mailto : achmad.fauzi@sigma.co.id
+ * mailto : fauzi.knightmaster.achmad@gmail.com
  */
-public class FragmentOrderDetail extends Fragment implements ISynchronizeOrderDetail{
+public class FragmentOrderDetail extends ABaseNavigationDrawerFragment implements ISynchronizeOrderDetail{
 
-    private View rootView;
     private static String ORDER_LIST_ID = "ORDER_LIST_ID";
     private PropertyUtil securityUtil;
     private String orderListId;
-    private TextView txtTrainCode;
-    private TextView txtCarriageCode;
-    private TextView txtSeatCode;
-    private TextView txtTotalPaid;
+
+    @InjectView(R.id.txtOrderId) TextView txtOrderListId;
+    @InjectView(R.id.txtTrainCode) TextView txtTrainCode;
+    @InjectView(R.id.txtCarriageCode)TextView txtCarriageCode;
+    @InjectView(R.id.txtSeatCode) TextView txtSeatCode;
+    @InjectView(R.id.txtTotalPaid)TextView txtTotalPaid;
+    @InjectView(R.id.listStatusOption) CardListView listView;
+    @InjectView(R.id.listOrderDetailItem) CardListView listViewDetailOrderItem;
 
     public FragmentOrderDetail newInstance(String orderListId){
         FragmentOrderDetail mFragment = new FragmentOrderDetail();
@@ -58,25 +59,13 @@ public class FragmentOrderDetail extends Fragment implements ISynchronizeOrderDe
         super.onDestroyView();
         FragmentOrderDetail mFragment = new FragmentOrderDetail();
         Bundle bundle = new Bundle();
-        bundle.putString(ORDER_LIST_ID, "");
+        bundle.putString(ORDER_LIST_ID, ViewConstant.EMPTY.toString());
         mFragment.setArguments(bundle);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_detail_order_list, container, false);
-        rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT ));
-        securityUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(), rootView.getContext());
-        new OrderDetailAsync().execute();
-        orderListId = getArguments().getString(ORDER_LIST_ID);
-        Log.d("ORDERLISTID", orderListId);
-        TextView txtOrderListId = (TextView) rootView.findViewById(R.id.txtOrderId);
-        txtTrainCode = (TextView) rootView.findViewById(R.id.txtTrainCode);
-        txtCarriageCode = (TextView) rootView.findViewById(R.id.txtCarriageCode);
-        txtSeatCode = (TextView) rootView.findViewById(R.id.txtSeatCode);
-        txtTotalPaid = (TextView) rootView.findViewById(R.id.txtTotalPaid);
-        txtOrderListId.setText(orderListId);
-        return rootView;
+    public int getViewLayoutId() {
+        return R.layout.fragment_detail_order_list;
     }
 
     @Override
@@ -122,6 +111,18 @@ public class FragmentOrderDetail extends Fragment implements ISynchronizeOrderDe
             initDetailCards(orderDetailModels2);
         }
 
+    @Override
+    public String getFragmentTitle() {
+        return ViewConstant.FRAGMENT_ORDER_DETAIL_TITLE.toString();
+    }
+
+    @Override
+    public void initWidget() {
+        securityUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(), getActivity());
+        new OrderDetailAsync().execute();
+        orderListId = getArguments().getString(ORDER_LIST_ID);
+        txtOrderListId.setText(orderListId);
+    }
 
     private class OrderDetailAsync extends AsyncTask{
 
@@ -131,12 +132,12 @@ public class FragmentOrderDetail extends Fragment implements ISynchronizeOrderDe
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            OrderDetailDBManager.init(rootView.getContext());
-            progressDialog = new ProgressDialog(rootView.getContext());
+            OrderDetailDBManager.init(getActivity());
+            progressDialog = new ProgressDialog(getActivity());
             progressDialog.setMessage("Loading order detail");
             progressDialog.setCancelable(false);
             progressDialog.show();
-            synchronizeOrderDetail = new SynchronizeOrderDetail(securityUtil, rootView.getContext(), ModelConstant.REST_ORDER_DETAIL_TABLE.toString(), FragmentOrderDetail.this) {
+            synchronizeOrderDetail = new SynchronizeOrderDetail(securityUtil, getActivity(), ModelConstant.REST_ORDER_DETAIL_TABLE.toString(), FragmentOrderDetail.this) {
                 @Override
                 public String getOrderHeader() {
                     return orderListId;
@@ -157,7 +158,6 @@ public class FragmentOrderDetail extends Fragment implements ISynchronizeOrderDe
         }
     }
 
-
     private void initCards(List<OrderDetailModel> orderDetailModels){
         ArrayList<Card> cards = new ArrayList<Card>();
         for (int i = 0; i<orderDetailModels.size(); i++) {
@@ -165,9 +165,8 @@ public class FragmentOrderDetail extends Fragment implements ISynchronizeOrderDe
             cards.add(card);
         }
 
-        CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(rootView.getContext(), cards);
+        CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(getActivity(), cards);
 
-        CardListView listView = (CardListView) rootView.findViewById(R.id.listStatusOption);
         if (listView != null) {
             listView.setAdapter(mCardArrayAdapter);
         }
@@ -186,11 +185,10 @@ public class FragmentOrderDetail extends Fragment implements ISynchronizeOrderDe
         }
         txtTotalPaid.setText(ViewConstant.TOTAL_PAID.toString().concat(String.valueOf(totalPaid)));
 
-        CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(rootView.getContext(), cards);
+        CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(getActivity(), cards);
 
-        CardListView listView = (CardListView) rootView.findViewById(R.id.listOrderDetailItem);
-        if (listView != null) {
-            listView.setAdapter(mCardArrayAdapter);
+        if (listViewDetailOrderItem != null) {
+            listViewDetailOrderItem.setAdapter(mCardArrayAdapter);
         }
     }
 

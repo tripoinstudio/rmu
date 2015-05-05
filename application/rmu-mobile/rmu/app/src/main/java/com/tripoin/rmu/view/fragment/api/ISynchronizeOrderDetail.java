@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * Created by Achmad Fauzi on 5/2/2015 : 9:13 PM.
- * mailto : achmad.fauzi@sigma.co.id
+ * mailto : fauzi.knightmaster.achmad@gmail.com
  */
 public interface ISynchronizeOrderDetail {
 

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Achmad Fauzi on 4/30/2015 : 11:09 PM.
- * mailto : achmad.fauzi@sigma.co.id
+ * mailto : fauzi.knightmaster.achmad@gmail.com
  */
 public class MasterVersion extends BaseRESTDTO {
 

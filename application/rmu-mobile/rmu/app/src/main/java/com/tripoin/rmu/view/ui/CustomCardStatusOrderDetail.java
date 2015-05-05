@@ -21,7 +21,7 @@ import it.gmariotti.cardslib.library.internal.Card;
 
 /**
  * Created by Achmad Fauzi on 4/25/2015 : 12:26 AM.
- * mailto : achmad.fauzi@sigma.co.id
+ * mailto : fauzi.knightmaster.achmad@gmail.com
  */
 public class CustomCardStatusOrderDetail extends Card {
 

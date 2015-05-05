@@ -8,7 +8,7 @@ import it.gmariotti.cardslib.library.internal.CardThumbnail;
 
 /**
  * Created by Achmad Fauzi on 4/25/2015 : 3:05 AM.
- * mailto : achmad.fauzi@sigma.co.id
+ * mailto : fauzi.knightmaster.achmad@gmail.com
  */
 public class CustomCardThumbnail extends CardThumbnail {
 

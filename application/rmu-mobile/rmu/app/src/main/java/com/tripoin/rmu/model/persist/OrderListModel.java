@@ -6,7 +6,7 @@ import com.tripoin.rmu.model.api.ModelConstant;
 
 /**
  * Created by Achmad Fauzi on 5/2/2015 : 12:58 PM.
- * mailto : achmad.fauzi@sigma.co.id
+ * mailto : fauzi.knightmaster.achmad@gmail.com
  */
 @DatabaseTable( tableName = ModelConstant.ORDER_LIST_TABLE )
 public class OrderListModel {

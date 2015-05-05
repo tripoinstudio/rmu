@@ -13,7 +13,7 @@ import roboguice.activity.RoboActionBarActivity;
 
 /**
  * Created by Achmad Fauzi on 4/26/2015 : 11:33 AM.
- * mailto : achmad.fauzi@sigma.co.id
+ * mailto : fauzi.knightmaster.achmad@gmail.com
  */
 public class ACustomNavigationLiveoActivity extends NavigationLiveo implements IBaseActivity{
 

@@ -13,7 +13,7 @@ import android.graphics.drawable.Drawable;
 
 /**
  * Created by Achmad Fauzi on 4/25/2015 : 3:08 AM.
- * mailto : achmad.fauzi@sigma.co.id
+ * mailto : fauzi.knightmaster.achmad@gmail.com
  */
 public class RoundedImage extends Drawable {
     private final Bitmap mBitmap;

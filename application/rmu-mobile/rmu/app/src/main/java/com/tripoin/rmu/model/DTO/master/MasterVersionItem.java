@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by Achmad Fauzi on 4/29/2015 : 10:04 PM.
- * mailto : achmad.fauzi@sigma.co.id
+ * mailto : fauzi.knightmaster.achmad@gmail.com
  */
 public class MasterVersionItem implements Parcelable{
 
