@@ -2,17 +2,14 @@ package com.tripoin.rmu.view.fragment.impl;
 
 
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,7 +19,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.ScrollView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -119,7 +115,7 @@ public class FragmentMenuList extends Fragment implements ISynchronizeMenuList {
 
             card = new GplayGridCard(getActivity(), menuModel.getMenuName(), subtitle, price);
             card.rating = (float)(Float.valueOf(menuModel.getMenuRating()));
-
+            card.stock = menuModel.getMenuStock();
             imageName = menuModel.getMenuImageURL();
 
             CardThumbnail.CustomSource customSource = new CustomCardSource(rootView.getContext(),imageName ).getCustomSource();
@@ -134,7 +130,6 @@ public class FragmentMenuList extends Fragment implements ISynchronizeMenuList {
                     FragmentAddMenu fragmentAddMenu = new FragmentAddMenu().newInstance(menuModel.getMenuCode());
                     FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
                     mFragmentManager.beginTransaction().replace(R.id.container, fragmentAddMenu).commit();
-//                    Toast.makeText(view.getContext(), "Sampai Fragment " , Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -182,30 +177,6 @@ public class FragmentMenuList extends Fragment implements ISynchronizeMenuList {
 
             case R.id.menu_search:
                 mSearchCheck = true;
-                LayoutInflater layoutInflater = LayoutInflater.from(rootView.getContext());
-                View dialogView = layoutInflater.inflate(R.layout.fragment_dialog_menu_list, null);
-
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(rootView.getContext());
-                alertDialogBuilder.setView(dialogView);
-
-                final EditText txSearchMenuName = (EditText) dialogView.findViewById(R.id.tx_search_menu_name);
-                final Spinner txSearchStatus = (Spinner) dialogView.findViewById(R.id.tx_search_status);
-
-                alertDialogBuilder.setCancelable(false).setPositiveButton("Find", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getActivity(), R.string.search+" sukses = "+txSearchMenuName.getText()+" & "+txSearchStatus, Toast.LENGTH_SHORT).show();
-                    }
-                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-
-                AlertDialog alertD = alertDialogBuilder.create();
-                alertD.show();
-
                 Toast.makeText(getActivity(), R.string.search, Toast.LENGTH_SHORT).show();
                 break;
         }
@@ -224,6 +195,7 @@ public class FragmentMenuList extends Fragment implements ISynchronizeMenuList {
         protected String price;
         protected float rating;
         protected String headerTitle;
+        protected String stock;
 
         public GplayGridCard(Context context, String headerTitle, String secondaryTitle, String price) {
             super(context, R.layout.carddemo_gplay_inner_content);
@@ -262,6 +234,9 @@ public class FragmentMenuList extends Fragment implements ISynchronizeMenuList {
 
             TextView subtitle = (TextView) view.findViewById(R.id.carddemo_gplay_main_inner_subtitle);
             subtitle.setText(secondaryTitle);
+
+            TextView stockTitle = (TextView) view.findViewById(R.id.card_stock);
+            stockTitle.setText(ViewConstant.STOCK.toString().concat(this.stock));
 
             RatingBar mRatingBar = (RatingBar) parent.findViewById(R.id.carddemo_gplay_main_inner_ratingBar);
 
