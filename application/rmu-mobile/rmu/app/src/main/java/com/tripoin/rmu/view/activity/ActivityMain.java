@@ -2,16 +2,20 @@ package com.tripoin.rmu.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.tripoin.rmu.R;
 import com.tripoin.rmu.model.base.impl.BaseRESTDTO;
 import com.tripoin.rmu.rest.api.ILogoutPost;
+import com.tripoin.rmu.util.BitmapDecoder;
+import com.tripoin.rmu.util.BluetoothUtils;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
 import com.tripoin.rmu.view.activity.api.ILogoutHandler;
@@ -33,6 +37,7 @@ import java.util.List;
 
 import br.liveo.interfaces.NavigationLiveoListener;
 import br.liveo.navigationliveo.NavigationLiveo;
+import it.gmariotti.cardslib.library.utils.BitmapUtils;
 
 /**
  * Created by Achmad Fauzi on 11/20/2014.
@@ -55,7 +60,8 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
         this.mUserEmail.setText("bangkit@gmail.com");
         this.mUserName.setTextColor(getResources().getColor(R.color.black_light));
         this.mUserEmail.setTextColor(getResources().getColor(R.color.black_light));
-        this.mUserPhoto.setImageResource(R.drawable.bangkit);
+        final Bitmap bmp = new BitmapDecoder().decodeSampledBitmapFromPath(PropertyConstant.PROPERTIES_PATH.toString()+"photo_profile_rmu.jpg", 360, 270);
+        this.mUserPhoto.setImageBitmap(bmp);
         this.mUserBackground.setImageResource(R.drawable.wavy_green_background4);
 
     }
