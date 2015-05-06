@@ -20,6 +20,6 @@ public class JSONBadCredentialHandler extends BasicAuthenticationEntryPoint {
         response.addHeader("WWW-Authenticate", "Basic realm=\"" + getRealmName() + "\"");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         PrintWriter writer = response.getWriter();
-        writer.println("{\"security_user\":null,\"trx_order_header\":null,\"response_code\":\"401\",\"response_msg\":\"System Error : "+authException.getMessage()+"\",\"result\":\"FAILURE\"}");
+        writer.println("{\"security_user\":null,\"response_code\":\"401\",\"response_msg\":\"Login Failure\",\"result\":\"FAILURE\"}");
     }
 }

@@ -79,7 +79,8 @@ public class OrderHeaderManager {
 				OrderHeader orderHeader = orderHeaderList.get(0);
 				orderHeader.setStatus(status);
 				iGenericManagerJpa.updateObject(orderHeader);
-				iVersionHelper.updateVerision();
+				iVersionHelper.updateVerision("trx_order_header");
+				iVersionHelper.updateVerision("master_menu");
 			} catch (Exception e) {
 				LOGGER.error("Error Update Header : ".concat(e.getLocalizedMessage()), e);
 			}

@@ -11,6 +11,7 @@ import org.springframework.integration.message.GenericMessage;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
+import com.tripoin.core.dto.ImageDTO;
 import com.tripoin.core.dto.MenuDTO;
 import com.tripoin.core.dto.Menus;
 import com.tripoin.core.pojo.Image;
@@ -34,12 +35,17 @@ public class MenuManager {
 			boolean isFound;
 			if (menuList!=null){
 				List<MenuDTO> menuDTOList = new ArrayList<MenuDTO>();
+				String menuImage = "";
 				for (Menu c : menuList) {
-					List<Image> imageList = iGenericManagerJpa.getObjectsUsingParameter(Image.class, new String[]{"menu", "status"}, new Object[]{c, 1}, null, null);
-					String menuImage = "";
-					if(imageList.get(0).getStatus() == 1)
-						menuImage = imageList.get(0).getName();
-					MenuDTO data = new MenuDTO(c.getCode(), c.getName(), c.getType(), c.getPrice(), menuImage, c.getRating());
+					List<Image> imageList = iGenericManagerJpa.getObjectsUsingParameter(Image.class, new String[]{"menu"}, new Object[]{c}, "status", "ASC");
+					List<ImageDTO> imageDTOList = new ArrayList<ImageDTO>(); 
+					for(Image image : imageList){
+						if(image.getStatus() == 1)
+							menuImage = image.getName();
+						ImageDTO dataImage = new ImageDTO(image.getCode(), image.getName(), image.getStatus());
+						imageDTOList.add(dataImage);
+					}
+					MenuDTO data = new MenuDTO(c.getCode(), c.getName(), c.getType(), c.getPrice(), c.getStock(), menuImage, c.getRating(), imageDTOList);
 					menuDTOList.add(data);
 				} 
 				menus.setMaster_menu(menuDTOList);

@@ -24,6 +24,7 @@ public class Menu {
 	private String name;
 	private Integer type;
 	private BigDecimal price;
+	private Integer stock;
 	private BigDecimal rating;
 	private Integer status;
 	private String remarks;
@@ -77,6 +78,15 @@ public class Menu {
 		this.price = price;
 	}
 
+	@Column(name="menu_stock")
+	public Integer getStock() {
+		return stock;
+	}
+
+	public void setStock(Integer stock) {
+		this.stock = stock;
+	}
+
 	@Column(name="menu_rating")
 	public BigDecimal getRating() {
 		return rating;
@@ -125,7 +135,7 @@ public class Menu {
 	@Override
 	public String toString() {
 		return "Menu [id=" + id + ", code=" + code + ", name=" + name
-				+ ", type=" + type + ", price=" + price
+				+ ", type=" + type + ", price=" + price + ", stock=" + stock
 				+ ", rating=" + rating + ", status=" + status
 				+ ", remarks=" + remarks + "]";
 	}

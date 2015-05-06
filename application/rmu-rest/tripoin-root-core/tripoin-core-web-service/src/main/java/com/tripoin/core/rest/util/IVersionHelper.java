@@ -5,6 +5,6 @@ package com.tripoin.core.rest.util;
  */
 public interface IVersionHelper {
 	
-	public void updateVerision() throws Exception;
+	public void updateVerision(String tableName) throws Exception;
 	
 }

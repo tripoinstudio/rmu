@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = { "image_code", "image_name", "image_status" })
-@XmlRootElement(name = "Menu")
+@XmlRootElement(name = "Image")
 public class ImageDTO {
 	private String image_code;
 	private String image_name;

@@ -93,9 +93,9 @@ public class OrderDetailManager {
 			BigDecimal totalPaid = new BigDecimal(0);
 			
 			for (OrderDetailDTO orderDetailDTO : orderDetailDTOList) {
+				menu = iGenericManagerJpa.getObjectsUsingParameter(Menu.class, new String[]{"menu_code"}, new Object[]{orderDetailDTO.getMenu_code()}, null, null).get(0); 
 				// Order Header
 				if(isOrderHeader){
-					menu = iGenericManagerJpa.getObjectsUsingParameter(Menu.class, new String[]{"menu_code"}, new Object[]{orderDetailDTO.getMenu_code()}, null, null).get(0); 
 					seat = iGenericManagerJpa.getObjectsUsingParameter(Seat.class, new String[]{"seat_code"}, new Object[]{orderDetailDTO.getSeat_code()}, null, null).get(0);
 					carriage = iGenericManagerJpa.getObjectsUsingParameter(Carriage.class, new String[]{"carriage_code"}, new Object[]{orderDetailDTO.getCarriage_code()}, null, null).get(0);
 					train = iGenericManagerJpa.getObjectsUsingParameter(Train.class, new String[]{"train_code"}, new Object[]{orderDetailDTO.getTrain_code()}, null, null).get(0);
@@ -121,7 +121,8 @@ public class OrderDetailManager {
 				
 				//Order Detail
 				OrderDetail order = new OrderDetail();
-				
+				if(menu.getStock() != 0)
+					menu.setStock(menu.getStock()-order.getTotalOrder());
 				order.setMenu(menu);
 				order.setOrderHeader(orderHeader);
 				order.setRemarks("ORDER");
@@ -134,7 +135,7 @@ public class OrderDetailManager {
 			orderHeader.setTotalPaid(totalPaid);
 			orderHeader.setOrderDetails(orderDetailList);
 			iGenericManagerJpa.saveObject(orderHeader);
-			iVersionHelper.updateVerision();
+			iVersionHelper.updateVerision("trx_order_detail");
 			message = getListOrderDetails(orderHeader.getOrderNo());
 		}catch(Exception e){
 			LOGGER.error("Error :".concat(e.getLocalizedMessage()), e);
