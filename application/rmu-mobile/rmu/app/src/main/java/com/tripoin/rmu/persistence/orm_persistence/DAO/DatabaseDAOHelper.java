@@ -9,10 +9,10 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.tripoin.rmu.model.persist.CarriageModel;
-import com.tripoin.rmu.model.persist.ImageModel;
 import com.tripoin.rmu.model.persist.OrderDetailModel;
 import com.tripoin.rmu.model.persist.MenuModel;
 import com.tripoin.rmu.model.persist.OrderListModel;
+import com.tripoin.rmu.model.persist.OrderTempModel;
 import com.tripoin.rmu.model.persist.SeatModel;
 import com.tripoin.rmu.model.persist.SelfTestModel;
 import com.tripoin.rmu.model.persist.TrainModel;
@@ -36,6 +36,7 @@ public class DatabaseDAOHelper extends OrmLiteSqliteOpenHelper{
     private Dao<SeatModel, Integer> seatDAO = null;
     private Dao<TrainModel, Integer> trainDAO = null;
     private Dao<OrderDetailModel, Integer> orderDetailDAO = null;
+    private Dao<OrderTempModel, Integer> orderTempDAO = null;
     private Dao<ImageModel, Integer> imageMenuDao = null;
 
     public DatabaseDAOHelper(Context ctx) {
@@ -54,6 +55,7 @@ public class DatabaseDAOHelper extends OrmLiteSqliteOpenHelper{
             TableUtils.createTable(connectionSource, SeatModel.class);
             TableUtils.createTable(connectionSource, TrainModel.class);
             TableUtils.createTable(connectionSource, OrderDetailModel.class);
+            TableUtils.createTable(connectionSource, OrderTempModel.class);
             TableUtils.createTable(connectionSource, ImageModel.class);
             /*Add here to add some connections*/
         } catch (SQLException e) {
@@ -72,6 +74,7 @@ public class DatabaseDAOHelper extends OrmLiteSqliteOpenHelper{
             TableUtils.dropTable(connectionSource, SeatModel.class, true);
             TableUtils.dropTable(connectionSource, TrainModel.class, true);
             TableUtils.dropTable(connectionSource, OrderDetailModel.class, true);
+            TableUtils.dropTable(connectionSource, OrderTempModel.class, true);
             TableUtils.dropTable(connectionSource, ImageModel.class, true);
             /*Add here to add some connections*/
             onCreate(database, connectionSource);
@@ -168,6 +171,17 @@ public class DatabaseDAOHelper extends OrmLiteSqliteOpenHelper{
         return orderDetailDAO;
     }
 
+    public Dao<OrderTempModel, Integer> getOrderTempDAO() {
+        if( orderTempDAO == null ){
+            try {
+                orderTempDAO = getDao(OrderTempModel.class);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return orderTempDAO;
+    }
+    
     public Dao<ImageModel, Integer> getImageMenuDAO() {
         if( imageMenuDao == null ){
             try {
