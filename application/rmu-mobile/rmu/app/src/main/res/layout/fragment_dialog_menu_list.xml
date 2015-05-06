@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white_base">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:layout_gravity="center"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="80dip"
+            android:layout_height="40dip"
+            android:layout_gravity="left"
+            android:paddingTop="11dp"
+            android:paddingLeft="5dp"
+            android:textSize="15sp"
+            android:text="Name"
+            android:id="@+id/lb_search_menu_name"
+            android:textColor="@color/black_light"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40dip"
+            android:paddingLeft="7dp"
+            android:paddingRight="7dp"
+            android:id="@+id/tx_search_menu_name"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:layout_gravity="center"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="80dip"
+            android:layout_height="40dip"
+            android:layout_gravity="left"
+            android:paddingTop="11dp"
+            android:paddingLeft="5dp"
+            android:textSize="15sp"
+            android:text="Menu Type"
+            android:id="@+id/lbl_search_menu_type"
+            android:textColor="@color/black_light"/>
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="40dip"
+            android:paddingLeft="7dp"
+            android:paddingRight="7dp"
+            android:id="@+id/tx_search_status"
+            android:background="@drawable/bg_bottom_lov"
+            android:scrollbarStyle="insideInset"
+            android:popupBackground="#FBFBFB"/>
+    </LinearLayout>
+</LinearLayout>

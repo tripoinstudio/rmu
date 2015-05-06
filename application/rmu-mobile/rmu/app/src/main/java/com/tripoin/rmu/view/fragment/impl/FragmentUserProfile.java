@@ -30,6 +30,7 @@ import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -57,6 +58,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.channels.FileChannel;
 
 /**
  * Created by Ginanjar Aji Sanjaya on 4/29/2015.
@@ -73,7 +75,7 @@ public class FragmentUserProfile extends Fragment {
     private TextView lblViewPhoto;
     private TextView lblChangePhotoGallery;
     private TextView lblChangePhotoCamera;
-    private ImageView imgUserProfile, imgNameUser, imgJabatanUser, imgEmailUser, imgSummmaryUses;
+    private ImageView imgUserProfile, imgVIewDetailPhoto, imgNameUser, imgJabatanUser, imgEmailUser, imgSummmaryUses;
     private EditText editText;
     private PropertyUtil propertyUtil;
 
@@ -89,10 +91,13 @@ public class FragmentUserProfile extends Fragment {
         propertyUtil = new PropertyUtil(PropertyConstant.PROPERTY_FILE_NAME.toString(), rootView.getContext());
 
         imgUserProfile = (ImageView) rootView.findViewById(R.id.imgUserProfile);
+        final Bitmap bmp = decodeSampledBitmapFromPath(propertyUtil.getValuePropertyMap("PHOTO_USER"), 360, 270);
+        if(bmp!=null) imgUserProfile.setImageBitmap(bmp);
+
         imgUserProfile.setOnLongClickListener(new View.OnLongClickListener() {
             public boolean onLongClick(View arg0) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                File f = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
+                File f = new File(PropertyConstant.PROPERTIES_PATH.toString(), "photo_profile_rmu.jpg");
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
                 startActivityForResult(intent, 2);
                 return true;
@@ -114,6 +119,11 @@ public class FragmentUserProfile extends Fragment {
                     public void onClick(View v) {
                         LayoutInflater layoutInflater = LayoutInflater.from(rootView.getContext());
                         View dialogView = layoutInflater.inflate(R.layout.fragment_view_photo_profile, null);
+
+                        if(bmp!=null){
+                            imgVIewDetailPhoto = (ImageView) dialogView.findViewById(R.id.imgViewDetailPhoto);
+                            imgVIewDetailPhoto.setImageBitmap(bmp);
+                        }
 
                         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(rootView.getContext());
                         alertDialogBuilder.setView(dialogView);
@@ -137,8 +147,14 @@ public class FragmentUserProfile extends Fragment {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        File f = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
+                        File f = new File(PropertyConstant.PROPERTIES_PATH.toString(), "photo_profile_rmu.jpg");
                         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+                        // ******** code for crop image
+                        intent.putExtra("crop", "true");
+                        intent.putExtra("aspectX", 0);
+                        intent.putExtra("aspectY", 0);
+                        intent.putExtra("outputX", 600);
+                        intent.putExtra("outputY", 600);
                         startActivityForResult(intent, 2);
                     }
                 });
@@ -296,7 +312,7 @@ public class FragmentUserProfile extends Fragment {
                 editText = (EditText) dialogView.findViewById(R.id.tf_edit_text);
                 editText.setText(propertyUtil.getValuePropertyMap("SUMMARY_USER"));
 
-                alertDialogBuilder.setCancelable(false).setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                alertDialogBuilder.setCancelable(true).setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         propertyUtil.saveSingleProperty("SUMMARY_USER", editText.getText().toString());
@@ -329,15 +345,33 @@ public class FragmentUserProfile extends Fragment {
                 c.moveToFirst();
                 int columnIndex = c.getColumnIndex(filePath[0]);
                 String picturePath = c.getString(columnIndex);
+                String destinationImagePath=null;
+                try {
+                        String sourceImagePath = picturePath;
+                    destinationImagePath = PropertyConstant.PROPERTIES_PATH.toString()+"photo_profile_rmu.jpg";
+                        File source= new File(picturePath);
+                        File destination= new File(destinationImagePath);
+                        if (source.exists()) {
+                            FileChannel src = new FileInputStream(source).getChannel();
+                            FileChannel dst = new FileOutputStream(destination).getChannel();
+                            dst.transferFrom(src, 0, src.size());
+                            src.close();
+                            dst.close();
+                        }
+                } catch (Exception e) {
+                    Log.e("EROR DISINI","EROR DISINI ----- "+e.toString());
+                }
+
                 c.close();
-                Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
-                Log.w("path of image:", picturePath + "");
-                propertyUtil.saveSingleProperty("PHOTO_USER", picturePath + "");
-                imgUserProfile.setImageBitmap(thumbnail);
+                System.gc();
+                Bitmap thumbnail;
+                thumbnail = decodeSampledBitmapFromPath(destinationImagePath, 360, 270);
+                if(destinationImagePath!=null) propertyUtil.saveSingleProperty("PHOTO_USER", destinationImagePath + "");
+                if(thumbnail!=null) imgUserProfile.setImageBitmap(thumbnail);
             } else if (requestCode == 2) {
-                File f = new File(Environment.getExternalStorageDirectory().toString());
+                File f = new File(PropertyConstant.PROPERTIES_PATH.toString());
                 for (File temp : f.listFiles()) {
-                    if (temp.getName().equals("temp.jpg")) {
+                    if (temp.getName().equals("photo_profile_rmu.jpg")) {
                         f = temp;
                         break;
                     }
@@ -345,16 +379,14 @@ public class FragmentUserProfile extends Fragment {
                 try {
                     System.gc();
                     Bitmap bitmap;
-                    BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
                     Log.d("f.getAbsolutePath() = ","-------------- "+f.getAbsolutePath());
-                    bitmap = decodeSampledBitmapFromPath(f.getAbsolutePath(), 380, 380);
-//                    bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(), bitmapOptions);
+                    bitmap = decodeSampledBitmapFromPath(f.getAbsolutePath(), 360, 270);
                     propertyUtil.saveSingleProperty("PHOTO_USER", f.getAbsolutePath());
                     imgUserProfile.setImageBitmap(bitmap);
-                    String path = android.os.Environment.getExternalStorageDirectory().toString();
+                    String path = PropertyConstant.PROPERTIES_PATH.toString();
                     f.delete();
                     OutputStream outFile = null;
-                    File file = new File(path, String.valueOf(System.currentTimeMillis()) + ".jpg");
+                    File file = new File(path, "photo_profile_rmu" + ".jpg");
                     try {
                         outFile = new FileOutputStream(file);
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 85, outFile);

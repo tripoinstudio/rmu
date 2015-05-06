@@ -2,8 +2,10 @@ package com.tripoin.rmu.view.fragment.impl;
 
 
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -179,6 +182,30 @@ public class FragmentMenuList extends Fragment implements ISynchronizeMenuList {
 
             case R.id.menu_search:
                 mSearchCheck = true;
+                LayoutInflater layoutInflater = LayoutInflater.from(rootView.getContext());
+                View dialogView = layoutInflater.inflate(R.layout.fragment_dialog_menu_list, null);
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(rootView.getContext());
+                alertDialogBuilder.setView(dialogView);
+
+                final EditText txSearchMenuName = (EditText) dialogView.findViewById(R.id.tx_search_menu_name);
+                final Spinner txSearchStatus = (Spinner) dialogView.findViewById(R.id.tx_search_status);
+
+                alertDialogBuilder.setCancelable(false).setPositiveButton("Find", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getActivity(), R.string.search+" sukses = "+txSearchMenuName.getText()+" & "+txSearchStatus, Toast.LENGTH_SHORT).show();
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                AlertDialog alertD = alertDialogBuilder.create();
+                alertD.show();
+
                 Toast.makeText(getActivity(), R.string.search, Toast.LENGTH_SHORT).show();
                 break;
         }
