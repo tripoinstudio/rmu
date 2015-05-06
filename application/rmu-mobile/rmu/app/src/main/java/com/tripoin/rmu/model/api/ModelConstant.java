@@ -181,4 +181,20 @@ public interface ModelConstant {
 
     public final String IMAGE_STATUS = "image_status";
 
+    /*temporary*/
+    public final String ORDER_TEMP_TABLE = "m_rmu_order_temp";
+
+    public final String ORDER_TEMP_QUANTITY = "order_temp_quantity";
+
+    public final String ORDER_TEMP_PRICE = "order_temp_price";
+
+    public final String ORDER_TEMP_MENU_ID = "order_temp_menu_id";
+
+    public final String ORDER_TEMP_SEAT_ID = "order_temp_seat_id";
+
+    public final String ORDER_TEMP_CARRIAGE_ID = "order_temp_carriage_id";
+
+    public final String ORDER_TEMP_TRAIN_ID = "order_temp_train_id";
+
+
 }
