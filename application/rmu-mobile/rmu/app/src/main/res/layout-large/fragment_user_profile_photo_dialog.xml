@@ -1,0 +1,84 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="5"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <RelativeLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lihat Foto Profil"
+            android:id="@+id/lbl_view_photo"
+            android:textSize="18sp"
+            android:background="@drawable/edit_photo_states"
+            android:clickable="true"
+            android:scaleType="fitXY"
+            android:padding="15dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_dark_lighter"
+            android:scaleType="fitXY"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ubah Dari Galeri"
+            android:id="@+id/lbl_change_photo_gallery"
+            android:textSize="18sp"
+            android:background="@drawable/edit_photo_states"
+            android:clickable="true"
+            android:scaleType="fitXY"
+            android:padding="15dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_dark_lighter"
+            android:scaleType="fitXY"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ubah Dari Camera"
+            android:id="@+id/lbl_change_photo_camera"
+            android:textSize="18sp"
+            android:background="@drawable/edit_photo_states"
+            android:clickable="true"
+            android:scaleType="fitXY"
+            android:padding="15dp"/>
+    </RelativeLayout>
+
+</LinearLayout>
