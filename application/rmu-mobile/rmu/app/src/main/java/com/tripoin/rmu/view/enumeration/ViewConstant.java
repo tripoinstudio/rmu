@@ -71,6 +71,7 @@ public enum ViewConstant {
     SEAT_NO("Seat No :"),
     TRAIN_NO("Train No :"),
     CURRENCY_IDR("IDR "),
+    STOCK("stock "),
     TOTAL_ORDER("Total Order :"),
     TOTAL_PAID("Total Paid : "),
     ;
