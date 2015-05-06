@@ -63,6 +63,8 @@ public interface ModelConstant {
 
     public final String MENU_PRICE = "menu_price";
 
+    public final String MENU_STOCK = "menu_stock";
+
     public final String MENU_IMAGE_URL = "menu_image_url";
 
     public final String MENU_RATING = "menu_rating";
@@ -166,5 +168,17 @@ public interface ModelConstant {
 
     public final String REST_MASTER_TABLE = "master_component";
 
+    /*Menu*/
+    public final String IMAGE_TABLE = "m_rmu_image";
+
+    public final String REST_IMAGE_TABLE = "master_image";
+
+    public final String IMAGE_ID = "image_id";
+
+    public final String IMAGE_CODE = "image_code";
+
+    public final String IMAGE_NAME = "image_name";
+
+    public final String IMAGE_STATUS = "image_status";
 
 }
