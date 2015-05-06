@@ -113,19 +113,19 @@
             android:layout_width="match_parent"
             android:layout_height="438dip"
             android:background="@drawable/textlines_large">
+
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="50dip"
                 android:background="@color/white_base">
-            <ImageView
-                android:layout_width="20dip"
-                android:layout_marginTop="15dip"
-                android:layout_marginLeft="15dip"
-                android:layout_height="20dip"
-                android:background="@drawable/del_item"/>
-
+                <ImageView
+                    android:layout_width="20dip"
+                    android:layout_marginTop="15dip"
+                    android:layout_marginLeft="15dip"
+                    android:layout_height="20dip"
+                    android:background="@drawable/del_item"/>
                 <TextView
                     android:layout_width="320dp"
                     android:layout_height="wrap_content"
@@ -135,7 +135,6 @@
                     android:id="@+id/lbl_menu_name"
                     android:textColor="@color/black_light"
                     android:text="Nasi Goreng @ 2 pcs"/>
-
                 <TextView
                     android:layout_height="wrap_content"
                     android:layout_width="150dp"
@@ -144,11 +143,12 @@
                     android:id="@+id/lbl_menu_price"
                     android:textColor="#D4a017"
                     android:text="IDR 20.000"/>
-                </LinearLayout>
-
             </LinearLayout>
 
+        </LinearLayout>
+
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
