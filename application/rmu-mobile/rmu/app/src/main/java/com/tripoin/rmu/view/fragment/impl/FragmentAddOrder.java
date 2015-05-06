@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +22,12 @@ import com.tripoin.rmu.R;
 import com.tripoin.rmu.feature.synchronizer.impl.SynchronizeMaster;
 import com.tripoin.rmu.model.api.ModelConstant;
 import com.tripoin.rmu.model.persist.CarriageModel;
+import com.tripoin.rmu.model.persist.OrderListModel;
+import com.tripoin.rmu.model.persist.OrderTempModel;
 import com.tripoin.rmu.model.persist.SeatModel;
 import com.tripoin.rmu.model.persist.TrainModel;
 import com.tripoin.rmu.persistence.orm_persistence.service.CarriageDBManager;
+import com.tripoin.rmu.persistence.orm_persistence.service.OrderTempDBManager;
 import com.tripoin.rmu.persistence.orm_persistence.service.SeatDBManager;
 import com.tripoin.rmu.persistence.orm_persistence.service.TrainDBManager;
 import com.tripoin.rmu.rest.impl.CarriageListRest;
@@ -32,12 +36,18 @@ import com.tripoin.rmu.util.BluetoothUtils;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
 import com.tripoin.rmu.view.fragment.api.ISynchronizeMaster;
+import com.tripoin.rmu.view.ui.CustomCardOrderTemp;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import it.gmariotti.cardslib.library.internal.Card;
+import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
+import it.gmariotti.cardslib.library.view.CardListView;
 
 /**
  * Created by Syahrial Fandrianah on 4/18/2015 : 1:41 AM.
@@ -70,9 +80,9 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster {
     private Typeface faces;
     private TextView lbl1;
     private TextView lbl2;
-    private TextView menuName;
+    /*private TextView menuName;
     private TextView menuPrice;
-    private TextView menuTotal;
+    private TextView menuTotal;*/
     private BluetoothUtils bluetoothUtils = new BluetoothUtils(FragmentAddOrder.this);
 
     public FragmentAddOrder newInstance(String text){
@@ -82,7 +92,8 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        this.rootView = inflater.inflate(R.layout.fragment_add_order, container, false);
+        rootView = inflater.inflate(R.layout.fragment_add_order, container, false);
+        rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT ));
         propertyUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(),rootView.getContext());
         txus=(TextView)rootView.findViewById(R.id.tx_username);
         faces=Typeface.createFromAsset(txus.getResources().getAssets(),"font/Roboto-Light.ttf");
@@ -97,12 +108,16 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster {
         lbl1.setTypeface(Typeface.createFromAsset(lbl1.getResources().getAssets(),"font/Roboto-Light.ttf"));
         lbl2 = (TextView)rootView.findViewById(R.id.lbl_seat);
         lbl2.setTypeface(Typeface.createFromAsset(lbl2.getResources().getAssets(), "font/Roboto-Light.ttf"));
-        menuName = (TextView)rootView.findViewById(R.id.lbl_menu_name);
+        /*menuName = (TextView)rootView.findViewById(R.id.lbl_menu_name);
         menuName.setTypeface(Typeface.createFromAsset(menuName.getResources().getAssets(),"font/Roboto-Light.ttf"));
         menuPrice = (TextView)rootView.findViewById(R.id.lbl_menu_price);
         menuPrice.setTypeface(Typeface.createFromAsset(menuPrice.getResources().getAssets(),"font/Roboto-Light.ttf"));
         menuTotal = (TextView)rootView.findViewById(R.id.lbl_menu_total);
-        menuTotal.setTypeface(Typeface.createFromAsset(menuTotal.getResources().getAssets(),"font/Roboto-Light.ttf"));
+        menuTotal.setTypeface(Typeface.createFromAsset(menuTotal.getResources().getAssets(),"font/Roboto-Light.ttf"));*/
+
+        OrderTempDBManager.init(rootView.getContext());
+        insertDataTemporary();
+        getAllOrderTempInTemporary();
 
         bt_bayar =(Button)rootView.findViewById(R.id.bt_bayar);
         bt_bayar.setTypeface(faces2);
@@ -144,7 +159,7 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster {
         masterASync = new MasterASync();
         masterASync.execute();
 
-        rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT ));
+//        rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT ));
         return rootView;
     }
 
@@ -304,6 +319,37 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster {
     @Override
     public void onPostContSyncMasterTrain(List<TrainModel> trainModels) {
 
+    }
+
+    private void insertDataTemporary(){
+//        OrderTempModel orderTempModel = new OrderTempModel();
+////        orderTempModel.setId(1);
+//        orderTempModel.setMenuId("Nasi Basi");
+//        orderTempModel.setQuantity("2");
+//        orderTempModel.setPrice("2000000");
+//
+//        OrderTempDBManager.getInstance().insertEntity(orderTempModel);
+    }
+
+    private void getAllOrderTempInTemporary(){
+        List<OrderTempModel> orderTempModelList = OrderTempDBManager.getInstance().getAllData();
+        initCards(orderTempModelList);
+    }
+
+    private void initCards(List<OrderTempModel> orderTempModels){
+        Log.d("ORDERTEMP_INITCARD_SIZE", String.valueOf(orderTempModels.size()));
+        ArrayList<Card> cards = new ArrayList<Card>();
+        for (int i = 0; i<orderTempModels.size(); i++) {
+            Card card = new CustomCardOrderTemp(getActivity(), R.layout.row_card_temp, orderTempModels.get(i));
+            cards.add(card);
+        }
+
+        CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(getActivity(), cards);
+
+        CardListView listView = (CardListView) rootView.findViewById(R.id.listOrderTemp);
+        if (listView != null) {
+            listView.setAdapter(mCardArrayAdapter);
+        }
     }
 
     private class MasterASync extends AsyncTask {
