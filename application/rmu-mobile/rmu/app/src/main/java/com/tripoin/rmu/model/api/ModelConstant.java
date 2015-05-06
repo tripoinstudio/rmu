@@ -196,5 +196,7 @@ public interface ModelConstant {
 
     public final String ORDER_TEMP_TRAIN_ID = "order_temp_train_id";
 
+    public final String ORDER_TEMP_ID = "order_temp_id";
+
 
 }
