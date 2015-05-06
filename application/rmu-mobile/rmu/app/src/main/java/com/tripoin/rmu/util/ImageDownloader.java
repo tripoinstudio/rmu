@@ -14,7 +14,7 @@ import java.net.URLConnection;
 
 /**
  * Created by Achmad Fauzi on 5/2/2015 : 11:42 AM.
- * mailto : fauzi.knightmaster.achmad@gmail.com
+ * mailto : achmad.fauzi@sigma.co.id
  */
 public class ImageDownloader {
 
@@ -28,23 +28,24 @@ public class ImageDownloader {
 
     public void downloadImage(){
         try {
-            URL url = new URL(urlSource);
             File file = new File(pathTarget);
+            if(!file.isFile()){
+                URL url = new URL(urlSource);
 
-            URLConnection ucon = url.openConnection();
-            InputStream is = ucon.getInputStream();
-            BufferedInputStream bis = new BufferedInputStream(is);
+                URLConnection ucon = url.openConnection();
+                InputStream is = ucon.getInputStream();
+                BufferedInputStream bis = new BufferedInputStream(is);
 
-            ByteArrayBuffer baf = new ByteArrayBuffer(50);
-            int current = 0;
-            while ((current = bis.read()) != -1) {
-                baf.append((byte) current);
+                ByteArrayBuffer baf = new ByteArrayBuffer(50);
+                int current = 0;
+                while ((current = bis.read()) != -1) {
+                    baf.append((byte) current);
+                }
+
+                FileOutputStream fos = new FileOutputStream(file);
+                fos.write(baf.toByteArray());
+                fos.close();
             }
-
-            FileOutputStream fos = new FileOutputStream(file);
-            fos.write(baf.toByteArray());
-            fos.close();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
