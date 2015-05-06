@@ -15,6 +15,7 @@ public enum RestConstant {
     //TSK items
 
     ORDER_HEADER_NO("orderHeaderNo"),
+    MENU_CODE("menuCode"),
 
     HTTP_REST("http"),
     HTTP_GET("GET"),
@@ -25,6 +26,7 @@ public enum RestConstant {
     TSK_SEAT("seat"),
     TSK_CARRIAGE("carriage"),
     TSK_MENU("menu"),
+    TSK_IMAGEMENU("image"),
     TSK_VERSION("version"),
     TSK_ORDER_DETAIL("getOrderDetail"),
     TSK_ORDER_HEADER("getOrderHeader"),

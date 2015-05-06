@@ -33,7 +33,7 @@ public abstract class MenuListRest extends ARestDialogGETAsyncTask{
 
     @Override
     protected String getProgressDialogTitle() {
-        return "Retrieving menu";
+        return "Synchronize Menu";
     }
     
     @Override
