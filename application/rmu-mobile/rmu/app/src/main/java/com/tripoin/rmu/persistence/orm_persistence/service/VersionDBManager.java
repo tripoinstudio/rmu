@@ -1,7 +1,6 @@
 package com.tripoin.rmu.persistence.orm_persistence.service;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.tripoin.rmu.model.persist.VersionModel;
 import com.tripoin.rmu.persistence.orm_persistence.DAO.DatabaseDAOHelper;

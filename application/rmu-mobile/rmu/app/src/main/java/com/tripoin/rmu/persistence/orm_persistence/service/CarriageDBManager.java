@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 
 import com.tripoin.rmu.model.persist.CarriageModel;
-import com.tripoin.rmu.model.persist.MenuModel;
 import com.tripoin.rmu.persistence.orm_persistence.DAO.DatabaseDAOHelper;
 import com.tripoin.rmu.persistence.orm_persistence.api.IBaseDatabaseHandler;
 
