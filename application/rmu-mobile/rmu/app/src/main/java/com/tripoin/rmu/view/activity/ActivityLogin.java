@@ -23,8 +23,6 @@ import com.tripoin.rmu.security.base.ASecureActivity;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
 
-import java.util.List;
-
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 

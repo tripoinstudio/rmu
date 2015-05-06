@@ -8,13 +8,9 @@ import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.Menu;
 import android.view.View;
-import android.widget.Toast;
 
 import com.tripoin.rmu.R;
 import com.tripoin.rmu.model.base.impl.BaseRESTDTO;
-import com.tripoin.rmu.model.DTO.user.UserDTO;
-import com.tripoin.rmu.model.persist.OrderListModel;
-import com.tripoin.rmu.persistence.orm_persistence.service.OrderListDBManager;
 import com.tripoin.rmu.rest.api.ILogoutPost;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
