@@ -9,6 +9,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.tripoin.rmu.model.persist.CarriageModel;
+import com.tripoin.rmu.model.persist.ImageModel;
 import com.tripoin.rmu.model.persist.OrderDetailModel;
 import com.tripoin.rmu.model.persist.MenuModel;
 import com.tripoin.rmu.model.persist.OrderListModel;
@@ -35,6 +36,7 @@ public class DatabaseDAOHelper extends OrmLiteSqliteOpenHelper{
     private Dao<SeatModel, Integer> seatDAO = null;
     private Dao<TrainModel, Integer> trainDAO = null;
     private Dao<OrderDetailModel, Integer> orderDetailDAO = null;
+    private Dao<ImageModel, Integer> imageMenuDao = null;
 
     public DatabaseDAOHelper(Context ctx) {
         super( ctx, DatabaseConstant.DB_NAME.toString(), null, Integer.parseInt( DatabaseConstant.DB_VERSION.toString() ) );
@@ -52,6 +54,7 @@ public class DatabaseDAOHelper extends OrmLiteSqliteOpenHelper{
             TableUtils.createTable(connectionSource, SeatModel.class);
             TableUtils.createTable(connectionSource, TrainModel.class);
             TableUtils.createTable(connectionSource, OrderDetailModel.class);
+            TableUtils.createTable(connectionSource, ImageModel.class);
             /*Add here to add some connections*/
         } catch (SQLException e) {
             e.printStackTrace();
@@ -69,6 +72,7 @@ public class DatabaseDAOHelper extends OrmLiteSqliteOpenHelper{
             TableUtils.dropTable(connectionSource, SeatModel.class, true);
             TableUtils.dropTable(connectionSource, TrainModel.class, true);
             TableUtils.dropTable(connectionSource, OrderDetailModel.class, true);
+            TableUtils.dropTable(connectionSource, ImageModel.class, true);
             /*Add here to add some connections*/
             onCreate(database, connectionSource);
         } catch (SQLException e) {
@@ -162,5 +166,16 @@ public class DatabaseDAOHelper extends OrmLiteSqliteOpenHelper{
             }
         }
         return orderDetailDAO;
+    }
+
+    public Dao<ImageModel, Integer> getImageMenuDAO() {
+        if( imageMenuDao == null ){
+            try {
+                imageMenuDao = getDao(ImageModel.class);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return imageMenuDao;
     }
 }
