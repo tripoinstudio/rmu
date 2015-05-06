@@ -9,6 +9,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.tripoin.rmu.model.persist.CarriageModel;
+import com.tripoin.rmu.model.persist.ImageModel;
 import com.tripoin.rmu.model.persist.OrderDetailModel;
 import com.tripoin.rmu.model.persist.MenuModel;
 import com.tripoin.rmu.model.persist.OrderListModel;
