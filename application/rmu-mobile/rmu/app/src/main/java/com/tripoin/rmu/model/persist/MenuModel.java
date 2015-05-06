@@ -28,6 +28,9 @@ public class MenuModel {
     @DatabaseField( columnName = ModelConstant.MENU_PRICE )
     private String menuPrice;
 
+    @DatabaseField( columnName = ModelConstant.MENU_STOCK )
+    private String menuStock;
+
     @DatabaseField( columnName = ModelConstant.MENU_RATING )
     private String menuRating;
 
@@ -74,6 +77,10 @@ public class MenuModel {
         this.menuPrice = menuPrice;
     }
 
+    public String getMenuStock() { return menuStock; }
+
+    public void setMenuStock(String menuStock) { this.menuStock = menuStock; }
+
     public String getMenuRating() {
         return menuRating;
     }
@@ -98,6 +105,7 @@ public class MenuModel {
                 ", menuName='" + menuName + '\'' +
                 ", menuType='" + menuType + '\'' +
                 ", menuPrice='" + menuPrice + '\'' +
+                ", menuStock='" + menuStock + '\'' +
                 ", menuRating='" + menuRating + '\'' +
                 ", menuImageURL='" + menuImageURL + '\'' +
                 '}';

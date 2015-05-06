@@ -1,6 +1,9 @@
 package com.tripoin.rmu.model.DTO.menu;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tripoin.rmu.model.DTO.image.ImageItemDTO;
+
+import java.util.List;
 
 /**
  * Created by Ridla on 4/18/2015.
@@ -20,11 +23,17 @@ public class MenuItemDTO {
     @JsonProperty("menu_price")
     private String menuPrice;
 
+    @JsonProperty("menu_stock")
+    private String menuStock;
+
     @JsonProperty("menu_image_url")
     private String menuImage;
 
     @JsonProperty("menu_rating")
     private String menuRating;
+
+    @JsonProperty("master_image")
+    private List<ImageItemDTO> imageItemDTOList;
 
     public String getMenuName() {
         return menuName;
@@ -74,6 +83,14 @@ public class MenuItemDTO {
         this.menuRating = menuRating;
     }
 
+    public String getMenuStock() { return menuStock; }
+
+    public void setMenuStock(String menuStock) { this.menuStock = menuStock; }
+
+    public List<ImageItemDTO> getImageItemDTOList() { return imageItemDTOList; }
+
+    public void setImageItemDTOList(List<ImageItemDTO> imageItemDTOList) { this.imageItemDTOList = imageItemDTOList; }
+
     @Override
     public String toString() {
         return "MenuItemDTO{" +
@@ -81,8 +98,10 @@ public class MenuItemDTO {
                 ", menuCode='" + menuCode + '\'' +
                 ", menuType='" + menuType + '\'' +
                 ", menuPrice='" + menuPrice + '\'' +
+                ", menuStock='" + menuStock + '\'' +
                 ", menuImage='" + menuImage + '\'' +
                 ", menuRating='" + menuRating + '\'' +
+                ", imageItemDTOList=" + imageItemDTOList +
                 '}';
     }
 }
