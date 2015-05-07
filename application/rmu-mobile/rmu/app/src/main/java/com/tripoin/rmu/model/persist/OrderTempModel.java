@@ -19,8 +19,11 @@ public class OrderTempModel{
     @DatabaseField( generatedId = true, canBeNull = false, columnName = ModelConstant.ORDER_TEMP_ID )
     private int id;
 
-    @DatabaseField( columnName = ModelConstant.ORDER_TEMP_MENU_ID )
-    private String menuId;
+    @DatabaseField( columnName = ModelConstant.MENU_CODE )
+    private String menuCode;
+
+    @DatabaseField( columnName = ModelConstant.MENU_NAME )
+    private String menuName;
 
     @DatabaseField( columnName = ModelConstant.ORDER_TEMP_QUANTITY )
     private String quantity;
@@ -28,14 +31,14 @@ public class OrderTempModel{
     @DatabaseField( columnName = ModelConstant.ORDER_TEMP_PRICE )
     private String price;
 
-    @DatabaseField( columnName = ModelConstant.ORDER_TEMP_CARRIAGE_ID )
-    private String carriageId;
+    @DatabaseField( columnName = ModelConstant.CARRIAGE_CODE )
+    private String carriageCode;
 
-    @DatabaseField( columnName = ModelConstant.ORDER_TEMP_SEAT_ID )
-    private String seatId;
+    @DatabaseField( columnName = ModelConstant.SEAT_CODE )
+    private String seatCode;
 
-    @DatabaseField( columnName = ModelConstant.ORDER_TEMP_TRAIN_ID )
-    private String trainId;
+    @DatabaseField( columnName = ModelConstant.TRAIN_CODE )
+    private String trainCode;
 
     public int getId() {
         return id;
@@ -45,12 +48,20 @@ public class OrderTempModel{
         this.id = id;
     }
 
-    public String getMenuId() {
-        return menuId;
+    public String getMenuCode() {
+        return menuCode;
     }
 
-    public void setMenuId(String menuId) {
-        this.menuId = menuId;
+    public void setMenuCode(String menuCode) {
+        this.menuCode = menuCode;
+    }
+
+    public String getMenuName() {
+        return menuName;
+    }
+
+    public void setMenuName(String menuName) {
+        this.menuName = menuName;
     }
 
     public String getQuantity() {
@@ -69,40 +80,41 @@ public class OrderTempModel{
         this.price = price;
     }
 
-    public String getCarriageId() {
-        return carriageId;
+    public String getCarriageCode() {
+        return carriageCode;
     }
 
-    public void setCarriageId(String carriageId) {
-        this.carriageId = carriageId;
+    public void setCarriageCode(String carriageCode) {
+        this.carriageCode = carriageCode;
     }
 
-    public String getSeatId() {
-        return seatId;
+    public String getSeatCode() {
+        return seatCode;
     }
 
-    public void setSeatId(String seatId) {
-        this.seatId = seatId;
+    public void setSeatCode(String seatCode) {
+        this.seatCode = seatCode;
     }
 
-    public String getTrainId() {
-        return trainId;
+    public String getTrainCode() {
+        return trainCode;
     }
 
-    public void setTrainId(String trainId) {
-        this.trainId = trainId;
+    public void setTrainCode(String trainCode) {
+        this.trainCode = trainCode;
     }
 
     @Override
     public String toString() {
         return "OrderTempModel{" +
                 "id=" + id +
-                ", menuId='" + menuId + '\'' +
+                ", menuCode='" + menuCode + '\'' +
+                ", menuName='" + menuName + '\'' +
                 ", quantity='" + quantity + '\'' +
                 ", price='" + price + '\'' +
-                ", carriageId='" + carriageId + '\'' +
-                ", seatId='" + seatId + '\'' +
-                ", trainId='" + trainId + '\'' +
+                ", carriageCode='" + carriageCode + '\'' +
+                ", seatCode='" + seatCode + '\'' +
+                ", trainCode='" + trainCode + '\'' +
                 '}';
     }
 }

@@ -62,10 +62,7 @@ public class CustomCardOrderTemp extends Card {
         imgOrderTemp = (ImageView) view.findViewById(R.id.imgThumbOrderTemp);
 
         if(txtMenuName != null){
-            txtMenuName.setText(orderTempModel.getMenuId());
-            Log.d("MENUID settext", orderTempModel.getMenuId());
-        }else{
-            Log.d("MENUID settext", "is null");
+            txtMenuName.setText(orderTempModel.getMenuName());
         }
         if(txtQuantity != null){
             txtQuantity.setText(orderTempModel.getQuantity());

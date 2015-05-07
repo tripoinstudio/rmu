@@ -22,7 +22,6 @@ import com.tripoin.rmu.R;
 import com.tripoin.rmu.feature.synchronizer.impl.SynchronizeMaster;
 import com.tripoin.rmu.model.api.ModelConstant;
 import com.tripoin.rmu.model.persist.CarriageModel;
-import com.tripoin.rmu.model.persist.OrderListModel;
 import com.tripoin.rmu.model.persist.OrderTempModel;
 import com.tripoin.rmu.model.persist.SeatModel;
 import com.tripoin.rmu.model.persist.TrainModel;
@@ -35,10 +34,12 @@ import com.tripoin.rmu.rest.impl.SeatListRest;
 import com.tripoin.rmu.util.BluetoothUtils;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
+import com.tripoin.rmu.view.enumeration.ViewConstant;
 import com.tripoin.rmu.view.fragment.api.ISynchronizeMaster;
 import com.tripoin.rmu.view.ui.CustomCardOrderTemp;
+import com.tripoin.rmu.view.ui.PaddingHelper;
 
-import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -80,10 +81,13 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster {
     private Typeface faces;
     private TextView lbl1;
     private TextView lbl2;
+    private TextView menuTotal;
+    private BigDecimal totalOrder = new BigDecimal(0);
     /*private TextView menuName;
     private TextView menuPrice;
     private TextView menuTotal;*/
     private BluetoothUtils bluetoothUtils = new BluetoothUtils(FragmentAddOrder.this);
+    private List<OrderTempModel> orderTempModelList = new ArrayList<OrderTempModel>();
 
     public FragmentAddOrder newInstance(String text){
         FragmentAddOrder mFragment = new FragmentAddOrder();
@@ -95,6 +99,14 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster {
         rootView = inflater.inflate(R.layout.fragment_add_order, container, false);
         rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT ));
         propertyUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(),rootView.getContext());
+        OrderTempDBManager.init(rootView.getContext());
+        orderTempModelList = OrderTempDBManager.getInstance().getAllData();
+        if(orderTempModelList != null){
+            for(OrderTempModel orderTempModel : orderTempModelList){
+                totalOrder = new BigDecimal(orderTempModel.getPrice()).add(totalOrder);
+            }
+        }
+
         txus=(TextView)rootView.findViewById(R.id.tx_username);
         faces=Typeface.createFromAsset(txus.getResources().getAssets(),"font/Roboto-Light.ttf");
         txus.setText("Username      : ".concat(propertyUtil.getValuePropertyMap(PropertyConstant.USER_NAME.toString())));
@@ -111,9 +123,10 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster {
         /*menuName = (TextView)rootView.findViewById(R.id.lbl_menu_name);
         menuName.setTypeface(Typeface.createFromAsset(menuName.getResources().getAssets(),"font/Roboto-Light.ttf"));
         menuPrice = (TextView)rootView.findViewById(R.id.lbl_menu_price);
-        menuPrice.setTypeface(Typeface.createFromAsset(menuPrice.getResources().getAssets(),"font/Roboto-Light.ttf"));
+        menuPrice.setTypeface(Typeface.createFromAsset(menuPrice.getResources().getAssets(),"font/Roboto-Light.ttf"));*/
         menuTotal = (TextView)rootView.findViewById(R.id.lbl_menu_total);
-        menuTotal.setTypeface(Typeface.createFromAsset(menuTotal.getResources().getAssets(),"font/Roboto-Light.ttf"));*/
+        menuTotal.setTypeface(Typeface.createFromAsset(menuTotal.getResources().getAssets(),"font/Roboto-Light.ttf"));
+        menuTotal.setText(String.valueOf(totalOrder).concat(ViewConstant.CURRENCY_PATTERN.toString()));
 
         OrderTempDBManager.init(rootView.getContext());
         insertDataTemporary();
@@ -135,24 +148,56 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster {
         bt_bayar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String data = "\n\n\nPT. Reska Multi Usaha\n"
-                        .concat("eRestorasi version 1.0\n")
-                        .concat("Jln. Kapt Subidjanto\n")
-                        .concat("Telp : 0212345678\n\n\n")
-                        .concat("--------------------------------\n")
-                        .concat("Order No : OR0001\n")
-                        .concat("--------------------------------\n")
-                        .concat("Nasi Goreng(2) |    Rp. 20.000,-\n")
-                        .concat("Aqua(1)        |    Rp.  6.000,-\n")
-                        .concat("--------------------------------\n")
-                        .concat("Total          :    Rp. 16.000,-\n\n")
-                        .concat("--------------------------------\n")
-                        .concat("Thank You For Order,-\n")
-                        .concat("Terima Kasih Atas Kunjungan Anda\n\n\n");
-                try {
-                    bluetoothUtils.printData(data);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if(!"0".equals(String.valueOf(totalOrder))){
+
+                    String headerPrint = "\n\n\nPT. Reska Multi Usaha\n"
+                            .concat("eRestorasi version 1.0\n")
+                            .concat("Jln. Kapt Subidjanto\n")
+                            .concat("Telp : 0212345678\n")
+                            .concat("\n\n--------------------------------\n");
+
+                    String orderNoPrintData = "Order No : ";
+                    orderNoPrintData = orderNoPrintData.concat("OR0001")
+                                                       .concat("\n--------------------------------\n");
+
+                    String menuPrintData = "";
+                    for(OrderTempModel orderTempModel : orderTempModelList){
+                        int countMenuName = orderTempModel.getMenuName().length();
+                        countMenuName = 12 - countMenuName;
+                        String menuNamePadding = orderTempModel.getMenuName();
+                        if(countMenuName > 11){
+                            menuNamePadding = menuNamePadding.substring(0, 11);
+                        }
+                        menuNamePadding = menuNamePadding.concat("(").concat(orderTempModel.getQuantity()).concat(")");
+                        menuNamePadding = new PaddingHelper().rightPaddingString(menuNamePadding, 15, " ");
+
+                        String pricePadding = new PaddingHelper().leftPaddingString(orderTempModel.getPrice(), 9, " ");
+
+                        menuPrintData = menuPrintData.concat(menuNamePadding)
+                                .concat("|  Rp.")
+                                .concat(pricePadding)
+                                .concat(ViewConstant.CURRENCY_PATTERN.toString()).concat("\n");
+                    }
+
+                    String totalOrderPadding = String.valueOf(totalOrder);
+                    totalOrderPadding = new PaddingHelper().leftPaddingString(totalOrderPadding, 9, " ");
+
+                    String totalPrintData = "--------------------------------\n"
+                            .concat("Total          :  Rp.")
+                            .concat(totalOrderPadding)
+                            .concat(ViewConstant.CURRENCY_PATTERN.toString());
+
+                    String footerPrint = "\n\n--------------------------------\n"
+                            .concat("Thank You For Order\n")
+                            .concat("Terima Kasih\n\n\n");
+
+                    String print = headerPrint.concat(orderNoPrintData).concat(menuPrintData).concat(totalPrintData).concat(footerPrint);
+                    Log.d("PRINT PAYMENT", print);
+                    /*try {
+                        bluetoothUtils.printData(print);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }*/
                 }
             }
         });

@@ -74,6 +74,7 @@ public enum ViewConstant {
     STOCK("stock "),
     TOTAL_ORDER("Total Order :"),
     TOTAL_PAID("Total Paid : "),
+    CURRENCY_PATTERN(",-"),
     ;
 
 

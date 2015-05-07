@@ -3,6 +3,8 @@ package com.tripoin.rmu.persistence.orm_persistence.service;
 import android.content.Context;
 import android.util.Log;
 
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.tripoin.rmu.model.persist.OrderListModel;
 import com.tripoin.rmu.model.persist.OrderTempModel;
 import com.tripoin.rmu.persistence.orm_persistence.DAO.DatabaseDAOHelper;
@@ -88,6 +90,23 @@ public class OrderTempDBManager<DATA> implements IBaseDatabaseHandler{
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public OrderTempModel getDataFromQuery(String columnName, String data) {
+        QueryBuilder<OrderTempModel, Integer> queryBuilder = null;
+        PreparedQuery<OrderTempModel> preparedQuery = null;
+        List<OrderTempModel> result = null;
+        try {
+            queryBuilder = getDatabaseDAOHelper().getOrderTempDAO().queryBuilder();
+            queryBuilder.where().eq(columnName,data);
+            preparedQuery = queryBuilder.prepare();
+            result = (List<OrderTempModel>) getDatabaseDAOHelper().getOrderTempDAO().query(preparedQuery);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if(result == null || result.size() == 0)
+            return null;
+        return result.get(0);
     }
 
 }

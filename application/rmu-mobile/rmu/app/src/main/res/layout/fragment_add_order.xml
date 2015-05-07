@@ -149,7 +149,7 @@
             android:textStyle="bold"
             android:id="@+id/lbl_menu_total"
             android:textColor="@color/red_dark_holo"
-            android:text="IDR 20.000"/>
+            android:text="IDR 0,-"/>
         <Button
             android:layout_width="80dip"
             android:layout_height="40dp"

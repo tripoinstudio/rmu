@@ -35,13 +35,16 @@ import com.tripoin.rmu.R;
 import com.tripoin.rmu.model.api.ModelConstant;
 import com.tripoin.rmu.model.persist.ImageModel;
 import com.tripoin.rmu.model.persist.MenuModel;
+import com.tripoin.rmu.model.persist.OrderTempModel;
 import com.tripoin.rmu.persistence.orm_persistence.service.ImageMenuDBManager;
 import com.tripoin.rmu.persistence.orm_persistence.service.MenuDBManager;
+import com.tripoin.rmu.persistence.orm_persistence.service.OrderTempDBManager;
 import com.tripoin.rmu.rest.enumeration.RestConstant;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
 import com.tripoin.rmu.view.ui.RoundedImageView;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -62,18 +65,23 @@ public class FragmentAddMenu extends Fragment {
     private RoundedImageView menuImage1;
     private RoundedImageView menuImage2;
     private Canvas canvasRoundedCorner;
+    private TextView lblquantity;
     private SliderLayout mDemoSlider;
     private boolean mSearchCheck;
     private PropertyUtil securityUtil;
-    private int numtest;
+    private int quantity;
+    private BigDecimal priceList;
+    private BigDecimal priceItem;
+    private String menuNameData;
     View rootView;
     private Button btnOrder;
-    private MenuModel menuModel;
+    private OrderTempModel orderTempModel;
+    private OrderTempModel orderTempModelCompare;
 
-    public FragmentAddMenu newInstance(String menuCode){
+    public FragmentAddMenu newInstance(OrderTempModel orderTempModel){
         FragmentAddMenu mFragment = new FragmentAddMenu();
         Bundle bundle = new Bundle();
-        bundle.putString(ModelConstant.MENU_CODE, menuCode);
+        bundle.putString(ModelConstant.MENU_CODE, orderTempModel.getMenuCode());
         mFragment.setArguments(bundle);
         return mFragment;
     }
@@ -84,6 +92,8 @@ public class FragmentAddMenu extends Fragment {
         securityUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(), rootView.getContext());
         ImageMenuDBManager.init(rootView.getContext());
         MenuDBManager.init(rootView.getContext());
+        OrderTempDBManager.init(rootView.getContext());
+        orderTempModelCompare = OrderTempDBManager.getInstance().getDataFromQuery(ModelConstant.MENU_CODE, getArguments().getString(ModelConstant.MENU_CODE));
         MenuModel menuModelDetail = MenuDBManager.getInstance().getDataFromQuery(ModelConstant.MENU_CODE, getArguments().getString(ModelConstant.MENU_CODE));
         initMenuDetail(menuModelDetail);
         rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -92,6 +102,8 @@ public class FragmentAddMenu extends Fragment {
 
     private void initMenuDetail(MenuModel menuModelDetail){
         List<ImageModel> imageModels = ImageMenuDBManager.getInstance().getDataFromQueryByIdParent(ModelConstant.MENU_ID, menuModelDetail.getId());
+        menuNameData = menuModelDetail.getMenuName();
+        priceItem = new BigDecimal(menuModelDetail.getMenuPrice());
         menuName = (TextView)rootView.findViewById(R.id.menuName);
         menuName.setTypeface(Typeface.createFromAsset(getResources().getAssets(),"font/Roboto-Light.ttf"));
         lblavail = (TextView)rootView.findViewById(R.id.lbl_available);
@@ -103,24 +115,29 @@ public class FragmentAddMenu extends Fragment {
         lblprice = (TextView)rootView.findViewById(R.id.lbl_price);
         lblprice.setTypeface(Typeface.createFromAsset(getResources().getAssets(),"font/Roboto-Light.ttf"));
         buttonplus = (Button) rootView.findViewById(R.id.bt_plus);
+        if(orderTempModelCompare != null){
+            lblquantity = (TextView) rootView.findViewById(R.id.lbl_quantity);
+            quantity = Integer.parseInt(orderTempModelCompare.getQuantity());
+            lblquantity.setText(orderTempModelCompare.getQuantity());
+        }
         buttonplus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                numtest+=1;
+                quantity +=1;
                 TextView t = (TextView) rootView.findViewById(R.id.lbl_quantity);
-                t.setText(numtest+"");
+                t.setText(quantity +"");
             }
         });
         buttonminus = (Button) rootView.findViewById(R.id.bt_minus);
         buttonminus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                numtest-=1;
+                quantity -=1;
                 TextView t = (TextView) rootView.findViewById(R.id.lbl_quantity);
-                if(numtest == -1) {
-                    numtest = 0;
+                if(quantity == -1) {
+                    quantity = 0;
                 } else {
-                    t.setText(numtest + "");
+                    t.setText(quantity + "");
                 }
             }
         });
@@ -128,9 +145,24 @@ public class FragmentAddMenu extends Fragment {
         btnOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentAddOrder fragmentAddOrder = new FragmentAddOrder().newInstance("");
-                FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
-                mFragmentManager.beginTransaction().replace(R.id.container, fragmentAddOrder).commit();
+                if(quantity != 0) {
+                    priceList = new BigDecimal(quantity).multiply(priceItem);
+                    orderTempModel = new OrderTempModel();
+                    orderTempModel.setQuantity(String.valueOf(quantity));
+                    orderTempModel.setPrice(String.valueOf(priceList));
+                    if(orderTempModelCompare == null){
+                        orderTempModel.setMenuCode(getArguments().getString(ModelConstant.MENU_CODE));
+                        orderTempModel.setMenuName(menuNameData);
+                        OrderTempDBManager.getInstance().insertEntity(orderTempModel);
+                    }else{
+                        orderTempModelCompare.setQuantity(String.valueOf(quantity));
+                        orderTempModelCompare.setPrice(String.valueOf(priceList));
+                        OrderTempDBManager.getInstance().updateEntity(orderTempModelCompare);
+                    }
+                    FragmentAddOrder fragmentAddOrder = new FragmentAddOrder().newInstance("");
+                    FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
+                    mFragmentManager.beginTransaction().replace(R.id.container, fragmentAddOrder).commit();
+                }
             }
         });
 
@@ -145,13 +177,12 @@ public class FragmentAddMenu extends Fragment {
         file_maps.put("Big Bang Theory", R.drawable.image_food1);
         file_maps.put("House of Cards", R.drawable.nasi_goreng_1);
         file_maps.put("Game of Thrones", R.drawable.image_food1);*/
-
-        menuName.setText(menuModelDetail.getMenuName());
+        menuName.setText(menuNameData);
         if("1".equals(menuModelDetail.getMenuType()))
             lblavail.setText("Makanan");
         else
             lblavail.setText("Minuman");
-        lblprice.setText(menuModelDetail.getMenuPrice());
+        lblprice.setText(String.valueOf(priceItem));
 
         mDemoSlider = (SliderLayout)rootView.findViewById(R.id.slider);
         for(ImageModel imageModel : imageModels){
