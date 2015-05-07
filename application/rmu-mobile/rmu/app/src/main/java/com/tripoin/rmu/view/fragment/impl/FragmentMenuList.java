@@ -89,6 +89,7 @@ public class FragmentMenuList extends Fragment implements ISynchronizeMenuList {
             price = menuModel.getMenuPrice();
             card = new GplayGridCard(getActivity(), menuModel.getMenuName(), subtitle, price);
             card.rating = (float)(Float.valueOf(menuModel.getMenuRating()));
+            card.stock = menuModel.getMenuStock();
             imageName = menuModel.getMenuImageURL();
             CardThumbnail.CustomSource customSource = new CustomCardSource(rootView.getContext(),imageName ).getCustomSource();
             card.init(customSource);
