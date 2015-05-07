@@ -1,5 +1,7 @@
 package com.tripoin.rmu.view.fragment.impl;
 
+
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -8,7 +10,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,6 +26,7 @@ import com.tripoin.rmu.R;
 import com.tripoin.rmu.feature.synchronizer.impl.SynchronizeMenu;
 import com.tripoin.rmu.model.api.ModelConstant;
 import com.tripoin.rmu.model.persist.MenuModel;
+import com.tripoin.rmu.model.persist.OrderTempModel;
 import com.tripoin.rmu.persistence.orm_persistence.service.MenuDBManager;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
@@ -95,10 +97,11 @@ public class FragmentMenuList extends Fragment implements ISynchronizeMenuList {
             card.setOnClickListener(new Card.OnCardClickListener() {
                 @Override
                 public void onClick(Card card, View view) {
-                    FragmentAddMenu fragmentAddMenu = new FragmentAddMenu().newInstance(menuModel.getMenuCode());
+                    OrderTempModel orderTempModel = new OrderTempModel();
+                    orderTempModel.setMenuCode(menuModel.getMenuCode());
+                    FragmentAddMenu fragmentAddMenu = new FragmentAddMenu().newInstance(orderTempModel);
                     FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
                     mFragmentManager.beginTransaction().replace(R.id.container, fragmentAddMenu).commit();
-
                 }
 
             });
@@ -131,17 +134,14 @@ public class FragmentMenuList extends Fragment implements ISynchronizeMenuList {
 
             CardThumbnail.CustomSource customSource = new CustomCardSource(rootView.getContext(),imageName ).getCustomSource();
             card.init(customSource);
-        //    final FragmentManager mFragmentManager = ((FragmentActivity) rootView.getContext()).getSupportFragmentManager();
             card.setOnClickListener(new Card.OnCardClickListener() {
                 @Override
                 public void onClick(Card card, View view) {
-
-//                    Toast.makeText(view.getContext(), "Click listener TesCode MENU = "+menuModel.getMenuCode() , Toast.LENGTH_SHORT).show();
-//                    Log.d("mnucde",menuModel.getMenuCode());
-                    FragmentAddMenu fragmentAddMenu = new FragmentAddMenu().newInstance(menuModel.getMenuCode());
+                    OrderTempModel orderTempModel = new OrderTempModel();
+                    orderTempModel.setMenuCode(menuModel.getMenuCode());
+                    FragmentAddMenu fragmentAddMenu = new FragmentAddMenu().newInstance(orderTempModel);
                     FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
                     mFragmentManager.beginTransaction().replace(R.id.container, fragmentAddMenu).commit();
-
                 }
 
             });
