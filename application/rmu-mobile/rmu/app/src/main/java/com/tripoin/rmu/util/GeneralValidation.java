@@ -21,6 +21,9 @@ import java.util.regex.Pattern;
  */
 public class GeneralValidation {
 
+    public GeneralValidation() {
+    }
+
     /**
      * Validate if birthdate is valid
      * @param birthDate String

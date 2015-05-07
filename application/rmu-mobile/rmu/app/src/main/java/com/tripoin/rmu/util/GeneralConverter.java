@@ -17,6 +17,10 @@ import java.util.Locale;
  */
 public class GeneralConverter {
 
+
+    public GeneralConverter() {
+    }
+
     private SimpleDateFormat simpleDateFormat;
 
     public String getMainUrl( String completeURl ){

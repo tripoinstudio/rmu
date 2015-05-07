@@ -100,7 +100,7 @@ public class NetworkConnectivity {
             builder.setMessage( activity.getString(R.string.string_noconnection) );
             builder.setCancelable(false);
             builder.setNeutralButton(R.string.string_ok, null);
-            builder.setTitle( activity.getString(R.string.string_error));
+            builder.setTitle( activity.getString(R.string.string_warning));
             builder.create().show();
         }
         return enabled;

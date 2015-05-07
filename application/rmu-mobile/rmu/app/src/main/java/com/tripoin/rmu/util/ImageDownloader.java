@@ -1,7 +1,5 @@
 package com.tripoin.rmu.util;
 
-import android.util.Log;
-
 import org.apache.http.util.ByteArrayBuffer;
 
 import java.io.BufferedInputStream;
