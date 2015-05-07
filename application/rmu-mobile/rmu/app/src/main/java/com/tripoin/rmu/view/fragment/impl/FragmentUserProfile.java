@@ -2,12 +2,15 @@ package com.tripoin.rmu.view.fragment.impl;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -78,6 +81,7 @@ public class FragmentUserProfile extends Fragment {
     private ImageView imgUserProfile, imgVIewDetailPhoto, imgNameUser, imgJabatanUser, imgEmailUser, imgSummmaryUses;
     private EditText editText;
     private PropertyUtil propertyUtil;
+    private Uri picUri;
 
     public FragmentUserProfile newInstance(String text) {
         FragmentUserProfile mFragment = new FragmentUserProfile();
@@ -148,7 +152,8 @@ public class FragmentUserProfile extends Fragment {
                     public void onClick(View v) {
                         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         File f = new File(PropertyConstant.PROPERTIES_PATH.toString(), "photo_profile_rmu.jpg");
-                        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+                        picUri = Uri.fromFile(f);
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, picUri);
                         // ******** code for crop image
                         intent.putExtra("crop", "true");
                         intent.putExtra("aspectX", 0);
