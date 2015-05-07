@@ -1,11 +1,15 @@
 package com.tripoin.rmu.view.activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tripoin.rmu.R;
@@ -68,6 +72,21 @@ public class ActivityLogin extends ABaseActivity implements ILoginPost {
         //detectLoginStatus();
     }
 
+    @OnClick(R.id.imgSettingLogin)
+    public void settingLogin(){
+        LayoutInflater layoutInflater = getLayoutInflater();
+        View dialogView = layoutInflater.inflate(R.layout.fragment_dialog_setting_login, null);
+
+        TextView lbIpSetting = (TextView) dialogView.findViewById(R.id.lblSettingIpServer);
+
+        TextView lbBluetoothSetting = (TextView) dialogView.findViewById(R.id.lblSettingBluetooth);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setView(dialogView);
+
+        AlertDialog alertD = alertDialogBuilder.create();
+        alertD.show();
+    }
 
     @OnClick(R.id.btSignIn)
     public void signIn(){
