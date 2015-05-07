@@ -4,21 +4,17 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.SearchView;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.tripoin.rmu.R;
 import com.tripoin.rmu.feature.synchronizer.impl.SynchronizeOrderList;
-import com.tripoin.rmu.model.DTO.user.UserDTO;
 import com.tripoin.rmu.model.api.ModelConstant;
 import com.tripoin.rmu.model.persist.OrderListModel;
 import com.tripoin.rmu.persistence.orm_persistence.service.OrderListDBManager;
@@ -32,6 +28,7 @@ import com.tripoin.rmu.view.ui.CustomCardOrderList;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.InjectView;
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 import it.gmariotti.cardslib.library.view.CardListView;
@@ -44,6 +41,8 @@ public class FragmentOrderList extends ABaseNavigationDrawerFragment implements 
 
     private boolean mSearchCheck;
     private PropertyUtil securityUtil;
+
+    @InjectView(R.id.listOrder) CardListView listView;
 
     public FragmentOrderList newInstance(){
         FragmentOrderList mFragment = new FragmentOrderList();
@@ -61,7 +60,6 @@ public class FragmentOrderList extends ABaseNavigationDrawerFragment implements 
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu, menu);
 
-        //Select search item
         final MenuItem menuItem = menu.findItem(R.id.menu_search);
         menuItem.setVisible(true);
 
@@ -94,6 +92,7 @@ public class FragmentOrderList extends ABaseNavigationDrawerFragment implements 
         }
         return true;
     }
+
 
     private SearchView.OnQueryTextListener onQuerySearchView = new SearchView.OnQueryTextListener() {
         @Override
@@ -129,7 +128,6 @@ public class FragmentOrderList extends ABaseNavigationDrawerFragment implements 
 
         CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(getActivity(), cards);
 
-        CardListView listView = (CardListView) getActivity().findViewById(R.id.listOrder);
         if (listView != null) {
             listView.setAdapter(mCardArrayAdapter);
         }

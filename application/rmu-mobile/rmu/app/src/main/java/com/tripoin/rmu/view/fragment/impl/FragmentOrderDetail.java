@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.tripoin.rmu.R;
@@ -34,10 +33,6 @@ import it.gmariotti.cardslib.library.view.CardListView;
  */
 public class FragmentOrderDetail extends ABaseNavigationDrawerFragment implements ISynchronizeOrderDetail{
 
-    private static String ORDER_LIST_ID = "ORDER_LIST_ID";
-    private PropertyUtil securityUtil;
-    private String orderListId;
-
     @InjectView(R.id.txtOrderId) TextView txtOrderListId;
     @InjectView(R.id.txtTrainCode) TextView txtTrainCode;
     @InjectView(R.id.txtCarriageCode)TextView txtCarriageCode;
@@ -45,6 +40,10 @@ public class FragmentOrderDetail extends ABaseNavigationDrawerFragment implement
     @InjectView(R.id.txtTotalPaid)TextView txtTotalPaid;
     @InjectView(R.id.listStatusOption) CardListView listView;
     @InjectView(R.id.listOrderDetailItem) CardListView listViewDetailOrderItem;
+
+    private static String ORDER_LIST_ID = "ORDER_LIST_ID";
+    private PropertyUtil securityUtil;
+    private String orderListId;
 
     public FragmentOrderDetail newInstance(String orderListId){
         FragmentOrderDetail mFragment = new FragmentOrderDetail();
@@ -69,18 +68,30 @@ public class FragmentOrderDetail extends ABaseNavigationDrawerFragment implement
     }
 
     @Override
+    public String getFragmentTitle() {
+        return ViewConstant.FRAGMENT_ORDER_DETAIL_TITLE.toString();
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(false);
     }
 
+    @Override
+    public void initWidget() {
+        securityUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(), getActivity());
+        new OrderDetailAsync().execute();
+        orderListId = getArguments().getString(ORDER_LIST_ID);
+        txtOrderListId.setText(orderListId);
+    }
 
     @Override
     public void onPostSyncOrderDetail(List<OrderDetailModel> detailModels) {
         int[] headerId = getProcessStatus(Integer.parseInt(detailModels.get(0).getOrderHeaderStatus()));
         List<OrderDetailModel> orderDetailModels = new ArrayList<OrderDetailModel>();
         for (int i = 0; i < headerId.length; i++) {
-            if (headerId[i] != 0) {
+            if (headerId[i] != 0 && headerId[i] != 1) {
                 OrderDetailModel detailModel = new OrderDetailModel();
                 detailModel.setOrderHeaderNo(detailModels.get(0).getOrderHeaderNo());
                 detailModel.setOrderHeaderStatus(String.valueOf(headerId[i]));
@@ -91,18 +102,6 @@ public class FragmentOrderDetail extends ABaseNavigationDrawerFragment implement
         initDetailCards(detailModels);
     }
 
-    @Override
-    public String getFragmentTitle() {
-        return ViewConstant.FRAGMENT_ORDER_DETAIL_TITLE.toString();
-    }
-
-    @Override
-    public void initWidget() {
-        securityUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(), getActivity());
-        new OrderDetailAsync().execute();
-        orderListId = getArguments().getString(ORDER_LIST_ID);
-        txtOrderListId.setText(orderListId);
-    }
 
     private class OrderDetailAsync extends AsyncTask{
 
@@ -163,7 +162,7 @@ public class FragmentOrderDetail extends ABaseNavigationDrawerFragment implement
             totalPaid += Integer.parseInt(orderDetailModels.get(i).getOrderDetailTotalAmount());
             cards.add(card);
         }
-        txtTotalPaid.setText(ViewConstant.TOTAL_PAID.toString().concat(String.valueOf(totalPaid)));
+        txtTotalPaid.setText(ViewConstant.TOTAL_PAID.toString().concat(ViewConstant.IDR.toString()).concat(ViewConstant.SPACE.toString()).concat(String.valueOf(totalPaid)));
 
         CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(getActivity(), cards);
 
@@ -174,8 +173,8 @@ public class FragmentOrderDetail extends ABaseNavigationDrawerFragment implement
 
 
     public int[] getProcessStatus(int currentStatus){
-      int [] result = new int[5];
-      for(int a=2; a<5; a++){
+      int [] result = new int[6];
+      for(int a=1; a<6; a++){
           if(a!=currentStatus){
               result[a] = a;
           }else{

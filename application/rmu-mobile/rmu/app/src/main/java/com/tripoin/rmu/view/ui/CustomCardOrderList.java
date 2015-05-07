@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
 import com.tripoin.rmu.R;
 import com.tripoin.rmu.model.persist.OrderListModel;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
@@ -41,12 +42,10 @@ public class CustomCardOrderList extends Card {
         super(context, innerLayout);
         this.activity = context;
         this.orderListModel = orderListModel;
-        Log.d("ORDERHEADERSTATUS", String.valueOf(orderListModel.getProcessStatus()));
         init();
     }
 
     private void init(){
-
         setOnClickListener(new OnCardClickListener() {
             @Override
             public void onClick(Card card, View view) {
@@ -92,7 +91,7 @@ public class CustomCardOrderList extends Card {
             txtOrderTime.setText(orderListModel.getOrderTime());
         }
         if(imgOrderType != null){
-            imgOrderType.setImageResource(getImageOrderType(orderListModel.getProcessStatus()));
+            Picasso.with(getContext()).load(getImageOrderType(orderListModel.getProcessStatus())).into(imgOrderType);
         }
     }
 
@@ -105,6 +104,10 @@ public class CustomCardOrderList extends Card {
         }else if(processStatus == 3){
             result = R.drawable.ic_list_delivery;
         }else if(processStatus == 4){
+            result = R.drawable.ic_list_cancel;
+        }else if(processStatus == 5) {
+            result = R.drawable.ic_list_cancel;
+        }else if(processStatus == 6) {
             result = R.drawable.ic_list_cancel;
         }
         return result;

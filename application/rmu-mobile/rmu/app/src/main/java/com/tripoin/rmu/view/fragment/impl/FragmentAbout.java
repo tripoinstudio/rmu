@@ -50,7 +50,7 @@ public class FragmentAbout extends ABaseNavigationDrawerFragment {
     }
 
     @Override
-    public List<TextView> getContentTextViews() {
+    public List<TextView> getTextViews() {
         textViews = new ArrayList<TextView>();
         textViews.add(lblAbout1);
         textViews.add(lblAbout2);

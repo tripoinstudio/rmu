@@ -56,8 +56,9 @@
     <string name="string_ok">OK</string>
     <string name="string_favicon">favicon</string>
     <string name="string_clear">Clear</string>
-    <string name="string_noconnection">Internet connection not available</string>
+    <string name="string_noconnection">Connection not available</string>
     <string name="string_error">Error</string>
+    <string name="string_warning">Warning</string>
     <string name="string_empty"></string>
     <string name="string_space">" "</string>
     <string name="string_information">Information</string>

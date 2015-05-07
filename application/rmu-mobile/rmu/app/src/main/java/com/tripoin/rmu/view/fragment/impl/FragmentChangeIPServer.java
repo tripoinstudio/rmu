@@ -51,11 +51,11 @@ public class FragmentChangeIPServer extends ABaseNavigationDrawerFragment implem
     }
 
     @Override
-    public List<TextView> getContentTextViews() {
+    public List<TextView> getTextViews() {
         textViews.add(lblHeaderIp);
         textViews.add(lblHeaderPort);
         textViews.add(labelTest);
-        return super.getContentTextViews();
+        return super.getTextViews();
     }
 
     @OnClick(R.id.label_ip)
