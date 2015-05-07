@@ -1,26 +1,43 @@
 package com.tripoin.rmu.view.fragment.impl;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tripoin.rmu.R;
 import com.tripoin.rmu.feature.synchronizer.impl.SynchronizeOrderList;
 import com.tripoin.rmu.model.api.ModelConstant;
+import com.tripoin.rmu.model.persist.CarriageModel;
 import com.tripoin.rmu.model.persist.OrderListModel;
+import com.tripoin.rmu.model.persist.SeatModel;
+import com.tripoin.rmu.model.persist.TrainModel;
+import com.tripoin.rmu.persistence.orm_persistence.service.CarriageDBManager;
 import com.tripoin.rmu.persistence.orm_persistence.service.OrderListDBManager;
+import com.tripoin.rmu.persistence.orm_persistence.service.SeatDBManager;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
+import com.tripoin.rmu.view.fragment.api.ISynchronizeMaster;
 import com.tripoin.rmu.view.fragment.api.ISynchronizeOrderList;
 import com.tripoin.rmu.view.fragment.base.ABaseNavigationDrawerFragment;
 import com.tripoin.rmu.view.ui.CustomCardOrderList;
@@ -42,6 +59,14 @@ public class FragmentOrderList extends ABaseNavigationDrawerFragment implements 
     private boolean mSearchCheck;
     private PropertyUtil securityUtil;
 
+    private String array_spinner_crrg[];
+    private String array_spinner_seat[];
+
+    CarriageDialogAdapter carriageDialogAdapter;
+    SeatDialogAdapter seatDialogAdapter;
+    EditText srcOrderId;
+    Spinner srcStatus, srcSeat, srcCrrg;
+
     @InjectView(R.id.listOrder) CardListView listView;
 
     public FragmentOrderList newInstance(){
@@ -60,7 +85,7 @@ public class FragmentOrderList extends ABaseNavigationDrawerFragment implements 
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu, menu);
 
-        final MenuItem menuItem = menu.findItem(R.id.menu_search);
+        final MenuItem menuItem =menu.findItem(R.id.menu_search);
         menuItem.setVisible(true);
 
         SearchView searchView = (SearchView) menuItem.getActionView();
@@ -84,9 +109,48 @@ public class FragmentOrderList extends ABaseNavigationDrawerFragment implements 
                 mFragmentManager.beginTransaction().replace(R.id.container, fragmentAddOrder).commit();
                 break;
 
-
             case R.id.menu_search:
                 mSearchCheck = true;
+
+                LayoutInflater layoutInflater = LayoutInflater.from(rootView.getContext());
+                View dialogView = layoutInflater.inflate(R.layout.fragment_dialog_orderlist, null);
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(rootView.getContext());
+                alertDialogBuilder.setView(dialogView);
+                alertDialogBuilder.create();
+
+
+                List<CarriageModel> carriageModels = CarriageDBManager.getInstance().getAllData();
+                initSpinnerCarriage(carriageModels);
+
+                List<SeatModel> seatModels = SeatDBManager.getInstance().getAllData();
+                initSpinnerSeat(seatModels);
+
+                srcOrderId = (EditText) dialogView.findViewById(R.id.src_orderId);
+                srcStatus = (Spinner) dialogView.findViewById(R.id.src_status);
+                srcSeat = (Spinner) dialogView.findViewById(R.id.src_seat);
+                srcCrrg = (Spinner) dialogView.findViewById(R.id.src_crrg);
+
+                carriageDialogAdapter = new CarriageDialogAdapter(getActivity());
+                srcCrrg.setAdapter(carriageDialogAdapter);
+
+                seatDialogAdapter = new SeatDialogAdapter(getActivity());
+                srcSeat.setAdapter(seatDialogAdapter);
+
+                alertDialogBuilder.setCancelable(false).setPositiveButton("Search", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //OnClick Searching
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                AlertDialog alertD = alertDialogBuilder.create();
+                alertD.show();
+
                 Toast.makeText(getActivity(), R.string.search, Toast.LENGTH_SHORT).show();
                 break;
         }
@@ -149,6 +213,121 @@ public class FragmentOrderList extends ABaseNavigationDrawerFragment implements 
         return R.layout.fragment_order_list;
     }
 
+    public void initSpinnerCarriage(List<CarriageModel> carriageModel){
+        int array =  carriageModel.size();
+        array_spinner_crrg = new String[array];
+
+        for(int i = 0; i<array;i++){
+            array_spinner_crrg[i] = carriageModel.get(i).getCarriageNo();
+            Log.d("carriageDB", carriageModel.toString());
+        }
+
+    }
+
+    public void initSpinnerSeat(List<SeatModel> seatModel){
+        int array =  seatModel.size();
+        array_spinner_seat = new String[array];
+
+        for(int i = 0; i<array;i++){
+            array_spinner_seat[i] = seatModel.get(i).getSeatNo();
+        }
+
+    }
+
+
+    private class CarriageDialogAdapter extends BaseAdapter {
+
+        LayoutInflater layoutInflaters;
+
+        public CarriageDialogAdapter(Context context) {
+            layoutInflaters = LayoutInflater.from(context);
+        }
+
+        @Override
+        public int getCount() {
+            return array_spinner_crrg.length;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return position;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            final ListContentCrrg holder;
+            View v = convertView;
+            if(v == null){
+                v = layoutInflaters.inflate(R.layout.fragmentaddorder_style, null);
+                holder = new ListContentCrrg();
+                holder.crrg = (TextView) v.findViewById(R.id.textView1);
+                v.setTag(holder);
+
+            } else {
+                holder = (ListContentCrrg) v.getTag();
+            }
+            holder.crrg.setTextSize(15);
+            holder.crrg.setText(""+array_spinner_crrg[position]);
+            return v;
+        }
+    }
+
+    static class ListContentCrrg {
+        TextView crrg;
+    }
+
+    private class SeatDialogAdapter extends BaseAdapter {
+
+        LayoutInflater layoutInflaters;
+
+        public SeatDialogAdapter(Context context) {
+            layoutInflaters = LayoutInflater.from(context);
+        }
+
+        @Override
+        public int getCount() {
+            return array_spinner_seat.length;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return position;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            final ListContentSeat holder;
+            View v = convertView;
+            if(v == null){
+                v = layoutInflaters.inflate(R.layout.fragmentaddorder_styleseat, null);
+                holder = new ListContentSeat();
+                holder.seat = (TextView) v.findViewById(R.id.textView2);
+                v.setTag(holder);
+
+            } else {
+                holder = (ListContentSeat) v.getTag();
+            }
+            holder.seat.setTextSize(15);
+            holder.seat.setText(""+array_spinner_seat[position]);
+            return v;
+        }
+    }
+
+    static class ListContentSeat {
+        TextView seat;
+    }
+
+
     private class OrderListAsync extends AsyncTask{
 
         private ProgressDialog progressDialog;
@@ -162,6 +341,9 @@ public class FragmentOrderList extends ABaseNavigationDrawerFragment implements 
             progressDialog.setMessage("Loading order list");
             progressDialog.setCancelable(false);
             progressDialog.show();
+            CarriageDBManager.init(getActivity());
+            SeatDBManager.init(getActivity());
+
             synchronizeOrderList = new SynchronizeOrderList(securityUtil, getActivity(), ModelConstant.REST_ORDER_HEADER_TABLE.toString(), FragmentOrderList.this);
         }
 
