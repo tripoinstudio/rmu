@@ -101,6 +101,7 @@ public class FragmentMenuList extends Fragment implements ISynchronizeMenuList {
         if (listView != null) {
             listView.setAdapter(mCardArrayAdapter);
         }
+
     }
 
     private void initCards(List<MenuModel> menuModels) {

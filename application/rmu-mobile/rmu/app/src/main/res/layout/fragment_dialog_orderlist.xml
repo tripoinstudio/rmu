@@ -113,7 +113,8 @@
             android:id="@+id/src_seat"
             android:background="@drawable/bg_bottom_lov"
             android:scrollbarStyle="insideInset"
-            android:popupBackground="#FBFBFB"/>
+            android:popupBackground="#FBFBFB"
+            style="@style/spinner_orderlist"/>
 
     </LinearLayout>
 
@@ -143,7 +144,8 @@
             android:id="@+id/src_crrg"
             android:background="@drawable/bg_bottom_lov"
             android:scrollbarStyle="insideInset"
-            android:popupBackground="#FBFBFB"/>
+            android:popupBackground="#FBFBFB"
+            style="@style/spinner_orderlist"/>
 
     </LinearLayout>
 
