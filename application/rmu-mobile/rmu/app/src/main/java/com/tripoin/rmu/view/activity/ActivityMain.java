@@ -61,7 +61,8 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
         this.mUserName.setTextColor(getResources().getColor(R.color.black_light));
         this.mUserEmail.setTextColor(getResources().getColor(R.color.black_light));
         final Bitmap bmp = new BitmapDecoder().decodeSampledBitmapFromPath(PropertyConstant.PROPERTIES_PATH.toString()+"photo_profile_rmu.jpg", 360, 270);
-        this.mUserPhoto.setImageBitmap(bmp);
+        if(bmp!=null) this.mUserPhoto.setImageBitmap(bmp);
+        else this.mUserPhoto.setImageResource(R.drawable.default_photo_profile);
         this.mUserBackground.setImageResource(R.drawable.wavy_green_background4);
 
     }
