@@ -2,25 +2,21 @@ package com.tripoin.rmu.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.Menu;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.tripoin.rmu.R;
 import com.tripoin.rmu.model.base.impl.BaseRESTDTO;
 import com.tripoin.rmu.rest.api.ILogoutPost;
-import com.tripoin.rmu.util.BitmapDecoder;
-import com.tripoin.rmu.util.BluetoothUtils;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
-import com.tripoin.rmu.view.activity.api.ILogoutHandler;
+import com.tripoin.rmu.view.activity.api.ISignHandler;
 import com.tripoin.rmu.view.activity.api.IMainUtilActivity;
-import com.tripoin.rmu.view.activity.impl.LogoutHandlerImpl;
+import com.tripoin.rmu.view.activity.impl.SignHandlerImpl;
 import com.tripoin.rmu.view.activity.impl.MainUtilImplActivity;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
 import com.tripoin.rmu.view.fragment.impl.FragmentAbout;
@@ -37,7 +33,6 @@ import java.util.List;
 
 import br.liveo.interfaces.NavigationLiveoListener;
 import br.liveo.navigationliveo.NavigationLiveo;
-import it.gmariotti.cardslib.library.utils.BitmapUtils;
 
 /**
  * Created by Achmad Fauzi on 11/20/2014.
@@ -51,7 +46,7 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
 
     private PropertyUtil securityUtil;
     private IMainUtilActivity iMainActivityUtil;
-    private ILogoutHandler iLogoutHandler;
+    private ISignHandler iSignHandler;
 
 
     @Override
@@ -60,9 +55,7 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
         this.mUserEmail.setText("bangkit@gmail.com");
         this.mUserName.setTextColor(getResources().getColor(R.color.black_light));
         this.mUserEmail.setTextColor(getResources().getColor(R.color.black_light));
-        final Bitmap bmp = new BitmapDecoder().decodeSampledBitmapFromPath(PropertyConstant.PROPERTIES_PATH.toString()+"photo_profile_rmu.jpg", 360, 270);
-        if(bmp!=null) this.mUserPhoto.setImageBitmap(bmp);
-        else this.mUserPhoto.setImageResource(R.drawable.default_photo_profile);
+        this.mUserPhoto.setImageResource(R.drawable.bangkit);
         this.mUserBackground.setImageResource(R.drawable.wavy_green_background4);
 
     }
@@ -79,7 +72,7 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
         this.setNavigationListener(this);
         securityUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(), this);
         iMainActivityUtil = new MainUtilImplActivity(this);
-        iLogoutHandler = new LogoutHandlerImpl(securityUtil, this);
+        iSignHandler = new SignHandlerImpl(securityUtil, this);
 
         //iMainActivityUtil.detectLoginStatus(iLogoutHandler);
 
@@ -206,7 +199,7 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
         if(objectResult != null){
             BaseRESTDTO baseRESTDTO = (BaseRESTDTO) objectResult;
             if(baseRESTDTO.getErr_code().equals(ViewConstant.ZERO.toString())){
-                Log.d("Success", "logout");
+                Log.d("Success", "signOut");
                 securityUtil.saveSingleProperty(PropertyConstant.LOGIN_STATUS_KEY.toString(), PropertyConstant.LOGOUT_STATUS_VALUE.toString());
                 exitApplication(this);
             }
