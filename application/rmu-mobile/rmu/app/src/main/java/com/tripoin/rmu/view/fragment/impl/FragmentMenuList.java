@@ -1,7 +1,5 @@
 package com.tripoin.rmu.view.fragment.impl;
 
-
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -10,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -81,7 +80,7 @@ public class FragmentMenuList extends Fragment implements ISynchronizeMenuList {
     private void initSearchCards(String s) {
         List<MenuModel> menuModels = MenuDBManager.getInstance().getAllDataFromQuery(s);
         ArrayList<Card> cards = new ArrayList<Card>();
-        for (MenuModel menuModel : menuModels) {
+        for (final MenuModel menuModel : menuModels) {
             if(menuModel.getMenuType().equalsIgnoreCase("1"))
                 subtitle = "Makanan";
             else
@@ -93,12 +92,22 @@ public class FragmentMenuList extends Fragment implements ISynchronizeMenuList {
             imageName = menuModel.getMenuImageURL();
             CardThumbnail.CustomSource customSource = new CustomCardSource(rootView.getContext(),imageName ).getCustomSource();
             card.init(customSource);
+            card.setOnClickListener(new Card.OnCardClickListener() {
+                @Override
+                public void onClick(Card card, View view) {
+                    FragmentAddMenu fragmentAddMenu = new FragmentAddMenu().newInstance(menuModel.getMenuCode());
+                    FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
+                    mFragmentManager.beginTransaction().replace(R.id.container, fragmentAddMenu).commit();
+
+                }
+
+            });
             cards.add(card);
         }
 
-        CardGridArrayAdapter mCardArrayAdapter = new CardGridArrayAdapter(getActivity(), cards);
+        CardGridArrayAdapter mCardArrayAdapter = new CardGridArrayAdapter(rootView.getContext(), cards);
 
-        CardGridView listView = (CardGridView) getActivity().findViewById(R.id.carddemo_grid_base1);
+        CardGridView listView = (CardGridView) rootView.findViewById(R.id.carddemo_grid_base1);
         if (listView != null) {
             listView.setAdapter(mCardArrayAdapter);
         }
