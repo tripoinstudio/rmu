@@ -35,13 +35,13 @@ public abstract class ABaseNavigationDrawerFragment extends Fragment implements 
     protected List<TextView> textViews;
     protected List<Button> buttons;
     protected List<EditText> editTexts;
+    protected View rootView = null;
 
     protected ABaseNavigationDrawerFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = null;
         try{
             rootView = inflater.inflate( getViewLayoutId(), container, false );
         }catch ( Exception e ){
