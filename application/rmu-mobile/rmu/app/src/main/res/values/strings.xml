@@ -135,8 +135,11 @@
     <string name="label_dialog_srcCrrg">Carriage</string>
     <string-array name="list_value_status">
         <item>All</item>
+        <item>New</item>
+        <item>Process</item>
+        <item>Prepared</item>
         <item>Delivered</item>
         <item>Cancel</item>
-        <item>Process</item>
+        <item>Pending</item>
     </string-array>
 </resources>

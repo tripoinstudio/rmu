@@ -3,6 +3,9 @@ package com.tripoin.rmu.persistence.orm_persistence.service;
 import android.content.Context;
 import android.util.Log;
 
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.QueryBuilder;
+import com.tripoin.rmu.model.persist.MenuModel;
 import com.tripoin.rmu.model.persist.OrderListModel;
 import com.tripoin.rmu.persistence.orm_persistence.DAO.DatabaseDAOHelper;
 import com.tripoin.rmu.persistence.orm_persistence.api.IBaseDatabaseHandler;
@@ -87,6 +90,38 @@ public class OrderListDBManager<DATA> implements IBaseDatabaseHandler{
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public List<DATA> getAllDataFromQuery(String seatNumber, String carriageNumber, String processStatus, String orderNumber) {
+        QueryBuilder<OrderListModel, Integer> queryBuilder = null;
+        PreparedQuery<OrderListModel> preparedQuery = null;
+        List<DATA> result = null;
+        try {
+            queryBuilder = getDatabaseDAOHelper().getOrderListDAO().queryBuilder();
+            if(seatNumber != null&&!seatNumber.trim().equalsIgnoreCase("All")) {
+                queryBuilder.where().eq("order_list_seat_number", seatNumber.toString());
+                if((carriageNumber != null && !carriageNumber.trim().equalsIgnoreCase("All")) || (processStatus!=null && !processStatus.trim().equalsIgnoreCase("0")) || (orderNumber!=null&&!orderNumber.trim().equalsIgnoreCase("")))
+                    queryBuilder.where().and();
+            }
+            if(carriageNumber != null && !carriageNumber.trim().equalsIgnoreCase("All")) {
+                queryBuilder.where().eq("order_list_carriage_number", carriageNumber.toString());
+                if((processStatus!=null && !processStatus.trim().equalsIgnoreCase("0")) || (orderNumber!=null&&!orderNumber.trim().equalsIgnoreCase("")))
+                    queryBuilder.where().and();
+            }
+            if(processStatus!=null && !processStatus.trim().equalsIgnoreCase("0")){
+                queryBuilder.where().eq("order_list_process_status", processStatus.toString());
+                if(orderNumber!=null&&!orderNumber.trim().equalsIgnoreCase(""))
+                    queryBuilder.where().and();
+            }
+            if(orderNumber!=null&&!orderNumber.trim().equalsIgnoreCase("")){
+                queryBuilder.where().like("order_list_order_id","%"+orderNumber.toString()+"%");
+            }
+            preparedQuery = queryBuilder.prepare();
+            result = (List<DATA>) getDatabaseDAOHelper().getOrderListDAO().query(preparedQuery);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
 }
