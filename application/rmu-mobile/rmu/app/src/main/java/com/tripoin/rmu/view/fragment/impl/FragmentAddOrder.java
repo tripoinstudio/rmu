@@ -198,6 +198,10 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }*/
+                    OrderTempDBManager.getInstance().executeRaw("DELETE FROM ".concat(ModelConstant.ORDER_TEMP_TABLE));
+                    FragmentOrderList fragmentOrderList = new FragmentOrderList();
+                    FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
+                    mFragmentManager.beginTransaction().replace(R.id.container, fragmentOrderList).commit();
                 }
             }
         });
