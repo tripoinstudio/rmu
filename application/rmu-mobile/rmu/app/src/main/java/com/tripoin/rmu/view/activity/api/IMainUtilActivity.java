@@ -8,6 +8,6 @@ public interface IMainUtilActivity extends INavigationActivity {
 
     public void exitApplication();
 
-    public void detectLoginStatus(ILogoutHandler iLogoutHandler);
+    public void detectLoginStatus(ISignHandler iSignHandler);
 
 }

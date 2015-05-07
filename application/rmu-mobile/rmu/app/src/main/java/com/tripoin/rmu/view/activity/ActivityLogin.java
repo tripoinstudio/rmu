@@ -1,13 +1,10 @@
 package com.tripoin.rmu.view.activity;
 
-
 import android.content.Context;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -19,42 +16,50 @@ import com.tripoin.rmu.model.persist.VersionModel;
 import com.tripoin.rmu.persistence.orm_persistence.service.VersionDBManager;
 import com.tripoin.rmu.rest.api.ILoginPost;
 import com.tripoin.rmu.rest.impl.LoginRest;
-import com.tripoin.rmu.security.base.ASecureActivity;
+import com.tripoin.rmu.util.GeneralConverter;
+import com.tripoin.rmu.util.GeneralValidation;
+import com.tripoin.rmu.util.NetworkConnectivity;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
+import com.tripoin.rmu.util.impl.PropertyUtil;
+import com.tripoin.rmu.view.activity.base.ABaseActivity;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
 
-import roboguice.inject.ContentView;
-import roboguice.inject.InjectView;
+import butterknife.InjectView;
+import butterknife.OnCheckedChanged;
+import butterknife.OnClick;
 
 /**
  * Created by Achmad Fauzi on 9/21/2014.
  * fauzi.knightmaster.achmad@gmail.com
  */
 
-@ContentView(R.layout.activity_login)
-public class ActivityLogin extends ASecureActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, ILoginPost {
+public class ActivityLogin extends ABaseActivity implements ILoginPost {
 
-    @InjectView(R.id.txt_username) private EditText txtUserName;
-    @InjectView(R.id.txt_password) private EditText txtPassword;
-    @InjectView(R.id.btSignIn) private Button btSignIn;
-    @InjectView(R.id.chkShowPassword) private CheckBox chkShowPassword;
+    @InjectView(R.id.txt_username) EditText txtUserName;
+    @InjectView(R.id.txt_password) EditText txtPassword;
+    @InjectView(R.id.btSignIn) Button btSignIn;
+    @InjectView(R.id.chkShowPassword) CheckBox chkShowPassword;
+
+    private GeneralValidation generalValidation;
+    private GeneralConverter generalConverter;
+    private NetworkConnectivity networkConnectivity;
 
     private String chipperAuth;
     private String userName;
-
-    @Override
-    protected int getOptionMenuLayoutId() {
-        return R.menu.empty_menu;
-    }
-
-    @Override
-    protected String initActionBarTitle() {
-        getSupportActionBar().hide();
-        return stringEmpty;
-    }
+    private PropertyUtil securityUtil;
 
     @Override
     public void initWidget() {
+        securityUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(), getApplicationContext());
+        generalValidation = new GeneralValidation();
+        generalConverter = new GeneralConverter();
+        networkConnectivity = new NetworkConnectivity(this, null);
+        VersionDBManager.init(this);
+    }
+
+    @Override
+    public int getViewLayoutId() {
+        return R.layout.activity_login;
     }
 
     @Override
@@ -63,39 +68,32 @@ public class ActivityLogin extends ASecureActivity implements View.OnClickListen
         //detectLoginStatus();
     }
 
-    @Override
-    public void setupValues() {
-        btSignIn.setOnClickListener(this);
-        chkShowPassword.setOnCheckedChangeListener(this);
-    }
 
-    @Override
-    public void onClick(View v) {
-        if(v.getId() == R.id.btSignIn ){
-            if(!generalValidation.isEmptyEditText(txtUserName)){
-                userName = txtUserName.getText().toString();
-                if(!generalValidation.isEmptyEditText(txtPassword)){
-                    chipperAuth = generalConverter.encodeToBase64(txtUserName.getText().toString().concat(ViewConstant.COLON.toString()).concat(txtPassword.getText().toString()));
-                    if(networkConnectivity.checkConnectivity()){
-                        LoginRest loginRest = new LoginRest(this) {
-                            @Override
-                            public Context getContext() {
-                                return ActivityLogin.this;
-                            }
-                        };
-                        loginRest.execute(chipperAuth);
-                    }
-                }else{
-                    Toast.makeText(this, "Password can not be empty", Toast.LENGTH_SHORT).show();
+    @OnClick(R.id.btSignIn)
+    public void signIn(){
+        if(!generalValidation.isEmptyEditText(txtUserName)){
+            userName = txtUserName.getText().toString();
+            if(!generalValidation.isEmptyEditText(txtPassword)){
+                chipperAuth = generalConverter.encodeToBase64(txtUserName.getText().toString().concat(ViewConstant.COLON.toString()).concat(txtPassword.getText().toString()));
+                if(networkConnectivity.checkConnectivity()){
+                    LoginRest loginRest = new LoginRest(this) {
+                        @Override
+                        public Context getContext() {
+                            return ActivityLogin.this;
+                        }
+                    };
+                    loginRest.execute(chipperAuth);
                 }
             }else{
-                Toast.makeText(this, "User name can not be empty", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Password can not be empty", Toast.LENGTH_SHORT).show();
             }
+        }else{
+            Toast.makeText(this, "User name can not be empty", Toast.LENGTH_SHORT).show();
         }
     }
 
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+    @OnCheckedChanged(R.id.chkShowPassword) void onChecked(boolean isChecked){
         if (!isChecked) {
             txtPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
         } else {
@@ -120,7 +118,6 @@ public class ActivityLogin extends ASecureActivity implements View.OnClickListen
                     securityUtil.saveSingleProperty(PropertyConstant.LOGIN_STATUS_KEY.toString(), PropertyConstant.LOGIN_STATUS_VALUE.toString());
                     securityUtil.saveSingleProperty(PropertyConstant.CHIPPER_AUTH.toString(), chipperAuth);
 
-                    VersionDBManager.init(this);
                     VersionModel versionModel = null;
                     try{
                         versionModel = VersionDBManager.getInstance().selectCustomVersionModel(ModelConstant.VERSION_NAMETABLE, "master_seat");
@@ -137,10 +134,11 @@ public class ActivityLogin extends ASecureActivity implements View.OnClickListen
                     Toast.makeText(this, "An error occurred ".concat(userDTO.getErr_msg()),Toast.LENGTH_SHORT).show();
                 }
             }else{
-                Toast.makeText(this, "An error occurred, please your check connection", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Connection timed out, please your check connection", Toast.LENGTH_SHORT).show();
             }
         }catch (Exception e){
             e.printStackTrace();
         }
     }
+
 }

@@ -1,11 +1,13 @@
 package com.tripoin.rmu.view.activity.impl;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.view.activity.ActivityLogin;
 import com.tripoin.rmu.view.activity.ActivityMain;
-import com.tripoin.rmu.view.activity.api.ILogoutHandler;
+import com.tripoin.rmu.view.activity.api.ISignHandler;
 import com.tripoin.rmu.view.activity.api.IMainUtilActivity;
 
 import java.io.Serializable;
@@ -36,6 +38,21 @@ public class MainUtilImplActivity implements IMainUtilActivity {
         activityMain.startActivity(intent);
     }
 
+    @Override
+    public void gotoNextActivity(Class<?> clazz, String extraKey, Parcelable extraContent) {
+
+    }
+
+    @Override
+    public void goToMainView(String extraKey, String extraContent) {
+
+    }
+
+    @Override
+    public void exitApplication(Context context) {
+
+    }
+
     public void exitApplication() {
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_HOME);
@@ -44,8 +61,8 @@ public class MainUtilImplActivity implements IMainUtilActivity {
     }
 
     @Override
-    public void detectLoginStatus(ILogoutHandler iLogoutHandler) {
-        if( iLogoutHandler.checkLoginStatus() ){
+    public void detectLoginStatus(ISignHandler iSignHandler) {
+        if( iSignHandler.checkLoginStatus() ){
             gotoNextActivity(ActivityMain.class, PropertyConstant.USER_NAME.toString(), "");
         }else{
             gotoNextActivity(ActivityLogin.class, PropertyConstant.USER_NAME.toString(), "");

@@ -3,7 +3,7 @@ package com.tripoin.rmu.util.impl;
 import android.content.Context;
 
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
-import com.tripoin.rmu.util.top.APropertyUtil;
+import com.tripoin.rmu.util.base.APropertyUtil;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -35,22 +35,7 @@ public class PropertyUtil extends APropertyUtil {
             }else if( key.equals( PropertyConstant.SERVER_PORT_KEY.toString()) ){
                 result = PropertyConstant.SERVER_PORT_DEFAULT_VALUE.toString();
                 saveSingleProperty( key, result );
-            }else if( key.equals( PropertyConstant.START_WORKING_HOUR_KEY.toString()) ) {
-                result = PropertyConstant.START_WORKING_HOUR_DEFAULT_VALUE.toString();
-                saveSingleProperty(key, result);
-            }else if( key.equals( PropertyConstant.STOP_WORKING_HOUR_KEY.toString()) ){
-                result = PropertyConstant.STOP_WORKING_HOUR_DEFAULT_VALUE.toString();
-                saveSingleProperty( key, result );
-            }else if( key.equals( PropertyConstant.VIDEO_RESOLUTION_KEY.toString()) ) {
-                result = PropertyConstant.VIDEO_RESOLUTION_DEFAULT_VALUE.toString();
-                saveSingleProperty(key, result);
-            }else if( key.equals( PropertyConstant.DOWNLOAD_URL_KEY.toString() )){
-                result = PropertyConstant.DOWNLOAD_URL_DEFAULT_VALUE.toString();
-                saveSingleProperty( key, result);
-            }else if( key.equals( PropertyConstant.VIDEO_VIEW_KEY.toString() )){
-                result = PropertyConstant.VIDEO_VIEW_DEFAULT_VALUE.toString();
-                saveSingleProperty( key, result);
-        }
+            }
         }
         return result;
     }
@@ -161,7 +146,6 @@ public class PropertyUtil extends APropertyUtil {
             while ( enumProps.hasMoreElements() ){
                 keyProp = (String) enumProps.nextElement();
                 propertyMap.put( keyProp, prop.getProperty( keyProp ) );
-                //Log.d( keyProp, propertyMap.get( keyProp ) );
             }
         } catch (IOException e) {
             System.err.println("Failed to open property "+ fileName );

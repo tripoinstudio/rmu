@@ -1,11 +1,12 @@
 package com.tripoin.rmu.view.fragment.base;
 
+import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,9 +31,10 @@ import butterknife.ButterKnife;
  */
 public abstract class ABaseNavigationDrawerFragment extends Fragment implements INavigationDrawerFragment{
 
-    protected Typeface typeFaceContent;
-    protected List<TextView> textViews = new ArrayList<TextView>();
-    protected List<Button> buttons = new ArrayList<Button>();
+    protected Typeface typeface;
+    protected List<TextView> textViews;
+    protected List<Button> buttons;
+    protected List<EditText> editTexts;
 
     protected ABaseNavigationDrawerFragment() {
     }
@@ -55,6 +57,8 @@ public abstract class ABaseNavigationDrawerFragment extends Fragment implements 
         getActivity().setTitle(getFragmentTitle());
         ButterKnife.inject(this, rootView);
 
+        initializeFragment();
+
         rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT ));
         return rootView;
     }
@@ -62,7 +66,6 @@ public abstract class ABaseNavigationDrawerFragment extends Fragment implements 
     @Override
     public void onStart() {
         super.onStart();
-        initializeFragment();
         onLowMemory();
     }
 
@@ -70,31 +73,46 @@ public abstract class ABaseNavigationDrawerFragment extends Fragment implements 
         try{
             initWidget();
         }catch ( Exception e ){
-            Toast.makeText(getActivity(), "Application error", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Application error initializing Fragment".concat(e.toString()), Toast.LENGTH_SHORT).show();
         }
 
-        typeFaceContent = Typeface.createFromAsset(getActivity().getAssets(), initAssetName()[0]);
+        try {
+            typeface = Typeface.createFromAsset(getActivity().getAssets(), initAssetName()[0]);
+            if( getTextViews() != null )
+                assignContentTypeFace( getTextViews() );
 
-        if( getContentTextViews() != null )
-            assignContentTypeFace( getContentTextViews() );
+            typeface = Typeface.createFromAsset(getActivity().getAssets(), initAssetName()[1]);
+            if( getEditTexts() != null )
+                assignEditTextTypeFace(getEditTexts());
 
-        if( getButtons() != null )
-            assignButtonTypeFace( getButtons() );
+            typeface = Typeface.createFromAsset(getActivity().getAssets(), initAssetName()[2]);
+            if( getButtons() != null )
+                assignButtonTypeFace( getButtons() );
+        }catch (Exception e){
+            Log.w("Fragment Warning", "No TypeFace Assignment found");
+        }
 
         //release unused objects
         textViews = null;
+        editTexts = null;
         buttons = null;
+    }
+
+    private void assignEditTextTypeFace(List<EditText> editTexts){
+        for(EditText editText: editTexts){
+            editText.setTypeface(typeface);
+        }
     }
 
     private void assignContentTypeFace( List<TextView> textViews ){
         for ( TextView tv: textViews ){
-            tv.setTypeface( typeFaceContent );
+            tv.setTypeface(typeface);
         }
     }
 
     private void assignButtonTypeFace( List<Button> buttons ){
         for ( Button button : buttons ){
-            button.setTypeface( typeFaceContent );
+            button.setTypeface(typeface);
         }
     }
     /**
@@ -103,28 +121,14 @@ public abstract class ABaseNavigationDrawerFragment extends Fragment implements 
      */
     public String[] initAssetName() {
         return new String[]{
-                ViewConstant.FONT_ROBOT_LIGHT_ITALIC.toString(),
-                ViewConstant.FONT_ROBOT_BLACK.toString(),
-                ViewConstant.FONT_ROBOT_BLACK_ITALIC.toString(),
-                ViewConstant.FONT_ROBOT_BOLD.toString(),
-                ViewConstant.FONT_ROBOT_ITALIC.toString(),
-                ViewConstant.FONT_ROBOT_BOLD_ITALIC.toString(),
                 ViewConstant.FONT_ROBOT_LIGHT.toString(),
-                ViewConstant.FONT_ROBOT_MEDIUM.toString(),
-                ViewConstant.FONT_ROBOT_MEDIUM_ITALIC.toString(),
-                ViewConstant.FONT_ROBOT_REGULAR.toString(),
-                ViewConstant.FONT_ROBOT_THIN.toString(),
-                ViewConstant.FONT_ROBOT_THIN_ITALIC.toString()
+                ViewConstant.FONT_ROBOT_LIGHT_ITALIC.toString(),
+                ViewConstant.FONT_ROBOT_BOLD.toString(),
         };
     }
 
     @Override
-    public List<TextView> getContentTextViews() {
-        return null;
-    }
-
-    @Override
-    public List<TextView> getTitleTextViews() {
+    public List<TextView> getTextViews() {
         return null;
     }
 
@@ -138,11 +142,25 @@ public abstract class ABaseNavigationDrawerFragment extends Fragment implements 
         return null;
     }
 
+    @Override
     public void gotoNextFragment(Fragment fragmentView){
         FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
         mFragmentManager.beginTransaction().replace(R.id.container, fragmentView).commit();
     }
 
+    @Override
+    public void gotoPreviousFragment(Fragment fragmentView) {
+        FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
+        mFragmentManager.beginTransaction().replace(R.id.container, fragmentView).commit();
+    }
 
+    @Override
+    public void goToMainView(String extraKey, String extraContent) {
+        Log.d("F", "not implemented yet");
+    }
 
+    @Override
+    public void exitApplication(Context context) {
+        Log.d("F", "not implemented yet");
+    }
 }

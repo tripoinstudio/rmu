@@ -4,6 +4,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.tripoin.rmu.view.fragment.api.INavigationFragment;
+
 import java.util.List;
 
 /**
@@ -12,7 +14,7 @@ import java.util.List;
  *
  * Interface ini digunakan sebagai fungsi- fungsi common sebuah fragment
  */
-public interface IBaseFragment {
+public interface IBaseFragment extends INavigationFragment{
 
     /**
      * Method ini digunakan untuk inisiasi widget- widget activity yang sedang aktif termasuk variabel
@@ -22,16 +24,10 @@ public interface IBaseFragment {
     public int getViewLayoutId();
 
     /**
-     * Mengkoleksi TextView dalam grup Title dalam sebuah Activity
-     * @return List<TextView>
-     */
-    public List<TextView> getTitleTextViews();
-
-    /**
      * Mengkoleksi TextView dalam grup content dalam sebuah Activity
      * @return List<TextView>
      */
-    public List<TextView> getContentTextViews();
+    public List<TextView> getTextViews();
 
     /**
      * Mengkoleksi EditText dalam sebuah Activity

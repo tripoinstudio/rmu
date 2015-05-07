@@ -23,7 +23,7 @@ public enum ViewConstant {
     FONT_ADAM("font/ADAM.CG PRO.otf"),
     FONT_OPEN_SANS_LIGHT("font/OpenSans-Light.ttf"),
 
-    ACTION_BAR_TITLE("eRestorasi"),
+    DEFAULT_ACTION_BAR_TITLE("eRestorasi"),
 
     /*Fragment Titles*/
     FRAGMENT_ABOUT_TITLE("About Application"),

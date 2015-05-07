@@ -9,15 +9,12 @@ import com.tripoin.rmu.view.activity.api.IBaseActivity;
 import java.io.Serializable;
 
 import br.liveo.navigationliveo.NavigationLiveo;
-import roboguice.activity.RoboActionBarActivity;
 
 /**
  * Created by Achmad Fauzi on 4/26/2015 : 11:33 AM.
  * mailto : fauzi.knightmaster.achmad@gmail.com
  */
 public class ACustomNavigationLiveoActivity extends NavigationLiveo implements IBaseActivity{
-
-    protected RoboActionBarActivity roboActionBarActivity = new RoboActionBarActivity();
 
     @Override
     public void onUserInformation() {
@@ -50,11 +47,6 @@ public class ACustomNavigationLiveoActivity extends NavigationLiveo implements I
     }
 
     @Override
-    public void setupValues() {
-
-    }
-
-    @Override
     public void goToMainView(String extraKey, String extraContent) {
 
     }
@@ -65,12 +57,17 @@ public class ACustomNavigationLiveoActivity extends NavigationLiveo implements I
     }
 
     @Override
-    public void setupActionBar() {
+    public void setupTypeFace() {
 
     }
 
     @Override
-    public void setupTypeFace() {
+    public int getViewLayoutId() {
+        return 0;
+    }
 
+    @Override
+    public String[] initFontAssets() {
+        return new String[0];
     }
 }
