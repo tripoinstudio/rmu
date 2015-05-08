@@ -10,9 +10,11 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +39,7 @@ import com.tripoin.rmu.view.fragment.impl.FragmentUserProfile;
 import butterknife.InjectView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
+import butterknife.OnItemSelected;
 
 /**
  * Created by Achmad Fauzi on 9/21/2014.
@@ -164,6 +167,23 @@ public class ActivityLogin extends ABaseActivity implements ILoginPost {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    @OnItemSelected(R.id.dropdown_ip_bt)
+    public void dropdownIpBt(){
+        Spinner dropdown_ip_bt;
+        dropdown_ip_bt = (Spinner) findViewById(R.id.dropdown_ip_bt);
+        dropdown_ip_bt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(parent.getContext(),"OnItemSelectedListener : " + parent.getItemAtPosition(position).toString(),Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Toast.makeText(parent.getContext(),"OnItemSelectedListener : " + parent.getItemAtPosition(parent.getLastVisiblePosition()).toString(),Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
 }

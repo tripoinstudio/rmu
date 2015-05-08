@@ -133,6 +133,7 @@
     <string name="label_dialog_srcStatus">Status</string>
     <string name="label_dialog_srcSeat">Seat</string>
     <string name="label_dialog_srcCrrg">Carriage</string>
+    <string name="dropdown_ip_bt_prompt">InputHere</string>
     <string-array name="list_value_status">
         <item>All</item>
         <item>New</item>
@@ -141,5 +142,10 @@
         <item>Delivered</item>
         <item>Cancel</item>
         <item>Pending</item>
+    </string-array>
+    <string-array name="dropdown_setting_ip_bt">
+        <item>No Setting</item>
+        <item>Setting IP Server</item>
+        <item>Setting Bluetooth</item>
     </string-array>
 </resources>

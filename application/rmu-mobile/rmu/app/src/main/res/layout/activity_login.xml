@@ -18,7 +18,7 @@
             android:clickable="true"
             android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
-            android:src="@drawable/ic_settings_white_stripes_shadow3"
+            android:src="@drawable/ic_settings_white"
             android:background="@drawable/edit_photo_states2"
             android:layout_alignParentRight="true"/>
     </RelativeLayout>
