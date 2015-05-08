@@ -108,7 +108,7 @@ public class FragmentOrderList extends ABaseNavigationDrawerFragment implements 
                 Toast.makeText(getActivity(), R.string.add, Toast.LENGTH_SHORT).show();
                 FragmentAddOrder fragmentAddOrder = new FragmentAddOrder();
                 FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
-                mFragmentManager.beginTransaction().replace(R.id.container, fragmentAddOrder).commit();
+                mFragmentManager.beginTransaction().replace(R.id.container, fragmentAddOrder).addToBackStack(null).commit();
                 break;
 
             case R.id.menu_search:
