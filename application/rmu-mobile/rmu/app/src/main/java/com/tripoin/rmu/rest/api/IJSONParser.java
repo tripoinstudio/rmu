@@ -18,7 +18,7 @@ public interface IJSONParser {
      * @param url String
      * @return JSONObject
      */
-    public JSONObject getJSONFromUrl(String url, List<NameValuePair> nameValuePairs);
+    public JSONObject getJSONFromUrl(String url, List<NameValuePair> nameValuePairs, String chipperText);
 
     /**
      * GET

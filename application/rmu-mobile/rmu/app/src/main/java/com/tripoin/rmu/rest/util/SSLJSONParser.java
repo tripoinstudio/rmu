@@ -46,7 +46,7 @@ public class SSLJSONParser implements IJSONParser{
     }
 
     @Override
-    public JSONObject getJSONFromUrl(String url, List<NameValuePair> nameValuePairs){
+    public JSONObject getJSONFromUrl(String url, List<NameValuePair> nameValuePairs, String chipperText){
         try {
             //DefaultHttpClient defaultHttpClient = new DefaultHttpClient();
             /*HttpClient defaultHttpClient = customHttpClient.getHttpClient();*/

@@ -19,8 +19,8 @@ public abstract class ARestDialogPOSTAsyncTask extends ABaseDialogRest {
 
     @Override
     protected String doInBackground(String... params) {
-        Log.e("URL WS", initUrl());
-        jsonObject = getJsonParser().getJSONFromUrl( initUrl(), getNameValuePairs() );
+        Log.e("URL WS", processedURL());
+        jsonObject = getJsonParser().getJSONFromUrl( processedURL(), getNameValuePairs(), params[0] );
         try {
             objectResult = objectMapper.readValue(String.valueOf(jsonObject), initClassResult());
         } catch (IOException e) {

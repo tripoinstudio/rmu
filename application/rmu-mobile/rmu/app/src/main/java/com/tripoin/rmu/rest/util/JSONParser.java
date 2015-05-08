@@ -49,11 +49,15 @@ public class JSONParser implements IJSONParser{
     }
 
     @Override
-    public JSONObject getJSONFromUrl(String url, List<NameValuePair> nameValuePairs){
+    public JSONObject getJSONFromUrl(String url, List<NameValuePair> nameValuePairs, String chipperText){
 
         try {
             HttpClient defaultHttpClient = customHttpClient.getHttpClient();
             HttpPost httpPost = new HttpPost(url);
+            if( !chipperText.isEmpty() ){
+                httpPost.addHeader(RestConstant.HEADER_ACCEPT.toString(), RestConstant.HEADER_APP_JSON.toString());
+                httpPost.addHeader(RestConstant.HEADER_AUTHORIZATION.toString(), RestConstant.HEADER_BASIC.toString().concat(chipperText));
+            }
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
             HttpResponse httpResponse = defaultHttpClient.execute(httpPost);
             HttpEntity httpEntity = httpResponse.getEntity();
