@@ -6,11 +6,28 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_login7">
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/imgSettingLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="Edit image icon"
+            android:clickable="true"
+            android:layout_marginTop="13dp"
+            android:layout_marginRight="13dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_settings_white_stripes_shadow3"
+            android:background="@drawable/edit_photo_states2"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="200dp"
+        android:layout_marginBottom="170dp"
         android:layout_marginLeft="10dp">
     </View>
 
