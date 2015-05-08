@@ -1,6 +1,9 @@
 package com.tripoin.rmu.rest.api;
 
+import org.apache.http.NameValuePair;
 import org.json.JSONObject;
+
+import java.util.List;
 
 /**
  * Created by Achmad Fauzi on 2/25/2015.
@@ -15,7 +18,7 @@ public interface IJSONParser {
      * @param url String
      * @return JSONObject
      */
-    public JSONObject getJSONFromUrl(String url);
+    public JSONObject getJSONFromUrl(String url, List<NameValuePair> nameValuePairs);
 
     /**
      * GET

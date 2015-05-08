@@ -4,7 +4,10 @@ import android.util.Log;
 
 import com.tripoin.rmu.rest.api.IBaseRestFinished;
 
+import org.apache.http.NameValuePair;
+
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by Achmad Fauzi on 11/21/2014.
@@ -17,7 +20,7 @@ public abstract class ARestDialogPOSTAsyncTask extends ABaseDialogRest {
     @Override
     protected String doInBackground(String... params) {
         Log.e("URL WS", initUrl());
-        jsonObject = getJsonParser().getJSONFromUrl( initUrl() );
+        jsonObject = getJsonParser().getJSONFromUrl( initUrl(), getNameValuePairs() );
         try {
             objectResult = objectMapper.readValue(String.valueOf(jsonObject), initClassResult());
         } catch (IOException e) {
@@ -25,5 +28,7 @@ public abstract class ARestDialogPOSTAsyncTask extends ABaseDialogRest {
         }
         return null;
     }
+
+    public abstract List<NameValuePair> getNameValuePairs();
 
 }
