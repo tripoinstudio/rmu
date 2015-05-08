@@ -94,44 +94,6 @@ public class ActivityLogin extends ABaseActivity implements ILoginPost {
         //detectLoginStatus();
     }
 
-    @OnClick(R.id.imgSettingLogin)
-    public void settingLogin(){
-        LayoutInflater layoutInflater = getLayoutInflater();
-        View dialogView = layoutInflater.inflate(R.layout.fragment_dialog_setting_login, null);
-
-        TextView lbIpSetting = (TextView) dialogView.findViewById(R.id.lblSettingIpServer);
-        lbIpSetting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("Info1","-----Masuk On Click lblSettingIpServer----------------------------------------------");
-                try {
-                    Log.d("Info2","-----Masuk On Click lblSettingIpServer----------------------------------------------");
-                    gotoNextActivity(ActivityMain.class, "", "");
-                    Log.d("Info3","-----Masuk On Click lblSettingIpServer----------------------------------------------");
-                }catch (Exception e){
-                    Log.d("ERROR","ERROR = "+e.toString()+" ---------------------------------------------------");
-                }
-//                FragmentChangeIPServer fragmentChangeIPServer = null;
-//                fragmentChangeIPServer = new FragmentChangeIPServer();
-//                getFragmentManager().beginTransaction().replace(R.id.container, fragmentChangeIPServer).commit();
-            }
-        });
-
-        TextView lbBluetoothSetting = (TextView) dialogView.findViewById(R.id.lblSettingBluetooth);
-        lbBluetoothSetting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setView(dialogView);
-
-        AlertDialog alertD = alertDialogBuilder.create();
-        alertD.show();
-    }
-
     @OnClick(R.id.btSignIn)
     public void signIn(){
         if(!generalValidation.isEmptyEditText(txtUserName)){

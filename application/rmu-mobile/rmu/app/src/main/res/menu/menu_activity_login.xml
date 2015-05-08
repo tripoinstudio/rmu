@@ -5,9 +5,9 @@
 
     <item
         android:id="@+id/menu_server_configuration"
-        android:title="@string/search"/>
+        android:title="Setting Ip Server"/>
     <item
         android:id="@+id/menu_bluetooth_configuration"
-        android:title="@string/add"/>
+        android:title="Setting Bluetooth"/>
 
 </menu>
