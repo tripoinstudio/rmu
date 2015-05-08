@@ -2,6 +2,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.tripoin.rmu.view.activity.ActivityLogin">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_server_configuration"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        android:title="@string/search"/>
+    <item
+        android:id="@+id/menu_bluetooth_configuration"
+        android:title="@string/add"/>
+
 </menu>
