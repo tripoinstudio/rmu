@@ -5,7 +5,6 @@
 
     <item
         android:id="@+id/menu_server_configuration"
-        app:actionViewClass="android.support.v7.widget.SearchView"
         android:title="@string/search"/>
     <item
         android:id="@+id/menu_bluetooth_configuration"
