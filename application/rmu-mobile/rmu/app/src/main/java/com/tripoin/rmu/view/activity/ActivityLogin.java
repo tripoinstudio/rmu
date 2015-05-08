@@ -85,9 +85,11 @@ public class ActivityLogin extends ABaseActivity implements ILoginPost {
         lbIpSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("Info","-----Masuk On Click lblSettingIpServer----------------------------------------------");
+                Log.d("Info1","-----Masuk On Click lblSettingIpServer----------------------------------------------");
                 try {
-                    setContentView(R.layout.fragment_change_ip_server);
+                    Log.d("Info2","-----Masuk On Click lblSettingIpServer----------------------------------------------");
+                    gotoNextActivity(ActivityMain.class, "", "");
+                    Log.d("Info3","-----Masuk On Click lblSettingIpServer----------------------------------------------");
                 }catch (Exception e){
                     Log.d("ERROR","ERROR = "+e.toString()+" ---------------------------------------------------");
                 }

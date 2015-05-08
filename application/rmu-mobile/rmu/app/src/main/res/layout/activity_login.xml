@@ -10,29 +10,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Configuration"
-            android:textColor="@color/black_for_title"
-            android:id="@+id/lbConfigurationLogin"
-            android:paddingLeft="15dp"
-            android:paddingRight="45dp"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
-            android:textSize="18sp"
-            android:gravity="center_vertical"
-            android:layout_alignParentRight="true"
-            android:scaleType="fitXY"/>
         <ImageView
             android:id="@+id/imgSettingLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="Edit image icon"
             android:clickable="true"
-            android:padding="15dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_settings_black_24dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_settings_white_stripes_shadow3"
+            android:background="@drawable/edit_photo_states2"
             android:layout_alignParentRight="true"/>
     </RelativeLayout>
 
