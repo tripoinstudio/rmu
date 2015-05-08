@@ -15,6 +15,8 @@ import com.tripoin.rmu.R;
 import com.tripoin.rmu.model.persist.OrderListModel;
 import com.tripoin.rmu.model.persist.OrderTempModel;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
+import com.tripoin.rmu.view.fragment.impl.FragmentAddMenu;
+import com.tripoin.rmu.view.fragment.impl.FragmentMenuList;
 import com.tripoin.rmu.view.fragment.impl.FragmentOrderDetail;
 
 import it.gmariotti.cardslib.library.internal.Card;
@@ -48,6 +50,9 @@ public class CustomCardOrderTemp extends Card {
         setOnClickListener(new OnCardClickListener() {
             @Override
             public void onClick(Card card, View view) {
+                FragmentManager mFragmentManager = activity.getSupportFragmentManager();
+                FragmentAddMenu fragmentAddMenu = new FragmentAddMenu().newInstance(orderTempModel);
+                mFragmentManager.beginTransaction().replace(R.id.container, fragmentAddMenu).addToBackStack(null).commit();
                 Log.d("CLICK", "I am clicked");
             }
         });
