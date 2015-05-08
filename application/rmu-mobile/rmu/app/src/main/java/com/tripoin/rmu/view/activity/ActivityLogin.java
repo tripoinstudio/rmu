@@ -7,6 +7,8 @@ import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -63,6 +65,22 @@ public class ActivityLogin extends ABaseActivity implements ILoginPost {
         generalConverter = new GeneralConverter();
         networkConnectivity = new NetworkConnectivity(this, null);
         VersionDBManager.init(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_activity_login, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if( item.getItemId() == R.id.menu_server_configuration){
+            Toast.makeText(this,"server config", Toast.LENGTH_SHORT).show();
+        }else if( item.getItemId() == R.id.menu_bluetooth_configuration ){
+            Toast.makeText(this,"bluetooth config", Toast.LENGTH_SHORT).show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
