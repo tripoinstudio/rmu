@@ -2,8 +2,10 @@ package com.tripoin.rmu.view.activity;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.support.v4.app.FragmentManager;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -27,6 +29,8 @@ import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
 import com.tripoin.rmu.view.activity.base.ABaseActivity;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
+import com.tripoin.rmu.view.fragment.impl.FragmentChangeIPServer;
+import com.tripoin.rmu.view.fragment.impl.FragmentUserProfile;
 
 import butterknife.InjectView;
 import butterknife.OnCheckedChanged;
@@ -78,8 +82,28 @@ public class ActivityLogin extends ABaseActivity implements ILoginPost {
         View dialogView = layoutInflater.inflate(R.layout.fragment_dialog_setting_login, null);
 
         TextView lbIpSetting = (TextView) dialogView.findViewById(R.id.lblSettingIpServer);
+        lbIpSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("Info","-----Masuk On Click lblSettingIpServer----------------------------------------------");
+                try {
+                    setContentView(R.layout.fragment_change_ip_server);
+                }catch (Exception e){
+                    Log.d("ERROR","ERROR = "+e.toString()+" ---------------------------------------------------");
+                }
+//                FragmentChangeIPServer fragmentChangeIPServer = null;
+//                fragmentChangeIPServer = new FragmentChangeIPServer();
+//                getFragmentManager().beginTransaction().replace(R.id.container, fragmentChangeIPServer).commit();
+            }
+        });
 
         TextView lbBluetoothSetting = (TextView) dialogView.findViewById(R.id.lblSettingBluetooth);
+        lbBluetoothSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setView(dialogView);
