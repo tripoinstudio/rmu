@@ -42,9 +42,12 @@ import com.tripoin.rmu.persistence.orm_persistence.service.OrderTempDBManager;
 import com.tripoin.rmu.rest.enumeration.RestConstant;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
+import com.tripoin.rmu.view.enumeration.ViewConstant;
 import com.tripoin.rmu.view.ui.RoundedImageView;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
 
 
@@ -74,7 +77,7 @@ public class FragmentAddMenu extends Fragment {
     private BigDecimal priceItem;
     private String menuNameData;
     View rootView;
-    private Button btnOrder;
+    private Button btnOrder, btnBack;
     private OrderTempModel orderTempModel;
     private OrderTempModel orderTempModelCompare;
 
@@ -166,6 +169,17 @@ public class FragmentAddMenu extends Fragment {
             }
         });
 
+        btnBack = (Button) rootView.findViewById(R.id.btn_back);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentMenuList fragmentMenuList = new FragmentMenuList();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+
+                fragmentManager.beginTransaction().replace(R.id.container, fragmentMenuList).addToBackStack(null).commit();
+            }
+        });
+
         /*menuImage = (RoundedImageView)rootView.findViewById(R.id.menuImage);
         menuImage.setImageResource(R.drawable.nasi_goreng_1);
         menuImage1 = (RoundedImageView)rootView.findViewById(R.id.menuImage1);
@@ -178,12 +192,20 @@ public class FragmentAddMenu extends Fragment {
         file_maps.put("House of Cards", R.drawable.nasi_goreng_1);
         file_maps.put("Game of Thrones", R.drawable.image_food1);*/
         menuName.setText(menuNameData);
+
         if("1".equals(menuModelDetail.getMenuType()))
             lblavail.setText("Makanan");
         else
             lblavail.setText("Minuman");
-        lblprice.setText(String.valueOf(priceItem));
 
+        DecimalFormat decimalFormat = (DecimalFormat) DecimalFormat.getCurrencyInstance();
+        DecimalFormatSymbols formatIDR = new DecimalFormatSymbols();
+        formatIDR.setCurrencySymbol("IDR ");
+        formatIDR.setGroupingSeparator('.');
+
+        decimalFormat.setDecimalFormatSymbols(formatIDR);
+
+        lblprice.setText(decimalFormat.format(priceItem).concat(",-"));
         mDemoSlider = (SliderLayout)rootView.findViewById(R.id.slider);
         for(ImageModel imageModel : imageModels){
             textSliderView = new TextSliderView(rootView.getContext());
