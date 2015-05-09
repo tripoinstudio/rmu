@@ -10,6 +10,9 @@ public interface ISignHandler {
 
     public void signOut();
 
+    public void detectLoginStatus();
+
     public boolean checkLoginStatus();
+
 
 }

@@ -31,4 +31,10 @@ public abstract  class LogoutRest extends ARestDialogGETAsyncTask {
     public Class<?> initClassResult() {
         return BaseRESTDTO.class;
     }
+
+    @Override
+    protected void onPostExecute(String s) {
+        super.onPostExecute(s);
+        iLogoutPost.onPostLogout(objectResult);
+    }
 }

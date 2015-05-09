@@ -39,7 +39,7 @@ public enum RestConstant {
     TSK_TRAIN("train"),
     TSK_CHANGE_PASSWORD("CP"),
 
-    TSK_LOGOUT("LOGOUT"),
+    TSK_LOGOUT("logout"),
 
     /*Pattern Items*/
     IMAGE("images/"),

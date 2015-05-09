@@ -9,6 +9,6 @@ public interface ISchedulerConstant {
     /*Space time in miliseconds*/
     /*public final int SPACE_TIME = 300000;*/
     public final int START_TIME = 1;
-    public final int SPACE_TIME = 600;
+    public final int SPACE_TIME = 60;
 
 }

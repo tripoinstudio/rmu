@@ -7,6 +7,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tripoin.rmu.R;
+import com.tripoin.rmu.feature.bluetooth.BluetoothEngine;
+import com.tripoin.rmu.feature.bluetooth.listener.BluetoothReceiver;
+import com.tripoin.rmu.model.DTO.print_message.PrintMessageDTO;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
 import com.tripoin.rmu.view.fragment.base.ABaseNavigationDrawerFragment;
 
@@ -27,6 +30,7 @@ public class FragmentAbout extends ABaseNavigationDrawerFragment {
     @InjectView(R.id.label_about3) TextView lblAbout3;
 
     private String data1;
+    private BluetoothEngine bluetoothEngine;
 
     public FragmentAbout newInstance(){
         FragmentAbout mFragment = new FragmentAbout();
@@ -42,6 +46,7 @@ public class FragmentAbout extends ABaseNavigationDrawerFragment {
     @Override
     public void initWidget() {
         data1 = "DATA KE 1";
+        bluetoothEngine = new BluetoothEngine(getActivity());
     }
 
     @Override
@@ -66,6 +71,8 @@ public class FragmentAbout extends ABaseNavigationDrawerFragment {
     @OnClick(R.id.label_about1)
     public void klikAbot(){
         Toast.makeText(getActivity(), "KLIK ABOT ".concat(data1), Toast.LENGTH_SHORT).show();
+        PrintMessageDTO printMessageDTO = new PrintMessageDTO();
+        bluetoothEngine.printMessage(printMessageDTO);
     }
 
     @OnClick(R.id.label_about2)

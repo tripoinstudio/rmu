@@ -1,10 +1,10 @@
 package com.tripoin.rmu.view.activity.impl;
 
-import android.content.Context;
-
 import com.tripoin.rmu.R;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
+import com.tripoin.rmu.view.activity.ActivityLogin;
+import com.tripoin.rmu.view.activity.ActivityMain;
 import com.tripoin.rmu.view.activity.api.ISignHandler;
 
 /**
@@ -14,16 +14,24 @@ import com.tripoin.rmu.view.activity.api.ISignHandler;
 public class SignHandlerImpl implements ISignHandler {
 
     private PropertyUtil securityUtil;
-    private Context context;
+    private ActivityLogin activityLogin;
 
-    public SignHandlerImpl(PropertyUtil securityUtil, Context context) {
+    public SignHandlerImpl(PropertyUtil securityUtil, ActivityLogin activityLogin) {
         this.securityUtil = securityUtil;
-        this.context = context;
+        this.activityLogin = activityLogin;
     }
 
     @Override
     public void signOut() {
         securityUtil.saveSingleProperty(PropertyConstant.LOGIN_STATUS_KEY.toString(), PropertyConstant.LOGOUT_STATUS_VALUE.toString());
+
+    }
+
+    @Override
+    public void detectLoginStatus() {
+        if(checkLoginStatus()){
+            activityLogin.gotoNextActivity(ActivityMain.class, "", "");
+        }
     }
 
     @Override
