@@ -14,10 +14,16 @@ import android.widget.Toast;
 import com.tripoin.rmu.R;
 import com.tripoin.rmu.model.persist.OrderListModel;
 import com.tripoin.rmu.model.persist.OrderTempModel;
+import com.tripoin.rmu.persistence.orm_persistence.service.OrderTempDBManager;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
 import com.tripoin.rmu.view.fragment.impl.FragmentAddMenu;
+import com.tripoin.rmu.view.fragment.impl.FragmentAddOrder;
 import com.tripoin.rmu.view.fragment.impl.FragmentMenuList;
 import com.tripoin.rmu.view.fragment.impl.FragmentOrderDetail;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import it.gmariotti.cardslib.library.internal.Card;
 
@@ -29,7 +35,6 @@ public class CustomCardOrderTemp extends Card {
 
     private OrderTempModel orderTempModel;
     private TextView txtMenuName;
-    private ImageView imgOrderTemp;
     private TextView txtQuantity;
     private TextView txtPrice;
     private FragmentActivity activity;
@@ -42,7 +47,7 @@ public class CustomCardOrderTemp extends Card {
         super(context, innerLayout);
         this.activity = context;
         this.orderTempModel = orderTempModel;
-        Log.d("ORDERTEMPMODEL", orderTempModel.toString());
+        OrderTempDBManager.init(context);
         init();
     }
 
@@ -64,22 +69,30 @@ public class CustomCardOrderTemp extends Card {
         txtMenuName = (TextView) view.findViewById(R.id.txtMenuName);
         txtQuantity = (TextView) view.findViewById(R.id.txtQuantity);
         txtPrice = (TextView) view.findViewById(R.id.txtPrice);
-        imgOrderTemp = (ImageView) view.findViewById(R.id.imgThumbOrderTemp);
 
         if(txtMenuName != null){
             txtMenuName.setText(orderTempModel.getMenuName());
         }
         if(txtQuantity != null){
-            txtQuantity.setText(orderTempModel.getQuantity());
+            txtQuantity.setText(ViewConstant.AT.toString().concat(ViewConstant.SPACE.toString()).concat(orderTempModel.getQuantity()).concat(" pcs"));
         }
         if(txtPrice != null){
-            txtPrice.setText(orderTempModel.getPrice());
+            txtPrice.setText(orderTempModel.getPrice().concat(ViewConstant.CURRENCY_PATTERN.toString()));
         }
-        if(imgOrderTemp != null){
-            imgOrderTemp.setImageResource(R.drawable.ic_delete_black_24dp);
+    }
+
+    @Override
+    public OnSwipeListener getOnSwipeListener() {
+        OrderTempDBManager.getInstance().deleteEntity(orderTempModel.getId());
+        BigDecimal totalOrder = new BigDecimal(0);
+        List<OrderTempModel> orderTempModelList = OrderTempDBManager.getInstance().getAllData();
+        if(orderTempModelList != null){
+            for(OrderTempModel orderTempModel : orderTempModelList){
+                totalOrder = new BigDecimal(orderTempModel.getPrice()).add(totalOrder);
+            }
         }
-        else {
-            Log.d("SOMETHING", "is empty");
-        }
+        TextView menuTotal = (TextView)activity.findViewById(R.id.lbl_menu_total);
+        menuTotal.setText(ViewConstant.CURRENCY_IDR.toString().concat(String.valueOf(totalOrder)).concat(ViewConstant.CURRENCY_PATTERN.toString()));
+        return super.getOnSwipeListener();
     }
 }

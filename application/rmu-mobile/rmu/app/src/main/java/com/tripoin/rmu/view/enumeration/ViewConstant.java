@@ -47,6 +47,7 @@ public enum ViewConstant {
     DBM("dBm"),
     S("S"),E("E"),m("m"),ms("ms"),Kbps("Kbps"),KBps("KBps"),
     PERCENT("%"),
+    AT("@"),
     HYPHEN("-"),
     TIMED_OUT("Timed Out"),
     SECONDS("Second(s)"),

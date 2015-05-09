@@ -1,8 +1,10 @@
 package com.tripoin.rmu.view.fragment.impl;
 
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -85,6 +87,7 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster, IP
     private MasterASync masterASync;
     private Button bt_add_order;
     private Button bt_bayar;
+    private Button bt_cancel;
     private TextView txus2;
     private Typeface faces2;
     private TextView txus;
@@ -139,15 +142,12 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster, IP
         menuPrice = (TextView)rootView.findViewById(R.id.lbl_menu_price);
         menuPrice.setTypeface(Typeface.createFromAsset(menuPrice.getResources().getAssets(),"font/Roboto-Light.ttf"));*/
         menuTotal = (TextView)rootView.findViewById(R.id.lbl_menu_total);
-        menuTotal.setTypeface(Typeface.createFromAsset(menuTotal.getResources().getAssets(),"font/Roboto-Light.ttf"));
-        menuTotal.setText(String.valueOf(totalOrder).concat(ViewConstant.CURRENCY_PATTERN.toString()));
+        menuTotal.setText(ViewConstant.CURRENCY_IDR.toString().concat(String.valueOf(totalOrder)).concat(ViewConstant.CURRENCY_PATTERN.toString()));
 
         OrderTempDBManager.init(rootView.getContext());
-        insertDataTemporary();
         getAllOrderTempInTemporary();
 
         bt_bayar =(Button)rootView.findViewById(R.id.bt_bayar);
-        bt_bayar.setTypeface(faces2);
         bt_bayar.setEnabled(true);
         bt_add_order = (Button) rootView.findViewById(R.id.btn_add_order);
 
@@ -160,6 +160,34 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster, IP
 
             }
         });
+
+        bt_cancel =(Button)rootView.findViewById(R.id.bt_cancel);
+        bt_cancel.setEnabled(true);
+        bt_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alertDelete = new AlertDialog.Builder(getActivity());
+                alertDelete.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        OrderTempDBManager.getInstance().executeRaw("DELETE FROM ".concat(ModelConstant.ORDER_TEMP_TABLE));
+                        FragmentOrderList fragmentOrderList = new FragmentOrderList();
+                        FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
+                        mFragmentManager.beginTransaction().replace(R.id.container, fragmentOrderList).commit();
+                    }
+                });
+                alertDelete.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                AlertDialog alertDialog = alertDelete.create();
+                alertDialog.setTitle("Are you sure?");
+                alertDialog.show();
+            }
+        });
+
         bt_bayar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -403,26 +431,16 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster, IP
         this.trainModels = trainModels;
     }
 
-    private void insertDataTemporary(){
-//        OrderTempModel orderTempModel = new OrderTempModel();
-////        orderTempModel.setId(1);
-//        orderTempModel.setMenuId("Nasi Basi");
-//        orderTempModel.setQuantity("2");
-//        orderTempModel.setPrice("2000000");
-//
-//        OrderTempDBManager.getInstance().insertEntity(orderTempModel);
-    }
-
-    private void getAllOrderTempInTemporary(){
+    public void getAllOrderTempInTemporary(){
         List<OrderTempModel> orderTempModelList = OrderTempDBManager.getInstance().getAllData();
         initCards(orderTempModelList);
     }
 
     private void initCards(List<OrderTempModel> orderTempModels){
-        Log.d("ORDERTEMP_INITCARD_SIZE", String.valueOf(orderTempModels.size()));
         ArrayList<Card> cards = new ArrayList<Card>();
         for (int i = 0; i<orderTempModels.size(); i++) {
             Card card = new CustomCardOrderTemp(getActivity(), R.layout.row_card_temp, orderTempModels.get(i));
+            card.setSwipeable(true);
             cards.add(card);
         }
 
