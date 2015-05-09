@@ -14,7 +14,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="IP Server Configuration"
+            android:text="Server Configuration"
             android:scaleType="fitXY"
             android:textSize="25sp"/>
     </LinearLayout>
@@ -113,8 +113,7 @@
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:background="@color/md_light_green_50">
+        android:gravity="center">
         <LinearLayout
             android:orientation="horizontal"
             android:layout_gravity="center"
@@ -129,11 +128,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_marginRight="45dp">
+                android:layout_marginRight="15dp">
                 <TextView
                     android:id="@+id/label_test"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="35dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="10dp"
                     android:textSize="20sp"
@@ -143,7 +142,7 @@
                 <TextView
                     android:id="@+id/lbTestStatusDialog"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dip"
+                    android:layout_height="35dp"
                     android:layout_gravity="center"
                     android:textSize="20sp"
                     android:text=" "
@@ -157,7 +156,7 @@
                 android:layout_height="50dp"
                 android:textSize="20sp"
                 android:text="Test"
-                android:background="@color/nliveo_blue_gray_colorPrimaryDark"/>
+                android:background="#3B454A"/>
         </LinearLayout>
     </RelativeLayout>
 
