@@ -106,7 +106,6 @@ public abstract class SynchronizeOrderDetail extends ASynchronizeData implements
                 orderDetailModel.setOrderDetailTotalOrder(itemDTO.getOrderDetailTotalOrder());
                 orderDetailModel.setOrderDetailTotalAmount(itemDTO.getOrderDetailTotalAmount());
                 orderDetailModel.setOrderHeaderStatus(itemDTO.getOrderHeaderStatus());
-                orderDetailModel.setUserCode(itemDTO.getUserCode());
                 orderDetailModel.setMenuCode(itemDTO.getMenuCode());
                 orderDetailModel.setMenuName(itemDTO.getMenuName());
                 orderDetailModel.setSeatCode(itemDTO.getSeatCode());

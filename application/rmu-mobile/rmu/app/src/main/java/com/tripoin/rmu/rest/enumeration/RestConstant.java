@@ -33,6 +33,8 @@ public enum RestConstant {
     TSK_IMAGEMENU("image"),
     TSK_VERSION("version"),
     TSK_ORDER_DETAIL("getOrderDetail"),
+    TSK_PAYMENT("setOrderDetail"),
+    TSK_PAYMENT_PARAM("trx_order_detail"),
     TSK_ORDER_HEADER("getOrderHeader"),
     TSK_TRAIN("train"),
     TSK_CHANGE_PASSWORD("CP"),
@@ -62,6 +64,7 @@ public enum RestConstant {
     /*=========================*/
     HEADER_ACCEPT("Accept"),
     HEADER_APP_JSON("application/json"),
+    URL_ENCODER("UTF-8"),
     HEADER_AUTHORIZATION("Authorization"),
     HEADER_BASIC("Basic "),
 

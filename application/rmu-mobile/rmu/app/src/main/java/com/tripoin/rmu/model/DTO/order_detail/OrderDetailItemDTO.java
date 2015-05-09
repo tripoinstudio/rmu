@@ -19,9 +19,6 @@ public class OrderDetailItemDTO {
     @JsonProperty("order_header_status")
     private String orderHeaderStatus;
 
-    @JsonProperty("user_code")
-    private String userCode;
-
     @JsonProperty("menu_code")
     private String menuCode;
 
@@ -67,14 +64,6 @@ public class OrderDetailItemDTO {
 
     public void setOrderHeaderStatus(String orderHeaderStatus) {
         this.orderHeaderStatus = orderHeaderStatus;
-    }
-
-    public String getUserCode() {
-        return userCode;
-    }
-
-    public void setUserCode(String userCode) {
-        this.userCode = userCode;
     }
 
     public String getMenuName() {
@@ -124,7 +113,6 @@ public class OrderDetailItemDTO {
                 ", orderDetailTotalOrder='" + orderDetailTotalOrder + '\'' +
                 ", orderDetailTotalAmount='" + orderDetailTotalAmount + '\'' +
                 ", orderHeaderStatus='" + orderHeaderStatus + '\'' +
-                ", userCode='" + userCode + '\'' +
                 ", menuCode='" + menuCode + '\'' +
                 ", menuName='" + menuName + '\'' +
                 ", seatCode='" + seatCode + '\'' +
