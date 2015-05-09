@@ -2,21 +2,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="6"
+    android:weightSum="7"
     android:orientation="vertical"
-    android:gravity="center">
+    android:background="@color/nliveo_blue_gray_colorPrimaryDark">
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="IP Server Configuration"
+            android:scaleType="fitXY"
+            android:textSize="25sp"/>
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_weight="1"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center">
+        android:gravity="left">
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/ip_address"
             android:id="@+id/lbIpAddressDialog"
-            android:paddingLeft="6dp"
+            android:layout_marginLeft="20dp"
             android:gravity="center_vertical"
             android:scaleType="fitXY"
             android:textSize="20sp"/>
@@ -33,9 +46,11 @@
             android:layout_height="wrap_content"
             android:background="@drawable/textview_border"
             android:clickable="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:paddingTop="6dp"
             android:paddingBottom="8dp"
-            android:paddingLeft="20dp"
+            android:paddingLeft="10dp"
             android:textSize="18sp"
             android:textColor="@color/black_light"
             android:gravity="center_vertical"/>
@@ -43,15 +58,16 @@
 
     <RelativeLayout
         android:layout_weight="1"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center">
+        android:background="@drawable/ic_settings_stripes">
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/port"
+            android:background="@drawable/ic_settings_stripes"
             android:id="@+id/lbPortDialog"
-            android:paddingLeft="6dp"
+            android:layout_marginLeft="20dp"
             android:gravity="center_vertical"
             android:scaleType="fitXY"
             android:textSize="20sp"/>
@@ -68,9 +84,11 @@
             android:layout_height="wrap_content"
             android:background="@drawable/textview_border"
             android:clickable="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:paddingTop="6dp"
             android:paddingBottom="8dp"
-            android:paddingLeft="20dp"
+            android:paddingLeft="10dp"
             android:textSize="18sp"
             android:textColor="@color/black_light"
             android:gravity="center_vertical"/>
@@ -78,13 +96,13 @@
 
     <RelativeLayout
         android:layout_weight="1"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center">
+        android:background="@drawable/ic_settings_stripes">
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" "
+            android:text=""
             android:paddingLeft="6dp"
             android:gravity="center_vertical"
             android:scaleType="fitXY"
@@ -95,7 +113,8 @@
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center">
+        android:gravity="center"
+        android:background="@color/md_light_green_50">
         <LinearLayout
             android:orientation="horizontal"
             android:layout_gravity="center"
