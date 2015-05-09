@@ -152,7 +152,7 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
                 mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentChangeIPServer).commit();
                 break;
             case 7:
-                fragmentChangeBluetooth = new FragmentChangeBluetooth().newInstance(listName);
+                fragmentChangeBluetooth = new FragmentChangeBluetooth().newInstance();
                 mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentChangeBluetooth).commit();
                 break;
             default:;

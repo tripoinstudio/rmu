@@ -198,26 +198,26 @@ public class ActivityLogin extends ABaseActivity implements ILoginPost {
                     tfPortDialog.setText(propertyUtil.getValuePropertyMap(PropertyConstant.SERVER_PORT_KEY.toString()));
 
                     testConnDialog.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                IConnectionPost iConnectionPost = new IConnectionPost() {
-                                    @Override
-                                    public void onPostDelegate(Object objectResult) {
-                                        if (objectResult!= null){
-                                            BaseRESTDTO baseRESTDTO = (BaseRESTDTO) objectResult;
-                                            if( baseRESTDTO.getErr_code().equals(ViewConstant.ZERO.toString())){
-                                                lbTestStatusDialog.setText( baseRESTDTO.getErr_msg() );
-                                                lbTestStatusDialog.setTextColor(getResources().getColor(R.color.green_base));
-                                            }else{
-                                                lbTestStatusDialog.setText( "Connection Failed" );
-                                                lbTestStatusDialog.setTextColor(getResources().getColor(R.color.red_dark_holo));
-                                            }
-                                        }else{
-                                            lbTestStatusDialog.setText( "Connection Failed" );
+                        @Override
+                        public void onClick(View v) {
+                            IConnectionPost iConnectionPost = new IConnectionPost() {
+                                @Override
+                                public void onPostDelegate(Object objectResult) {
+                                    if (objectResult != null) {
+                                        BaseRESTDTO baseRESTDTO = (BaseRESTDTO) objectResult;
+                                        if (baseRESTDTO.getErr_code().equals(ViewConstant.ZERO.toString())) {
+                                            lbTestStatusDialog.setText(baseRESTDTO.getErr_msg());
+                                            lbTestStatusDialog.setTextColor(getResources().getColor(R.color.green_base));
+                                        } else {
+                                            lbTestStatusDialog.setText("Connection Failed");
                                             lbTestStatusDialog.setTextColor(getResources().getColor(R.color.red_dark_holo));
                                         }
+                                    } else {
+                                        lbTestStatusDialog.setText("Connection Failed");
+                                        lbTestStatusDialog.setTextColor(getResources().getColor(R.color.red_dark_holo));
                                     }
-                                };
+                                }
+                            };
 
                             ConnectionRest connectionRest = new ConnectionRest(iConnectionPost) {
                                 @Override
