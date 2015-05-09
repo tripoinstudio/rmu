@@ -26,9 +26,6 @@ public class OrderDetailModel {
     @DatabaseField( columnName = ModelConstant.ORDER_DETAIL_ORDER_HEADER_STATUS )
     private String orderHeaderStatus;
 
-    @DatabaseField( columnName = ModelConstant.ORDER_DETAIL_USER_CODE )
-    private String userCode;
-
     @DatabaseField( columnName = ModelConstant.ORDER_DETAIL_MENU_CODE )
     private String menuCode;
 
@@ -84,14 +81,6 @@ public class OrderDetailModel {
         this.orderHeaderStatus = orderHeaderStatus;
     }
 
-    public String getUserCode() {
-        return userCode;
-    }
-
-    public void setUserCode(String userCode) {
-        this.userCode = userCode;
-    }
-
     public String getMenuCode() {
         return menuCode;
     }
@@ -140,7 +129,6 @@ public class OrderDetailModel {
                 ", orderDetailTotalOrder='" + orderDetailTotalOrder + '\'' +
                 ", orderDetailTotalAmount='" + orderDetailTotalAmount + '\'' +
                 ", orderHeaderStatus='" + orderHeaderStatus + '\'' +
-                ", userCode='" + userCode + '\'' +
                 ", menuCode='" + menuCode + '\'' +
                 ", menuName='" + menuName + '\'' +
                 ", seatCode='" + seatCode + '\'' +

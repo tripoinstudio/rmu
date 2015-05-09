@@ -32,10 +32,6 @@ public class SynchronizeOrderList extends ASynchronizeData implements IOrderList
     private ISynchronizeOrderList iSynchronizeOrderList;
     private List<OrderListModel> orderListModelList;
 
-    protected SynchronizeOrderList(PropertyUtil securityUtil, Context context) {
-        super(securityUtil, context);
-    }
-
     public SynchronizeOrderList(PropertyUtil securityUtil, Context context, String tableName, ISynchronizeOrderList iSynchronizeOrderList) {
         super(securityUtil, context);
         this.tableName = tableName;
