@@ -6,23 +6,20 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_login7">
 
-    <Spinner
-        android:id="@+id/dropdown_ip_bt"
-        android:layout_width="175dp"
-        android:layout_height="30dp"
+    <ImageView
+        android:id="@+id/bt_setting_ip_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/ic_settings_white"
-        android:entries="@array/dropdown_setting_ip_bt"
-        android:popupBackground="@drawable/ic_settings_stripes"
-        android:prompt="@string/dropdown_ip_bt_prompt" />
+        android:src="@drawable/ic_settings_white_stripes"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="170dp"
+        android:layout_marginBottom="200dp"
         android:layout_marginLeft="10dp">
     </View>
 
