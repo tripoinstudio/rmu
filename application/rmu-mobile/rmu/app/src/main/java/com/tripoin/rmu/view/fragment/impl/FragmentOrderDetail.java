@@ -13,6 +13,7 @@ import com.tripoin.rmu.model.persist.OrderDetailModel;
 import com.tripoin.rmu.persistence.orm_persistence.service.OrderDetailDBManager;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
+import com.tripoin.rmu.view.activity.ActivityMain;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
 import com.tripoin.rmu.view.fragment.api.ISynchronizeOrderDetail;
 import com.tripoin.rmu.view.fragment.base.ABaseNavigationDrawerFragment;
@@ -144,7 +145,7 @@ public class FragmentOrderDetail extends ABaseNavigationDrawerFragment implement
             cards.add(card);
         }
 
-        CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(getActivity(), cards);
+        CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(rootView.getContext(), cards);
 
         if (listView != null) {
             listView.setAdapter(mCardArrayAdapter);
@@ -164,7 +165,7 @@ public class FragmentOrderDetail extends ABaseNavigationDrawerFragment implement
         }
         txtTotalPaid.setText(ViewConstant.TOTAL_PAID.toString().concat(ViewConstant.IDR.toString()).concat(ViewConstant.SPACE.toString()).concat(String.valueOf(totalPaid)));
 
-        CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(getActivity(), cards);
+        CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(rootView.getContext(), cards);
 
         if (listViewDetailOrderItem != null) {
             listViewDetailOrderItem.setAdapter(mCardArrayAdapter);
