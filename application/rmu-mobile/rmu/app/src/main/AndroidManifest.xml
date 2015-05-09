@@ -47,10 +47,6 @@
             </intent-filter>
             -->
         </activity>
-        <activity
-            android:name=".view.fragment.impl.DeviceListActivity"
-            android:label="@string/title_activity_device_list" >
-        </activity>
 
         <service android:name=".feature.scheduler.listener.SchedulerServiceListener" />
     </application>
