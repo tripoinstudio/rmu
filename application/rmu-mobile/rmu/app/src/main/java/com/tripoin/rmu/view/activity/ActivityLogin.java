@@ -2,6 +2,7 @@ package com.tripoin.rmu.view.activity;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v4.app.FragmentManager;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -22,9 +23,15 @@ import com.tripoin.rmu.R;
 import com.tripoin.rmu.model.DTO.master.MasterVersionItem;
 import com.tripoin.rmu.model.DTO.user.UserDTO;
 import com.tripoin.rmu.model.api.ModelConstant;
+import com.tripoin.rmu.model.base.impl.BaseRESTDTO;
 import com.tripoin.rmu.model.persist.VersionModel;
 import com.tripoin.rmu.persistence.orm_persistence.service.VersionDBManager;
+import com.tripoin.rmu.rest.api.IBaseRestFinished;
+import com.tripoin.rmu.rest.api.IConnectionPost;
 import com.tripoin.rmu.rest.api.ILoginPost;
+import com.tripoin.rmu.rest.base.ABaseRest;
+import com.tripoin.rmu.rest.enumeration.RestConstant;
+import com.tripoin.rmu.rest.impl.ConnectionRest;
 import com.tripoin.rmu.rest.impl.LoginRest;
 import com.tripoin.rmu.util.GeneralConverter;
 import com.tripoin.rmu.util.GeneralValidation;
@@ -35,6 +42,8 @@ import com.tripoin.rmu.view.activity.base.ABaseActivity;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
 import com.tripoin.rmu.view.fragment.impl.FragmentChangeIPServer;
 import com.tripoin.rmu.view.fragment.impl.FragmentUserProfile;
+
+import java.io.IOException;
 
 import butterknife.InjectView;
 import butterknife.OnCheckedChanged;
@@ -171,17 +180,75 @@ public class ActivityLogin extends ABaseActivity implements ILoginPost {
 
     @OnItemSelected(R.id.dropdown_ip_bt)
     public void dropdownIpBt(){
-        Spinner dropdown_ip_bt;
+        final Spinner dropdown_ip_bt;
         dropdown_ip_bt = (Spinner) findViewById(R.id.dropdown_ip_bt);
         dropdown_ip_bt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(parent.getContext(),"OnItemSelectedListener : " + parent.getItemAtPosition(position).toString(),Toast.LENGTH_LONG).show();
+            public void onItemSelected(AdapterView<?> parent, final View view, int position, long id) {
+                if(parent.getItemAtPosition(position).toString().equals("Setting IP Server")){
+                    LayoutInflater layoutInflater = LayoutInflater.from(view.getContext());
+                    View dialogView = layoutInflater.inflate(R.layout.fragment_ip_server_dialog, null);
+
+                    TextView tfIpDialog = (TextView) dialogView.findViewById(R.id.tfIpDialog);
+                    TextView tfPortDialog = (TextView) dialogView.findViewById(R.id.tfPortDialog);
+                    final TextView lbTestStatusDialog = (TextView) dialogView.findViewById(R.id.lbTestStatusDialog);
+                    Button testConnDialog = (Button) dialogView.findViewById(R.id.testConnDialog);
+                    PropertyUtil propertyUtil = new PropertyUtil(PropertyConstant.PROPERTY_FILE_NAME.toString(), view.getContext());
+                    tfIpDialog.setText(propertyUtil.getValuePropertyMap(PropertyConstant.SERVER_HOST_KEY.toString()));
+                    tfPortDialog.setText(propertyUtil.getValuePropertyMap(PropertyConstant.SERVER_PORT_KEY.toString()));
+
+                    testConnDialog.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                IConnectionPost iConnectionPost = new IConnectionPost() {
+                                    @Override
+                                    public void onPostDelegate(Object objectResult) {
+                                        if (objectResult!= null){
+                                            BaseRESTDTO baseRESTDTO = (BaseRESTDTO) objectResult;
+                                            if( baseRESTDTO.getErr_code().equals(ViewConstant.ZERO.toString())){
+                                                lbTestStatusDialog.setText( baseRESTDTO.getErr_msg() );
+                                                lbTestStatusDialog.setTextColor(getResources().getColor(R.color.green_base));
+                                            }else{
+                                                lbTestStatusDialog.setText( "Connection Failed" );
+                                                lbTestStatusDialog.setTextColor(getResources().getColor(R.color.red_dark_holo));
+                                            }
+                                        }else{
+                                            lbTestStatusDialog.setText( "Connection Failed" );
+                                            lbTestStatusDialog.setTextColor(getResources().getColor(R.color.red_dark_holo));
+                                        }
+                                    }
+                                };
+
+                            ConnectionRest connectionRest = new ConnectionRest(iConnectionPost) {
+                                @Override
+                                public Context getContext() {
+                                    return view.getContext();
+                                }
+                            };
+                            connectionRest.execute(securityUtil.getValuePropertyMap(PropertyConstant.CHIPPER_AUTH.toString()));
+                        }
+                    });
+
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(view.getContext());
+                    alertDialogBuilder.setView(dialogView);
+                    AlertDialog alertD = alertDialogBuilder.create();
+                    alertD.show();
+                }else if(parent.getItemAtPosition(position).toString().equals("Setting Bluetooth")){
+                    LayoutInflater layoutInflater = LayoutInflater.from(view.getContext());
+                    View dialogView = layoutInflater.inflate(R.layout.fragment_dialog_edit_text, null);
+
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(view.getContext());
+                    alertDialogBuilder.setView(dialogView);
+
+                    AlertDialog alertD = alertDialogBuilder.create();
+                    alertD.show();
+                }
+                Toast.makeText(parent.getContext(), "OnItemSelectedListener : " + parent.getItemAtPosition(position).toString(), Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                Toast.makeText(parent.getContext(),"OnItemSelectedListener : " + parent.getItemAtPosition(parent.getLastVisiblePosition()).toString(),Toast.LENGTH_LONG).show();
+                Toast.makeText(parent.getContext(), "OnItemSelectedListener : " + parent.getItemAtPosition(parent.getLastVisiblePosition()).toString(), Toast.LENGTH_LONG).show();
             }
         });
     }
