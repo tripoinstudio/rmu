@@ -13,7 +13,10 @@ import com.tripoin.rmu.feature.bluetooth.api.IBluetoothDecouplePrint;
 import com.tripoin.rmu.feature.bluetooth.api.IBluetoothPrinterListener;
 import com.tripoin.rmu.feature.bluetooth.listener.BluetoothReceiver;
 import com.tripoin.rmu.model.DTO.print_message.PrintMessageDTO;
+import com.tripoin.rmu.model.persist.OrderTempModel;
+import com.tripoin.rmu.view.enumeration.ViewConstant;
 import com.tripoin.rmu.view.fragment.impl.DeviceListAdapter;
+import com.tripoin.rmu.view.ui.PaddingHelper;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -65,7 +68,7 @@ public class BluetoothEngine implements IBluetoothPrinterListener{
         try {
             mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
             if (mBluetoothAdapter == null) {
-                Log.d("BLUETOOTH ENGINE ADAPTER", "NULL");
+                Log.d("BLUETOOTH ENGINE", "NULL");
             }
             if (!mBluetoothAdapter.isEnabled()) {
                 Intent enableBluetooth = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
@@ -165,11 +168,39 @@ public class BluetoothEngine implements IBluetoothPrinterListener{
         //scanBluetoothDevices();
         openBluetoothConnection();
         try {
-            String data =
-                    "\n\nPT. Reska Multi Usaha\n"
-                            .concat("eRestorasi version 1.0\n\n")
-                            .concat("   ---- Print Success ----\n\n");
-            mOutputStream.write(data.getBytes());
+            String orderNoPrintData = "Order No : ";
+            orderNoPrintData = orderNoPrintData.concat(printMessageDTO.getOrderNo())
+                                               .concat(ViewConstant.PRINT_DASH.toString());
+
+            String menuPrintData = "";
+            for(OrderTempModel orderTempModel : printMessageDTO.getMessageItemDTOs()){
+                int countMenuName = orderTempModel.getMenuName().length();
+                String menuNamePadding = orderTempModel.getMenuName();
+                if(countMenuName > 11){
+                    menuNamePadding = menuNamePadding.substring(0, 11);
+                }
+                menuNamePadding = menuNamePadding.concat("(").concat(orderTempModel.getQuantity()).concat(")");
+                menuNamePadding = new PaddingHelper().rightPaddingString(menuNamePadding, 15, " ");
+
+                String pricePadding = new PaddingHelper().leftPaddingString(orderTempModel.getPrice(), 9, " ");
+
+                menuPrintData = menuPrintData.concat(menuNamePadding)
+                        .concat("|  Rp.")
+                        .concat(pricePadding)
+                        .concat(ViewConstant.CURRENCY_PATTERN.toString());
+            }
+
+            String totalOrderPadding = printMessageDTO.getTotal();
+            totalOrderPadding = new PaddingHelper().leftPaddingString(totalOrderPadding, 9, " ");
+
+            String totalPrintData = ViewConstant.PRINT_DASH.toString()
+                    .concat("\nTotal          :  Rp.")
+                    .concat(totalOrderPadding)
+                    .concat(ViewConstant.CURRENCY_PATTERN.toString()).concat("\n");
+
+            String print = ViewConstant.PRINT_HEADER.toString().concat(orderNoPrintData).concat(menuPrintData).concat(totalPrintData).concat(ViewConstant.PRINT_FOOTER.toString());
+
+            mOutputStream.write(print.getBytes());
         } catch (NullPointerException e) {
             e.printStackTrace();
         } catch (Exception e) {

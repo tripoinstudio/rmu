@@ -76,6 +76,15 @@ public enum ViewConstant {
     TOTAL_ORDER("Total Order :"),
     TOTAL_PAID("Total Paid : "),
     CURRENCY_PATTERN(",-"),
+    PRINT_DASH("\n--------------------------------\n"),
+    PRINT_HEADER("\n\n\nPT. Reska Multi Usaha\n"
+            .concat("eRestorasi version 1.0\n")
+            .concat("Jln. Kapt Subidjanto\n")
+            .concat("Telp : 0212345678\n\n")
+            .concat(PRINT_DASH.toString())),
+    PRINT_FOOTER(PRINT_DASH.toString()
+            .concat("Thank You For Order\n")
+            .concat("Terima Kasih\n\n\n")),
     ;
 
 

@@ -3,7 +3,9 @@ package com.tripoin.rmu.model.DTO.print_message;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
+import com.tripoin.rmu.model.persist.OrderTempModel;
+
+import java.util.List;
 
 /**
  * Created by Achmad Fauzi on 5/7/2015 : 10:18 PM.
@@ -13,7 +15,7 @@ public class PrintMessageDTO implements Parcelable{
 
     private String orderNo;
     private String total;
-    private ArrayList<MessageItemDTO> messageItemDTOs;
+    private List<OrderTempModel> messageItemDTOs;
 
     public PrintMessageDTO() {
     }
@@ -38,11 +40,11 @@ public class PrintMessageDTO implements Parcelable{
         this.total = total;
     }
 
-    public ArrayList<MessageItemDTO> getMessageItemDTOs() {
+    public List<OrderTempModel> getMessageItemDTOs() {
         return messageItemDTOs;
     }
 
-    public void setMessageItemDTOs(ArrayList<MessageItemDTO> messageItemDTOs) {
+    public void setMessageItemDTOs(List<OrderTempModel> messageItemDTOs) {
         this.messageItemDTOs = messageItemDTOs;
     }
 
@@ -61,6 +63,6 @@ public class PrintMessageDTO implements Parcelable{
     private void readFromParcel(Parcel in){
         orderNo = in.readString();
         total = in.readString();
-        messageItemDTOs = in.readArrayList(MessageItemDTO.class.getClassLoader());
+        messageItemDTOs = in.readArrayList(OrderTempModel.class.getClassLoader());
     }
 }

@@ -21,9 +21,11 @@ import android.widget.TextView;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tripoin.rmu.R;
+import com.tripoin.rmu.feature.bluetooth.BluetoothEngine;
 import com.tripoin.rmu.feature.synchronizer.impl.SynchronizeMaster;
 import com.tripoin.rmu.model.DTO.order_detail.OrderDetailDTO;
 import com.tripoin.rmu.model.DTO.order_detail.OrderDetailItemDTO;
+import com.tripoin.rmu.model.DTO.print_message.PrintMessageDTO;
 import com.tripoin.rmu.model.api.ModelConstant;
 import com.tripoin.rmu.model.persist.CarriageModel;
 import com.tripoin.rmu.model.persist.OrderTempModel;
@@ -94,7 +96,7 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster, IP
     /*private TextView menuName;
     private TextView menuPrice;
     private TextView menuTotal;*/
-    private BluetoothUtils bluetoothUtils = new BluetoothUtils(FragmentAddOrder.this);
+    private BluetoothEngine bluetoothEngine;
     private List<OrderTempModel> orderTempModelList = new ArrayList<OrderTempModel>();
     private List<TrainModel> trainModels = new ArrayList<TrainModel>();
 
@@ -107,6 +109,9 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster, IP
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_add_order, container, false);
         rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT ));
+        bluetoothEngine = new BluetoothEngine(getActivity());
+        bluetoothEngine.scanBluetoothDevices();
+        bluetoothEngine.openBluetoothConnection();
         propertyUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(),rootView.getContext());
         OrderTempDBManager.init(rootView.getContext());
         orderTempModelList = OrderTempDBManager.getInstance().getAllData();
@@ -213,57 +218,21 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster, IP
     }
 
     private void printPayment(String orderNo){
-            String headerPrint = "\n\n\nPT. Reska Multi Usaha\n"
-                    .concat("eRestorasi version 1.0\n")
-                    .concat("Jln. Kapt Subidjanto\n")
-                    .concat("Telp : 0212345678\n")
-                    .concat("\n\n--------------------------------\n");
-
-            String orderNoPrintData = "Order No : ";
-            orderNoPrintData = orderNoPrintData.concat(orderNo)
-                    .concat("\n--------------------------------\n");
-
-            String menuPrintData = "";
-            for(OrderTempModel orderTempModel : orderTempModelList){
-                int countMenuName = orderTempModel.getMenuName().length();
-                String menuNamePadding = orderTempModel.getMenuName();
-                if(countMenuName > 11){
-                    menuNamePadding = menuNamePadding.substring(0, 11);
-                }
-                menuNamePadding = menuNamePadding.concat("(").concat(orderTempModel.getQuantity()).concat(")");
-                menuNamePadding = new PaddingHelper().rightPaddingString(menuNamePadding, 15, " ");
-
-                String pricePadding = new PaddingHelper().leftPaddingString(orderTempModel.getPrice(), 9, " ");
-
-                menuPrintData = menuPrintData.concat(menuNamePadding)
-                        .concat("|  Rp.")
-                        .concat(pricePadding)
-                        .concat(ViewConstant.CURRENCY_PATTERN.toString()).concat("\n");
-            }
-
-            String totalOrderPadding = String.valueOf(totalOrder);
-            totalOrderPadding = new PaddingHelper().leftPaddingString(totalOrderPadding, 9, " ");
-
-            String totalPrintData = "--------------------------------\n"
-                    .concat("Total          :  Rp.")
-                    .concat(totalOrderPadding)
-                    .concat(ViewConstant.CURRENCY_PATTERN.toString());
-
-            String footerPrint = "\n\n--------------------------------\n"
-                    .concat("Thank You For Order\n")
-                    .concat("Terima Kasih\n\n\n");
-
-            String print = headerPrint.concat(orderNoPrintData).concat(menuPrintData).concat(totalPrintData).concat(footerPrint);
-            Log.d("PRINT PAYMENT", print);
-                    /*try {
-                        bluetoothUtils.printData(print);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }*/
-            OrderTempDBManager.getInstance().executeRaw("DELETE FROM ".concat(ModelConstant.ORDER_TEMP_TABLE));
-            FragmentOrderList fragmentOrderList = new FragmentOrderList();
-            FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
-            mFragmentManager.beginTransaction().replace(R.id.container, fragmentOrderList).commit();
+        PrintMessageDTO printMessageDTO = new PrintMessageDTO();
+        printMessageDTO.setOrderNo(orderNo);
+        printMessageDTO.setTotal(String.valueOf(totalOrder));
+        printMessageDTO.setMessageItemDTOs(orderTempModelList);
+        try {
+            bluetoothEngine.scanBluetoothDevices();
+            bluetoothEngine.openBluetoothConnection();
+            bluetoothEngine.printMessage(printMessageDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        OrderTempDBManager.getInstance().executeRaw("DELETE FROM ".concat(ModelConstant.ORDER_TEMP_TABLE));
+        FragmentOrderList fragmentOrderList = new FragmentOrderList();
+        FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
+        mFragmentManager.beginTransaction().replace(R.id.container, fragmentOrderList).commit();
     }
 
     @Override
