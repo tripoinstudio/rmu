@@ -138,21 +138,6 @@ public class FragmentChangeIPServer extends ABaseNavigationDrawerFragment implem
         setHasOptionsMenu(false);
     }
 
-    @Override
-    public void onPostDelegate(Object objectResult) {
-        if (objectResult != null){
-            BaseRESTDTO baseRESTDTO = (BaseRESTDTO) objectResult;
-            if( baseRESTDTO.getErr_code().equals(ViewConstant.ZERO.toString())){
-                labelTest.setText( baseRESTDTO.getErr_msg() );
-                labelTest.setTextColor(getResources().getColor(R.color.green_base));
-            }else{
-                setFailedStatus();
-            }
-        }else{
-            setFailedStatus();
-        }
-    }
-
     private void setFailedStatus(){
         labelTest.setText( "Connection Failed" );
         labelTest.setTextColor(getResources().getColor(R.color.red_dark_holo));
@@ -178,5 +163,20 @@ public class FragmentChangeIPServer extends ABaseNavigationDrawerFragment implem
     @Override
     public int getViewLayoutId() {
         return R.layout.fragment_ip_server;
+    }
+
+    @Override
+    public void onPostConnectionTest(Object objectResult) {
+        if (objectResult != null){
+            BaseRESTDTO baseRESTDTO = (BaseRESTDTO) objectResult;
+            if( baseRESTDTO.getErr_code().equals(ViewConstant.ZERO.toString())){
+                labelTest.setText( baseRESTDTO.getErr_msg() );
+                labelTest.setTextColor(getResources().getColor(R.color.green_base));
+            }else{
+                setFailedStatus();
+            }
+        }else{
+            setFailedStatus();
+        }
     }
 }
