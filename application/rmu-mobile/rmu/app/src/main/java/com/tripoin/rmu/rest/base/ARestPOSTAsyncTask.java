@@ -17,11 +17,12 @@ public abstract class ARestPOSTAsyncTask extends ABaseRest {
     @Override
     protected String doInBackground(String... params) {
         Log.e("URL WS", initUrl());
-        jsonObject = getJsonParser().retrieveJSONAsGet(initUrl(), params[0]);
         try {
+            jsonObject = getJsonParser().retrieveJSONAsGet(initUrl(), params[0]);
             objectResult = objectMapper.readValue( String.valueOf(jsonObject), initClassResult() );
-        } catch (IOException e) {
+        } catch (Exception e) {
             Log.e("ERROR WEB SERVICE", e.toString());
+            objectResult = null;
         }
         return null;
     }

@@ -3,6 +3,7 @@ package com.tripoin.rmu.rest.api;
 import org.apache.http.NameValuePair;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -25,6 +26,6 @@ public interface IJSONParser {
      * @param url String
      * @return JSONObject
      */
-    public JSONObject retrieveJSONAsGet(String url, String chipperText);
+    public JSONObject retrieveJSONAsGet(String url, String chipperText) throws IOException, Exception;
 
 }

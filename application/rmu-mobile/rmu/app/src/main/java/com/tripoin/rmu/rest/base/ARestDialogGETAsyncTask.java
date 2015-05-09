@@ -18,11 +18,12 @@ public abstract class ARestDialogGETAsyncTask extends ABaseDialogRest{
     @Override
     protected String doInBackground(String... params) {
         Log.e("URL WS", processedURL());
-        jsonObject = getJsonParser().retrieveJSONAsGet( processedURL(), params[0] );
         try {
+            jsonObject = getJsonParser().retrieveJSONAsGet( processedURL(), params[0] );
             objectResult = objectMapper.readValue( String.valueOf(jsonObject), initClassResult() );
-        } catch (IOException e) {
+        } catch (Exception e) {
             Log.e("ERROR WEB SERVICE", e.toString());
+            objectResult = null;
         }
         return null;
     }

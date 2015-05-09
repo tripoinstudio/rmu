@@ -34,6 +34,6 @@ public abstract class ConnectionRest extends ARestDialogGETAsyncTask {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        iConnectionPost.onPostDelegate(objectResult);
+        iConnectionPost.onPostConnectionTest(objectResult);
     }
 }

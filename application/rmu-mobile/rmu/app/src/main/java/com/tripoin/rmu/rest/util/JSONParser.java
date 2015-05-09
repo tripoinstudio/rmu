@@ -94,9 +94,9 @@ public class JSONParser implements IJSONParser{
     }
 
     @Override
-    public JSONObject retrieveJSONAsGet( String url, String chipperText ){
+    public JSONObject retrieveJSONAsGet( String url, String chipperText ) throws Exception {
         //Making Http Request
-        try {
+
             HttpClient defaultHttpClient = customHttpClient.getHttpClient();
             HttpGet httpGet = new HttpGet(url);
             if( !chipperText.isEmpty() ){
@@ -106,13 +106,7 @@ public class JSONParser implements IJSONParser{
             HttpResponse httpResponse = defaultHttpClient.execute(httpGet);
             HttpEntity httpEntity = httpResponse.getEntity();
             inputStream = httpEntity.getContent();
-        } catch (UnsupportedEncodingException e){
-            e.printStackTrace();
-        } catch (ClientProtocolException e){
-            e.printStackTrace();
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
+
 
         try{
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"), 8);
