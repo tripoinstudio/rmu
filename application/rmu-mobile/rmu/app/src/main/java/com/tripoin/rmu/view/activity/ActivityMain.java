@@ -1,5 +1,6 @@
 package com.tripoin.rmu.view.activity;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +11,8 @@ import android.view.Menu;
 import android.view.View;
 
 import com.tripoin.rmu.R;
+import com.tripoin.rmu.feature.scheduler.listener.SchedulerServiceListener;
+import com.tripoin.rmu.feature.scheduler.trigger.AlarmManagerStarter;
 import com.tripoin.rmu.model.base.impl.BaseRESTDTO;
 import com.tripoin.rmu.rest.api.ILogoutPost;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
@@ -24,6 +27,7 @@ import com.tripoin.rmu.view.fragment.impl.FragmentAddOrder;
 import com.tripoin.rmu.view.fragment.impl.FragmentChangeBluetooth;
 import com.tripoin.rmu.view.fragment.impl.FragmentChangeIPServer;
 import com.tripoin.rmu.view.fragment.impl.FragmentMenuList;
+import com.tripoin.rmu.view.fragment.impl.FragmentOrderDetail;
 import com.tripoin.rmu.view.fragment.impl.FragmentOrderList;
 import com.tripoin.rmu.view.fragment.impl.FragmentUpdateStaticData;
 import com.tripoin.rmu.view.fragment.impl.FragmentUserProfile;
@@ -63,7 +67,6 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
     @Override
     protected void onResume() {
         super.onResume();
-        //iMainActivityUtil.detectLoginStatus(iLogoutHandler);
     }
 
 
@@ -73,9 +76,6 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
         securityUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(), this);
         iMainActivityUtil = new MainUtilImplActivity(this);
         iSignHandler = new SignHandlerImpl(securityUtil, this);
-
-        //iMainActivityUtil.detectLoginStatus(iLogoutHandler);
-
         // name of the list items
         mListNameItem = new ArrayList<>();
         mListNameItem.add(0, getString(R.string.add_order));
@@ -112,6 +112,21 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
         this.setFooterInformationDrawer(R.string.string_log_out, R.drawable.ic_settings_black_24dp);
 
         this.setNavigationAdapter(mListNameItem, mListIconItem, mListHeaderItem, mSparseCounterItem);
+
+        Intent schedulerIntent = new Intent(ActivityMain.this, SchedulerServiceListener.class);
+        PendingIntent pendingIntent = PendingIntent.getService(ActivityMain.this, 0, schedulerIntent, 0);
+        AlarmManagerStarter alarmManagerStarter = new AlarmManagerStarter( this, null, pendingIntent );
+        alarmManagerStarter.startAlarmManager();
+
+        Intent intent = getIntent();
+        String fragmentDirection = intent.getAction();
+        if( fragmentDirection != null){
+            Log.d("FRAGMENT DIR", fragmentDirection);
+            FragmentManager mFragmentManager = getSupportFragmentManager();
+            FragmentOrderList fragmentOrderList = new FragmentOrderList().newInstance(fragmentDirection);
+            /*FragmentOrderDetail fragmentOrderDetail = new FragmentOrderDetail().newInstance(fragmentDirection);*/
+            mFragmentManager.beginTransaction().replace(R.id.container, fragmentOrderList).commit();
+        }
     }
 
     @Override
@@ -136,7 +151,7 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
                 break;
             case 2 :
                 layoutContainerIdGlobal = layoutContainerId;
-                fragmentOrderList = new FragmentOrderList().newInstance();
+                fragmentOrderList = new FragmentOrderList().newInstance("");
                 mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentOrderList).commit();
                 break;
             case 3 :
