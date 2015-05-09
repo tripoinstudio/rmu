@@ -3,6 +3,7 @@ package com.tripoin.rmu.view.activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -15,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,12 +57,15 @@ import butterknife.OnItemSelected;
  * fauzi.knightmaster.achmad@gmail.com
  */
 
-public class ActivityLogin extends ABaseActivity implements ILoginPost {
+public class ActivityLogin extends ABaseActivity implements ILoginPost, IConnectionPost {
 
     @InjectView(R.id.txt_username) EditText txtUserName;
     @InjectView(R.id.txt_password) EditText txtPassword;
-    @InjectView(R.id.btSignIn) Button btSignIn;
+    @InjectView(R.id.bt_setting_ip_bt) ImageView btSettingIpBt;
+
+
     @InjectView(R.id.chkShowPassword) CheckBox chkShowPassword;
+    TextView lbTestStatusDialog;
 
     private GeneralValidation generalValidation;
     private GeneralConverter generalConverter;
@@ -178,79 +183,126 @@ public class ActivityLogin extends ABaseActivity implements ILoginPost {
         }
     }
 
-    @OnItemSelected(R.id.dropdown_ip_bt)
-    public void dropdownIpBt(){
-        final Spinner dropdown_ip_bt;
-        dropdown_ip_bt = (Spinner) findViewById(R.id.dropdown_ip_bt);
-        dropdown_ip_bt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+    @OnClick(R.id.bt_setting_ip_bt)
+    public void btSetIpBt(){
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
+        final View dialogView = layoutInflater.inflate(R.layout.fragment_ip_server_dialog, null);
+
+
+
+
+        final TextView tfIpDialog = (TextView) dialogView.findViewById(R.id.tfIpDialog);
+        final TextView tfPortDialog = (TextView) dialogView.findViewById(R.id.tfPortDialog);
+        lbTestStatusDialog = (TextView) dialogView.findViewById(R.id.lbTestStatusDialog);
+        Button testConnDialog = (Button) dialogView.findViewById(R.id.testConnDialog);
+        final PropertyUtil propertyUtil = new PropertyUtil(PropertyConstant.PROPERTY_FILE_NAME.toString(), this);
+        tfIpDialog.setText(propertyUtil.getValuePropertyMap(PropertyConstant.SERVER_HOST_KEY.toString()));
+        tfPortDialog.setText(propertyUtil.getValuePropertyMap(PropertyConstant.SERVER_PORT_KEY.toString()));
+
+        tfIpDialog.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, final View view, int position, long id) {
-                if(parent.getItemAtPosition(position).toString().equals("Setting IP Server")){
-                    LayoutInflater layoutInflater = LayoutInflater.from(view.getContext());
-                    View dialogView = layoutInflater.inflate(R.layout.fragment_ip_server_dialog, null);
+            public void onClick(View v) {
+                LayoutInflater layoutInflater = LayoutInflater.from(dialogView.getContext());
+                View dialogView = layoutInflater.inflate(R.layout.fragment_dialog_edit_text, null);
+                TextView lblEditText = (TextView) dialogView.findViewById(R.id.lbl_edit_text);
+                final EditText tfEditText = (EditText) dialogView.findViewById(R.id.tf_edit_text);
+                lblEditText.setText("Enter IP Address");
 
-                    TextView tfIpDialog = (TextView) dialogView.findViewById(R.id.tfIpDialog);
-                    TextView tfPortDialog = (TextView) dialogView.findViewById(R.id.tfPortDialog);
-                    final TextView lbTestStatusDialog = (TextView) dialogView.findViewById(R.id.lbTestStatusDialog);
-                    Button testConnDialog = (Button) dialogView.findViewById(R.id.testConnDialog);
-                    PropertyUtil propertyUtil = new PropertyUtil(PropertyConstant.PROPERTY_FILE_NAME.toString(), view.getContext());
-                    tfIpDialog.setText(propertyUtil.getValuePropertyMap(PropertyConstant.SERVER_HOST_KEY.toString()));
-                    tfPortDialog.setText(propertyUtil.getValuePropertyMap(PropertyConstant.SERVER_PORT_KEY.toString()));
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(dialogView.getContext());
+                alertDialogBuilder.setView(dialogView);
+                tfEditText.setText(tfIpDialog.getText().toString());
+                tfEditText.setSelection(tfEditText.getText().length());
 
-                    testConnDialog.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            IConnectionPost iConnectionPost = new IConnectionPost() {
-                                @Override
-                                public void onPostDelegate(Object objectResult) {
-                                    if (objectResult != null) {
-                                        BaseRESTDTO baseRESTDTO = (BaseRESTDTO) objectResult;
-                                        if (baseRESTDTO.getErr_code().equals(ViewConstant.ZERO.toString())) {
-                                            lbTestStatusDialog.setText(baseRESTDTO.getErr_msg());
-                                            lbTestStatusDialog.setTextColor(getResources().getColor(R.color.green_base));
-                                        } else {
-                                            lbTestStatusDialog.setText("Connection Failed");
-                                            lbTestStatusDialog.setTextColor(getResources().getColor(R.color.red_dark_holo));
-                                        }
-                                    } else {
-                                        lbTestStatusDialog.setText("Connection Failed");
-                                        lbTestStatusDialog.setTextColor(getResources().getColor(R.color.red_dark_holo));
-                                    }
-                                }
-                            };
-
-                            ConnectionRest connectionRest = new ConnectionRest(iConnectionPost) {
-                                @Override
-                                public Context getContext() {
-                                    return view.getContext();
-                                }
-                            };
-                            connectionRest.execute(securityUtil.getValuePropertyMap(PropertyConstant.CHIPPER_AUTH.toString()));
-                        }
-                    });
-
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(view.getContext());
-                    alertDialogBuilder.setView(dialogView);
-                    AlertDialog alertD = alertDialogBuilder.create();
-                    alertD.show();
-                }else if(parent.getItemAtPosition(position).toString().equals("Setting Bluetooth")){
-                    LayoutInflater layoutInflater = LayoutInflater.from(view.getContext());
-                    View dialogView = layoutInflater.inflate(R.layout.fragment_dialog_edit_text, null);
-
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(view.getContext());
-                    alertDialogBuilder.setView(dialogView);
-
-                    AlertDialog alertD = alertDialogBuilder.create();
-                    alertD.show();
-                }
-                Toast.makeText(parent.getContext(), "OnItemSelectedListener : " + parent.getItemAtPosition(position).toString(), Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                Toast.makeText(parent.getContext(), "OnItemSelectedListener : " + parent.getItemAtPosition(parent.getLastVisiblePosition()).toString(), Toast.LENGTH_LONG).show();
+                alertDialogBuilder.setCancelable(true).setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        propertyUtil.saveSingleProperty(PropertyConstant.SERVER_HOST_KEY.toString(), tfEditText.getText().toString());
+                        tfIpDialog.setText(propertyUtil.getValuePropertyMap(PropertyConstant.SERVER_HOST_KEY.toString()));
+                        Toast.makeText(ActivityLogin.this,"IP Server Change to : " +propertyUtil.getValuePropertyMap(PropertyConstant.SERVER_HOST_KEY.toString()), Toast.LENGTH_SHORT).show();
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                AlertDialog alertD = alertDialogBuilder.create();
+                alertD.show();
             }
         });
+
+        tfPortDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater layoutInflater = LayoutInflater.from(dialogView.getContext());
+                View dialogView = layoutInflater.inflate(R.layout.fragment_dialog_edit_text, null);
+                TextView lblEditText = (TextView) dialogView.findViewById(R.id.lbl_edit_text);
+                final EditText tfEditText = (EditText) dialogView.findViewById(R.id.tf_edit_text);
+                lblEditText.setText("Enter Port");
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(dialogView.getContext());
+                alertDialogBuilder.setView(dialogView);
+                tfEditText.setText(tfPortDialog.getText().toString());
+                tfEditText.setSelection(tfEditText.getText().length());
+
+                alertDialogBuilder.setCancelable(true).setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        propertyUtil.saveSingleProperty(PropertyConstant.SERVER_PORT_KEY.toString(), tfEditText.getText().toString());
+                        tfPortDialog.setText(propertyUtil.getValuePropertyMap(PropertyConstant.SERVER_PORT_KEY.toString()));
+                        Toast.makeText(ActivityLogin.this,"Port Change to : " +propertyUtil.getValuePropertyMap(PropertyConstant.SERVER_PORT_KEY.toString()), Toast.LENGTH_SHORT).show();
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                AlertDialog alertD = alertDialogBuilder.create();
+                alertD.show();
+            }
+        });
+
+        testConnDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ConnectionRest connectionRest = new ConnectionRest(ActivityLogin.this) {
+                    @Override
+                    public Context getContext() {
+                        return ActivityLogin.this;
+                    }
+                };
+                connectionRest.execute(securityUtil.getValuePropertyMap(PropertyConstant.CHIPPER_AUTH.toString()));
+            }
+        });
+
+
+
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setView(dialogView);
+        AlertDialog alertD = alertDialogBuilder.create();
+        alertD.show();
+
+
+
+
     }
 
+    @Override
+    public void onPostConnectionTest(Object objectResult) {
+        if (objectResult != null) {
+            BaseRESTDTO baseRESTDTO = (BaseRESTDTO) objectResult;
+            if (baseRESTDTO.getErr_code().equals(ViewConstant.ZERO.toString())) {
+                lbTestStatusDialog.setText(baseRESTDTO.getErr_msg());
+                lbTestStatusDialog.setTextColor(getResources().getColor(R.color.green_base));
+            } else {
+                lbTestStatusDialog.setText("Connection Failed");
+                lbTestStatusDialog.setTextColor(getResources().getColor(R.color.red_dark_holo));
+            }
+        } else {
+            lbTestStatusDialog.setText("Connection Failed");
+            lbTestStatusDialog.setTextColor(getResources().getColor(R.color.red_dark_holo));
+        }
+    }
 }
