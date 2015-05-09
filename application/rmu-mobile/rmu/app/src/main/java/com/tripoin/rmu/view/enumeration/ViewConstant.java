@@ -30,6 +30,7 @@ public enum ViewConstant {
     FRAGMENT_ORDER_LIST_TITLE("Order List"),
     FRAGMENT_ORDER_DETAIL_TITLE("Order Detail"),
     FRAGMENT_SERVER_CONFIGURATION("Server Configuration"),
+    FRAGMENT_BLUETOOTH_CONFIGURATION("Bluetooth Configuration"),
 
     EMPTY(""),
     ERROR("ERROR"),
