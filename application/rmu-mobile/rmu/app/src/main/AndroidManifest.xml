@@ -9,9 +9,10 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
@@ -20,24 +21,38 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat.NoActionBar" >
+        <receiver android:name=".feature.scheduler.listener.ServiceBroadcastListener">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
         <activity
-            android:name="com.tripoin.rmu.view.activity.ActivityLogin"
+            android:name=".view.activity.ActivityLogin"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.tripoin.rmu.view.activity.ActivityMain"
-            android:theme="@style/nLiveoDrawer"
-            android:label="@string/app_name" >
-            <!--<intent-filter>
+            android:name=".view.activity.ActivityMain"
+            android:label="@string/app_name"
+            android:theme="@style/nLiveoDrawer" >
+
+            <!--
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
+            -->
+        </activity>
+        <activity
+            android:name=".view.fragment.impl.DeviceListActivity"
+            android:label="@string/title_activity_device_list" >
         </activity>
 
+        <service android:name=".feature.scheduler.listener.SchedulerServiceListener" />
     </application>
 
 </manifest>
