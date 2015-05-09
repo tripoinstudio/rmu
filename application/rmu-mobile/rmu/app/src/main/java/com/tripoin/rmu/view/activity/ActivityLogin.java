@@ -2,9 +2,8 @@ package com.tripoin.rmu.view.activity;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.support.v4.app.FragmentManager;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -12,12 +11,10 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,11 +25,9 @@ import com.tripoin.rmu.model.api.ModelConstant;
 import com.tripoin.rmu.model.base.impl.BaseRESTDTO;
 import com.tripoin.rmu.model.persist.VersionModel;
 import com.tripoin.rmu.persistence.orm_persistence.service.VersionDBManager;
-import com.tripoin.rmu.rest.api.IBaseRestFinished;
 import com.tripoin.rmu.rest.api.IConnectionPost;
 import com.tripoin.rmu.rest.api.ILoginPost;
-import com.tripoin.rmu.rest.base.ABaseRest;
-import com.tripoin.rmu.rest.enumeration.RestConstant;
+import com.tripoin.rmu.rest.api.ILogoutPost;
 import com.tripoin.rmu.rest.impl.ConnectionRest;
 import com.tripoin.rmu.rest.impl.LoginRest;
 import com.tripoin.rmu.util.GeneralConverter;
@@ -40,24 +35,21 @@ import com.tripoin.rmu.util.GeneralValidation;
 import com.tripoin.rmu.util.NetworkConnectivity;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
+import com.tripoin.rmu.view.activity.api.ISignHandler;
 import com.tripoin.rmu.view.activity.base.ABaseActivity;
+import com.tripoin.rmu.view.activity.impl.SignHandlerImpl;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
-import com.tripoin.rmu.view.fragment.impl.FragmentChangeIPServer;
-import com.tripoin.rmu.view.fragment.impl.FragmentUserProfile;
-
-import java.io.IOException;
 
 import butterknife.InjectView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
-import butterknife.OnItemSelected;
 
 /**
  * Created by Achmad Fauzi on 9/21/2014.
  * fauzi.knightmaster.achmad@gmail.com
  */
 
-public class ActivityLogin extends ABaseActivity implements ILoginPost, IConnectionPost {
+public class ActivityLogin extends ABaseActivity implements ILoginPost, IConnectionPost, ILogoutPost {
 
     @InjectView(R.id.txt_username) EditText txtUserName;
     @InjectView(R.id.txt_password) EditText txtPassword;
@@ -74,13 +66,17 @@ public class ActivityLogin extends ABaseActivity implements ILoginPost, IConnect
     private String chipperAuth;
     private String userName;
     private PropertyUtil securityUtil;
+    private ISignHandler iSignHandler;
 
     @Override
     public void initWidget() {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         securityUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(), getApplicationContext());
         generalValidation = new GeneralValidation();
         generalConverter = new GeneralConverter();
         networkConnectivity = new NetworkConnectivity(this, null);
+        iSignHandler = new SignHandlerImpl(securityUtil, this);
+        iSignHandler.detectLoginStatus();
         VersionDBManager.init(this);
     }
 
@@ -108,7 +104,7 @@ public class ActivityLogin extends ABaseActivity implements ILoginPost, IConnect
     @Override
     protected void onResume() {
         super.onResume();
-        //detectLoginStatus();
+        iSignHandler.detectLoginStatus();
     }
 
     @OnClick(R.id.btSignIn)
@@ -276,17 +272,10 @@ public class ActivityLogin extends ABaseActivity implements ILoginPost, IConnect
             }
         });
 
-
-
-
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setView(dialogView);
         AlertDialog alertD = alertDialogBuilder.create();
         alertD.show();
-
-
-
-
     }
 
     @Override
@@ -303,6 +292,22 @@ public class ActivityLogin extends ABaseActivity implements ILoginPost, IConnect
         } else {
             lbTestStatusDialog.setText("Connection Failed");
             lbTestStatusDialog.setTextColor(getResources().getColor(R.color.red_dark_holo));
+        }
+    }
+
+    @Override
+    public void onPostLogout(Object objectResult) {
+        try{
+            if(objectResult != null){
+                BaseRESTDTO baseRESTDTO = (BaseRESTDTO) objectResult;
+                if(baseRESTDTO.getErr_code().equals(ViewConstant.ZERO.toString())){
+                    Log.d("Success","Logout");
+                }
+            }else{
+                Log.d("Failed", "Logout");
+            }
+        }catch (Exception e){
+            Log.d("Object Post not Found", e.toString());
         }
     }
 }

@@ -62,8 +62,10 @@ public enum ViewConstant {
     PIXEL("p"),
     COMMA(" ,"),
     COMMANS(","),
-    WORKING_HOUR("Service is Running - Working Hour"),
-    NON_WORKING_HOUR("Service is Running - Non Working Hour"),
+    /*WORKING_HOUR("Service is Running - Working Hour"),
+    NON_WORKING_HOUR("Service is Running - Non Working Hour"),*/
+    SERVICE_RUNNING("Service is Running"),
+    NEW_ORDER("New Order - "),
     RETRIEVE_CONF("Retrieving Configuration, Please Wait.."),
     DEVICE_ID("Device Id"),
     IDLE("IDLE"),
