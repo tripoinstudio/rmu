@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tripoin.rmu.R;
+import com.tripoin.rmu.feature.scheduler.constant.IOrderStatusConstant;
 import com.tripoin.rmu.feature.synchronizer.impl.SynchronizeOrderList;
 import com.tripoin.rmu.model.api.ModelConstant;
 import com.tripoin.rmu.model.persist.CarriageModel;
@@ -50,6 +51,7 @@ import it.gmariotti.cardslib.library.view.CardListView;
 /**
  * Created by Achmad Fauzi on 4/18/2015 : 11:32 AM.
  * mailto : fauzi.knightmaster.achmad@gmail.com
+ * Order List
  */
 public class FragmentOrderList extends ABaseNavigationDrawerFragment implements ISynchronizeOrderList{
 
@@ -190,8 +192,10 @@ public class FragmentOrderList extends ABaseNavigationDrawerFragment implements 
     private void initCards(List<OrderListModel> orderListModels){
         ArrayList<Card> cards = new ArrayList<Card>();
         for (int i = 0; i<orderListModels.size(); i++) {
-            Card card = new CustomCardOrderList(getActivity(), R.layout.row_card, orderListModels.get(i));
-            cards.add(card);
+            if( orderListModels.get(i).getProcessStatus() != IOrderStatusConstant.DONE ){
+                Card card = new CustomCardOrderList(getActivity(), R.layout.row_card, orderListModels.get(i));
+                cards.add(card);
+            }
         }
 
         CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(rootView.getContext(), cards);
@@ -210,7 +214,6 @@ public class FragmentOrderList extends ABaseNavigationDrawerFragment implements 
     public void initWidget() {
         Bundle bundle = getArguments();
         if( bundle != null){
-            Log.d("BUNDLE", "OKE");
             FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
             FragmentOrderDetail fragmentOrderDetail = new FragmentOrderDetail().newInstance(bundle.getString("ORDER_ID"));
             mFragmentManager.beginTransaction().replace(R.id.container, fragmentOrderDetail).commit();
