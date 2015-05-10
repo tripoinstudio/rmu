@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import com.RT_Printer.BluetoothPrinter.BLUETOOTH.BluetoothPrintDriver;
 import com.tripoin.rmu.R;
-import com.tripoin.rmu.feature.bluetooth.BluetoothConnector;
 import com.tripoin.rmu.feature.bluetooth.BluetoothEngine;
 import com.tripoin.rmu.feature.bluetooth.listener.BluetoothReceiver;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
@@ -37,7 +36,6 @@ public class FragmentAbout extends ABaseNavigationDrawerFragment{
     @InjectView(R.id.label_about2) TextView lblAbout2;
     @InjectView(R.id.label_about3) TextView lblAbout3;
     BluetoothEngine bluetoothEngine;
-    BluetoothConnector bluetoothConnector;
     private BluetoothAdapter mBluetoothAdapter;
     private BluetoothDevice mBluetoothDevice;
     private BluetoothReceiver mbluetoothReceiver;
@@ -119,21 +117,6 @@ public class FragmentAbout extends ABaseNavigationDrawerFragment{
 
     @OnClick(R.id.label_about1)
     public void klikAbot() {
-
-
-        if(BluetoothPrintDriver.IsNoConnection()){
-            return;
-        }
-        BluetoothPrintDriver.Begin();
-        BluetoothPrintDriver.ImportData("taiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
-        BluetoothPrintDriver.ImportData("\r");
-        BluetoothPrintDriver.LF();
-        BluetoothPrintDriver.LF();
-        BluetoothPrintDriver.excute();
-        BluetoothPrintDriver.ClearData();
-
-        /*bluetoothConnector.printMessage("test");*/
-
         Toast.makeText(getActivity(), "KLIK ABOT ".concat(data1), Toast.LENGTH_SHORT).show();
     }
 
