@@ -27,6 +27,7 @@ public enum ViewConstant {
 
     /*Fragment Titles*/
     FRAGMENT_ABOUT_TITLE("About Application"),
+    FRAGMENT_MENU_TITLE("Menu List"),
     FRAGMENT_ORDER_LIST_TITLE("Order List"),
     FRAGMENT_ORDER_DETAIL_TITLE("Order Detail"),
     FRAGMENT_SERVER_CONFIGURATION("Server Configuration"),

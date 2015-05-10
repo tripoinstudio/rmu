@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="carddemo_myapps_main_inner_ratingbar_big"  >
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:progressDrawable">@drawable/ratingbar_big_holo_dark</item>
+        <item name="android:indeterminateDrawable">@drawable/ratingbar_big_holo_dark</item>
+        <item name="android:minHeight">20dp</item>
+        <item name="android:maxHeight">20dp</item>
+        <item name="android:thumb">@null</item>
+        <item name="android:isIndicator">true</item>
+    </style>
+    <style name="carddemo_myapps_main_inner_ratingbar_big_normal"  >
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:progressDrawable">@drawable/ratingbar_big_holo_dark</item>
+        <item name="android:indeterminateDrawable">@drawable/ratingbar_big_holo_dark</item>
+        <item name="android:minHeight">17dp</item>
+        <item name="android:maxHeight">17dp</item>
+        <item name="android:thumb">@null</item>
+        <item name="android:isIndicator">true</item>
+    </style>
     <style name="carddemo_myapps_main_inner_ratingbar"  >
         <item name="android:indeterminateOnly">false</item>
         <item name="android:progressDrawable">@drawable/ratingbar_small_holo_dark</item>
