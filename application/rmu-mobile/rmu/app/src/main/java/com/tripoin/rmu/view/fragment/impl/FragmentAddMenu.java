@@ -164,7 +164,7 @@ public class FragmentAddMenu extends Fragment {
                     }
                     FragmentAddOrder fragmentAddOrder = new FragmentAddOrder().newInstance("");
                     FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
-                    mFragmentManager.beginTransaction().replace(R.id.container, fragmentAddOrder).commit();
+                    mFragmentManager.beginTransaction().replace(R.id.container, fragmentAddOrder).addToBackStack(null).commit();
                 }
             }
         });
@@ -202,11 +202,10 @@ public class FragmentAddMenu extends Fragment {
         DecimalFormatSymbols formatIDR = new DecimalFormatSymbols();
         formatIDR.setCurrencySymbol("IDR ");
         formatIDR.setGroupingSeparator('.');
-        formatIDR.setMonetaryDecimalSeparator(',');
 
         decimalFormat.setDecimalFormatSymbols(formatIDR);
 
-        lblprice.setText(decimalFormat.format(priceItem));
+        lblprice.setText(decimalFormat.format(priceItem).concat(",-"));
         mDemoSlider = (SliderLayout)rootView.findViewById(R.id.slider);
         for(ImageModel imageModel : imageModels){
             textSliderView = new TextSliderView(rootView.getContext());
