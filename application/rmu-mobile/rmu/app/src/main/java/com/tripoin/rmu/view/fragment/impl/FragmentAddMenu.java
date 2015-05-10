@@ -164,7 +164,7 @@ public class FragmentAddMenu extends Fragment {
                     }
                     FragmentAddOrder fragmentAddOrder = new FragmentAddOrder().newInstance("");
                     FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
-                    mFragmentManager.beginTransaction().replace(R.id.container, fragmentAddOrder).commit();
+                    mFragmentManager.beginTransaction().replace(R.id.container, fragmentAddOrder).addToBackStack(null).commit();
                 }
             }
         });
