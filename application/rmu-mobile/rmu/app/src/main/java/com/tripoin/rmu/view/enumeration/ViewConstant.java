@@ -88,6 +88,7 @@ public enum ViewConstant {
     PRINT_FOOTER(PRINT_DASH.toString()
             .concat("Thank You For Order\n")
             .concat("Terima Kasih\n\n\n")),
+    RESTART_SERVICE("restart_service"),
     ;
 
 

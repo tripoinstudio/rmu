@@ -19,7 +19,7 @@ import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
 import com.tripoin.rmu.view.activity.api.ISignHandler;
 import com.tripoin.rmu.view.activity.api.IMainUtilActivity;
-import com.tripoin.rmu.view.activity.impl.SignHandlerImpl;
+import com.tripoin.rmu.view.activity.impl.MainSignHandlerImpl;
 import com.tripoin.rmu.view.activity.impl.MainUtilImplActivity;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
 import com.tripoin.rmu.view.fragment.impl.FragmentAbout;
@@ -27,7 +27,6 @@ import com.tripoin.rmu.view.fragment.impl.FragmentAddOrder;
 import com.tripoin.rmu.view.fragment.impl.FragmentChangeBluetooth;
 import com.tripoin.rmu.view.fragment.impl.FragmentChangeIPServer;
 import com.tripoin.rmu.view.fragment.impl.FragmentMenuList;
-import com.tripoin.rmu.view.fragment.impl.FragmentOrderDetail;
 import com.tripoin.rmu.view.fragment.impl.FragmentOrderList;
 import com.tripoin.rmu.view.fragment.impl.FragmentUpdateStaticData;
 import com.tripoin.rmu.view.fragment.impl.FragmentUserProfile;
@@ -67,6 +66,7 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
     @Override
     protected void onResume() {
         super.onResume();
+        iSignHandler.detectLoginStatus();
     }
 
 
@@ -75,7 +75,7 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
         this.setNavigationListener(this);
         securityUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(), this);
         iMainActivityUtil = new MainUtilImplActivity(this);
-        iSignHandler = new SignHandlerImpl(securityUtil, this);
+        iSignHandler = new MainSignHandlerImpl(securityUtil, this);
         // name of the list items
         mListNameItem = new ArrayList<>();
         mListNameItem.add(0, getString(R.string.add_order));
@@ -210,7 +210,7 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
     }
 
     @Override
-    public void onPostDelegate(Object objectResult) {
+    public void onPostLogout(Object objectResult) {
         if(objectResult != null){
             BaseRESTDTO baseRESTDTO = (BaseRESTDTO) objectResult;
             if(baseRESTDTO.getErr_code().equals(ViewConstant.ZERO.toString())){

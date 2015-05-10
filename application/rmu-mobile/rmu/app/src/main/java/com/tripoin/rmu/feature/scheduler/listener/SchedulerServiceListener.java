@@ -54,7 +54,6 @@ public class SchedulerServiceListener extends Service implements ISynchronizeOrd
     public int onStartCommand(Intent intent, int flags, int startId) {
         mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         securityUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(), this);
-        Log.d("SCHEDULER", "STARTED");
         getNotification();
         return START_STICKY;
     }
@@ -94,7 +93,7 @@ public class SchedulerServiceListener extends Service implements ISynchronizeOrd
     }
 
     private void notifRunningService(){
-        Notification notification = new Notification(R.drawable.ic_launcher, "new alert", System.currentTimeMillis());
+        Notification notification = new Notification(R.drawable.ic_launcher, ViewConstant.SERVICE_RUNNING.toString(), System.currentTimeMillis());
         Intent notificationIntent = new Intent(this, FragmentOrderDetail.class);
         notificationIntent.putExtra("ORDER_ID", "");
         // set intent so it does not start a new activity
@@ -110,17 +109,22 @@ public class SchedulerServiceListener extends Service implements ISynchronizeOrd
     private void buildNotification(OrderListModel orderListModel){
         newSize++;
         String orderId = orderListModel.getOrderId();
-        Notification notification = new Notification(R.drawable.ic_launcher, "new alert", System.currentTimeMillis());
+        Notification notification = new Notification(R.drawable.ic_launcher, orderId.concat(" - Done"), System.currentTimeMillis());
         Intent notificationIntent = new Intent(this, ActivityMain.class);
         notificationIntent.setAction(orderId);
         notificationIntent.putExtra("ORDER_ID", orderId);
         // set intent so it does not start a new activity
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
         PendingIntent intent = PendingIntent.getActivity(this, 0,notificationIntent, 0);
-        notification.setLatestEventInfo(this, "eRestorasi", "NEW ORDER -".concat(orderListModel.getOrderId()), intent);
+        notification.setLatestEventInfo(this, ViewConstant.DEFAULT_ACTION_BAR_TITLE.toString(), orderId.concat(" - Done"), intent);
+
         notification.flags |= Notification.FLAG_HIGH_PRIORITY;
         notification.defaults |= Notification.DEFAULT_SOUND;
         notification.defaults |= Notification.DEFAULT_VIBRATE;
-        mNotificationManager.notify(Integer.parseInt(orderListModel.getOrderId().substring(orderId.length()-5)), notification);
+        try{
+            mNotificationManager.notify(Integer.parseInt(orderListModel.getOrderId().substring(orderId.length()-5)), notification);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

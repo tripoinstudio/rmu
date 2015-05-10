@@ -37,7 +37,8 @@ import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
 import com.tripoin.rmu.view.activity.api.ISignHandler;
 import com.tripoin.rmu.view.activity.base.ABaseActivity;
-import com.tripoin.rmu.view.activity.impl.SignHandlerImpl;
+import com.tripoin.rmu.view.activity.impl.FirstSignHandlerImpl;
+import com.tripoin.rmu.view.activity.impl.MainSignHandlerImpl;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
 
 import butterknife.InjectView;
@@ -75,7 +76,7 @@ public class ActivityLogin extends ABaseActivity implements ILoginPost, IConnect
         generalValidation = new GeneralValidation();
         generalConverter = new GeneralConverter();
         networkConnectivity = new NetworkConnectivity(this, null);
-        iSignHandler = new SignHandlerImpl(securityUtil, this);
+        iSignHandler = new FirstSignHandlerImpl(securityUtil, this);
         iSignHandler.detectLoginStatus();
         VersionDBManager.init(this);
     }
