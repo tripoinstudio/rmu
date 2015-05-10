@@ -150,7 +150,7 @@ public class FragmentOrderList extends ABaseNavigationDrawerFragment implements 
                 alertDialogBuilder.setCancelable(false).setPositiveButton("Search", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //OnClick Searching
+                        //OnClick Searching dialog
                         int posSeat = srcSeat.getSelectedItemPosition();
                         int posCarr = srcCrrg.getSelectedItemPosition();
                         final List<OrderListModel> orderListModels = OrderListDBManager.getInstance().getAllDataFromQuery(srcSeat.getAdapter().getItem(posSeat).toString(), srcCrrg.getAdapter().getItem(posCarr).toString(), String.valueOf(srcStatus.getSelectedItemPosition()), srcOrderId.getText().toString());
