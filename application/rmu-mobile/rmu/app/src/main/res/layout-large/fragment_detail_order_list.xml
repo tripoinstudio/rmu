@@ -12,55 +12,57 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
+        android:layout_marginBottom="10dp"
         android:orientation="vertical">
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_height="50dp"
             android:id="@+id/txtOrderId"
             android:background="@drawable/textlines"
             android:textColor="@android:color/black"
-            android:textSize="15sp"
-            android:paddingTop="10dip"/>
+            android:textSize="20sp"
+            android:paddingTop="15dip"/>
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_height="50dp"
             android:id="@+id/txtTrainCode"
             android:textColor="@android:color/black"
-            android:textSize="14sp"
-            android:paddingTop="10dip"
+            android:textSize="17sp"
+            android:paddingTop="15dip"
             android:background="@drawable/textlines"/>
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:paddingTop="10dip"
+            android:layout_height="50dp"
+            android:paddingTop="15dip"
             android:id="@+id/txtCarriageCode"
             android:background="@drawable/textlines"
             android:textColor="@android:color/black"
-            android:textSize="14sp"/>
+            android:textSize="17sp"/>
+
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:paddingTop="10dip"
+            android:layout_height="50dp"
+            android:paddingTop="15dip"
             android:background="@drawable/textlines"
             android:id="@+id/txtSeatCode"
             android:textColor="@android:color/black"
-            android:textSize="14sp"/>
-    </LinearLayout>
+            android:textSize="17sp"/>
 
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="157dp"
+        android:layout_height="wrap_content"
         android:layout_marginRight="5dp"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:orientation="vertical">
 
         <it.gmariotti.cardslib.library.view.CardListView
             android:id="@+id/listStatusOption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="20dp"
             android:layout_marginBottom="0dp"
             card:list_card_layout_resourceID="@layout/list_card_custom_layout_detailorder"
             style="@style/list_card.thumbnail"/>
@@ -72,19 +74,26 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="5dp"
         android:layout_marginLeft="5dp"
+        android:layout_marginBottom="10dp"
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:orientation="vertical">
-            <it.gmariotti.cardslib.library.view.CardListView
-                android:id="@+id/listOrderDetailItem"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="0dp"
-                android:layout_marginBottom="0dp"
-                card:list_card_layout_resourceID="@layout/list_card_custom_layout_detailorder"
-                style="@style/list_card.thumbnail"/>
+            android:layout_height="260dp"
+            android:orientation="vertical"
+            android:paddingTop="10dp"
+            >
+
+
+
+
+        <it.gmariotti.cardslib.library.view.CardListView
+            android:id="@+id/listOrderDetailItem"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            card:list_card_layout_resourceID="@layout/list_card_custom_layout_detailorder"
+            style="@style/list_card.thumbnail"/>
 
         </LinearLayout>
 
@@ -93,7 +102,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
             android:id="@+id/txtTotalPaid"
-            android:textSize="17sp"
+            android:textSize="20sp"
             android:paddingBottom="10dp"
             android:layout_gravity="right"
             android:textColor="@android:color/black"/>
