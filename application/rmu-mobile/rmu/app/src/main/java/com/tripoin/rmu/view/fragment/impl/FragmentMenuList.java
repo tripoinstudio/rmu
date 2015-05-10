@@ -67,6 +67,7 @@ public class FragmentMenuList extends Fragment implements ISynchronizeMenuList {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_menu_list, container, false);
+        getActivity().setTitle(ViewConstant.FRAGMENT_MENU_TITLE.toString());
         securityUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(), rootView.getContext());
         new MenuASync().execute();
         return rootView;
