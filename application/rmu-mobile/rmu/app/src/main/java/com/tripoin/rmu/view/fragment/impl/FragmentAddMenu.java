@@ -103,7 +103,7 @@ public class FragmentAddMenu extends Fragment {
         return rootView;
     }
 
-    private void initMenuDetail(MenuModel menuModelDetail){
+    private void initMenuDetail(final MenuModel menuModelDetail){
         List<ImageModel> imageModels = ImageMenuDBManager.getInstance().getDataFromQueryByIdParent(ModelConstant.MENU_ID, menuModelDetail.getId());
         menuNameData = menuModelDetail.getMenuName();
         priceItem = new BigDecimal(menuModelDetail.getMenuPrice());
@@ -128,7 +128,12 @@ public class FragmentAddMenu extends Fragment {
             public void onClick(View v) {
                 quantity +=1;
                 TextView t = (TextView) rootView.findViewById(R.id.lbl_quantity);
-                t.setText(quantity +"");
+                int stockWs = Integer.parseInt(menuModelDetail.getMenuStock());
+                if(quantity > stockWs) {
+                    quantity = stockWs;
+                } else {
+                    t.setText(String.valueOf(quantity));
+                }
             }
         });
         buttonminus = (Button) rootView.findViewById(R.id.bt_minus);
@@ -140,7 +145,7 @@ public class FragmentAddMenu extends Fragment {
                 if(quantity == -1) {
                     quantity = 0;
                 } else {
-                    t.setText(quantity + "");
+                    t.setText(String.valueOf(quantity));
                 }
             }
         });
@@ -192,11 +197,11 @@ public class FragmentAddMenu extends Fragment {
         file_maps.put("House of Cards", R.drawable.nasi_goreng_1);
         file_maps.put("Game of Thrones", R.drawable.image_food1);*/
         menuName.setText(menuNameData);
-
+        lblnoin.setText("Stock : ".concat(menuModelDetail.getMenuStock()));
         if("1".equals(menuModelDetail.getMenuType()))
-            lblavail.setText("Makanan");
+            lblavail.setText("Type  : Makanan");
         else
-            lblavail.setText("Minuman");
+            lblavail.setText("Type  : Minuman");
 
         DecimalFormat decimalFormat = (DecimalFormat) DecimalFormat.getCurrencyInstance();
         DecimalFormatSymbols formatIDR = new DecimalFormatSymbols();
