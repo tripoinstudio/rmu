@@ -143,11 +143,11 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
         switch (position){
             case 0:
                 fragmentAddOrder = new FragmentAddOrder().newInstance(listName);
-                mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentAddOrder).commit();
+                mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentAddOrder).addToBackStack(null).commit();
                 break;
             case 1 :
                 fragmentMenuList = new FragmentMenuList().newInstance(listName);
-                mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentMenuList).commit();
+                mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentMenuList).addToBackStack(null).commit();
                 break;
             case 2 :
                 layoutContainerIdGlobal = layoutContainerId;
@@ -156,19 +156,19 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
                 break;
             case 3 :
                 fragmentUpdateStaticData = new FragmentUpdateStaticData().newInstance(listName);
-                mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentUpdateStaticData).commit();
+                mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentUpdateStaticData).addToBackStack(null).commit();
                 break;
             case 4 :
                 fragmentAbout = new FragmentAbout().newInstance();
-                mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentAbout).commit();
+                mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentAbout).addToBackStack(null).commit();
                 break;
             case 6 :
                 fragmentChangeIPServer = new FragmentChangeIPServer().newInstance(listName);
-                mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentChangeIPServer).commit();
+                mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentChangeIPServer).addToBackStack(null).commit();
                 break;
             case 7:
                 fragmentChangeBluetooth = new FragmentChangeBluetooth().newInstance();
-                mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentChangeBluetooth).commit();
+                mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentChangeBluetooth).addToBackStack(null).commit();
                 break;
             default:;
         }
@@ -220,4 +220,13 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
             }
         }
     }
+
+    /*@Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() == 0) {
+            this.finish();
+        } else {
+            getFragmentManager().popBackStack();
+        }
+    }*/
 }

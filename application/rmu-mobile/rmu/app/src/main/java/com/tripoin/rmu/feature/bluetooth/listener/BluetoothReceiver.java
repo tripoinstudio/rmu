@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 
 import com.tripoin.rmu.feature.bluetooth.api.IBluetoothPrinterListener;
 
@@ -16,6 +17,10 @@ public class BluetoothReceiver extends BroadcastReceiver {
 
     private IBluetoothPrinterListener iBluetoothPrinterListener;
 
+    public BluetoothReceiver() {
+
+    }
+
     public BluetoothReceiver(IBluetoothPrinterListener iBluetoothPrinterListener) {
         this.iBluetoothPrinterListener = iBluetoothPrinterListener;
     }
@@ -23,6 +28,9 @@ public class BluetoothReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
+        BluetoothDevice deviceExtra = intent.getParcelableExtra("android.bluetooth.device.extra.DEVICE");
+        Parcelable[] uuidExtra = intent.getParcelableArrayExtra("android.bluetooth.device.extra.UUID");
+        intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
         if (BluetoothAdapter.ACTION_STATE_CHANGED.equals(action)) {
             final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR);
             if (state == BluetoothAdapter.STATE_ON) {
@@ -33,6 +41,9 @@ public class BluetoothReceiver extends BroadcastReceiver {
         } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
             iBluetoothPrinterListener.onBluetoothFinishDiscovery();
         } else if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+            deviceExtra = intent.getParcelableExtra("android.bluetooth.device.extra.DEVICE");
+            uuidExtra = intent.getParcelableArrayExtra("android.bluetooth.device.extra.UUID");
+            intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
             iBluetoothPrinterListener.onBluetoothDevicesFound(intent);
         }else if (BluetoothDevice.ACTION_BOND_STATE_CHANGED.equals(action)) {
             final int state 		= intent.getIntExtra(BluetoothDevice.EXTRA_BOND_STATE, BluetoothDevice.ERROR);

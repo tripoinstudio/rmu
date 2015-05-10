@@ -1,6 +1,7 @@
 package com.tripoin.rmu.feature.bluetooth;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -9,6 +10,7 @@ import android.content.IntentFilter;
 import android.os.Handler;
 import android.util.Log;
 
+import com.RT_Printer.BluetoothPrinter.BLUETOOTH.BluetoothPrintDriver;
 import com.tripoin.rmu.feature.bluetooth.api.IBluetoothDecouplePrint;
 import com.tripoin.rmu.feature.bluetooth.api.IBluetoothPrinterListener;
 import com.tripoin.rmu.feature.bluetooth.listener.BluetoothReceiver;
@@ -30,7 +32,7 @@ import java.util.UUID;
  * Created by Achmad Fauzi on 5/7/2015 : 11:05 PM.
  * mailto : achmad.fauzi@sigma.co.id
  */
-public class BluetoothEngine implements IBluetoothPrinterListener{
+public class BluetoothEngine{
 
     private Activity activity;
     private BluetoothAdapter mBluetoothAdapter;
@@ -46,13 +48,18 @@ public class BluetoothEngine implements IBluetoothPrinterListener{
     private volatile boolean stopWorker;
     private volatile boolean openedSocket = false;
 
+
+    private ProgressDialog mProgressDlg;
+    private ArrayList<BluetoothDevice> mDeviceList;
+    private DeviceListAdapter mAdapter;
+
     BluetoothReceiver bluetoothReceiver;
 
     public BluetoothEngine(Activity activity) {
         this.activity = activity;
-        bluetoothReceiver = new BluetoothReceiver(this);
+        bluetoothReceiver = new BluetoothReceiver();
 
-        IntentFilter filter = new IntentFilter();
+        /*IntentFilter filter = new IntentFilter();
 
         filter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
         filter.addAction(BluetoothDevice.ACTION_FOUND);
@@ -60,11 +67,12 @@ public class BluetoothEngine implements IBluetoothPrinterListener{
         filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
 
 
-        activity.registerReceiver(bluetoothReceiver, filter);
+        activity.registerReceiver(bluetoothReceiver, filter);*/
+
+
     }
 
-    @Override
-    public void scanBluetoothDevices() {
+    private void scanBluetoothDevices() {
         try {
             mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
             if (mBluetoothAdapter == null) {
@@ -73,6 +81,7 @@ public class BluetoothEngine implements IBluetoothPrinterListener{
             if (!mBluetoothAdapter.isEnabled()) {
                 Intent enableBluetooth = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                 activity.startActivityForResult(enableBluetooth, 0);
+
             }
             Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
             if (pairedDevices.size() > 0) {
@@ -91,26 +100,14 @@ public class BluetoothEngine implements IBluetoothPrinterListener{
             e.printStackTrace();
         }
     }
+    public boolean checkOnBluetooth(){
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        return mBluetoothAdapter.isEnabled();
+    }
 
-    @Override
-    public void openBluetoothConnection() {
-        try {
-            if(mSocket == null || !openedSocket){
-                UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-                Log.d("1sdw", mBluetoothDevice.getName());
-                mSocket = mBluetoothDevice.createRfcommSocketToServiceRecord(uuid);
-
-                mSocket.connect();
-                mOutputStream = mSocket.getOutputStream();
-                mInputStream = mSocket.getInputStream();
-                beginListenForData();
-                openedSocket = true;
-            }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public boolean openBluetoothConnection() {
+        scanBluetoothDevices();
+        return (BluetoothPrintDriver.OpenPrinter(mBluetoothDevice.getAddress()) && mBluetoothAdapter.isEnabled());
     }
 
     private void beginListenForData() {
@@ -163,10 +160,11 @@ public class BluetoothEngine implements IBluetoothPrinterListener{
         }
     }
 
-    @Override
-    public void printMessage(PrintMessageDTO printMessageDTO) {
-        //scanBluetoothDevices();
+
+    public String templateMessageDto(PrintMessageDTO printMessageDTO) {
+        scanBluetoothDevices();
         openBluetoothConnection();
+        String print = "";
         try {
             String orderNoPrintData = "Order No : ";
             orderNoPrintData = orderNoPrintData.concat(printMessageDTO.getOrderNo())
@@ -198,93 +196,146 @@ public class BluetoothEngine implements IBluetoothPrinterListener{
                     .concat(totalOrderPadding)
                     .concat(ViewConstant.CURRENCY_PATTERN.toString()).concat("\n");
 
-            String print = ViewConstant.PRINT_HEADER.toString().concat(orderNoPrintData).concat(menuPrintData).concat(totalPrintData).concat(ViewConstant.PRINT_FOOTER.toString());
+            print = ViewConstant.PRINT_HEADER.toString().concat(orderNoPrintData).concat(menuPrintData).concat(totalPrintData).concat(ViewConstant.PRINT_FOOTER.toString());
 
-            mOutputStream.write(print.getBytes());
+            /*mOutputStream.write(print.getBytes());*/
         } catch (NullPointerException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return print;
     }
 
-    @Override
+    public void printTemplateString(String s){
+        BluetoothPrintDriver.Begin();
+        BluetoothPrintDriver.ImportData(s);
+        BluetoothPrintDriver.ImportData("\r");
+        BluetoothPrintDriver.LF();
+        BluetoothPrintDriver.LF();
+        BluetoothPrintDriver.excute();
+        BluetoothPrintDriver.ClearData();
+    }
+
+    public void requestOnBluetooth(){
+        Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+        activity.startActivityForResult(enableBtIntent, 2);
+    }
+
+    public boolean isNoConnection(){
+        return BluetoothPrintDriver.IsNoConnection();
+    }
+
+
     public void onBluetoothStateOn() {
 
     }
 
-    @Override
+
     public void onBluetoothStartDiscovery() {
-
+        mDeviceList = new ArrayList<BluetoothDevice>();
+        mProgressDlg.show();
     }
 
-    @Override
+
     public void onBluetoothFinishDiscovery() {
-
+        mProgressDlg.dismiss();
     }
 
-    @Override
+
     public void onBluetoothDevicesFound(Intent intent) {
-
+        mAdapter.setData(mDeviceList);
+        mAdapter.setListener(new DeviceListAdapter.OnPairButtonClickListener() {
+            @Override
+            public void onPairButtonClick(int position) {
+                BluetoothDevice device = mDeviceList.get(position);
+                if (device.getBondState() == BluetoothDevice.BOND_BONDED) {
+                    unpairDevice(device);
+                } else {
+                    Log.d("PAIRING","Pairing...");
+                    pairDevice(device);
+                }
+            }
+        });
     }
 
-    @Override
+
     public void onBluetoothPaired() {
 
     }
 
-    @Override
+
     public void onBluetoothUnPaired() {
 
     }
 
-    @Override
+
     public void onCancelDiscovery() {
-
+        mBluetoothAdapter.cancelDiscovery();
     }
 
-    @Override
+
     public void pairDevice(BluetoothDevice bluetoothDevice) {
-
+        try {
+            Method method = bluetoothDevice.getClass().getMethod("createBond", (Class[]) null);
+            method.invoke(bluetoothDevice, (Object[]) null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    @Override
+
     public void unpairDevice(BluetoothDevice bluetoothDevice) {
-
+        try {
+            Method method = bluetoothDevice.getClass().getMethod("removeBond", (Class[]) null);
+            method.invoke(bluetoothDevice, (Object[]) null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    @Override
+
     public void activeBluetooth() {
-
+        Intent enableBluetooth = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+        activity.startActivityForResult(enableBluetooth, 0);
     }
 
-    @Override
-    public void printSampleMessage() {
 
+    public String templateSampleMessage() {
+        return "\n\nPT. Reska Multi Usaha\n"
+                .concat("eRestorasi version 1.0\n\n")
+                .concat("   ---- Print Success ----\n\n");
     }
 
-    @Override
+    public void finishAplication(){
+        BluetoothPrintDriver.close();
+        activity.finish();
+    }
+
+
     public void showUnsupportedMessages() {
 
     }
 
-    @Override
+
     public void showBluetoothEnabled() {
 
     }
 
-    @Override
+
     public void showBluetoothDisabled() {
 
     }
 
-    @Override
+
     public void notifyDataExchanges() {
 
     }
 
-    @Override
+
     public void showPairedDevices() {
 
     }
+
+
 }

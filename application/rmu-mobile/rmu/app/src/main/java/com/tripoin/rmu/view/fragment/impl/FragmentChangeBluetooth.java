@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.RT_Printer.BluetoothPrinter.BLUETOOTH.BluetoothPrintDriver;
 import com.tripoin.rmu.R;
 import com.tripoin.rmu.feature.bluetooth.BluetoothEngine;
 import com.tripoin.rmu.feature.bluetooth.api.IBluetoothPrinterListener;
@@ -182,24 +183,8 @@ public class FragmentChangeBluetooth extends ABaseNavigationDrawerFragment imple
 
     @Override
     public void openBluetoothConnection() {
-        try {
-            if(mSocket == null || !openedSocket){
-                UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-                Log.d("1sdw", mBluetoothDevice.getName());
-                mSocket = mBluetoothDevice.createRfcommSocketToServiceRecord(uuid);
-
-                mSocket.connect();
-                mOutputStream = mSocket.getOutputStream();
-                mInputStream = mSocket.getInputStream();
-                beginListenForData();
-                showToast("Bluetooth Opened");
-                openedSocket = true;
-            }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        BluetoothPrintDriver.OpenPrinter(mBluetoothDevice.getAddress());
+        Log.d("1sdw", mBluetoothDevice.getName());
     }
 
     @Override
@@ -260,7 +245,16 @@ public class FragmentChangeBluetooth extends ABaseNavigationDrawerFragment imple
                         "\n\nPT. Reska Multi Usaha\n"
                         .concat("eRestorasi version 1.0\n\n")
                         .concat("   ---- Print Success ----\n\n");
-                mOutputStream.write(data.getBytes());
+                if(BluetoothPrintDriver.IsNoConnection()){
+                    return;
+                }
+                BluetoothPrintDriver.Begin();
+                BluetoothPrintDriver.ImportData(data);
+                BluetoothPrintDriver.ImportData("\r");
+                BluetoothPrintDriver.LF();
+                BluetoothPrintDriver.LF();
+                BluetoothPrintDriver.excute();
+                BluetoothPrintDriver.ClearData();
             } catch (NullPointerException e) {
                 e.printStackTrace();
             } catch (Exception e) {
