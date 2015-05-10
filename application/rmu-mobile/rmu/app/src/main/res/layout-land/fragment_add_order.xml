@@ -19,7 +19,7 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="330dp"
-            android:layout_height="290dp"
+            android:layout_height="220dp"
             android:layout_gravity="left"
             android:layout_marginTop="10dp"
             android:paddingLeft="5dp"
@@ -54,13 +54,13 @@
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
-            android:layout_width="180dp"
+            android:layout_width="145dp"
             android:layout_height="50dip"
             android:layout_gravity="right"
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
             <TextView
-                android:layout_width="50dip"
+                android:layout_width="47dip"
                 android:layout_height="40dip"
                 android:textSize="15sp"
                 android:textColor="@color/black_light"
@@ -113,6 +113,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dip"
                 android:layout_gravity="center"
+                android:layout_marginLeft="4dp"
                 android:paddingTop="7dp"
                 android:textSize="14sp"
                 android:text="Gerbong  : "
@@ -120,7 +121,7 @@
                 android:background="@drawable/textlines"
                 android:textColor="@color/black_light"/>
             <Spinner
-                android:layout_width="55dip"
+                android:layout_width="75dip"
                 android:layout_height="30dip"
                 android:layout_gravity="center"
                 android:id="@+id/spinner_carriage"
@@ -131,7 +132,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dip"
                 android:layout_gravity="center"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="13dp"
                 android:paddingTop="7dp"
                 android:textSize="14sp"
                 android:text="Kursi  : "
@@ -139,7 +140,7 @@
                 android:background="@drawable/textlines"
                 android:textColor="@color/black_light"/>
             <Spinner
-                android:layout_width="55dp"
+                android:layout_width="75dp"
                 android:layout_height="30dip"
                 android:layout_gravity="center"
                 android:layout_marginRight="5dp"
@@ -154,7 +155,7 @@
             <Button
                 android:layout_width="75dip"
                 android:layout_height="30dp"
-                android:layout_marginLeft="28dp"
+                android:layout_marginLeft="35dp"
                 android:textSize="13sp"
                 android:id="@+id/bt_cancel"
                 android:textStyle="bold"
