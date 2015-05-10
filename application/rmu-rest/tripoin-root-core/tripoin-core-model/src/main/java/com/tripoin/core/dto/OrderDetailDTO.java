@@ -11,14 +11,13 @@ import javax.xml.bind.annotation.XmlType;
  * @author <a href="mailto:ridla.fadilah@gmail.com">Ridla Fadilah</a>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { "order_header_no", "order_detail_total_order", "order_detail_total_amount", "order_header_status", "user_code", "menu_code", "menu_name", "seat_code", "carriage_code", "train_code" })
+@XmlType(name = "", propOrder = { "order_header_no", "order_detail_total_order", "order_detail_total_amount", "order_header_status", "menu_code", "menu_name", "seat_code", "carriage_code", "train_code" })
 @XmlRootElement(name = "OrderDetail")
 public class OrderDetailDTO {
 	private String order_header_no;
 	private Integer order_detail_total_order;
 	private BigDecimal order_detail_total_amount;
 	private Integer order_header_status;
-	private String user_code;
 	private String menu_code;
 	private String menu_name;
 	private String seat_code;
@@ -30,14 +29,13 @@ public class OrderDetailDTO {
 	public OrderDetailDTO(String order_header_no,
 			Integer order_detail_total_order,
 			BigDecimal order_detail_total_amount, Integer order_header_status,
-			String user_code, String menu_code, String menu_name,
+			String menu_code, String menu_name,
 			String seat_code, String carriage_code, String train_code) {
 		super();
 		this.order_header_no = order_header_no;
 		this.order_detail_total_order = order_detail_total_order;
 		this.order_detail_total_amount = order_detail_total_amount;
 		this.order_header_status = order_header_status;
-		this.user_code = user_code;
 		this.menu_code = menu_code;
 		this.menu_name = menu_name;
 		this.seat_code = seat_code;
@@ -75,14 +73,6 @@ public class OrderDetailDTO {
 
 	public void setOrder_header_status(Integer order_header_status) {
 		this.order_header_status = order_header_status;
-	}
-
-	public String getUser_code() {
-		return user_code;
-	}
-
-	public void setUser_code(String user_code) {
-		this.user_code = user_code;
 	}
 
 	public String getMenu_code() {
@@ -131,7 +121,7 @@ public class OrderDetailDTO {
 				+ ", order_detail_total_order=" + order_detail_total_order
 				+ ", order_detail_total_amount=" + order_detail_total_amount
 				+ ", order_header_status=" + order_header_status
-				+ ", user_code=" + user_code + ", menu_code=" + menu_code
+				+ ", menu_code=" + menu_code
 				+ ", menu_name=" + menu_name + ", seat_code=" + seat_code
 				+ ", carriage_code=" + carriage_code + ", train_code="
 				+ train_code + "]";

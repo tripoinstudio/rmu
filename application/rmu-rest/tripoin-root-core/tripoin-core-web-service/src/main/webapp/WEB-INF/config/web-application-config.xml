@@ -15,7 +15,9 @@
 	<import resource="classpath:META-INF/spring/applicationContext-jpa.xml"/>
 	<import resource="classpath:META-INF/spring/integration/applicationContext-http-int.xml"/>
 	<import resource="classpath:META-INF/spring/applicationContext-manager.xml"/>
-	<import resource="security-config.xml" />
+	<import resource="security-config.xml" />				
+
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
 	
 	<mvc:resources mapping="/wscontext/images/**" location="${path.image}" />
 	

@@ -75,7 +75,7 @@ public class OrderHeaderManager {
 				status = Integer.parseInt(payloadMap.get("status").get(0).toString());
 			
 			try {
-				List<OrderHeader> orderHeaderList = iGenericManagerJpa.getObjectsUsingParameter(OrderHeader.class, new String[]{"user.username", "orderNo"}, new Object[]{currentUserName, orderNo}, order, "ASC");
+				List<OrderHeader> orderHeaderList = iGenericManagerJpa.getObjectsUsingParameter(OrderHeader.class, new String[]{"user.username", "orderNo"}, new Object[]{currentUserName, orderNo}, order, "DESC");
 				OrderHeader orderHeader = orderHeaderList.get(0);
 				orderHeader.setStatus(status);
 				iGenericManagerJpa.updateObject(orderHeader);
@@ -104,7 +104,7 @@ public class OrderHeaderManager {
 					row = Integer.parseInt(payloads.get("page").get(0).toString());
 			}			
 			
-			List<OrderHeader> orderHeaderList = iGenericManagerJpa.getObjectsUsingParameterManualPage(OrderHeader.class, new String[]{"user.username"}, new Object[]{currentUserName}, order, "ASC", (row-maxRow), row );
+			List<OrderHeader> orderHeaderList = iGenericManagerJpa.getObjectsUsingParameter(OrderHeader.class, new String[]{"user.username"}, new Object[]{currentUserName}, order, "DESC");
 			boolean isFound;
 			if (orderHeaderList!=null){
 				List<OrderHeaderDTO> orderHeaderDTOList = new ArrayList<OrderHeaderDTO>();
