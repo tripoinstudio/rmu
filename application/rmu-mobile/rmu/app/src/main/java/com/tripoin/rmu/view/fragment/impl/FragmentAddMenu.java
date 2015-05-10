@@ -202,10 +202,11 @@ public class FragmentAddMenu extends Fragment {
         DecimalFormatSymbols formatIDR = new DecimalFormatSymbols();
         formatIDR.setCurrencySymbol("IDR ");
         formatIDR.setGroupingSeparator('.');
+        formatIDR.setMonetaryDecimalSeparator(',');
 
         decimalFormat.setDecimalFormatSymbols(formatIDR);
 
-        lblprice.setText(decimalFormat.format(priceItem).concat(",-"));
+        lblprice.setText(decimalFormat.format(priceItem));
         mDemoSlider = (SliderLayout)rootView.findViewById(R.id.slider);
         for(ImageModel imageModel : imageModels){
             textSliderView = new TextSliderView(rootView.getContext());

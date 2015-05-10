@@ -14,15 +14,15 @@
     <RelativeLayout
         android:layout_weight="0.1"
         android:layout_width="wrap_content"
-        android:layout_height="0dp">
+        android:layout_height="10dp">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:text="@string/ip_address"
             android:id="@+id/lbl_txt_ip"
             android:paddingLeft="6dp"
-            android:textSize="18sp"
+            android:textSize="17sp"
             android:textColor="@color/black_light"
             android:gravity="center_vertical"/>
 
@@ -31,7 +31,7 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="8dp"
         android:layout_weight="0.18"
         android:layout_marginTop="10dp">
 
@@ -39,12 +39,12 @@
             android:id="@+id/label_ip"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/textview_border"
+            android:background="@drawable/textlines"
             android:clickable="true"
             android:paddingTop="6dp"
             android:paddingBottom="8dp"
             android:paddingLeft="20dp"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:textColor="@color/black_light"
             android:gravity="center_vertical"/>
 
@@ -58,7 +58,6 @@
             android:layout_marginTop="5dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="5dp"
-            android:scaleType="fitXY"
             android:src="@drawable/edit2"
             android:layout_alignParentRight="true"/>
     </RelativeLayout>
@@ -66,16 +65,16 @@
     <RelativeLayout
         android:layout_weight="0.1"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="10dp"
         android:layout_marginTop="10dp">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:text="@string/port"
             android:id="@+id/lbl_txt_port"
             android:paddingLeft="6dp"
-            android:textSize="18sp"
+            android:textSize="17sp"
             android:textColor="@color/black_light"
             android:gravity="center_vertical"/>
 
@@ -84,7 +83,7 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="8dp"
         android:layout_weight="0.18"
         android:layout_marginTop="10dp">
 
@@ -92,12 +91,12 @@
             android:id="@+id/label_port"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/textview_border"
+            android:background="@drawable/textlines"
             android:clickable="true"
             android:paddingTop="6dp"
             android:paddingBottom="8dp"
             android:paddingLeft="20dp"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:textColor="@color/black_light"
             android:gravity="center_vertical"/>
 
@@ -111,14 +110,13 @@
             android:layout_marginTop="5dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="5dp"
-            android:scaleType="fitXY"
             android:src="@drawable/edit2"
             android:layout_alignParentRight="true"/>
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_weight="0.15"
         android:layout_marginTop="40dp">
 
@@ -126,8 +124,8 @@
         android:orientation="horizontal"
         android:layout_gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="60dip"
-        android:background="@drawable/bg_order_item">
+        android:layout_height="50dp"
+        android:background="@drawable/textlines">
 
             <LinearLayout
                 android:orientation="vertical"
@@ -140,16 +138,16 @@
                 <TextView
                     android:id="@+id/label_test"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="25dp"
                     android:layout_gravity="center"
                     android:paddingLeft="20dip"
-                    android:textSize="18sp"
+                    android:textSize="17sp"
                     android:textColor="@color/black_light"
                     android:text="Test Connection"/>
                 <TextView
                     android:id="@+id/label_test_status"
                     android:layout_width="match_parent"
-                    android:layout_height="30dip"
+                    android:layout_height="25dip"
                     android:layout_gravity="center"
                     android:paddingLeft="20dip"
                     android:textSize="15sp"/>
@@ -157,13 +155,13 @@
 
         <Button
             android:id="@+id/test_conn"
-            android:layout_width="100dip"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginBottom="8dp"
+            android:layout_width="80dip"
+            android:layout_height="35dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
             android:textSize="15sp"
-            android:textColor="#D4a017"
+            android:background="#4CAF50"
+            android:textColor="@color/white_base"
             android:text="Test"/>
     </LinearLayout>
     </RelativeLayout>

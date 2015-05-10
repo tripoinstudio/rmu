@@ -152,10 +152,6 @@ public class FragmentChangeIPServer extends ABaseNavigationDrawerFragment implem
     public void initWidget() {
         propertyUtil = new PropertyUtil(PropertyConstant.PROPERTY_FILE_NAME.toString(), getActivity());
         securityUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(), getActivity());
-
-        lblHeaderPort.setTextSize(18);
-        lblHeaderIp.setTextSize(18);
-
         label_textIp.setText(propertyUtil.getValuePropertyMap(PropertyConstant.SERVER_HOST_KEY.toString()));
         label_textPort.setText(propertyUtil.getValuePropertyMap(PropertyConstant.SERVER_PORT_KEY.toString()));
     }

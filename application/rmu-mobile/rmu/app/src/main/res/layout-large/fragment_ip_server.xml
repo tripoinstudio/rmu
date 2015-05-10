@@ -21,6 +21,7 @@
             android:text="@string/ip_address"
             android:id="@+id/lbl_txt_ip"
             android:paddingLeft="6dp"
+            android:textSize="18sp"
             android:gravity="center_vertical"/>
 
     </RelativeLayout>
@@ -36,7 +37,7 @@
             android:id="@+id/label_ip"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/textview_border"
+            android:background="@drawable/textlines"
             android:clickable="true"
             android:paddingTop="6dp"
             android:paddingBottom="8dp"
@@ -54,7 +55,6 @@
             android:padding="2dp"
             android:layout_marginTop="12dp"
             android:layout_marginRight="8dp"
-            android:scaleType="fitXY"
             android:src="@drawable/edit2"
             android:layout_alignParentRight="true"/>
     </RelativeLayout>
@@ -63,7 +63,8 @@
     <RelativeLayout
         android:layout_weight="0.1"
         android:layout_width="wrap_content"
-        android:layout_height="0dp">
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp">
 
         <TextView
             android:layout_width="match_parent"
@@ -71,6 +72,7 @@
             android:text="@string/port"
             android:id="@+id/lbl_txt_port"
             android:paddingLeft="6dp"
+            android:textSize="18sp"
             android:gravity="center_vertical"/>
 
     </RelativeLayout>
@@ -86,7 +88,7 @@
             android:id="@+id/label_port"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/textview_border"
+            android:background="@drawable/textlines"
             android:clickable="true"
             android:paddingTop="6dp"
             android:paddingBottom="8dp"
@@ -104,7 +106,6 @@
             android:padding="2dp"
             android:layout_marginTop="12dp"
             android:layout_marginRight="8dp"
-            android:scaleType="fitXY"
             android:src="@drawable/edit2"
             android:layout_alignParentRight="true"/>
     </RelativeLayout>
@@ -121,7 +122,7 @@
             android:layout_width="match_parent"
             android:layout_height="90dip"
             android:clickable="true"
-            android:background="@drawable/bg_order_item">
+            android:background="@drawable/textlines">
 
             <LinearLayout
                 android:orientation="vertical"
@@ -137,7 +138,7 @@
                     android:layout_height="40dp"
                     android:layout_gravity="center"
                     android:paddingLeft="20dip"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="8dp"
                     android:textSize="24sp"
                     android:textColor="@color/black_light"
                     android:text="Test Connection"/>
@@ -154,11 +155,12 @@
             <Button
                 android:id="@+id/test_conn"
                 android:layout_width="150dip"
-                android:layout_height="70dip"
-                android:layout_marginTop="10dip"
+                android:layout_height="50dip"
+                android:layout_gravity="center_vertical"
                 android:layout_marginLeft="150dp"
                 android:textSize="20sp"
-                android:textColor="#D4a017"
+                android:background="#4CAF50"
+                android:textColor="@color/white_base"
                 android:text="Test"/>
         </LinearLayout>
     </RelativeLayout>
