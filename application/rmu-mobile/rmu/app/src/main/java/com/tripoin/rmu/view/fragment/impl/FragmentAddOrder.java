@@ -183,7 +183,7 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster, IP
                     }
                 });
                 AlertDialog alertDialog = alertDelete.create();
-                alertDialog.setTitle("Are you sure?");
+                alertDialog.setTitle("Do you want to delete all item?");
                 alertDialog.show();
             }
         });

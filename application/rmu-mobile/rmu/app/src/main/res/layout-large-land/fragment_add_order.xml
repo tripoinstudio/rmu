@@ -1,165 +1,181 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white_base"
     xmlns:card="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="30dip"
-        android:layout_gravity="center"
-        android:layout_marginTop="25dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:paddingLeft="5dp"
-        android:paddingBottom="10dp"
-        android:textSize="15sp"
-        android:id="@+id/tx_username"
-        android:background="@drawable/textlines"
-        android:textColor="@color/black_light"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="30dip"
-        android:layout_gravity="center"
-        android:layout_marginTop="25dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:paddingLeft="5dp"
-        android:paddingBottom="10dp"
-        android:textSize="15sp"
-        android:id="@+id/tx_dates"
-        android:background="@drawable/textlines"
-        android:textColor="@color/black_light"/>
-
     <LinearLayout
-
-        android:layout_width="wrap_content"
-        android:layout_height="50dip"
-        android:layout_gravity="center"
-        android:layout_marginTop="25dp"
+        android:orientation="vertical"
+        android:layout_width="510dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="left"
+        android:layout_marginTop="20dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="30dip"
-            android:layout_gravity="center"
-            android:paddingTop="6dp"
+        android:layout_marginRight="10dp"
+        android:paddingLeft="5dp"
+        android:paddingBottom="10dp">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="510dp"
+            android:layout_height="400dp"
+            android:layout_gravity="left"
+            android:layout_marginTop="20dp"
             android:paddingLeft="5dp"
-            android:textSize="15sp"
-            android:text="Gerbong        : "
-            android:id="@+id/lbl_carriage"
-            android:background="@drawable/textlines"
-            android:textColor="@color/black_light"/>
-        <Spinner
-            android:layout_width="70dip"
-            android:layout_height="30dip"
-            android:layout_gravity="center"
-            android:paddingLeft="7dp"
-            android:paddingRight="7dp"
-            android:id="@+id/spinner_carriage"
-            android:background="@drawable/bg_bottom_lov"
-            android:scrollbarStyle="insideInset"
-            android:popupBackground="#FBFBFB"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="30dip"
-            android:layout_gravity="center"
-            android:layout_marginLeft="15dp"
-            android:paddingTop="6dp"
-            android:paddingLeft="5dp"
-            android:textSize="15sp"
-            android:text="Kursi     : "
-            android:id="@+id/lbl_seat"
-            android:background="@drawable/textlines"
-            android:textColor="@color/black_light"/>
-        <Spinner
-            android:layout_width="70dp"
-            android:layout_height="35dip"
-            android:layout_gravity="center"
-            android:paddingLeft="7dp"
-            android:id="@+id/spinner_seat"
-            android:background="@drawable/bg_bottom_lov"/>
+            android:paddingBottom="10dp"
+            android:background="@drawable/bg_order_item">
+            <Button
+                android:id="@+id/btn_add_order"
+                android:layout_width="30dip"
+                android:layout_height="30dip"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/add_item"/>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:paddingTop="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginBottom="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/textlines_large">
+                <it.gmariotti.cardslib.library.view.CardListView
+                    android:id="@+id/listOrderTemp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:verticalSpacing="1dp"
+                    android:horizontalSpacing="1dp"
+                    android:stretchMode="columnWidth"
+                    android:gravity="center"
+                    card:list_card_layout_resourceID="@layout/list_card_custom_layout"/>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="280dp"
+            android:layout_height="50dip"
+            android:layout_gravity="right"
+            android:layout_marginTop="25dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="80dip"
+                android:layout_height="40dip"
+                android:layout_marginTop="10dp"
+                android:textSize="20sp"
+                android:textColor="@color/black_light"
+                android:text="Total :"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dip"
+                android:layout_marginTop="10dp"
+                android:textSize="23sp"
+                android:id="@+id/lbl_menu_total"
+                android:textColor="@color/red_dark_holo"
+                android:text="IDR 0,-"/>
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_height="match_parent"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:paddingLeft="8dp"
-        android:paddingBottom="10dp"
-        android:background="@drawable/bg_order_item">
-        <Button
-            android:id="@+id/btn_add_order"
-            android:layout_width="110dip"
-            android:layout_height="20dip"
-            android:layout_marginTop="5dip"
-            android:paddingTop="10dip"
-            android:background="@drawable/bg_add_product2"/>
+        android:layout_marginRight="30dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="35dip"
+            android:layout_gravity="right"
+            android:layout_marginTop="30dp"
+            android:paddingLeft="5dp"
+            android:paddingBottom="10dp"
+            android:textSize="20sp"
+            android:id="@+id/tx_username"
+            android:background="@drawable/textlines"
+            android:textColor="@color/black_light"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="35dip"
+            android:layout_gravity="right"
+            android:layout_marginTop="25dp"
+            android:paddingLeft="5dp"
+            android:paddingBottom="10dp"
+            android:textSize="20sp"
+            android:id="@+id/tx_dates"
+            android:background="@drawable/textlines"
+            android:textColor="@color/black_light"/>
         <LinearLayout
-            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="50dip"
             android:layout_gravity="center"
-            android:layout_marginTop="5dip"
-            android:layout_marginLeft="2dip"
-            android:layout_marginRight="7dip"
+            android:layout_marginTop="25dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="35dip"
+                android:layout_gravity="center"
+                android:paddingTop="6dp"
+                android:textSize="20sp"
+                android:text="Gerbong  : "
+                android:id="@+id/lbl_carriage"
+                android:background="@drawable/textlines"
+                android:textColor="@color/black_light"/>
+            <Spinner
+                android:layout_width="95dip"
+                android:layout_height="35dip"
+                android:layout_gravity="center"
+                android:id="@+id/spinner_carriage"
+                android:background="@drawable/bg_bottom_lov"
+                android:scrollbarStyle="insideInset"
+                android:popupBackground="#FBFBFB"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="35dip"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:paddingTop="6dp"
+                android:textSize="20sp"
+                android:text="Kursi  : "
+                android:id="@+id/lbl_seat"
+                android:background="@drawable/textlines"
+                android:textColor="@color/black_light"/>
+            <Spinner
+                android:layout_width="95dp"
+                android:layout_height="35dip"
+                android:layout_gravity="center"
+                android:layout_marginRight="5dp"
+                android:id="@+id/spinner_seat"
+                android:background="@drawable/bg_bottom_lov"/>
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/textlines_large">
-            <it.gmariotti.cardslib.library.view.CardListView
-                android:id="@+id/listOrderTemp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="0dp"
-                android:layout_marginBottom="0dp"
-                card:list_card_layout_resourceID="@layout/list_card_thumbnail_layout"
-                style="@style/list_card.thumbnail"/>
+            android:layout_marginTop="25dp"
+            android:orientation="horizontal">
+            <Button
+                android:layout_width="125dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="40dp"
+                android:textSize="20sp"
+                android:id="@+id/bt_cancel"
+                android:textStyle="bold"
+                android:textColor="@color/white_base"
+                android:background="@color/red_dark_holo"
+                android:text="Cancel"/>
+            <Button
+                android:layout_width="125dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="40dp"
+                android:textSize="20sp"
+                android:id="@+id/bt_bayar"
+                android:textStyle="bold"
+                android:textColor="@color/white_base"
+                android:background="#4CAF50"
+                android:text="PAY"/>
         </LinearLayout>
-
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="6dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:paddingLeft="15dp"
-        android:paddingBottom="10dp">
 
-        <TextView
-            android:layout_width="50dip"
-            android:layout_height="40dip"
-            android:layout_marginTop="5dp"
-            android:textSize="15sp"
-            android:textColor="@color/black_light"
-            android:text="Total :"/>
-        <TextView
-            android:layout_width="160dp"
-            android:layout_height="40dip"
-            android:layout_marginTop="5dp"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:id="@+id/lbl_menu_total"
-            android:textColor="@color/red_dark_holo"
-            android:text="IDR 20.000"/>
-        <Button
-            android:layout_width="80dip"
-            android:layout_height="40dp"
-            android:layout_marginRight="30dip"
-            android:layout_gravity="right"
-            android:textSize="15sp"
-            android:id="@+id/bt_bayar"
-            android:textStyle="bold"
-            android:textColor="@color/white_base"
-            android:background="@color/nliveo_blue_alpha_colorPrimaryDark"
-            android:text="Bayar"/>
-    </LinearLayout>
+
 </LinearLayout>
