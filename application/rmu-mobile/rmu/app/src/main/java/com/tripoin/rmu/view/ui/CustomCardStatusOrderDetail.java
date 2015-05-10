@@ -1,6 +1,7 @@
 package com.tripoin.rmu.view.ui;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -33,6 +34,7 @@ public class CustomCardStatusOrderDetail extends Card implements IUpdateOrderSta
     private OrderDetailModel orderDetailModel;
     private ImageView imgOrderType;
     private TextView txtOrderStatus;
+    private Typeface faces;
     private FragmentActivity activity;
 
     public CustomCardStatusOrderDetail(Context context) {
@@ -74,7 +76,10 @@ public class CustomCardStatusOrderDetail extends Card implements IUpdateOrderSta
     @Override
     public void setupInnerViewElements(ViewGroup parent, View view) {
         super.setupInnerViewElements(parent, view);
+      //  view.setMinimumHeight(20);
         txtOrderStatus = (TextView) view.findViewById(R.id.txtOrderStatus);
+        faces=Typeface.createFromAsset(txtOrderStatus.getResources().getAssets(),"font/Roboto-Light.ttf");
+        txtOrderStatus.setTypeface(faces);
         imgOrderType = (ImageView) view.findViewById(R.id.imgThumbOrder);
         if(imgOrderType != null){
             Picasso.with(getContext()).load(getImageOrderType(Integer.parseInt(orderDetailModel.getOrderHeaderStatus()))).into(imgOrderType);

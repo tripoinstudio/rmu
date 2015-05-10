@@ -1,9 +1,11 @@
 package com.tripoin.rmu.view.fragment.impl;
 
 import android.app.ProgressDialog;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
 import android.widget.TextView;
 
 import com.tripoin.rmu.R;
@@ -38,6 +40,8 @@ public class FragmentOrderDetail extends ABaseNavigationDrawerFragment implement
     @InjectView(R.id.txtTrainCode) TextView txtTrainCode;
     @InjectView(R.id.txtCarriageCode)TextView txtCarriageCode;
     @InjectView(R.id.txtSeatCode) TextView txtSeatCode;
+//    @InjectView(R.layout.order_status_card.R.id.txtOrderStatus)TextView txtOrderStatus;
+    private Typeface faces;
     @InjectView(R.id.txtTotalPaid)TextView txtTotalPaid;
     @InjectView(R.id.listStatusOption) CardListView listView;
     @InjectView(R.id.listOrderDetailItem) CardListView listViewDetailOrderItem;
@@ -80,11 +84,19 @@ public class FragmentOrderDetail extends ABaseNavigationDrawerFragment implement
     }
 
     @Override
+
     public void initWidget() {
         securityUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(), getActivity());
         new OrderDetailAsync().execute();
+
         orderListId = getArguments().getString(ORDER_LIST_ID);
         txtOrderListId.setText(orderListId);
+        faces=Typeface.createFromAsset(txtOrderListId.getResources().getAssets(),"font/Roboto-Light.ttf");
+        txtOrderListId.setTypeface(faces);
+        txtTrainCode.setTypeface(faces);
+        txtSeatCode.setTypeface(faces);
+        txtCarriageCode.setTypeface(faces);
+        txtTotalPaid.setTypeface(faces);
     }
 
     @Override
@@ -139,9 +151,17 @@ public class FragmentOrderDetail extends ABaseNavigationDrawerFragment implement
     }
 
     private void initCards(List<OrderDetailModel> orderDetailModels){
+    //    View rootViews;
         ArrayList<Card> cards = new ArrayList<Card>();
         for (int i = 0; i<orderDetailModels.size(); i++) {
+         //   rootViews = inflater.inflate(R.layout.fragment_add_order, container, false);
+       //     faces=Typeface.createFromAsset(txtOrderStatus.getResources().getAssets(),"font/Roboto-Light.ttf");
+        //    txtOrderStatus.setTypeface(faces);
             Card card = new CustomCardStatusOrderDetail(getActivity(), R.layout.order_status_card, orderDetailModels.get(i));
+            card.setBackgroundResource(getResources().getDrawable(R.drawable.textlinesfullborder));
+
+
+      //     card.setT
             cards.add(card);
         }
 
@@ -161,6 +181,7 @@ public class FragmentOrderDetail extends ABaseNavigationDrawerFragment implement
         for (int i = 0; i<orderDetailModels.size(); i++) {
             Card card = new CustomCardOrderDetail(getActivity(), R.layout.order_detail_card, orderDetailModels.get(i));
             totalPaid += Integer.parseInt(orderDetailModels.get(i).getOrderDetailTotalAmount());
+            card.setBackgroundResource(getResources().getDrawable(R.drawable.textlines));
             cards.add(card);
         }
         txtTotalPaid.setText(ViewConstant.TOTAL_PAID.toString().concat(ViewConstant.IDR.toString()).concat(ViewConstant.SPACE.toString()).concat(String.valueOf(totalPaid)));

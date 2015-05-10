@@ -5,30 +5,70 @@
     android:layout_width="match_parent"
     android:background="@color/white_base"
     android:layout_height="match_parent">
-
     <LinearLayout
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
+
         android:layout_height="wrap_content"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical"
-        android:background="@drawable/background_stroke_drawable">
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/txtChangeStatus"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/txtOrderId"
+            android:background="@drawable/textlines"
             android:textColor="@android:color/black"
             android:textSize="20sp"
-            android:text="@string/change_order_status"/>
+            android:paddingTop="15dip"
+            android:text="Order Id"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/txtTrainCode"
+            android:textColor="@android:color/black"
+            android:textSize="17sp"
+            android:paddingTop="15dip"
+            android:text="Train Code"
+            android:background="@drawable/textlines"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:paddingTop="15dip"
+            android:id="@+id/txtCarriageCode"
+            android:background="@drawable/textlines"
+            android:textColor="@android:color/black"
+            android:textSize="17sp"
+            android:text="Carriage Code"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:paddingTop="15dip"
+            android:background="@drawable/textlines"
+            android:id="@+id/txtSeatCode"
+            android:textColor="@android:color/black"
+            android:textSize="17sp"
+            android:text="Seat Code"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
 
         <it.gmariotti.cardslib.library.view.CardListView
             android:id="@+id/listStatusOption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="20dp"
             android:layout_marginBottom="0dp"
-            card:list_card_layout_resourceID="@layout/list_card_thumbnail_layout"
+            card:list_card_layout_resourceID="@layout/list_card_custom_layout_detailorder"
             style="@style/list_card.thumbnail"/>
     </LinearLayout>
 
@@ -36,48 +76,19 @@
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/background_stroke_drawable"
         android:orientation="vertical">
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="260dp"
             android:orientation="vertical"
-            android:layout_marginLeft="15dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/txtOrderId"
-                android:textColor="@android:color/black"
-                android:textSize="20sp"
-                android:text="Order Id"/>
+            android:paddingTop="10dp"
+            >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/txtTrainCode"
-                android:textColor="@android:color/black"
-                android:textSize="20sp"
-                android:text="Train Code"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/txtCarriageCode"
-                android:textColor="@android:color/black"
-                android:textSize="20sp"
-                android:text="Carriage Code"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/txtSeatCode"
-                android:textColor="@android:color/black"
-                android:textSize="20sp"
-                android:text="Seat Code"/>
-        </LinearLayout>
 
         <it.gmariotti.cardslib.library.view.CardListView
             android:id="@+id/listOrderDetailItem"
@@ -85,8 +96,10 @@
             android:layout_height="match_parent"
             android:layout_marginTop="0dp"
             android:layout_marginBottom="0dp"
-            card:list_card_layout_resourceID="@layout/list_card_thumbnail_layout"
+            card:list_card_layout_resourceID="@layout/list_card_custom_layout_detailorder"
             style="@style/list_card.thumbnail"/>
+
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
@@ -94,6 +107,7 @@
             android:layout_marginRight="20dp"
             android:id="@+id/txtTotalPaid"
             android:textSize="20sp"
+            android:paddingBottom="10dp"
             android:layout_gravity="right"
             android:textColor="@android:color/black"
             android:text="Total Paid"/>

@@ -1,6 +1,7 @@
 package com.tripoin.rmu.view.ui;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +24,8 @@ public class CustomCardOrderDetail extends Card {
     private TextView txtMenuName;
     private TextView txtTotalOrder;
     private TextView txtTotalPaid;
+    private Typeface faces;
+    private Typeface facesbold;
 
     private FragmentActivity activity;
 
@@ -44,8 +47,14 @@ public class CustomCardOrderDetail extends Card {
     public void setupInnerViewElements(ViewGroup parent, View view) {
         super.setupInnerViewElements(parent, view);
         txtMenuName = (TextView) view.findViewById(R.id.txtMenuName);
+        facesbold=Typeface.createFromAsset(txtMenuName.getResources().getAssets(),"font/Roboto-Bold.ttf");
         txtTotalOrder = (TextView) view.findViewById(R.id.txtTotalOrder);
+        faces=Typeface.createFromAsset(txtTotalOrder.getResources().getAssets(),"font/Roboto-Light.ttf");
+        txtTotalOrder.setTypeface(faces);
         txtTotalPaid = (TextView) view.findViewById(R.id.txtTotalPaid);
+        txtTotalPaid.setTypeface(faces);
+        txtMenuName.setTypeface(faces);
+     //   txtTotalOrder.setTextColor(view.getContext().getResources().getColor(R.color.nliveo_orange_alpha_colorPrimaryDark));
 
         if(txtMenuName != null){
             txtMenuName.setText(orderDetailModel.getMenuName());
@@ -54,7 +63,7 @@ public class CustomCardOrderDetail extends Card {
             txtTotalOrder.setText(ViewConstant.TOTAL_ORDER.toString().concat(ViewConstant.SPACE.toString()).concat(orderDetailModel.getOrderDetailTotalOrder()));
         }
         if(txtTotalPaid != null){
-            txtTotalPaid.setText(ViewConstant.TOTAL_PAID.toString().concat(ViewConstant.SPACE.toString()).concat(orderDetailModel.getOrderDetailTotalAmount()));
+            txtTotalPaid.setText(ViewConstant.IDR.toString().concat(ViewConstant.SPACE.toString()).concat(orderDetailModel.getOrderDetailTotalAmount()));
         }
     }
 
