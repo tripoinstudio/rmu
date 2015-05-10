@@ -113,9 +113,9 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="55dp"
         android:layout_weight="0.15"
-        android:layout_marginTop="40dp">
+        android:layout_marginTop="50dp">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -129,8 +129,7 @@
                 android:orientation="vertical"
                 android:layout_gravity="left"
                 android:layout_width="350dip"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_text_box_border_bottom2">
+                android:layout_height="wrap_content">
 
 
                 <TextView
@@ -150,7 +149,7 @@
                     android:layout_gravity="center"
                     android:gravity="center_vertical"
                     android:paddingLeft="20dip"
-                    android:textSize="20sp"/>
+                    android:textSize="18sp"/>
             </LinearLayout>
 
 
