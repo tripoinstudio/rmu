@@ -50,7 +50,7 @@ import butterknife.OnClick;
  * fauzi.knightmaster.achmad@gmail.com
  */
 
-public class ActivityLogin extends ABaseActivity implements ILoginPost, IConnectionPost, ILogoutPost {
+public class ActivityLogin extends ABaseActivity implements ILoginPost, IConnectionPost/*, ILogoutPost*/ {
 
     @InjectView(R.id.txt_username) EditText txtUserName;
     @InjectView(R.id.txt_password) EditText txtPassword;
@@ -67,7 +67,7 @@ public class ActivityLogin extends ABaseActivity implements ILoginPost, IConnect
     private String chipperAuth;
     private String userName;
     private PropertyUtil securityUtil;
-    private ISignHandler iSignHandler;
+    /*private ISignHandler iSignHandler;*/
 
     @Override
     public void initWidget() {
@@ -76,8 +76,8 @@ public class ActivityLogin extends ABaseActivity implements ILoginPost, IConnect
         generalValidation = new GeneralValidation();
         generalConverter = new GeneralConverter();
         networkConnectivity = new NetworkConnectivity(this, null);
-        iSignHandler = new FirstSignHandlerImpl(securityUtil, this);
-        iSignHandler.detectLoginStatus();
+        /*iSignHandler = new FirstSignHandlerImpl(securityUtil, this);
+        iSignHandler.detectLoginStatus();*/
         VersionDBManager.init(this);
     }
 
@@ -105,7 +105,7 @@ public class ActivityLogin extends ABaseActivity implements ILoginPost, IConnect
     @Override
     protected void onResume() {
         super.onResume();
-        iSignHandler.detectLoginStatus();
+        /*iSignHandler.detectLoginStatus();*/
     }
 
     @OnClick(R.id.btSignIn)
@@ -296,7 +296,7 @@ public class ActivityLogin extends ABaseActivity implements ILoginPost, IConnect
         }
     }
 
-    @Override
+    /*@Override
     public void onPostLogout(Object objectResult) {
         try{
             if(objectResult != null){
@@ -310,5 +310,5 @@ public class ActivityLogin extends ABaseActivity implements ILoginPost, IConnect
         }catch (Exception e){
             Log.d("Object Post not Found", e.toString());
         }
-    }
+    }*/
 }
