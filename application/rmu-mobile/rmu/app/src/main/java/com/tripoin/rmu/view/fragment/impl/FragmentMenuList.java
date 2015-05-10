@@ -101,7 +101,7 @@ public class FragmentMenuList extends Fragment implements ISynchronizeMenuList {
                     orderTempModel.setMenuCode(menuModel.getMenuCode());
                     FragmentAddMenu fragmentAddMenu = new FragmentAddMenu().newInstance(orderTempModel);
                     FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
-                    mFragmentManager.beginTransaction().replace(R.id.container, fragmentAddMenu).addToBackStack(null).commit();
+                    mFragmentManager.beginTransaction().replace(R.id.container, fragmentAddMenu).commit();
                 }
 
             });
@@ -182,7 +182,7 @@ public class FragmentMenuList extends Fragment implements ISynchronizeMenuList {
             case R.id.menu_add:
                 FragmentAddOrder fragmentAddOrder = new FragmentAddOrder().newInstance("");
                 FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
-                mFragmentManager.beginTransaction().replace(R.id.container, fragmentAddOrder).addToBackStack(null).commit();
+                mFragmentManager.beginTransaction().replace(R.id.container, fragmentAddOrder).commit();
 //                Toast.makeText(getActivity(), R.string.add, Toast.LENGTH_SHORT).show();
                 break;
 

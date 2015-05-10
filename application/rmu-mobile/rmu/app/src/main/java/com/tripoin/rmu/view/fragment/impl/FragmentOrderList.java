@@ -17,7 +17,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -30,18 +32,21 @@ import com.tripoin.rmu.model.api.ModelConstant;
 import com.tripoin.rmu.model.persist.CarriageModel;
 import com.tripoin.rmu.model.persist.OrderListModel;
 import com.tripoin.rmu.model.persist.SeatModel;
+import com.tripoin.rmu.model.persist.TrainModel;
 import com.tripoin.rmu.persistence.orm_persistence.service.CarriageDBManager;
 import com.tripoin.rmu.persistence.orm_persistence.service.OrderListDBManager;
 import com.tripoin.rmu.persistence.orm_persistence.service.SeatDBManager;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
+import com.tripoin.rmu.view.fragment.api.ISynchronizeMaster;
 import com.tripoin.rmu.view.fragment.api.ISynchronizeOrderList;
 import com.tripoin.rmu.view.fragment.base.ABaseNavigationDrawerFragment;
 import com.tripoin.rmu.view.ui.CustomCardOrderList;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
 import butterknife.InjectView;
 import it.gmariotti.cardslib.library.internal.Card;
@@ -67,7 +72,6 @@ public class FragmentOrderList extends ABaseNavigationDrawerFragment implements 
     Spinner srcStatus, srcSeat, srcCrrg;
 
     private final String ORDER_ID = "ORDER_ID";
-
     @InjectView(R.id.listOrder) CardListView listView;
 
     public FragmentOrderList newInstance(String data){
@@ -147,6 +151,10 @@ public class FragmentOrderList extends ABaseNavigationDrawerFragment implements 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //OnClick Searching
+                        int posSeat = srcSeat.getSelectedItemPosition();
+                        int posCarr = srcCrrg.getSelectedItemPosition();
+                        final List<OrderListModel> orderListModels = OrderListDBManager.getInstance().getAllDataFromQuery(srcSeat.getAdapter().getItem(posSeat).toString(), srcCrrg.getAdapter().getItem(posCarr).toString(), String.valueOf(srcStatus.getSelectedItemPosition()), srcOrderId.getText().toString());
+                        initCards(orderListModels);
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
@@ -189,19 +197,26 @@ public class FragmentOrderList extends ABaseNavigationDrawerFragment implements 
         initCards(orderListModels);
     }
 
+
     private void initCards(List<OrderListModel> orderListModels){
         ArrayList<Card> cards = new ArrayList<Card>();
-        for (int i = 0; i<orderListModels.size(); i++) {
-            if( orderListModels.get(i).getProcessStatus() != IOrderStatusConstant.DONE ){
-                Card card = new CustomCardOrderList(getActivity(), R.layout.row_card, orderListModels.get(i));
-                cards.add(card);
+
+
+        if(orderListModels != null){
+            for (int i = 0; i<orderListModels.size(); i++) {
+                if( orderListModels.get(i).getProcessStatus() != IOrderStatusConstant.DONE ){
+                    Card card = new CustomCardOrderList(getActivity(), R.layout.row_card, orderListModels.get(i));
+                    cards.add(card);
+                }
             }
-        }
 
-        CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(rootView.getContext(), cards);
+            CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(getActivity(), cards);
 
-        if (listView != null) {
-            listView.setAdapter(mCardArrayAdapter);
+            if (listView != null) {
+                listView.setAdapter(mCardArrayAdapter);
+            }
+        }else{
+            listView.setAdapter(new CardArrayAdapter(getActivity(), new ArrayList<Card>()));
         }
     }
 
@@ -236,24 +251,34 @@ public class FragmentOrderList extends ABaseNavigationDrawerFragment implements 
     }
 
     public void initSpinnerCarriage(List<CarriageModel> carriageModel){
-        int array =  carriageModel.size();
+        int array =  carriageModel.size()+1;
         array_spinner_crrg = new String[array];
 
         for(int i = 0; i<array;i++){
-            array_spinner_crrg[i] = carriageModel.get(i).getCarriageNo();
-            Log.d("carriageDB", carriageModel.toString());
+            if(i==0){
+                array_spinner_crrg[i] = "All";
+            }else{
+                int j = i-1;
+                array_spinner_crrg[i] = carriageModel.get(j).getCarriageNo();
+            }
+
         }
 
     }
 
     public void initSpinnerSeat(List<SeatModel> seatModel){
-        int array =  seatModel.size();
+        int array =  seatModel.size()+1;
         array_spinner_seat = new String[array];
 
         for(int i = 0; i<array;i++){
-            array_spinner_seat[i] = seatModel.get(i).getSeatNo();
-        }
+            if(i==0){
+                array_spinner_seat[i] = "All";
+            }else{
+                int j = i-1;
+                array_spinner_seat[i] = seatModel.get(j).getSeatNo();
+            }
 
+        }
     }
 
 
@@ -272,7 +297,7 @@ public class FragmentOrderList extends ABaseNavigationDrawerFragment implements 
 
         @Override
         public Object getItem(int position) {
-            return position;
+            return array_spinner_crrg[position];
         }
 
         @Override
@@ -318,7 +343,7 @@ public class FragmentOrderList extends ABaseNavigationDrawerFragment implements 
 
         @Override
         public Object getItem(int position) {
-            return position;
+            return array_spinner_seat[position];
         }
 
         @Override
@@ -381,15 +406,4 @@ public class FragmentOrderList extends ABaseNavigationDrawerFragment implements 
             progressDialog.dismiss();
         }
     }
-
-/*    private void refreshContent() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                BackgroundSynchronizeOrderList synchronizeOrderList = new BackgroundSynchronizeOrderList(securityUtil, rootView.getContext(), ModelConstant.REST_ORDER_HEADER_TABLE.toString(),FragmentOrderList.this);
-                synchronizeOrderList.detectVersionDiff();
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        }, 2500);
-    }*/
 }
