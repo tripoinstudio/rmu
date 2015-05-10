@@ -3,18 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:padding="10dp" >
+    android:padding="5dp" >
 
     <LinearLayout
-        android:layout_marginTop="5dp"
         android:layout_marginRight="15dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginLeft="11dp"
         android:padding="0dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <ImageView
             android:layout_width="80dp"
             android:layout_height="80dp"
+            android:layout_marginTop="14dp"
             android:src="@drawable/ic_list_new"
             android:id="@+id/imgThumbOrder"/>
     </LinearLayout>
@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="11dp">
 
         <TextView
             android:id="@+id/txtOrderId"
@@ -54,8 +54,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="9dp"
-        android:layout_marginBottom="40dp">
+        android:layout_marginTop="15dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -72,7 +71,8 @@
             android:layout_height="wrap_content"
             android:text="total paid"
             android:textColor="@android:color/holo_orange_dark"
-            android:textSize="19sp" />
+            android:textSize="19sp"
+            android:layout_marginBottom="23dp" />
     </LinearLayout>
 
 

@@ -8,15 +8,21 @@
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshOrderList"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/textlines_large">
 
         <it.gmariotti.cardslib.library.view.CardListView
             android:id="@+id/listOrder"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            card:list_card_layout_resourceID="@layout/list_order_custom_layout"
-            style="@style/list_card.thumbnail"/>
+            android:verticalSpacing="1dp"
+            android:horizontalSpacing="1dp"
+            android:stretchMode="columnWidth"
+            android:gravity="center"
+            card:list_card_layout_resourceID="@layout/list_order_custom_layout"/>
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
