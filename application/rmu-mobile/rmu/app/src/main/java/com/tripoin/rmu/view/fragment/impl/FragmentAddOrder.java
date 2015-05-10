@@ -112,9 +112,7 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster, IP
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_add_order, container, false);
         rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT ));
-        bluetoothEngine = new BluetoothEngine(getActivity());
-        bluetoothEngine.scanBluetoothDevices();
-        bluetoothEngine.openBluetoothConnection();
+
         propertyUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(),rootView.getContext());
         OrderTempDBManager.init(rootView.getContext());
         orderTempModelList = OrderTempDBManager.getInstance().getAllData();
@@ -123,6 +121,8 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster, IP
                 totalOrder = new BigDecimal(orderTempModel.getPrice()).add(totalOrder);
             }
         }
+
+        bluetoothEngine = new BluetoothEngine(getActivity());
 
         txus=(TextView)rootView.findViewById(R.id.tx_username);
         faces=Typeface.createFromAsset(txus.getResources().getAssets(),"font/Roboto-Light.ttf");
@@ -183,7 +183,7 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster, IP
                     }
                 });
                 AlertDialog alertDialog = alertDelete.create();
-                alertDialog.setTitle("Do you want to delete all item?");
+                alertDialog.setTitle("Are you sure?");
                 alertDialog.show();
             }
         });
@@ -250,17 +250,21 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster, IP
         printMessageDTO.setOrderNo(orderNo);
         printMessageDTO.setTotal(String.valueOf(totalOrder));
         printMessageDTO.setMessageItemDTOs(orderTempModelList);
-        try {
-            bluetoothEngine.scanBluetoothDevices();
-            bluetoothEngine.openBluetoothConnection();
-            bluetoothEngine.printMessage(printMessageDTO);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(bluetoothEngine.checkOnBluetooth()){
+            if(bluetoothEngine.openBluetoothConnection()) {
+                bluetoothEngine.printTemplateString(bluetoothEngine.templateMessageDto(printMessageDTO));
+                OrderTempDBManager.getInstance().executeRaw("DELETE FROM ".concat(ModelConstant.ORDER_TEMP_TABLE));
+                FragmentOrderList fragmentOrderList = new FragmentOrderList();
+                FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
+                mFragmentManager.beginTransaction().replace(R.id.container, fragmentOrderList).commit();
+            }else{
+                return;
+            }
+        }else{
+            bluetoothEngine.activeBluetooth();
+            return;
         }
-        OrderTempDBManager.getInstance().executeRaw("DELETE FROM ".concat(ModelConstant.ORDER_TEMP_TABLE));
-        FragmentOrderList fragmentOrderList = new FragmentOrderList();
-        FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
-        mFragmentManager.beginTransaction().replace(R.id.container, fragmentOrderList).commit();
+
     }
 
     @Override
