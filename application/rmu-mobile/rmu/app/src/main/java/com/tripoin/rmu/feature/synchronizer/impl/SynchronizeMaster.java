@@ -1,7 +1,6 @@
 package com.tripoin.rmu.feature.synchronizer.impl;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.tripoin.rmu.feature.synchronizer.base.ASynchronizeData;
 import com.tripoin.rmu.model.DTO.carriage.CarriageDTO;
@@ -41,9 +40,6 @@ public class SynchronizeMaster extends ASynchronizeData implements ICarriagePost
     private PropertyUtil securityUtil;
     private String latestVersion;
     private ISynchronizeMaster iSynchronizeMaster;
-    private List<CarriageModel> carriageModels;
-    private List<TrainModel> trainModels;
-    private List<SeatModel> seatModels;
 
     protected SynchronizeMaster(PropertyUtil securityUtil, Context context) {
         super(securityUtil, context);
@@ -121,11 +117,7 @@ public class SynchronizeMaster extends ASynchronizeData implements ICarriagePost
             VersionModel versionModel = VersionDBManager.getInstance().selectCustomVersionModel(ModelConstant.VERSION_NAMETABLE, getTableName());
             versionModel.setVersionTimestamp(latestVersion);
             VersionDBManager.getInstance().updateEntity(versionModel);
-
-            trainModels = TrainDBManager.getInstance().getAllData();
-            for(TrainModel trainModel1:trainModels){
-                Log.d("Train data",trainModel1.toString());
-            }
+            List<TrainModel> trainModels = TrainDBManager.getInstance().getAllData();
             iSynchronizeMaster.onPostFirstSyncMasterTrain(trainModels);
         }else{
 
@@ -149,10 +141,7 @@ public class SynchronizeMaster extends ASynchronizeData implements ICarriagePost
             versionModel.setVersionTimestamp(latestVersion);
             VersionDBManager.getInstance().updateEntity(versionModel);
 
-            carriageModels = CarriageDBManager.getInstance().getAllData();
-            for(CarriageModel carriageModel1:carriageModels){
-                Log.d("Carriage data",carriageModel1.toString());
-            }
+            List<CarriageModel> carriageModels = CarriageDBManager.getInstance().getAllData();
             iSynchronizeMaster.onPostFirstSyncMasterCarriage(carriageModels);
         }else{
 
@@ -176,10 +165,7 @@ public class SynchronizeMaster extends ASynchronizeData implements ICarriagePost
             versionModel.setVersionTimestamp(latestVersion);
             VersionDBManager.getInstance().updateEntity(versionModel);
 
-            seatModels = SeatDBManager.getInstance().getAllData();
-            for(SeatModel seatModel1:seatModels){
-                Log.d("Seat data",seatModel1.toString());
-            }
+            List<SeatModel> seatModels = SeatDBManager.getInstance().getAllData();
             iSynchronizeMaster.onPostFirstSyncMasterSeat(seatModels);
         }else{
 

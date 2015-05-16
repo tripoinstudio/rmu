@@ -101,8 +101,10 @@ public class OrderDetailDBManager<DATA>  implements IBaseDatabaseHandler{
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        if(result.size() == 0)
-            return null;
+        if (result != null) {
+            if(result.size() == 0)
+                return null;
+        }
         return result.get(0);
     }
 
@@ -118,8 +120,10 @@ public class OrderDetailDBManager<DATA>  implements IBaseDatabaseHandler{
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        if(result.size() == 0)
-            return null;
+        if (result != null) {
+            if(result.size() == 0)
+                return null;
+        }
         return result;
     }
 

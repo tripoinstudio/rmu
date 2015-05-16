@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
 
 /**
  * Created by Achmad Fauzi on 5/7/2015 : 11:13 AM.
- * mailto : achmad.fauzi@sigma.co.id
+ * mailto : fauzi.knightmaster.achmad@gmail.com
  */
 public abstract class ABaseActivity extends Activity implements IBaseActivity{
 

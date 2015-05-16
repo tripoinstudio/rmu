@@ -2,7 +2,7 @@ package com.tripoin.rmu.feature.scheduler.constant;
 
 /**
  * Created by Achmad Fauzi on 5/9/2015 : 7:51 PM.
- * mailto : achmad.fauzi@sigma.co.id
+ * mailto : fauzi.knightmaster.achmad@gmail.com
  */
 public interface IOrderStatusConstant {
 

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Vibrator;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -15,6 +14,8 @@ import com.squareup.picasso.Picasso;
 import com.tripoin.rmu.R;
 import com.tripoin.rmu.model.persist.OrderListModel;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
+import com.tripoin.rmu.view.fragment.api.ICustomCardStatus;
+import com.tripoin.rmu.view.fragment.base.ABaseCustomCard;
 import com.tripoin.rmu.view.fragment.impl.FragmentOrderDetail;
 
 import it.gmariotti.cardslib.library.internal.Card;
@@ -23,16 +24,12 @@ import it.gmariotti.cardslib.library.internal.Card;
  * Created by Achmad Fauzi on 4/25/2015 : 12:26 AM.
  * mailto : fauzi.knightmaster.achmad@gmail.com
  */
-public class CustomCardOrderList extends Card {
+public class CustomCardOrderList extends ABaseCustomCard {
 
     private OrderListModel orderListModel;
     private TextView txtOrderId;
-    private ImageView imgOrderType;
-    private TextView txtCarriage;
-    private TextView txtSeat;
-    private TextView txtTotalPaid;
-    private TextView txtOrderTime;
     private FragmentActivity activity;
+    private ICustomCardStatus iCustomCardStatus;
 
     public CustomCardOrderList(Context context) {
         super(context);
@@ -42,38 +39,18 @@ public class CustomCardOrderList extends Card {
         super(context, innerLayout);
         this.activity = context;
         this.orderListModel = orderListModel;
-        init();
-    }
-
-    private void init(){
-        setOnClickListener(new OnCardClickListener() {
-            @Override
-            public void onClick(Card card, View view) {
-                FragmentManager mFragmentManager = activity.getSupportFragmentManager();
-                FragmentOrderDetail fragmentOrderDetail = new FragmentOrderDetail().newInstance(txtOrderId.getText().toString());
-                mFragmentManager.beginTransaction().replace(R.id.container, fragmentOrderDetail).commit();
-            }
-        });
-
-        setOnLongClickListener(new OnLongCardClickListener() {
-            @Override
-            public boolean onLongClick(Card card, View view) {
-                ((Vibrator) getContext().getSystemService(getContext().VIBRATOR_SERVICE)).vibrate(200);
-                Toast.makeText(getContext(), "Selected Order Id = ".concat(txtOrderId.getText().toString()), Toast.LENGTH_LONG).show();
-                return true;
-            }
-        });
+        iCustomCardStatus = new CustomCardStatusImpl(context);
     }
 
     @Override
     public void setupInnerViewElements(ViewGroup parent, View view) {
         super.setupInnerViewElements(parent, view);
         txtOrderId = (TextView) view.findViewById(R.id.txtOrderId);
-        txtCarriage = (TextView) view.findViewById(R.id.txtCarriage);
-        txtSeat = (TextView) view.findViewById(R.id.txtSeat);
-        txtTotalPaid = (TextView) view.findViewById(R.id.txtTotalPaid);
-        txtOrderTime = (TextView) view.findViewById(R.id.txtOrderTime);
-        imgOrderType = (ImageView) view.findViewById(R.id.imgThumbOrder);
+        TextView txtCarriage = (TextView) view.findViewById(R.id.txtCarriage);
+        TextView txtSeat = (TextView) view.findViewById(R.id.txtSeat);
+        TextView txtTotalPaid = (TextView) view.findViewById(R.id.txtTotalPaid);
+        TextView txtOrderTime = (TextView) view.findViewById(R.id.txtOrderTime);
+        ImageView imgOrderType = (ImageView) view.findViewById(R.id.imgThumbOrder);
 
         if(txtOrderId != null){
             txtOrderId.setText(orderListModel.getOrderId());
@@ -91,25 +68,28 @@ public class CustomCardOrderList extends Card {
             txtOrderTime.setText(orderListModel.getOrderTime());
         }
         if(imgOrderType != null){
-            Picasso.with(getContext()).load(getImageOrderType(orderListModel.getProcessStatus())).into(imgOrderType);
+            Picasso.with(getContext()).load(iCustomCardStatus.getImageOrderType(orderListModel.getProcessStatus())).into(imgOrderType);
         }
     }
 
-    private int getImageOrderType(int processStatus){
-        int result = 0;
-        if(processStatus == 1){
-            result = R.drawable.ic_list_new;
-        }else if(processStatus == 2){
-            result = R.drawable.ic_list_process;
-        }else if(processStatus == 3){
-            result = R.drawable.ic_list_delivery;
-        }else if(processStatus == 4){
-            result = R.drawable.ic_list_cancel;
-        }else if(processStatus == 5) {
-            result = R.drawable.ic_list_cancel;
-        }else if(processStatus == 6) {
-            result = R.drawable.ic_list_cancel;
-        }
-        return result;
+    @Override
+    public void initActions() {
+        setOnClickListener(new OnCardClickListener() {
+            @Override
+            public void onClick(Card card, View view) {
+                FragmentManager mFragmentManager = activity.getSupportFragmentManager();
+                FragmentOrderDetail fragmentOrderDetail = new FragmentOrderDetail().newInstance(txtOrderId.getText().toString());
+                mFragmentManager.beginTransaction().replace(R.id.container, fragmentOrderDetail).addToBackStack(null).commit();
+            }
+        });
+
+        setOnLongClickListener(new OnLongCardClickListener() {
+            @Override
+            public boolean onLongClick(Card card, View view) {
+                ((Vibrator) getContext().getSystemService(getContext().VIBRATOR_SERVICE)).vibrate(200);
+                Toast.makeText(getContext(), "Selected Order Id = ".concat(txtOrderId.getText().toString()), Toast.LENGTH_LONG).show();
+                return true;
+            }
+        });
     }
 }

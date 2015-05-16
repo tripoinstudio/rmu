@@ -1,7 +1,6 @@
 package com.tripoin.rmu.view.activity;
 
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -10,15 +9,18 @@ import android.util.SparseIntArray;
 import android.view.Menu;
 import android.view.View;
 
+import com.squareup.picasso.Picasso;
 import com.tripoin.rmu.R;
 import com.tripoin.rmu.feature.scheduler.listener.SchedulerServiceListener;
 import com.tripoin.rmu.feature.scheduler.trigger.AlarmManagerStarter;
-import com.tripoin.rmu.model.base.impl.BaseRESTDTO;
-import com.tripoin.rmu.rest.api.ILogoutPost;
+import com.tripoin.rmu.persistence.orm_persistence.service.VersionDBManager;
+import com.tripoin.rmu.util.NetworkConnectivity;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
+import com.tripoin.rmu.view.activity.api.IFirstTimeLaunch;
 import com.tripoin.rmu.view.activity.api.ISignHandler;
 import com.tripoin.rmu.view.activity.api.IMainUtilActivity;
+import com.tripoin.rmu.view.activity.impl.FirstTimeLaunchImpl;
 import com.tripoin.rmu.view.activity.impl.MainSignHandlerImpl;
 import com.tripoin.rmu.view.activity.impl.MainUtilImplActivity;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
@@ -28,7 +30,6 @@ import com.tripoin.rmu.view.fragment.impl.FragmentChangeBluetooth;
 import com.tripoin.rmu.view.fragment.impl.FragmentChangeIPServer;
 import com.tripoin.rmu.view.fragment.impl.FragmentMenuList;
 import com.tripoin.rmu.view.fragment.impl.FragmentOrderList;
-import com.tripoin.rmu.view.fragment.impl.FragmentUpdateStaticData;
 import com.tripoin.rmu.view.fragment.impl.FragmentUserProfile;
 
 import java.util.ArrayList;
@@ -41,32 +42,61 @@ import br.liveo.navigationliveo.NavigationLiveo;
  * Created by Achmad Fauzi on 11/20/2014.
  * fauzi.knightmaster.achmad@gmail.com
  *
+ * Navigation Liveo for Drawer Menu
  */
-public class ActivityMain extends NavigationLiveo implements NavigationLiveoListener, ILogoutPost {
+public class ActivityMain extends NavigationLiveo implements NavigationLiveoListener {
 
     private List<String> mListNameItem;
     int layoutContainerIdGlobal = 0;
 
     private PropertyUtil securityUtil;
-    private IMainUtilActivity iMainActivityUtil;
+    private PropertyUtil propertyUtil;
+    public IMainUtilActivity iMainActivityUtil;
     private ISignHandler iSignHandler;
+    private IFirstTimeLaunch iFirstTimeLaunch;
+    private NetworkConnectivity networkConnectivity;
 
 
     @Override
     public void onUserInformation() {
-        this.mUserName.setText("Bangkit Pratolo");
-        this.mUserEmail.setText("bangkit@gmail.com");
+        propertyUtil = new PropertyUtil(PropertyConstant.PROPERTY_FILE_NAME.toString(), this);
+        String userName = propertyUtil.getValuePropertyMap(PropertyConstant.WAITRESS_NAME.toString());
+        if(userName != null){
+            this.mUserName.setText(userName);
+        }else{
+            this.mUserName.setText(ViewConstant.EMPTY.toString());
+        }
+
+        String userEmail = propertyUtil.getValuePropertyMap(PropertyConstant.WAITRESS_EMAIL.toString());
+        if(userEmail != null){
+            this.mUserEmail.setText(userEmail);
+        }else{
+            this.mUserEmail.setText(ViewConstant.EMPTY.toString());
+        }
         this.mUserName.setTextColor(getResources().getColor(R.color.black_light));
         this.mUserEmail.setTextColor(getResources().getColor(R.color.black_light));
-        this.mUserPhoto.setImageResource(R.drawable.bangkit);
+        Picasso.with(this).load(R.drawable.bangkit).into(this.mUserPhoto);
         this.mUserBackground.setImageResource(R.drawable.wavy_green_background4);
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        iSignHandler.detectLoginStatus();
+        if(networkConnectivity.checkConnectivity()){
+            if(iSignHandler.checkLoginStatus()){
+                if(iFirstTimeLaunch.isNotFirstTimeLaunch()){
+                    iSignHandler.detectLoginStatus();
+                }
+            }else{
+                iMainActivityUtil.gotoNextActivity(ActivityLogin.class, ViewConstant.EMPTY.toString(), ViewConstant.EMPTY.toString());
+            }
+        }else{
+            if( !iSignHandler.checkLoginStatus() ){
+                iFirstTimeLaunch.setFirstTimeLaunchStatus( false );
+            }else{
+                iFirstTimeLaunch.setFirstTimeLaunchStatus( true );
+            }
+        }
     }
 
 
@@ -76,37 +106,38 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
         securityUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(), this);
         iMainActivityUtil = new MainUtilImplActivity(this);
         iSignHandler = new MainSignHandlerImpl(securityUtil, this);
+        iFirstTimeLaunch = new FirstTimeLaunchImpl(this, iSignHandler, securityUtil);
+        networkConnectivity = new NetworkConnectivity(this);
+
         // name of the list items
         mListNameItem = new ArrayList<>();
         mListNameItem.add(0, getString(R.string.add_order));
         mListNameItem.add(1, getString(R.string.menu_list));
         mListNameItem.add(2, getString(R.string.order_list));
-        mListNameItem.add(3, getString(R.string.update_static_order));
-        mListNameItem.add(4, getString(R.string.about));
-        mListNameItem.add(5, getString(R.string.more_markers));
-        mListNameItem.add(6, getString(R.string.change_ip));
-        mListNameItem.add(7, getString(R.string.change_bluetooth));
+        mListNameItem.add(3, getString(R.string.about));
+        mListNameItem.add(4, getString(R.string.more_markers));
+        mListNameItem.add(5, getString(R.string.change_ip));
+        mListNameItem.add(6, getString(R.string.change_bluetooth));
 
         // icons list items
         List<Integer> mListIconItem = new ArrayList<>();
         mListIconItem.add(0, R.drawable.ic_add_to_photos_black_24dp);
         mListIconItem.add(1, R.drawable.ic_format_list_bulleted_black_24dp);
         mListIconItem.add(2, R.drawable.ic_format_list_bulleted_black_24dp);
-        mListIconItem.add(3, R.drawable.ic_edit_black_24dp);
-        mListIconItem.add(4, R.drawable.ic_person_black_24dp);
-        mListIconItem.add(5, 0);
-        mListIconItem.add(6, R.drawable.ic_satellite_black_24dp);
-        mListIconItem.add(7, R.drawable.ic_bluetooth_audio_black_24dp);
+        mListIconItem.add(3, R.drawable.ic_person_black_24dp);
+        mListIconItem.add(4, 0);
+        mListIconItem.add(5, R.drawable.ic_satellite_black_24dp);
+        mListIconItem.add(6, R.drawable.ic_bluetooth_audio_black_24dp);
 
 
         List<Integer> mListHeaderItem = new ArrayList<>();
-        mListHeaderItem.add(5);
+        mListHeaderItem.add(4);
 
         setDefaultStartPositionNavigation(2);
 
         SparseIntArray mSparseCounterItem = new SparseIntArray();
-        mSparseCounterItem.put(1, 20);
-        mSparseCounterItem.put(2, 6);
+        mSparseCounterItem.put(1, 0);
+        mSparseCounterItem.put(2, 0);
 
         //If not please use the FooterDrawer use the setFooterVisible(boolean visible) method with value false
         this.setFooterInformationDrawer(R.string.string_log_out, R.drawable.ic_settings_black_24dp);
@@ -115,16 +146,14 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
 
         Intent schedulerIntent = new Intent(ActivityMain.this, SchedulerServiceListener.class);
         PendingIntent pendingIntent = PendingIntent.getService(ActivityMain.this, 0, schedulerIntent, 0);
-        AlarmManagerStarter alarmManagerStarter = new AlarmManagerStarter( this, null, pendingIntent );
+        AlarmManagerStarter alarmManagerStarter = new AlarmManagerStarter( this, pendingIntent );
         alarmManagerStarter.startAlarmManager();
 
         Intent intent = getIntent();
         String fragmentDirection = intent.getAction();
         if( fragmentDirection != null){
-            Log.d("FRAGMENT DIR", fragmentDirection);
             FragmentManager mFragmentManager = getSupportFragmentManager();
             FragmentOrderList fragmentOrderList = new FragmentOrderList().newInstance(fragmentDirection);
-            /*FragmentOrderDetail fragmentOrderDetail = new FragmentOrderDetail().newInstance(fragmentDirection);*/
             mFragmentManager.beginTransaction().replace(R.id.container, fragmentOrderList).commit();
         }
     }
@@ -139,10 +168,9 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
         FragmentOrderList fragmentOrderList = null;
         FragmentChangeIPServer fragmentChangeIPServer = null;
         FragmentChangeBluetooth fragmentChangeBluetooth = null;
-        FragmentUpdateStaticData fragmentUpdateStaticData = null;
         switch (position){
             case 0:
-                fragmentAddOrder = new FragmentAddOrder().newInstance(listName);
+                fragmentAddOrder = new FragmentAddOrder().newInstance();
                 mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentAddOrder).addToBackStack(null).commit();
                 break;
             case 1 :
@@ -155,22 +183,18 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
                 mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentOrderList).commit();
                 break;
             case 3 :
-                fragmentUpdateStaticData = new FragmentUpdateStaticData().newInstance(listName);
-                mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentUpdateStaticData).addToBackStack(null).commit();
-                break;
-            case 4 :
                 fragmentAbout = new FragmentAbout().newInstance();
                 mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentAbout).addToBackStack(null).commit();
                 break;
-            case 6 :
+            case 5 :
                 fragmentChangeIPServer = new FragmentChangeIPServer().newInstance(listName);
                 mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentChangeIPServer).addToBackStack(null).commit();
                 break;
-            case 7:
+            case 6:
                 fragmentChangeBluetooth = new FragmentChangeBluetooth().newInstance();
                 mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentChangeBluetooth).addToBackStack(null).commit();
                 break;
-            default:;
+            default:
         }
     }
 
@@ -190,7 +214,7 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
 
     @Override
     public void onClickFooterItemNavigation(View view) {
-        securityUtil.saveSingleProperty(PropertyConstant.LOGIN_STATUS_KEY.toString(), PropertyConstant.LOGOUT_STATUS_VALUE.toString());
+        iSignHandler.signOut();
         iMainActivityUtil.exitApplication();
     }
 
@@ -202,14 +226,7 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
         mFragmentManager.beginTransaction().replace(layoutContainerIdGlobal, fragmentUserProfile).commit();
     }
 
-    public void exitApplication( Context context ) {
-        Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.addCategory(Intent.CATEGORY_HOME);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        context.startActivity(intent);
-    }
-
-    @Override
+    /*@Override
     public void onPostLogout(Object objectResult) {
         if(objectResult != null){
             BaseRESTDTO baseRESTDTO = (BaseRESTDTO) objectResult;
@@ -219,7 +236,7 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
                 exitApplication(this);
             }
         }
-    }
+    }*/
 
     /*@Override
     public void onBackPressed() {

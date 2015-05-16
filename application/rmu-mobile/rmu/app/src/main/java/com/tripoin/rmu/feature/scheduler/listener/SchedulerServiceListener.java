@@ -60,7 +60,7 @@ public class SchedulerServiceListener extends Service implements ISynchronizeOrd
 
 
     public void getNotification(){
-        BackgroundSynchronizeOrderList synchronizeOrderList = new BackgroundSynchronizeOrderList(securityUtil, this, ModelConstant.REST_ORDER_HEADER_TABLE.toString(),this);
+        BackgroundSynchronizeOrderList synchronizeOrderList = new BackgroundSynchronizeOrderList(securityUtil, this, ModelConstant.REST_ORDER_HEADER_TABLE,this);
         synchronizeOrderList.detectVersionDiff();
     }
 
@@ -81,7 +81,7 @@ public class SchedulerServiceListener extends Service implements ISynchronizeOrd
     @Override
     public void onPostContSyncOrderList(List<OrderListModel> orderListModels) {
         for(OrderListModel orderListModel: orderListModels){
-            if(orderListModel.getProcessStatus() == IOrderStatusConstant.DONE){
+            if(orderListModel.getProcessStatus() == IOrderStatusConstant.PREPARED){
                 buildNotification(orderListModel);
             }
         }
@@ -109,16 +109,16 @@ public class SchedulerServiceListener extends Service implements ISynchronizeOrd
     private void buildNotification(OrderListModel orderListModel){
         newSize++;
         String orderId = orderListModel.getOrderId();
-        Notification notification = new Notification(R.drawable.ic_launcher, orderId.concat(" - Done"), System.currentTimeMillis());
+        Notification notification = new Notification(R.drawable.ic_launcher, orderId.concat(" - Prepared"), System.currentTimeMillis());
         Intent notificationIntent = new Intent(this, ActivityMain.class);
         notificationIntent.setAction(orderId);
         notificationIntent.putExtra("ORDER_ID", orderId);
         // set intent so it does not start a new activity
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
         PendingIntent intent = PendingIntent.getActivity(this, 0,notificationIntent, 0);
-        notification.setLatestEventInfo(this, ViewConstant.DEFAULT_ACTION_BAR_TITLE.toString(), orderId.concat(" - Done"), intent);
+        notification.setLatestEventInfo(this, ViewConstant.DEFAULT_ACTION_BAR_TITLE.toString(), orderId.concat(" - Ready to deliver"), intent);
 
-        notification.flags |= Notification.FLAG_HIGH_PRIORITY;
+        notification.flags |= Notification.FLAG_AUTO_CANCEL;
         notification.defaults |= Notification.DEFAULT_SOUND;
         notification.defaults |= Notification.DEFAULT_VIBRATE;
         try{

@@ -101,6 +101,7 @@ public abstract class SynchronizeOrderDetail extends ASynchronizeData implements
             OrderDetailModel orderDetailModel = null;
             List<OrderDetailModel> detailModels = new ArrayList<OrderDetailModel>();
             for(OrderDetailItemDTO itemDTO : orderDetailDTO.getOrderDetailItemDTOs()){
+                Log.d("ITEM DTO", itemDTO.toString());
                 orderDetailModel = new OrderDetailModel();
                 orderDetailModel.setOrderHeaderNo(itemDTO.getOrderHeaderNo());
                 orderDetailModel.setOrderDetailTotalOrder(itemDTO.getOrderDetailTotalOrder());

@@ -46,8 +46,7 @@ public class FragmentChangeIPServer extends ABaseNavigationDrawerFragment implem
 
 
     public FragmentChangeIPServer newInstance(String text){
-        FragmentChangeIPServer mFragment = new FragmentChangeIPServer();
-        return mFragment;
+        return new FragmentChangeIPServer();
     }
 
     @Override

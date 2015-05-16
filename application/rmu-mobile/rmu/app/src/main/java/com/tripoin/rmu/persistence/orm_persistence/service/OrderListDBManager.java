@@ -101,22 +101,22 @@ public class OrderListDBManager<DATA> implements IBaseDatabaseHandler{
             queryBuilder = getDatabaseDAOHelper().getOrderListDAO().queryBuilder();
             Where where = queryBuilder.where();
             if(seatNumber != null && !seatNumber.trim().equalsIgnoreCase("All")) {
-                where.eq("order_list_seat_number", seatNumber.toString());
+                where.eq("order_list_seat_number", seatNumber);
                 if((carriageNumber != null && !carriageNumber.trim().equalsIgnoreCase("All")) || (processStatus!=null && !processStatus.trim().equalsIgnoreCase("0")) || (orderNumber!=null&&!orderNumber.trim().equalsIgnoreCase("")))
                     where.and();
             }
             if(carriageNumber != null && !carriageNumber.trim().equalsIgnoreCase("All")) {
-                where.eq("order_list_carriage_number", carriageNumber.toString());
+                where.eq("order_list_carriage_number", carriageNumber);
                 if((processStatus!=null && !processStatus.trim().equalsIgnoreCase("0")) || (orderNumber!=null&&!orderNumber.trim().equalsIgnoreCase("")))
                     where.and();
             }
             if(processStatus!=null && !processStatus.trim().equalsIgnoreCase("0")){
-                where.eq("order_list_process_status", processStatus.toString());
+                where.eq("order_list_process_status", processStatus);
                 if(orderNumber!=null&&!orderNumber.trim().equalsIgnoreCase(""))
                     where.and();
             }
             if(orderNumber!=null&&!orderNumber.trim().equalsIgnoreCase("")){
-                where.like("order_list_order_id","%"+orderNumber.toString()+"%");
+                where.like("order_list_order_id","%"+orderNumber+"%");
             }
             preparedQuery = where.prepare();
             result = (List<DATA>) getDatabaseDAOHelper().getOrderListDAO().query(preparedQuery);

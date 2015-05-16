@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import com.RT_Printer.BluetoothPrinter.BLUETOOTH.BluetoothPrintDriver;
 import com.tripoin.rmu.R;
-import com.tripoin.rmu.feature.bluetooth.BluetoothEngine;
+import com.tripoin.rmu.feature.bluetooth.DeviceListAdapter;
 import com.tripoin.rmu.feature.bluetooth.api.IBluetoothPrinterListener;
 import com.tripoin.rmu.feature.bluetooth.listener.BluetoothReceiver;
 import com.tripoin.rmu.model.DTO.print_message.PrintMessageDTO;
@@ -32,7 +32,6 @@ import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Set;
-import java.util.UUID;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -59,7 +58,6 @@ public class FragmentChangeBluetooth extends ABaseNavigationDrawerFragment imple
     private BluetoothSocket mSocket;
     private OutputStream mOutputStream;
     private InputStream mInputStream;
-    private Thread workerThread;
 
     private byte[] readBuffer;
     private int readBufferPosition;
@@ -70,8 +68,7 @@ public class FragmentChangeBluetooth extends ABaseNavigationDrawerFragment imple
 
 
     public FragmentChangeBluetooth newInstance(){
-        FragmentChangeBluetooth mFragment = new FragmentChangeBluetooth();
-        return mFragment;
+        return new FragmentChangeBluetooth();
     }
 
     @Override
@@ -138,7 +135,7 @@ public class FragmentChangeBluetooth extends ABaseNavigationDrawerFragment imple
         getActivity().registerReceiver(bluetoothReceiver, new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED));
         BluetoothDevice device = (BluetoothDevice) intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
         if (device.getBondState() != BluetoothDevice.BOND_BONDED) {
-            if (mDeviceList.contains(device) == false) {
+            if (!mDeviceList.contains(device)) {
                 mDeviceList.add(device);
                 showToast("Found device " + device.getName());
                 notifyDataExchanges();
@@ -278,7 +275,7 @@ public class FragmentChangeBluetooth extends ABaseNavigationDrawerFragment imple
             readBufferPosition = 0;
             readBuffer = new byte[1024];
 
-            workerThread = new Thread(new Runnable() {
+            Thread workerThread = new Thread(new Runnable() {
 
                 public void run() {
                     while (!Thread.currentThread().isInterrupted() && !stopWorker) {

@@ -6,18 +6,14 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Handler;
 import android.util.Log;
 
 import com.RT_Printer.BluetoothPrinter.BLUETOOTH.BluetoothPrintDriver;
-import com.tripoin.rmu.feature.bluetooth.api.IBluetoothDecouplePrint;
-import com.tripoin.rmu.feature.bluetooth.api.IBluetoothPrinterListener;
 import com.tripoin.rmu.feature.bluetooth.listener.BluetoothReceiver;
 import com.tripoin.rmu.model.DTO.print_message.PrintMessageDTO;
 import com.tripoin.rmu.model.persist.OrderTempModel;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
-import com.tripoin.rmu.view.fragment.impl.DeviceListAdapter;
 import com.tripoin.rmu.view.ui.PaddingHelper;
 
 import java.io.IOException;
@@ -26,7 +22,6 @@ import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Set;
-import java.util.UUID;
 
 /**
  * Created by Achmad Fauzi on 5/7/2015 : 11:05 PM.
@@ -41,7 +36,6 @@ public class BluetoothEngine{
     private BluetoothSocket mSocket;
     private OutputStream mOutputStream;
     private InputStream mInputStream;
-    private Thread workerThread;
 
     private byte[] readBuffer;
     private int readBufferPosition;
@@ -119,7 +113,7 @@ public class BluetoothEngine{
             readBufferPosition = 0;
             readBuffer = new byte[1024];
 
-            workerThread = new Thread(new Runnable() {
+            Thread workerThread= new Thread(new Runnable() {
 
                 public void run() {
                     while (!Thread.currentThread().isInterrupted() && !stopWorker) {

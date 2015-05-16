@@ -34,15 +34,11 @@ import java.util.Enumeration;
 public class NetworkConnectivity {
 
     private Activity activity;
-    private Service service;
 
-    public NetworkConnectivity( Activity activity , Service service) {
+    public NetworkConnectivity( Activity activity ) {
         if( activity != null ){
             this.activity = activity;
-        }else{
-            this.service = service;
         }
-
     }
 
     /**
@@ -68,11 +64,9 @@ public class NetworkConnectivity {
      * @return String
      */
     public String getConnectivityStatusString() {
-        int conn;
+        int conn = 0;
         if ( activity != null ){
             conn = NetworkConnectivity.getConnectivityStatus(activity.getApplicationContext());
-        }else{
-            conn = NetworkConnectivity.getConnectivityStatus(service.getApplicationContext());
         }
         String status = null;
         if (conn == Integer.valueOf( NetworkConstant.TYPE_WIFI.toString() )) {
@@ -165,7 +159,7 @@ public class NetworkConnectivity {
      */
     public boolean checkConnectivityService(){
         boolean enabled = true;
-        ConnectivityManager connectivityManager = (ConnectivityManager) service.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = connectivityManager.getActiveNetworkInfo();
         if ((info == null || !info.isConnected() || !info.isAvailable())){
             enabled = false;
@@ -178,11 +172,9 @@ public class NetworkConnectivity {
      * @return String
      */
     public String getWifiIpAddress() {
-        WifiManager wifiManager ;
+        WifiManager wifiManager = null;
         if( activity != null ){
             wifiManager = (WifiManager) activity.getSystemService(Context.WIFI_SERVICE);
-        }else{
-            wifiManager = (WifiManager) service.getSystemService(Context.WIFI_SERVICE);
         }
         int ipAddress = wifiManager.getConnectionInfo().getIpAddress();
         // Convert little-endian to big-endianif needed

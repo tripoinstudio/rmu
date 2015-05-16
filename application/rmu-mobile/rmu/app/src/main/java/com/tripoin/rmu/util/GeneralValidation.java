@@ -36,11 +36,7 @@ public class GeneralValidation {
         Calendar bdCal = Calendar.getInstance();
         try {
             bdCal.setTime( df.parse( birthDate ) );
-            if( getAge( bdCal.get(Calendar.YEAR), bdCal.get(Calendar.YEAR), bdCal.get(Calendar.YEAR) ) >= validAge  ){
-                result = true;
-            }else{
-                result = false;
-            }
+            result = getAge(bdCal.get(Calendar.YEAR), bdCal.get(Calendar.YEAR), bdCal.get(Calendar.YEAR)) >= validAge;
         } catch (ParseException e) {
             e.printStackTrace();
             result = false;

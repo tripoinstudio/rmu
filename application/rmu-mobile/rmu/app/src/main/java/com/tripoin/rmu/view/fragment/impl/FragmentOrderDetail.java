@@ -5,17 +5,17 @@ import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.View;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.tripoin.rmu.R;
+import com.tripoin.rmu.feature.scheduler.constant.IOrderStatusConstant;
 import com.tripoin.rmu.feature.synchronizer.impl.SynchronizeOrderDetail;
 import com.tripoin.rmu.model.api.ModelConstant;
 import com.tripoin.rmu.model.persist.OrderDetailModel;
 import com.tripoin.rmu.persistence.orm_persistence.service.OrderDetailDBManager;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
-import com.tripoin.rmu.view.activity.ActivityMain;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
 import com.tripoin.rmu.view.fragment.api.ISynchronizeOrderDetail;
 import com.tripoin.rmu.view.fragment.base.ABaseNavigationDrawerFragment;
@@ -41,7 +41,7 @@ public class FragmentOrderDetail extends ABaseNavigationDrawerFragment implement
     @InjectView(R.id.txtCarriageCode)TextView txtCarriageCode;
     @InjectView(R.id.txtSeatCode) TextView txtSeatCode;
 //    @InjectView(R.layout.order_status_card.R.id.txtOrderStatus)TextView txtOrderStatus;
-    private Typeface faces;
+
     @InjectView(R.id.txtTotalPaid)TextView txtTotalPaid;
     @InjectView(R.id.listStatusOption) CardListView listView;
     @InjectView(R.id.listOrderDetailItem) CardListView listViewDetailOrderItem;
@@ -91,27 +91,55 @@ public class FragmentOrderDetail extends ABaseNavigationDrawerFragment implement
 
         orderListId = getArguments().getString(ORDER_LIST_ID);
         txtOrderListId.setText(orderListId);
-        faces=Typeface.createFromAsset(txtOrderListId.getResources().getAssets(),"font/Roboto-Light.ttf");
-        txtOrderListId.setTypeface(faces);
-        txtTrainCode.setTypeface(faces);
-        txtSeatCode.setTypeface(faces);
-        txtCarriageCode.setTypeface(faces);
-        txtTotalPaid.setTypeface(faces);
+    }
+
+    @Override
+    public List<TextView> getTextViews() {
+        textViews = new ArrayList<TextView>();
+        textViews.add(txtOrderListId);
+        textViews.add(txtTrainCode);
+        textViews.add(txtSeatCode);
+        textViews.add(txtCarriageCode);
+        textViews.add(txtTotalPaid);
+        return super.getTextViews();
     }
 
     @Override
     public void onPostSyncOrderDetail(List<OrderDetailModel> detailModels) {
-        int[] headerId = getProcessStatus(Integer.parseInt(detailModels.get(0).getOrderHeaderStatus()));
-        List<OrderDetailModel> orderDetailModels = new ArrayList<OrderDetailModel>();
-        for (int i = 0; i < headerId.length; i++) {
-            if (headerId[i] != 0 && headerId[i] != 1) {
-                OrderDetailModel detailModel = new OrderDetailModel();
+        List<OrderDetailModel> orderDetailStatusModels = new ArrayList<OrderDetailModel>();
+        for (int i = IOrderStatusConstant.CANCEL ; i <= IOrderStatusConstant.PENDING ; i++) {
+            int headerStatus = Integer.parseInt(detailModels.get(0).getOrderHeaderStatus());
+            OrderDetailModel detailModel;
+            if(headerStatus == IOrderStatusConstant.PREPARED) {
+                for (int a = IOrderStatusConstant.DONE; a <= IOrderStatusConstant.PENDING; a++) {
+                    detailModel = new OrderDetailModel();
+                    detailModel.setOrderHeaderNo(detailModels.get(0).getOrderHeaderNo());
+                    detailModel.setOrderHeaderStatus(String.valueOf(a));
+                    orderDetailStatusModels.add(detailModel);
+                }
+                break;
+            }else if(headerStatus == IOrderStatusConstant.CANCEL){
+                detailModel = new OrderDetailModel();
                 detailModel.setOrderHeaderNo(detailModels.get(0).getOrderHeaderNo());
-                detailModel.setOrderHeaderStatus(String.valueOf(headerId[i]));
-                orderDetailModels.add(detailModel);
+                detailModel.setOrderHeaderStatus(String.valueOf(IOrderStatusConstant.CANCEL));
+                orderDetailStatusModels.add(detailModel);
+                break;
+            }else if ( headerStatus == IOrderStatusConstant.PENDING ) {
+                for(int a=IOrderStatusConstant.DONE; a<IOrderStatusConstant.PENDING; a++){
+                    detailModel = new OrderDetailModel();
+                    detailModel.setOrderHeaderNo(detailModels.get(0).getOrderHeaderNo());
+                    detailModel.setOrderHeaderStatus(String.valueOf(a));
+                    orderDetailStatusModels.add(detailModel);
+                }
+                break;
+            }else{
+                detailModel = new OrderDetailModel();
+                detailModel.setOrderHeaderNo(detailModels.get(0).getOrderHeaderNo());
+                detailModel.setOrderHeaderStatus(String.valueOf(i));
+                orderDetailStatusModels.add(detailModel);
             }
         }
-        initCards(orderDetailModels);
+        initStatusCards(orderDetailStatusModels);
         initDetailCards(detailModels);
     }
 
@@ -129,7 +157,7 @@ public class FragmentOrderDetail extends ABaseNavigationDrawerFragment implement
             progressDialog.setMessage("Loading order detail");
             progressDialog.setCancelable(false);
             progressDialog.show();
-            synchronizeOrderDetail = new SynchronizeOrderDetail(securityUtil, getActivity(), ModelConstant.REST_ORDER_DETAIL_TABLE.toString(), FragmentOrderDetail.this) {
+            synchronizeOrderDetail = new SynchronizeOrderDetail(securityUtil, getActivity(), ModelConstant.REST_ORDER_DETAIL_TABLE, FragmentOrderDetail.this) {
                 @Override
                 public String getOrderHeader() {
                     return orderListId;
@@ -150,23 +178,14 @@ public class FragmentOrderDetail extends ABaseNavigationDrawerFragment implement
         }
     }
 
-    private void initCards(List<OrderDetailModel> orderDetailModels){
-    //    View rootViews;
+    private void initStatusCards(List<OrderDetailModel> orderDetailModels){
         ArrayList<Card> cards = new ArrayList<Card>();
         for (int i = 0; i<orderDetailModels.size(); i++) {
-         //   rootViews = inflater.inflate(R.layout.fragment_add_order, container, false);
-       //     faces=Typeface.createFromAsset(txtOrderStatus.getResources().getAssets(),"font/Roboto-Light.ttf");
-        //    txtOrderStatus.setTypeface(faces);
             Card card = new CustomCardStatusOrderDetail(getActivity(), R.layout.order_status_card, orderDetailModels.get(i));
             card.setBackgroundResource(getResources().getDrawable(R.drawable.textlinesfullborder));
-
-
-      //     card.setT
             cards.add(card);
         }
-
         CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(rootView.getContext(), cards);
-
         if (listView != null) {
             listView.setAdapter(mCardArrayAdapter);
         }
@@ -193,17 +212,5 @@ public class FragmentOrderDetail extends ABaseNavigationDrawerFragment implement
         }
     }
 
-
-    public int[] getProcessStatus(int currentStatus){
-      int [] result = new int[6];
-      for(int a=1; a<6; a++){
-          if(a!=currentStatus){
-              result[a] = a;
-          }else{
-              continue;
-          }
-      }
-      return result;
-    };
 
 }

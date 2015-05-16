@@ -17,9 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -39,14 +37,12 @@ import com.tripoin.rmu.persistence.orm_persistence.service.SeatDBManager;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
-import com.tripoin.rmu.view.fragment.api.ISynchronizeMaster;
 import com.tripoin.rmu.view.fragment.api.ISynchronizeOrderList;
 import com.tripoin.rmu.view.fragment.base.ABaseNavigationDrawerFragment;
 import com.tripoin.rmu.view.ui.CustomCardOrderList;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 import butterknife.InjectView;
 import it.gmariotti.cardslib.library.internal.Card;
@@ -200,18 +196,14 @@ public class FragmentOrderList extends ABaseNavigationDrawerFragment implements 
 
     private void initCards(List<OrderListModel> orderListModels){
         ArrayList<Card> cards = new ArrayList<Card>();
-
-
         if(orderListModels != null){
             for (int i = 0; i<orderListModels.size(); i++) {
-                if( orderListModels.get(i).getProcessStatus() != IOrderStatusConstant.DONE ){
+                if((orderListModels.get(i).getProcessStatus() != IOrderStatusConstant.DONE) && (orderListModels.get(i).getProcessStatus() != IOrderStatusConstant.CANCEL)){
                     Card card = new CustomCardOrderList(getActivity(), R.layout.row_card, orderListModels.get(i));
                     cards.add(card);
                 }
             }
-
-            CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(getActivity(), cards);
-
+            CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(rootView.getContext(), cards);
             if (listView != null) {
                 listView.setAdapter(mCardArrayAdapter);
             }
@@ -230,7 +222,7 @@ public class FragmentOrderList extends ABaseNavigationDrawerFragment implements 
         Bundle bundle = getArguments();
         if( bundle != null){
             FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
-            FragmentOrderDetail fragmentOrderDetail = new FragmentOrderDetail().newInstance(bundle.getString("ORDER_ID"));
+            FragmentOrderDetail fragmentOrderDetail = new FragmentOrderDetail().newInstance(bundle.getString(ORDER_ID));
             mFragmentManager.beginTransaction().replace(R.id.container, fragmentOrderDetail).commit();
         }else{
             securityUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(), getActivity());

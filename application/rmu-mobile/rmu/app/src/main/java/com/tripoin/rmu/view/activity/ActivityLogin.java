@@ -67,7 +67,7 @@ public class ActivityLogin extends ABaseActivity implements ILoginPost, IConnect
     private String chipperAuth;
     private String userName;
     private PropertyUtil securityUtil;
-    /*private ISignHandler iSignHandler;*/
+    private ISignHandler iSignHandler;
 
     @Override
     public void initWidget() {
@@ -75,10 +75,10 @@ public class ActivityLogin extends ABaseActivity implements ILoginPost, IConnect
         securityUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(), getApplicationContext());
         generalValidation = new GeneralValidation();
         generalConverter = new GeneralConverter();
-        networkConnectivity = new NetworkConnectivity(this, null);
-        /*iSignHandler = new FirstSignHandlerImpl(securityUtil, this);
-        iSignHandler.detectLoginStatus();*/
+        networkConnectivity = new NetworkConnectivity(this);
+        iSignHandler = new FirstSignHandlerImpl(securityUtil, this);
         VersionDBManager.init(this);
+        iSignHandler.detectLoginStatus();
     }
 
     @Override
@@ -105,7 +105,7 @@ public class ActivityLogin extends ABaseActivity implements ILoginPost, IConnect
     @Override
     protected void onResume() {
         super.onResume();
-        /*iSignHandler.detectLoginStatus();*/
+        iSignHandler.detectLoginStatus();
     }
 
     @OnClick(R.id.btSignIn)
@@ -184,10 +184,6 @@ public class ActivityLogin extends ABaseActivity implements ILoginPost, IConnect
     public void btSetIpBt(){
         LayoutInflater layoutInflater = LayoutInflater.from(this);
         final View dialogView = layoutInflater.inflate(R.layout.fragment_ip_server_dialog, null);
-
-
-
-
         final TextView tfIpDialog = (TextView) dialogView.findViewById(R.id.tfIpDialog);
         final TextView tfPortDialog = (TextView) dialogView.findViewById(R.id.tfPortDialog);
         lbTestStatusDialog = (TextView) dialogView.findViewById(R.id.lbTestStatusDialog);

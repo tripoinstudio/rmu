@@ -20,7 +20,6 @@ import com.tripoin.rmu.R;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
 import com.tripoin.rmu.view.fragment.api.INavigationDrawerFragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -51,7 +50,7 @@ public abstract class ABaseNavigationDrawerFragment extends Fragment implements 
             try{
                 rootView = inflater.inflate(getViewLayoutId(), container, false);
             }catch (InflateException ie){
-
+                e.printStackTrace();
             }
         }
         getActivity().setTitle(getFragmentTitle());

@@ -36,7 +36,6 @@ public class SynchronizeMenu extends ASynchronizeData implements IMenuPost, ISyn
     private PropertyUtil securityUtil;
     private String latestVersion;
     private ISynchronizeMenuList iSynchronizeMenuList;
-    private List<MenuModel> menuModels;
 
     protected SynchronizeMenu(PropertyUtil securityUtil, Context context) {
         super(securityUtil, context);
@@ -123,7 +122,7 @@ public class SynchronizeMenu extends ASynchronizeData implements IMenuPost, ISyn
             versionModel.setVersionTimestamp(latestVersion);
             VersionDBManager.getInstance().updateEntity(versionModel);
 
-            menuModels = MenuDBManager.getInstance().getAllData();
+            List<MenuModel> menuModels = MenuDBManager.getInstance().getAllData();
             iSynchronizeMenuList.onPostFirstSyncOrderList(menuModels);
         }else{
             Log.d("Sync Menu Object Result", "not found");

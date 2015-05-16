@@ -1,28 +1,19 @@
 package com.tripoin.rmu.view.ui;
 
-import android.content.Context;
-import android.os.Vibrator;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tripoin.rmu.R;
-import com.tripoin.rmu.model.persist.OrderListModel;
 import com.tripoin.rmu.model.persist.OrderTempModel;
 import com.tripoin.rmu.persistence.orm_persistence.service.OrderTempDBManager;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
 import com.tripoin.rmu.view.fragment.impl.FragmentAddMenu;
-import com.tripoin.rmu.view.fragment.impl.FragmentAddOrder;
-import com.tripoin.rmu.view.fragment.impl.FragmentMenuList;
-import com.tripoin.rmu.view.fragment.impl.FragmentOrderDetail;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 import it.gmariotti.cardslib.library.internal.Card;
@@ -34,14 +25,7 @@ import it.gmariotti.cardslib.library.internal.Card;
 public class CustomCardOrderTemp extends Card {
 
     private OrderTempModel orderTempModel;
-    private TextView txtMenuName;
-    private TextView txtQuantity;
-    private TextView txtPrice;
     private FragmentActivity activity;
-
-    public CustomCardOrderTemp(Context context) {
-        super(context);
-    }
 
     public CustomCardOrderTemp(FragmentActivity context, int innerLayout, OrderTempModel orderTempModel) {
         super(context, innerLayout);
@@ -66,9 +50,9 @@ public class CustomCardOrderTemp extends Card {
     @Override
     public void setupInnerViewElements(ViewGroup parent, View view) {
         super.setupInnerViewElements(parent, view);
-        txtMenuName = (TextView) view.findViewById(R.id.txtMenuName);
-        txtQuantity = (TextView) view.findViewById(R.id.txtQuantity);
-        txtPrice = (TextView) view.findViewById(R.id.txtPrice);
+        TextView txtMenuName = (TextView) view.findViewById(R.id.txtMenuName);
+        TextView txtQuantity = (TextView) view.findViewById(R.id.txtQuantity);
+        TextView txtPrice = (TextView) view.findViewById(R.id.txtPrice);
 
         if(txtMenuName != null){
             txtMenuName.setText(orderTempModel.getMenuName());

@@ -27,7 +27,12 @@ public enum PropertyConstant {
     /*SERVER_HOST_DEFAULT_VALUE("tripoin-rdlfdl.rhcloud.com"),
     SERVER_PORT_DEFAULT_VALUE("443"),*/
 
-
+    PROFILE_PHOTO_NAME( "photo_profile_rmu.jpg" ),
+    WAITRESS_NAME("WAITRESS_NAME"),
+    WAITRESS_POSITION("WAITRESS_POSITION"),
+    WAITRESS_EMAIL("WAITRESS_EMAIL"),
+    WAITRESS_SUMMARY("WAITRESS_SUMMARY"),
+    WAITRESS_PHOTO("WAITRESS_PHOTO"),
     CHIPPER_AUTH("CHIPPER_AUTH"),
     SERVER_PORT_KEY("SERVER_PORT") ,
     USER_NAME("user_name"),
@@ -36,7 +41,7 @@ public enum PropertyConstant {
     PASSWORD_EXPIRED_DATE("password_expired_date"),
     LOGIN_STATUS_KEY("status"),
     LOGIN_STATUS_VALUE("logged_in"),
-    LOGOUT_STATUS_VALUE("logged_in"),
+    LOGOUT_STATUS_VALUE("logged_out"),
     PROPERTY_FILE_NAME("rmu.properties"),
     LOGIN_FILE_NAME("rmu.login"),
     UNKNOWN("Unknown"),

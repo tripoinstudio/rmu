@@ -1,9 +1,6 @@
 package com.tripoin.rmu.rest.base;
 
 import android.app.ProgressDialog;
-import android.content.Context;
-
-import com.tripoin.rmu.rest.api.IBaseRestFinished;
 
 /**
  * Created by Achmad Fauzi on 11/25/2014.

@@ -64,10 +64,19 @@ public abstract class ASynchronizeData implements ISynchronizeData, IMasterVersi
     }
 
     public int tableDiff(String latestVersion) {
-        VersionModel versionModel = VersionDBManager.getInstance().selectCustomVersionModel(ModelConstant.VERSION_NAMETABLE, getTableName());
-        GeneralConverter generalConverter = new GeneralConverter();
-        Date newVersion = generalConverter.getDateToComparator(latestVersion);
-        Date oldVersion = generalConverter.getDateToComparator(versionModel.getVersionTimestamp());
-        return oldVersion.compareTo(newVersion);
+        Date newVersion = null;
+        Date oldVersion = null;
+        int result = 0;
+        try{
+            VersionModel versionModel = VersionDBManager.getInstance().selectCustomVersionModel(ModelConstant.VERSION_NAMETABLE, getTableName());
+            GeneralConverter generalConverter = new GeneralConverter();
+            newVersion = generalConverter.getDateToComparator(latestVersion);
+            oldVersion = generalConverter.getDateToComparator(versionModel.getVersionTimestamp());
+            result = oldVersion.compareTo(newVersion);
+        }catch (Exception e){
+            e.printStackTrace();
+            result = -1;
+        }
+        return result;
     }
 }

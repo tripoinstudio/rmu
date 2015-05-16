@@ -15,8 +15,7 @@ public class FragmentUpdateStaticData extends ABaseNavigationDrawerFragment {
 
 
     public FragmentUpdateStaticData newInstance(String text){
-        FragmentUpdateStaticData mFragment = new FragmentUpdateStaticData();
-        return mFragment;
+        return new FragmentUpdateStaticData();
     }
 
     @Override

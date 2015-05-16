@@ -84,8 +84,7 @@ public class CryptoUtil {
         SecretKeySpec skeySpec = new SecretKeySpec(raw, SECRET_KEY_ALGORITHM);
         Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
         cipher.init(Cipher.DECRYPT_MODE, skeySpec, ips);
-        byte[] decrypted = cipher.doFinal(encrypted);
-        return decrypted;
+        return cipher.doFinal(encrypted);
     }
 
     public static String toHex(String txt) throws UnsupportedEncodingException {

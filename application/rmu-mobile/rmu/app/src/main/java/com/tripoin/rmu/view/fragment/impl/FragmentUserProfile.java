@@ -2,22 +2,16 @@ package com.tripoin.rmu.view.fragment.impl;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,27 +34,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.Bundle;
-import android.app.Activity;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.util.Log;
-import android.view.Menu;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 
 /**
@@ -84,8 +57,7 @@ public class FragmentUserProfile extends Fragment {
     private Uri picUri;
 
     public FragmentUserProfile newInstance(String text) {
-        FragmentUserProfile mFragment = new FragmentUserProfile();
-        return mFragment;
+        return new FragmentUserProfile();
     }
 
     @Override
@@ -95,13 +67,13 @@ public class FragmentUserProfile extends Fragment {
         propertyUtil = new PropertyUtil(PropertyConstant.PROPERTY_FILE_NAME.toString(), rootView.getContext());
 
         imgUserProfile = (ImageView) rootView.findViewById(R.id.imgUserProfile);
-        final Bitmap bmp = decodeSampledBitmapFromPath(propertyUtil.getValuePropertyMap("PHOTO_USER"), 360, 270);
+        final Bitmap bmp = decodeSampledBitmapFromPath(propertyUtil.getValuePropertyMap(PropertyConstant.WAITRESS_PHOTO.toString()), 360, 270);
         if(bmp!=null) imgUserProfile.setImageBitmap(bmp);
 
         imgUserProfile.setOnLongClickListener(new View.OnLongClickListener() {
             public boolean onLongClick(View arg0) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                File f = new File(PropertyConstant.PROPERTIES_PATH.toString(), "photo_profile_rmu.jpg");
+                File f = new File(PropertyConstant.PROPERTIES_PATH.toString(), PropertyConstant.PROFILE_PHOTO_NAME.toString());
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
                 startActivityForResult(intent, 2);
                 return true;
@@ -172,7 +144,7 @@ public class FragmentUserProfile extends Fragment {
         nameUser = (TextView) rootView.findViewById(R.id.txNameUser);
         Typeface fontFaceName = Typeface.createFromAsset(nameUser.getResources().getAssets(),"font/Roboto-Medium.ttf");
         nameUser.setTypeface(fontFaceName);
-        temp=propertyUtil.getValuePropertyMap("NAMA_USER");
+        temp=propertyUtil.getValuePropertyMap(PropertyConstant.WAITRESS_NAME.toString());
         if(temp!=null){
             nameUser.setText("Nama : "+temp);
         }
@@ -184,20 +156,19 @@ public class FragmentUserProfile extends Fragment {
                 View dialogView = layoutInflater.inflate(R.layout.fragment_dialog_edit_text, null);
 
                 lblEditText = (TextView) dialogView.findViewById(R.id.lbl_edit_text);
-                lblEditText.setText("Masukan Nama: ");
+                lblEditText.setText("Input your name here :");
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(rootView.getContext());
                 alertDialogBuilder.setView(dialogView);
 
                 editText = (EditText) dialogView.findViewById(R.id.tf_edit_text);
-                editText.setText(propertyUtil.getValuePropertyMap("PHOTO_USER"));
+                editText.setText(propertyUtil.getValuePropertyMap(PropertyConstant.WAITRESS_NAME.toString()));
 
                 alertDialogBuilder.setCancelable(false).setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        propertyUtil.saveSingleProperty("NAMA_USER", editText.getText().toString());
-                        nameUser.setText("Nama : " + propertyUtil.getValuePropertyMap("NAMA_USER"));
-                        Toast.makeText(rootView.getContext(), "Nama profil change to : " + editText.getText().toString(), Toast.LENGTH_SHORT).show();
+                        propertyUtil.saveSingleProperty(PropertyConstant.WAITRESS_NAME.toString(), editText.getText().toString());
+                        nameUser.setText("Name : ".concat(propertyUtil.getValuePropertyMap(PropertyConstant.WAITRESS_NAME.toString())));
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
@@ -214,7 +185,7 @@ public class FragmentUserProfile extends Fragment {
         jabatanUser = (TextView) rootView.findViewById(R.id.txJabatanUser);
         Typeface fontFaceJabatan = Typeface.createFromAsset(jabatanUser.getResources().getAssets(),"font/Roboto-Medium.ttf");
         jabatanUser.setTypeface(fontFaceJabatan);
-        temp=propertyUtil.getValuePropertyMap("JABATAN_USER");
+        temp=propertyUtil.getValuePropertyMap(PropertyConstant.WAITRESS_POSITION.toString());
         if(temp!=null){
             jabatanUser.setText("Jabatan : "+temp);
         }
@@ -226,20 +197,19 @@ public class FragmentUserProfile extends Fragment {
                 View dialogView = layoutInflater.inflate(R.layout.fragment_dialog_edit_text, null);
 
                 lblEditText = (TextView) dialogView.findViewById(R.id.lbl_edit_text);
-                lblEditText.setText("Masukan Jabatan baru: ");
+                lblEditText.setText("Input your position here : ");
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(rootView.getContext());
                 alertDialogBuilder.setView(dialogView);
 
                 editText = (EditText) dialogView.findViewById(R.id.tf_edit_text);
-                editText.setText(propertyUtil.getValuePropertyMap("JABATAN_USER"));
+                editText.setText(propertyUtil.getValuePropertyMap(PropertyConstant.WAITRESS_POSITION.toString()));
 
                 alertDialogBuilder.setCancelable(false).setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        propertyUtil.saveSingleProperty("JABATAN_USER", editText.getText().toString());
-                        jabatanUser.setText("Jabatan : " + propertyUtil.getValuePropertyMap("JABATAN_USER"));
-                        Toast.makeText(rootView.getContext(), "Profil Jabatan change to : " + editText.getText().toString(), Toast.LENGTH_SHORT).show();
+                        propertyUtil.saveSingleProperty(PropertyConstant.WAITRESS_POSITION.toString(), editText.getText().toString());
+                        jabatanUser.setText("Position : " + propertyUtil.getValuePropertyMap(PropertyConstant.WAITRESS_POSITION.toString()));
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
@@ -256,7 +226,7 @@ public class FragmentUserProfile extends Fragment {
         emailUser = (TextView) rootView.findViewById(R.id.txEmailUser);
         Typeface fontFaceEmail = Typeface.createFromAsset(emailUser.getResources().getAssets(),"font/Roboto-Medium.ttf");
         emailUser.setTypeface(fontFaceEmail);
-        temp=propertyUtil.getValuePropertyMap("EMAIL_USER");
+        temp=propertyUtil.getValuePropertyMap(PropertyConstant.WAITRESS_EMAIL.toString());
         if(temp!=null){
             emailUser.setText("Email : "+temp);
         }
@@ -268,20 +238,19 @@ public class FragmentUserProfile extends Fragment {
                 View dialogView = layoutInflater.inflate(R.layout.fragment_dialog_edit_text, null);
 
                 lblEditText = (TextView) dialogView.findViewById(R.id.lbl_edit_text);
-                lblEditText.setText("Masukkan email baru: ");
+                lblEditText.setText("Input your email here : ");
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(rootView.getContext());
                 alertDialogBuilder.setView(dialogView);
 
                 editText = (EditText) dialogView.findViewById(R.id.tf_edit_text);
-                editText.setText(propertyUtil.getValuePropertyMap("EMAIL_USER"));
+                editText.setText(propertyUtil.getValuePropertyMap(PropertyConstant.WAITRESS_EMAIL.toString()));
 
                 alertDialogBuilder.setCancelable(false).setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        propertyUtil.saveSingleProperty("EMAIL_USER", editText.getText().toString());
-                        emailUser.setText("Email : " + propertyUtil.getValuePropertyMap("EMAIL_USER"));
-                        Toast.makeText(rootView.getContext(),"Email change to : " +editText.getText().toString(), Toast.LENGTH_SHORT).show();
+                        propertyUtil.saveSingleProperty(PropertyConstant.WAITRESS_EMAIL.toString(), editText.getText().toString());
+                        emailUser.setText("Email : " + propertyUtil.getValuePropertyMap(PropertyConstant.WAITRESS_EMAIL.toString()));
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
@@ -297,7 +266,7 @@ public class FragmentUserProfile extends Fragment {
         summmaryUser = (TextView) rootView.findViewById(R.id.txSummmaryUser);
         Typeface fontFaceSummary = Typeface.createFromAsset(summmaryUser.getResources().getAssets(),"font/Roboto-Medium.ttf");
         summmaryUser.setTypeface(fontFaceSummary);
-        temp=propertyUtil.getValuePropertyMap("SUMMARY_USER");
+        temp=propertyUtil.getValuePropertyMap(PropertyConstant.WAITRESS_SUMMARY.toString());
         if(temp!=null){
             summmaryUser.setText("Summary :\n"+temp);
         }
@@ -309,20 +278,19 @@ public class FragmentUserProfile extends Fragment {
                 View dialogView = layoutInflater.inflate(R.layout.fragment_dialog_edit_text, null);
 
                 lblEditText = (TextView) dialogView.findViewById(R.id.lbl_edit_text);
-                lblEditText.setText("Masukkan data diri : ");
+                lblEditText.setText("Input your summary here : ");
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(rootView.getContext());
                 alertDialogBuilder.setView(dialogView);
 
                 editText = (EditText) dialogView.findViewById(R.id.tf_edit_text);
-                editText.setText(propertyUtil.getValuePropertyMap("SUMMARY_USER"));
+                editText.setText(propertyUtil.getValuePropertyMap(PropertyConstant.WAITRESS_SUMMARY.toString()));
 
                 alertDialogBuilder.setCancelable(true).setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        propertyUtil.saveSingleProperty("SUMMARY_USER", editText.getText().toString());
-                        summmaryUser.setText("Summary :\n"+propertyUtil.getValuePropertyMap("SUMMARY_USER"));
-                        Toast.makeText(rootView.getContext(), "Summary changed : " + editText.getText().toString(), Toast.LENGTH_SHORT).show();
+                        propertyUtil.saveSingleProperty(PropertyConstant.WAITRESS_SUMMARY.toString(), editText.getText().toString());
+                        summmaryUser.setText("Summary :\n"+propertyUtil.getValuePropertyMap(PropertyConstant.WAITRESS_SUMMARY.toString()));
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
@@ -352,7 +320,6 @@ public class FragmentUserProfile extends Fragment {
                 String picturePath = c.getString(columnIndex);
                 String destinationImagePath=null;
                 try {
-                        String sourceImagePath = picturePath;
                     destinationImagePath = PropertyConstant.PROPERTIES_PATH.toString()+"photo_profile_rmu.jpg";
                         File source= new File(picturePath);
                         File destination= new File(destinationImagePath);
@@ -371,7 +338,7 @@ public class FragmentUserProfile extends Fragment {
                 System.gc();
                 Bitmap thumbnail;
                 thumbnail = decodeSampledBitmapFromPath(destinationImagePath, 360, 270);
-                if(destinationImagePath!=null) propertyUtil.saveSingleProperty("PHOTO_USER", destinationImagePath + "");
+                if(destinationImagePath!=null) propertyUtil.saveSingleProperty(PropertyConstant.WAITRESS_PHOTO.toString(), destinationImagePath + "");
                 if(thumbnail!=null) imgUserProfile.setImageBitmap(thumbnail);
             } else if (requestCode == 2) {
                 File f = new File(PropertyConstant.PROPERTIES_PATH.toString());
@@ -386,7 +353,7 @@ public class FragmentUserProfile extends Fragment {
                     Bitmap bitmap;
                     Log.d("f.getAbsolutePath() = ","-------------- "+f.getAbsolutePath());
                     bitmap = decodeSampledBitmapFromPath(f.getAbsolutePath(), 360, 270);
-                    propertyUtil.saveSingleProperty("PHOTO_USER", f.getAbsolutePath());
+                    propertyUtil.saveSingleProperty(PropertyConstant.WAITRESS_PHOTO.toString(), f.getAbsolutePath());
                     imgUserProfile.setImageBitmap(bitmap);
                     String path = PropertyConstant.PROPERTIES_PATH.toString();
                     f.delete();
@@ -420,8 +387,7 @@ public class FragmentUserProfile extends Fragment {
 
         // Decode bitmap with inSampleSize set
         options.inJustDecodeBounds = false;
-        Bitmap bmp = BitmapFactory.decodeFile(path, options);
-        return bmp;
+        return BitmapFactory.decodeFile(path, options);
     }
 
     public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {

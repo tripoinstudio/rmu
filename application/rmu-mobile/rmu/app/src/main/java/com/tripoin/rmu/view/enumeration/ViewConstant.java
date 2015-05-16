@@ -26,6 +26,7 @@ public enum ViewConstant {
     DEFAULT_ACTION_BAR_TITLE("eRestorasi"),
 
     /*Fragment Titles*/
+    FRAGMENT_ADD_ORDER_TITLE("Add Order"),
     FRAGMENT_ABOUT_TITLE("About Application"),
     FRAGMENT_MENU_TITLE("Menu List"),
     FRAGMENT_ORDER_LIST_TITLE("Order List"),

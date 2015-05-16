@@ -19,7 +19,7 @@ public class ServiceBroadcastListener extends BroadcastReceiver {
         AlarmManagerStarter alarmManagerStarter;
         Intent schedulerIntent = new Intent( context, SchedulerServiceListener.class);
         PendingIntent pendingIntent = PendingIntent.getService(context, 0, schedulerIntent, 0);
-        alarmManagerStarter = new AlarmManagerStarter( context, null, pendingIntent);
+        alarmManagerStarter = new AlarmManagerStarter( context, pendingIntent);
 
         if ( intent.getAction().equals(ViewConstant.RESTART_SERVICE.toString()) ){
             alarmManagerStarter.startAlarmManager();

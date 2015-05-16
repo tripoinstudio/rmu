@@ -42,8 +42,6 @@ import com.tripoin.rmu.persistence.orm_persistence.service.OrderTempDBManager;
 import com.tripoin.rmu.rest.enumeration.RestConstant;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
-import com.tripoin.rmu.view.enumeration.ViewConstant;
-import com.tripoin.rmu.view.ui.RoundedImageView;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -64,10 +62,6 @@ public class FragmentAddMenu extends Fragment {
     private TextView lblnoin;
     private TextView lblprice;
     private TextSliderView textSliderView;
-    private RoundedImageView menuImage;
-    private RoundedImageView menuImage1;
-    private RoundedImageView menuImage2;
-    private Canvas canvasRoundedCorner;
     private TextView lblquantity;
     private SliderLayout mDemoSlider;
     private boolean mSearchCheck;
@@ -167,7 +161,7 @@ public class FragmentAddMenu extends Fragment {
                         orderTempModelCompare.setPrice(String.valueOf(priceList));
                         OrderTempDBManager.getInstance().updateEntity(orderTempModelCompare);
                     }
-                    FragmentAddOrder fragmentAddOrder = new FragmentAddOrder().newInstance("");
+                    FragmentAddOrder fragmentAddOrder = new FragmentAddOrder().newInstance();
                     FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
                     mFragmentManager.beginTransaction().replace(R.id.container, fragmentAddOrder).addToBackStack(null).commit();
                 }

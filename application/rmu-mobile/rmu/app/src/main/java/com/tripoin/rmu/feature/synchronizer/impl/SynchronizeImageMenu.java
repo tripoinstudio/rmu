@@ -36,7 +36,6 @@ public class SynchronizeImageMenu extends ASynchronizeData implements IImageMenu
     private PropertyUtil securityUtil;
     private String latestVersion;
     private ISynchronizeImageMenu iSynchronizeImageMenu;
-    private List<ImageModel> imageModels;
 
     protected SynchronizeImageMenu(PropertyUtil securityUtil, Context context) {
         super(securityUtil, context);
@@ -106,7 +105,7 @@ public class SynchronizeImageMenu extends ASynchronizeData implements IImageMenu
             versionModel.setVersionTimestamp(latestVersion);
             VersionDBManager.getInstance().updateEntity(versionModel);
 
-            imageModels = ImageMenuDBManager.getInstance().getAllData();
+            List<ImageModel> imageModels = ImageMenuDBManager.getInstance().getAllData();
             iSynchronizeImageMenu.onPostFirstSyncImageMenu(imageModels);
         }else{
             Log.d("Sync Image", "not found");

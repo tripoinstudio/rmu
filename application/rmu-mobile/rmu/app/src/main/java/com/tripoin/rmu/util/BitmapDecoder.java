@@ -16,8 +16,7 @@ public class BitmapDecoder {
 
         // Decode bitmap with inSampleSize set
         options.inJustDecodeBounds = false;
-        Bitmap bmp = BitmapFactory.decodeFile(path, options);
-        return bmp;
+        return BitmapFactory.decodeFile(path, options);
     }
 
     public int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {

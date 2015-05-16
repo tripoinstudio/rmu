@@ -70,19 +70,13 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster, IP
     private String arraySpinnerCarriageCode[];
     private String array_spinner_seat[];
     private String arraySpinnerSeatCode[];
-    private static final String[] COUNTRIES = new String[] { "Gerbong 1","Gerbong 2", "Gerbong 3", "Gerbong 4", "Gerbong 5" };
-    private static final String[] SEATS = new String[] { "Seat 1","Seat 2", "Seat 3", "Seat 4", "Seat 5" };
-    View rootView;
-    View viewMenuList;
+    private View rootView;
     private Typeface myFont;
     private Spinner mySpinner;
-    private Typeface myFontSeat;
     private Spinner mySpinnerSeat;
-    PropertyUtil propertyUtil;
-    CarriageListRest carriageListRest;
-    MyArrayAdapter ma;
-    SeatListRest seatListRest;
-    MyArrayAdapterSeat maSeat;
+    private PropertyUtil propertyUtil;
+    private MyArrayAdapter ma;
+    private MyArrayAdapterSeat maSeat;
     private String today;
     private MasterASync masterASync;
     private Button bt_add_order;
@@ -96,23 +90,19 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster, IP
     private TextView lbl2;
     private TextView menuTotal;
     private BigDecimal totalOrder = new BigDecimal(0);
-    /*private TextView menuName;
-    private TextView menuPrice;
-    private TextView menuTotal;*/
     private BluetoothEngine bluetoothEngine;
     private List<OrderTempModel> orderTempModelList = new ArrayList<OrderTempModel>();
     private List<TrainModel> trainModels = new ArrayList<TrainModel>();
 
-    public FragmentAddOrder newInstance(String text){
-        FragmentAddOrder mFragment = new FragmentAddOrder();
-        return mFragment;
+    public FragmentAddOrder newInstance(){
+        return new FragmentAddOrder();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_add_order, container, false);
         rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT ));
-
+        getActivity().setTitle(ViewConstant.FRAGMENT_ADD_ORDER_TITLE.toString());
         propertyUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(),rootView.getContext());
         OrderTempDBManager.init(rootView.getContext());
         orderTempModelList = OrderTempDBManager.getInstance().getAllData();
@@ -470,7 +460,7 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster, IP
             CarriageDBManager.init(rootView.getContext());
             SeatDBManager.init(rootView.getContext());
             TrainDBManager.init(rootView.getContext());
-            synchronizeMaster = new SynchronizeMaster(propertyUtil, rootView.getContext(), ModelConstant.REST_MASTER_TABLE.toString(), FragmentAddOrder.this);
+            synchronizeMaster = new SynchronizeMaster(propertyUtil, rootView.getContext(), ModelConstant.REST_MASTER_TABLE, FragmentAddOrder.this);
         }
 
         @Override

@@ -1,7 +1,5 @@
 package com.tripoin.rmu.view.fragment.impl;
 
-
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -181,10 +179,9 @@ public class FragmentMenuList extends Fragment implements ISynchronizeMenuList {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_add:
-                FragmentAddOrder fragmentAddOrder = new FragmentAddOrder().newInstance("");
+                FragmentAddOrder fragmentAddOrder = new FragmentAddOrder().newInstance();
                 FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
                 mFragmentManager.beginTransaction().replace(R.id.container, fragmentAddOrder).commit();
-//                Toast.makeText(getActivity(), R.string.add, Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.menu_search:
@@ -196,12 +193,6 @@ public class FragmentMenuList extends Fragment implements ISynchronizeMenuList {
     }
 
     public class GplayGridCard extends Card {
-
-        protected TextView mTitle;
-        protected TextView mSecondaryTitle;
-        protected RatingBar mRatingBar;
-        protected int resourceIdThumbnail = -1;
-        protected int count;
 
         protected String secondaryTitle;
         protected String price;
@@ -324,6 +315,5 @@ public class FragmentMenuList extends Fragment implements ISynchronizeMenuList {
             progressDialog.dismiss();
         }
     }
-
 
 }

@@ -30,7 +30,6 @@ public class SynchronizeOrderList extends ASynchronizeData implements IOrderList
     private PropertyUtil securityUtil;
     private String latestVersion;
     private ISynchronizeOrderList iSynchronizeOrderList;
-    private List<OrderListModel> orderListModelList;
 
     public SynchronizeOrderList(PropertyUtil securityUtil, Context context, String tableName, ISynchronizeOrderList iSynchronizeOrderList) {
         super(securityUtil, context);
@@ -88,7 +87,7 @@ public class SynchronizeOrderList extends ASynchronizeData implements IOrderList
             versionModel.setVersionTimestamp(latestVersion);
             VersionDBManager.getInstance().updateEntity(versionModel);
 
-            orderListModelList = OrderListDBManager.getInstance().getAllData();
+            List<OrderListModel> orderListModelList = OrderListDBManager.getInstance().getAllData();
             iSynchronizeOrderList.onPostFirstSyncOrderList(orderListModelList);
         }else{
             Log.d("Sync Orderlist Object Result", "not found");
