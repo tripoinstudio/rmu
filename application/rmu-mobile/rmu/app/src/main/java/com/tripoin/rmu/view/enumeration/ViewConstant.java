@@ -23,7 +23,7 @@ public enum ViewConstant {
     FONT_ADAM("font/ADAM.CG PRO.otf"),
     FONT_OPEN_SANS_LIGHT("font/OpenSans-Light.ttf"),
 
-    DEFAULT_ACTION_BAR_TITLE("eRestorasi"),
+    DEFAULT_ACTION_BAR_TITLE("PRAMIA"),
 
     /*Fragment Titles*/
     FRAGMENT_ADD_ORDER_TITLE("Add Order"),
@@ -83,7 +83,7 @@ public enum ViewConstant {
     CURRENCY_PATTERN(",-"),
     PRINT_DASH("\n--------------------------------\n"),
     PRINT_HEADER("\n\n\nPT. Reska Multi Usaha\n"
-            .concat("eRestorasi version 1.0\n")
+            .concat("PRAMIA version 1.0\n")
             .concat("Jln. Kapt Subidjanto\n")
             .concat("Telp : 0212345678\n\n")
             .concat(PRINT_DASH.toString())),

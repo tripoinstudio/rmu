@@ -297,7 +297,7 @@ public class BluetoothEngine{
 
     public String templateSampleMessage() {
         return "\n\nPT. Reska Multi Usaha\n"
-                .concat("eRestorasi version 1.0\n\n")
+                .concat("PRAMIA version 1.0\n\n")
                 .concat("   ---- Print Success ----\n\n");
     }
 

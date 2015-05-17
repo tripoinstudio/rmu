@@ -240,7 +240,7 @@ public class FragmentChangeBluetooth extends ABaseNavigationDrawerFragment imple
             try {
                 String data =
                         "\n\nPT. Reska Multi Usaha\n"
-                        .concat("eRestorasi version 1.0\n\n")
+                        .concat("PRAMIA version 1.0\n\n")
                         .concat("   ---- Print Success ----\n\n");
                 if(BluetoothPrintDriver.IsNoConnection()){
                     return;

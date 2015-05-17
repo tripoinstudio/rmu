@@ -22,7 +22,7 @@
         android:layout_gravity="center"
         android:textSize="18sp"
         android:textColor="@color/nliveo_white"
-        android:text="eRestorasi version 1.0.0"/>
+        android:text="PRAMIA version 1.0.0"/>
     <ImageView
         android:layout_width="285dip"
         android:layout_height="185dip"
