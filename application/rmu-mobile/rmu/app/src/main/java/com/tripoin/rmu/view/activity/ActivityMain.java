@@ -75,7 +75,7 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
         }
         this.mUserName.setTextColor(getResources().getColor(R.color.black_light));
         this.mUserEmail.setTextColor(getResources().getColor(R.color.black_light));
-        Picasso.with(this).load(R.drawable.bangkit).into(this.mUserPhoto);
+        Picasso.with(this).load(R.drawable.foto).into(this.mUserPhoto);
         this.mUserBackground.setImageResource(R.drawable.wavy_green_background4);
     }
 

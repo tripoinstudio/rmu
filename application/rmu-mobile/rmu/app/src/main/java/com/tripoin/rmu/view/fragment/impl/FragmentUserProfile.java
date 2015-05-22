@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.tripoin.rmu.R;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
+import com.tripoin.rmu.view.enumeration.ViewConstant;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -65,7 +66,7 @@ public class FragmentUserProfile extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_user_profile, container, false);
         rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         propertyUtil = new PropertyUtil(PropertyConstant.PROPERTY_FILE_NAME.toString(), rootView.getContext());
-
+        getActivity().setTitle(ViewConstant.FRAGMENT_PROFILE_TITLE.toString());
         imgUserProfile = (ImageView) rootView.findViewById(R.id.imgUserProfile);
         final Bitmap bmp = decodeSampledBitmapFromPath(propertyUtil.getValuePropertyMap(PropertyConstant.WAITRESS_PHOTO.toString()), 360, 270);
         if(bmp!=null) imgUserProfile.setImageBitmap(bmp);

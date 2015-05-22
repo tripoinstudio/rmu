@@ -2,6 +2,10 @@
 <resources>
 
     <string name="app_name">PRAMIA</string>
+    <string name="reska_multi_usaha">Reska Multi Usaha</string>
+    <string name="e_resto_version">eRestorasi version 1.0.0</string>
+    <string name="copyright">&#169; 2015 Application RMU</string>
+    <string name="rights_reserved">All Rights Reserverd.</string>
     <string name="powered_by">Powered By Tripoin</string>
     <string name="action_settings">Settings</string>
 
@@ -124,8 +128,10 @@
     <string name="change_order_status">Change Order Status</string>
     <string name="status_new">New</string>
     <string name="status_processed">Processed</string>
-    <string name="status_delivered">Delivered</string>
-    <string name="status_cancelled">Cancelled</string>
+    <string name="status_prepared">Prepared</string>
+    <string name="status_done">Done</string>
+    <string name="status_canceled">Cancelled</string>
+    <string name="status_pending">Pending</string>
 
     <!--Order List-->
     <string name="title_dialog_srcOrderList">Search Order :</string>

@@ -13,14 +13,14 @@
         android:id="@+id/label_about1"
         android:textColor="@color/nliveo_white"
         android:textSize="21sp"
-        android:text="Reska Multi Usaha"/>
+        android:text="@string/reska_multi_usaha"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dip"
+        android:layout_marginTop="10dip"
         android:id="@+id/label_about2"
         android:layout_gravity="center"
-        android:textSize="14sp"
+        android:textSize="20sp"
         android:textColor="@color/nliveo_white"
         android:text="PRAMIA version 1.0.0"/>
     <ImageView
@@ -37,7 +37,7 @@
         android:id="@+id/label_about3"
         android:textSize="11sp"
         android:textColor="@color/nliveo_white"
-        android:text="&#169; 2015 Application RMU"/>
+        android:text="@string/copyright"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -46,5 +46,5 @@
         android:id="@+id/label_about4"
         android:textSize="11sp"
         android:textColor="@color/nliveo_white"
-        android:text="All Rights Reserverd."/>
+        android:text="@string/rights_reserved"/>
 </LinearLayout>

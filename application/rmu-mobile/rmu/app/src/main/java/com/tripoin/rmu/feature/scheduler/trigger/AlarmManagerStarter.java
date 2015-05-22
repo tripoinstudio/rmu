@@ -25,13 +25,10 @@ public class AlarmManagerStarter {
     private PendingIntent pendingIntent;
     private Intent myIntent;
     private AlarmManager alarmManager;
-    private Service service;
 
-    public AlarmManagerStarter(Context context, Service service, PendingIntent pendingIntent ) {
+    public AlarmManagerStarter(Context context,  PendingIntent pendingIntent ) {
         if ( context != null ){
             this.context = context;
-        }else{
-            this.service = service;
         }
         this.pendingIntent = pendingIntent;
     }
@@ -52,9 +49,9 @@ public class AlarmManagerStarter {
                 alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), ISchedulerConstant.SPACE_TIME * 1000, pendingIntent);
             }
         }else{
-            myIntent = new Intent( service, SchedulerServiceListener.class );
-            pendingIntent = PendingIntent.getService( service, 0, myIntent, 0);
-            alarmManager = (AlarmManager) service.getSystemService(Context.ALARM_SERVICE);
+            myIntent = new Intent( context, SchedulerServiceListener.class );
+            pendingIntent = PendingIntent.getService( context, 0, myIntent, 0);
+            alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         }
     }
 

@@ -1,11 +1,8 @@
 package com.tripoin.rmu.view.ui;
 
 import android.content.Context;
-import android.graphics.Typeface;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -21,6 +18,7 @@ import com.tripoin.rmu.rest.impl.UpdateOrderStatusRest;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
+import com.tripoin.rmu.view.fragment.api.ICustomCardStatus;
 import com.tripoin.rmu.view.fragment.impl.FragmentOrderList;
 
 import it.gmariotti.cardslib.library.internal.Card;
@@ -32,19 +30,14 @@ import it.gmariotti.cardslib.library.internal.Card;
 public class CustomCardStatusOrderDetail extends Card implements IUpdateOrderStatusPost {
 
     private OrderDetailModel orderDetailModel;
-    private ImageView imgOrderType;
-    private TextView txtOrderStatus;
-    private Typeface faces;
     private FragmentActivity activity;
-
-    public CustomCardStatusOrderDetail(Context context) {
-        super(context);
-    }
+    private ICustomCardStatus iCustomCardStatus;
 
     public CustomCardStatusOrderDetail(FragmentActivity context, int innerLayout, OrderDetailModel orderDetailModel) {
         super(context, innerLayout);
         this.activity = context;
         this.orderDetailModel = orderDetailModel;
+        iCustomCardStatus = new CustomCardStatusImpl(context);
         init();
     }
 
@@ -76,41 +69,16 @@ public class CustomCardStatusOrderDetail extends Card implements IUpdateOrderSta
     @Override
     public void setupInnerViewElements(ViewGroup parent, View view) {
         super.setupInnerViewElements(parent, view);
-      //  view.setMinimumHeight(20);
-        txtOrderStatus = (TextView) view.findViewById(R.id.txtOrderStatus);
-        faces=Typeface.createFromAsset(txtOrderStatus.getResources().getAssets(),"font/Roboto-Light.ttf");
-        txtOrderStatus.setTypeface(faces);
-        imgOrderType = (ImageView) view.findViewById(R.id.imgThumbOrder);
+        TextView txtOrderStatus = (TextView) view.findViewById(R.id.txtOrderStatus);
+        ImageView imgOrderType = (ImageView) view.findViewById(R.id.imgThumbOrder);
         if(imgOrderType != null){
-            Picasso.with(getContext()).load(getImageOrderType(Integer.parseInt(orderDetailModel.getOrderHeaderStatus()))).into(imgOrderType);
+            Picasso.with(getContext()).load(iCustomCardStatus.getImageOrderType(Integer.parseInt(orderDetailModel.getOrderHeaderStatus()))).into(imgOrderType);
         }
         if(txtOrderStatus != null){
-            txtOrderStatus.setText(getStatusCode(Integer.parseInt(orderDetailModel.getOrderHeaderStatus())));
+            txtOrderStatus.setText(iCustomCardStatus.getStatusCode(Integer.parseInt(orderDetailModel.getOrderHeaderStatus())));
         }
     }
 
-    private int getImageOrderType(int processStatus){
-        if(processStatus == 1){
-            return R.drawable.ic_list_new;
-        }else if(processStatus == 2){
-            return R.drawable.ic_list_process;
-        }else if(processStatus == 3){
-            return R.drawable.ic_list_delivery;
-        }else{
-            return R.drawable.ic_list_cancel;
-        }
-    }
-
-    private String getStatusCode(int statusNumber){
-        String result = "";
-        switch (statusNumber){
-            case 1 : result = getContext().getString(R.string.status_new); break;
-            case 2 : result = getContext().getString(R.string.status_processed); break;
-            case 3 : result = getContext().getString(R.string.status_delivered); break;
-            case 4 : result = getContext().getString(R.string.status_cancelled); break;
-        }
-        return result;
-    }
 
     @Override
     public void onPostUpdateOrderStatus(Object objectResult) {
