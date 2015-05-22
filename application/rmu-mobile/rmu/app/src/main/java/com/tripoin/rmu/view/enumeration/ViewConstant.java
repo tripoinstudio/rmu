@@ -28,6 +28,7 @@ public enum ViewConstant {
     /*Fragment Titles*/
     FRAGMENT_ADD_ORDER_TITLE("Add Order"),
     FRAGMENT_ABOUT_TITLE("About Application"),
+    FRAGMENT_PROFILE_TITLE("Profile"),
     FRAGMENT_MENU_TITLE("Menu List"),
     FRAGMENT_ORDER_LIST_TITLE("Order List"),
     FRAGMENT_ORDER_DETAIL_TITLE("Order Detail"),
@@ -83,7 +84,7 @@ public enum ViewConstant {
     CURRENCY_PATTERN(",-"),
     PRINT_DASH("\n--------------------------------\n"),
     PRINT_HEADER("\n\n\nPT. Reska Multi Usaha\n"
-            .concat("PRAMIA version 1.0\n")
+            .concat("eRestorasi version 1.0\n")
             .concat("Jln. Kapt Subidjanto\n")
             .concat("Telp : 0212345678\n\n")
             .concat(PRINT_DASH.toString())),
