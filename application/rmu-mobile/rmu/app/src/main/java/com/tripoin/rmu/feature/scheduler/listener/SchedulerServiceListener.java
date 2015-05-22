@@ -55,9 +55,8 @@ public class SchedulerServiceListener extends Service implements ISynchronizeOrd
         mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         securityUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(), this);
         getNotification();
-        return START_STICKY;
+        return super.onStartCommand(intent, flags, startId);
     }
-
 
     public void getNotification(){
         BackgroundSynchronizeOrderList synchronizeOrderList = new BackgroundSynchronizeOrderList(securityUtil, this, ModelConstant.REST_ORDER_HEADER_TABLE,this);

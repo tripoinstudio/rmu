@@ -17,6 +17,9 @@ public class MasterVersionItem implements Parcelable{
     @JsonProperty("version_timestamp")
     private String versionTimeStamp;
 
+    @JsonProperty("version_remarks")
+    private String versionRemarks;
+
     public MasterVersionItem() {
     }
 
@@ -40,12 +43,22 @@ public class MasterVersionItem implements Parcelable{
         this.versionTimeStamp = versionTimeStamp;
     }
 
+
+    public String getVersionRemarks() {
+        return versionRemarks;
+    }
+
     @Override
     public String toString() {
-        return "MasterVersion{" +
+        return "MasterVersionItem{" +
                 "versionTable='" + versionTable + '\'' +
                 ", versionTimeStamp='" + versionTimeStamp + '\'' +
+                ", versionRemarks='" + versionRemarks + '\'' +
                 '}';
+    }
+
+    public void setVersionRemarks(String versionRemarks) {
+        this.versionRemarks = versionRemarks;
     }
 
     @Override
