@@ -10,19 +10,19 @@
     </appender>
 
     <logger name="org.springframework">
-        <level value="DEBUG"/>
-    </logger>
-    
-    <logger name="org.springframework">
         <level value="ERROR"/>
     </logger>
+    
+    <!-- <logger name="org.springframework">
+        <level value="ALL"/>
+    </logger> -->
 
     <logger name="com.tripoin.core">
         <level value="ALL"/>
     </logger>
 
     <root>
-        <level value="OFF"/> <!--set ALL (aktif) atau OFF (inaktif)-->
+        <level value="ALL"/> <!--set ALL (aktif) atau OFF (inaktif)-->
         <appender-ref ref="CONSOLE"/>
     </root>
 

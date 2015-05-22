@@ -52,7 +52,7 @@ public class LoggedInManager {
 			List<Version> versionList = iGenericManagerJpa.loadObjects(Version.class);
 			List<VersionDTO> versionDTOList = new ArrayList<VersionDTO>();
 			for(Version v : versionList){
-				VersionDTO versionDTO = new VersionDTO(v.getTable(),  new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.S").format(v.getTimestamp()));
+				VersionDTO versionDTO = new VersionDTO(v.getTable(),  new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.S").format(v.getTimestamp()), v.getRemarks());
 				versionDTOList.add(versionDTO);
 			}
 			users.setMaster_version(versionDTOList);

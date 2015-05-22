@@ -123,7 +123,7 @@ public class OrderDetailManager {
 					orderHeader.setTrain(train);
 					orderHeader.setOrderDatetime(new Date());
 					orderHeader.setIsArchive(0);
-					orderHeader.setStatus(1);
+					orderHeader.setStatus(orderDetailDTO.getOrder_header_status());
 					orderHeader.setRemarks("ORDER");
 					
 					isOrderHeader = false;
@@ -134,10 +134,12 @@ public class OrderDetailManager {
 				menu = iGenericManagerJpa.getObjectsUsingParameter(Menu.class, new String[]{"code"}, new Object[]{orderDetailDTO.getMenu_code()}, null, null).get(0);				
 				totalAmount = mapPrice.get(menu.getId()).multiply(new BigDecimal(orderDetailDTO.getOrder_detail_total_order()));
 				totalPaid = totalPaid.add(totalAmount);
-				if(menu.getStock() != 0){
+				if((menu.getStock()-orderDetailDTO.getOrder_detail_total_order()) > 0){
 					menu.setStock(menu.getStock()-orderDetailDTO.getOrder_detail_total_order());
-					iGenericManagerJpa.updateObject(menu);
+				}else{
+					menu.setStock(0);					
 				}
+				iGenericManagerJpa.updateObject(menu);
 				order.setMenu(menu);
 				order.setOrderHeader(orderHeader);
 				order.setRemarks("ORDER");

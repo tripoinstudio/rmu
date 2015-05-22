@@ -38,7 +38,7 @@ public class VersionManager {
 			List<Version> versionList = iGenericManagerJpa.loadObjects(Version.class);
 			List<VersionDTO> versionDTOList = new ArrayList<VersionDTO>();
 			for(Version v : versionList){
-				VersionDTO versionDTO = new VersionDTO(v.getTable(), formatDateJson.format(v.getTimestamp()));
+				VersionDTO versionDTO = new VersionDTO(v.getTable(), formatDateJson.format(v.getTimestamp()), v.getRemarks());
 				versionDTOList.add(versionDTO);
 			}
 			versions.setMaster_version(versionDTOList);

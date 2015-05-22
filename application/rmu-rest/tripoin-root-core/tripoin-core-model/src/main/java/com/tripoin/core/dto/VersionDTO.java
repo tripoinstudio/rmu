@@ -9,18 +9,20 @@ import javax.xml.bind.annotation.XmlType;
  * @author <a href="mailto:ridla.fadilah@gmail.com">Ridla Fadilah</a>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { "version_table", "version_timestamp" })
+@XmlType(name = "", propOrder = { "version_table", "version_timestamp", "version_remarks" })
 @XmlRootElement(name = "Version")
 public class VersionDTO {
 	private String version_table;
 	private String version_timestamp;
+	private String version_remarks;
 
 	public VersionDTO() {}
 
-	public VersionDTO(String version_table, String version_timestamp) {
+	public VersionDTO(String version_table, String version_timestamp, String version_remarks) {
 		super();
 		this.version_table = version_table;
 		this.version_timestamp = version_timestamp;
+		this.version_remarks = version_remarks;
 	}
 
 	public String getVersion_table() {
@@ -37,11 +39,21 @@ public class VersionDTO {
 
 	public void setVersion_timestamp(String version_timestamp) {
 		this.version_timestamp = version_timestamp;
+	}	
+
+	public String getVersion_remarks() {
+		return version_remarks;
+	}
+
+	public void setVersion_remarks(String version_remarks) {
+		this.version_remarks = version_remarks;
 	}
 
 	@Override
 	public String toString() {
 		return "VersionDTO [version_table=" + version_table
-				+ ", version_timestamp=" + version_timestamp + "]";
-	}	
+				+ ", version_timestamp=" + version_timestamp
+				+ ", version_remarks=" + version_remarks + "]";
+	}
+	
 }
