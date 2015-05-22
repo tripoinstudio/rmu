@@ -19,11 +19,13 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tripoin.rmu.R;
 import com.tripoin.rmu.feature.bluetooth.BluetoothEngine;
+import com.tripoin.rmu.feature.scheduler.constant.IOrderStatusConstant;
 import com.tripoin.rmu.feature.synchronizer.impl.SynchronizeMaster;
 import com.tripoin.rmu.model.DTO.order_detail.OrderDetailDTO;
 import com.tripoin.rmu.model.DTO.order_detail.OrderDetailItemDTO;
@@ -81,6 +83,7 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster, IP
     private MasterASync masterASync;
     private Button bt_add_order;
     private Button bt_bayar;
+    private Button bt_bayar_direct;
     private Button bt_cancel;
     private TextView txus2;
     private Typeface faces2;
@@ -138,6 +141,7 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster, IP
         getAllOrderTempInTemporary();
 
         bt_bayar =(Button)rootView.findViewById(R.id.bt_bayar);
+        bt_bayar_direct =(Button)rootView.findViewById(R.id.bt_bayar_direct);
         bt_bayar.setEnabled(true);
         bt_add_order = (Button) rootView.findViewById(R.id.btn_add_order);
 
@@ -181,44 +185,31 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster, IP
         bt_bayar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if(!"0".equals(String.valueOf(totalOrder))) {
-                    PaymentRest paymentRest = new PaymentRest(FragmentAddOrder.this) {
-                        @Override
-                        public String getPaymentData() {
-                            String trainCode = trainModels.get(0).getTrainCode();
-                            String carriageCode = arraySpinnerCarriageCode[((int) mySpinner.getSelectedItemId())];
-                            String seatCode = arraySpinnerSeatCode[((int) mySpinnerSeat.getSelectedItemId())];
-                            OrderDetailDTO orderDetailDTO = new OrderDetailDTO();
-                            ArrayList<OrderDetailItemDTO> orderDetailItemDTOList = new ArrayList<OrderDetailItemDTO>();
-                            for (OrderTempModel orderTempModel : orderTempModelList) {
-                                OrderDetailItemDTO orderDetailItemDTO = new OrderDetailItemDTO();
-                                orderDetailItemDTO.setMenuName(orderTempModel.getMenuName());
-                                orderDetailItemDTO.setMenuCode(orderTempModel.getMenuCode());
-                                orderDetailItemDTO.setOrderDetailTotalAmount(orderTempModel.getPrice());
-                                orderDetailItemDTO.setOrderDetailTotalOrder(orderTempModel.getQuantity());
-                                orderDetailItemDTO.setTrainCode(trainCode);
-                                orderDetailItemDTO.setCarriageCode(carriageCode);
-                                orderDetailItemDTO.setSeatCode(seatCode);
-                                orderDetailItemDTOList.add(orderDetailItemDTO);
-                            }
-                            orderDetailDTO.setOrderDetailItemDTOs(orderDetailItemDTOList);
-                            ObjectMapper om = new ObjectMapper();
-                            String jsonData = null;
-                            try {
-                                jsonData = om.writeValueAsString(orderDetailDTO);
-                            } catch (JsonProcessingException e) {
-                                e.printStackTrace();
-                            }
-                            return jsonData;
-                        }
+                    String orderNo = "";
+                    if(orderTempModelList != null){
+                        orderNo = orderTempModelList.get(0).getOrderNo();
+                    }
+                    if(orderNo == null || orderNo == "")
+                        transactionOrder(String.valueOf(IOrderStatusConstant.NEW));
+                    else
+                        printPayment(orderNo);
+                }
+            }
+        });
 
-                        @Override
-                        public Context getContext() {
-                            return rootView.getContext();
-                        }
-                    };
-                    paymentRest.execute(propertyUtil.getValuePropertyMap(PropertyConstant.CHIPPER_AUTH.toString()));
+        bt_bayar_direct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!"0".equals(String.valueOf(totalOrder))) {
+                    String orderNo = "";
+                    if(orderTempModelList != null){
+                        orderNo = orderTempModelList.get(0).getOrderNo();
+                    }
+                    if(orderNo == null || orderNo == "")
+                        transactionOrder(String.valueOf(IOrderStatusConstant.DONE));
+                    else
+                        printPayment(orderNo);
                 }
             }
         });
@@ -227,6 +218,46 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster, IP
 
 //        rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT ));
         return rootView;
+    }
+
+    public void transactionOrder(String statusOrder){
+        PaymentRest paymentRest = new PaymentRest(FragmentAddOrder.this, statusOrder) {
+            @Override
+            public String getPaymentData() {
+                String trainCode = trainModels.get(0).getTrainCode();
+                String carriageCode = arraySpinnerCarriageCode[((int) mySpinner.getSelectedItemId())];
+                String seatCode = arraySpinnerSeatCode[((int) mySpinnerSeat.getSelectedItemId())];
+                OrderDetailDTO orderDetailDTO = new OrderDetailDTO();
+                ArrayList<OrderDetailItemDTO> orderDetailItemDTOList = new ArrayList<OrderDetailItemDTO>();
+                for (OrderTempModel orderTempModel : orderTempModelList) {
+                    OrderDetailItemDTO orderDetailItemDTO = new OrderDetailItemDTO();
+                    orderDetailItemDTO.setMenuName(orderTempModel.getMenuName());
+                    orderDetailItemDTO.setMenuCode(orderTempModel.getMenuCode());
+                    orderDetailItemDTO.setOrderDetailTotalAmount(orderTempModel.getPrice());
+                    orderDetailItemDTO.setOrderDetailTotalOrder(orderTempModel.getQuantity());
+                    orderDetailItemDTO.setTrainCode(trainCode);
+                    orderDetailItemDTO.setCarriageCode(carriageCode);
+                    orderDetailItemDTO.setSeatCode(seatCode);
+                    orderDetailItemDTO.setOrderHeaderStatus(getStatusOrder());
+                    orderDetailItemDTOList.add(orderDetailItemDTO);
+                }
+                orderDetailDTO.setOrderDetailItemDTOs(orderDetailItemDTOList);
+                ObjectMapper om = new ObjectMapper();
+                String jsonData = null;
+                try {
+                    jsonData = om.writeValueAsString(orderDetailDTO);
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
+                return jsonData;
+            }
+
+            @Override
+            public Context getContext() {
+                return rootView.getContext();
+            }
+        };
+        paymentRest.execute(propertyUtil.getValuePropertyMap(PropertyConstant.CHIPPER_AUTH.toString()));
     }
 
     @Override
@@ -240,19 +271,26 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster, IP
         printMessageDTO.setOrderNo(orderNo);
         printMessageDTO.setTotal(String.valueOf(totalOrder));
         printMessageDTO.setMessageItemDTOs(orderTempModelList);
-        if(bluetoothEngine.checkOnBluetooth()){
-            if(bluetoothEngine.openBluetoothConnection()) {
-                bluetoothEngine.printTemplateString(bluetoothEngine.templateMessageDto(printMessageDTO));
-                OrderTempDBManager.getInstance().executeRaw("DELETE FROM ".concat(ModelConstant.ORDER_TEMP_TABLE));
-                FragmentOrderList fragmentOrderList = new FragmentOrderList();
-                FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
-                mFragmentManager.beginTransaction().replace(R.id.container, fragmentOrderList).commit();
+        String errorBluetooth = "Error Bluetooth!";
+        try{
+            if(bluetoothEngine.checkOnBluetooth()){
+                if(bluetoothEngine.openBluetoothConnection()) {
+                    bluetoothEngine.printTemplateString(bluetoothEngine.templateMessageDto(printMessageDTO));
+                    OrderTempDBManager.getInstance().executeRaw("DELETE FROM ".concat(ModelConstant.ORDER_TEMP_TABLE));
+                    FragmentOrderList fragmentOrderList = new FragmentOrderList();
+                    FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
+                    mFragmentManager.beginTransaction().replace(R.id.container, fragmentOrderList).commit();
+                }else{
+                    errorBluetooth = "Error Bluetooth Connection!";
+                    throw new Exception();
+                }
             }else{
-                return;
+                bluetoothEngine.activeBluetooth();
+                errorBluetooth = "Please Active Bluetooth!";
+                throw new Exception();
             }
-        }else{
-            bluetoothEngine.activeBluetooth();
-            return;
+        }catch (Exception e){
+            Toast.makeText(rootView.getContext(),errorBluetooth,Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -264,6 +302,12 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster, IP
             String orderNo = "";
             for(OrderDetailItemDTO orderDetailItemDTO : orderDetailDTO.getOrderDetailItemDTOs()){
                 orderNo = orderDetailItemDTO.getOrderHeaderNo();
+            }
+            if(orderTempModelList != null){
+                for(OrderTempModel orderTempModel : orderTempModelList){
+                    orderTempModel.setOrderNo(orderNo);
+                    OrderTempDBManager.getInstance().updateEntity(orderTempModel);
+                }
             }
             printPayment(orderNo);
         }

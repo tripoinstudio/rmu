@@ -153,17 +153,35 @@
                 android:textColor="@color/white_base"
                 android:background="@color/red_dark_holo"
                 android:text="Cancel"/>
-            <Button
-                android:layout_width="75dip"
-                android:layout_height="30dp"
+            <LinearLayout
+                android:layout_width="170dp"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
                 android:layout_marginTop="10dp"
-                android:layout_gravity="left"
-                android:textSize="13sp"
-                android:id="@+id/bt_bayar"
-                android:textStyle="bold"
-                android:textColor="@color/white_base"
-                android:background="#4CAF50"
-                android:text="PAY"/>
+                android:layout_gravity="center">
+                <Button
+                    android:layout_width="75dip"
+                    android:layout_height="30dp"
+                    android:layout_gravity="left"
+                    android:textSize="13sp"
+                    android:id="@+id/bt_bayar_direct"
+                    android:textStyle="bold"
+                    android:textColor="@color/white_base"
+                    android:background="#4CAF50"
+                    android:text="SELLING"/>
+                <Button
+                    android:layout_width="75dip"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="left"
+                    android:textSize="13sp"
+                    android:id="@+id/bt_bayar"
+                    android:textStyle="bold"
+                    android:textColor="@color/white_base"
+                    android:background="#4CAF50"
+                    android:text="PAY"/>
+            </LinearLayout>
         </LinearLayout>
         <TextView
             android:layout_width="50dip"

@@ -19,6 +19,9 @@ public class OrderTempModel{
     @DatabaseField( generatedId = true, canBeNull = false, columnName = ModelConstant.ORDER_TEMP_ID )
     private int id;
 
+    @DatabaseField( columnName = ModelConstant.ORDER_DETAIL_ORDER_HEADER_NO )
+    private String orderNo;
+
     @DatabaseField( columnName = ModelConstant.MENU_CODE )
     private String menuCode;
 
@@ -46,6 +49,14 @@ public class OrderTempModel{
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo;
     }
 
     public String getMenuCode() {
@@ -108,6 +119,7 @@ public class OrderTempModel{
     public String toString() {
         return "OrderTempModel{" +
                 "id=" + id +
+                ", orderNo='" + orderNo + '\'' +
                 ", menuCode='" + menuCode + '\'' +
                 ", menuName='" + menuName + '\'' +
                 ", quantity='" + quantity + '\'' +

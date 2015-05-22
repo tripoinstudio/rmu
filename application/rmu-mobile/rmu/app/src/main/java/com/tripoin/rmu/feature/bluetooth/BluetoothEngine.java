@@ -94,7 +94,7 @@ public class BluetoothEngine{
             e.printStackTrace();
         }
     }
-    public boolean checkOnBluetooth(){
+    public boolean checkOnBluetooth() throws Exception {
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         return mBluetoothAdapter.isEnabled();
     }

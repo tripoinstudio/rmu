@@ -17,9 +17,11 @@ import java.net.URLEncoder;
 public abstract class PaymentRest extends ARestDialogGETAsyncTask{
 
     private IPaymentPost iPaymentPost;
+    private String statusOrder;
 
-    protected PaymentRest(IPaymentPost iPaymentPost) {
+    protected PaymentRest(IPaymentPost iPaymentPost, String statusOrder) {
         this.iPaymentPost = iPaymentPost;
+        this.statusOrder = statusOrder;
     }
 
     @Override
@@ -48,6 +50,10 @@ public abstract class PaymentRest extends ARestDialogGETAsyncTask{
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
         iPaymentPost.onPostSyncPayment(objectResult);
+    }
+
+    public String getStatusOrder(){
+        return this.statusOrder;
     }
 
     public abstract String getPaymentData();
