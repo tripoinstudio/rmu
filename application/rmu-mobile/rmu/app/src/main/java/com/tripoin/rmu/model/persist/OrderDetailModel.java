@@ -1,5 +1,8 @@
 package com.tripoin.rmu.model.persist;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.tripoin.rmu.model.api.ModelConstant;
@@ -9,7 +12,7 @@ import com.tripoin.rmu.model.api.ModelConstant;
  * mailto : fauzi.knightmaster.achmad@gmail.com
  */
 @DatabaseTable( tableName = ModelConstant.ORDER_DETAIL_TABLE)
-public class OrderDetailModel {
+public class OrderDetailModel implements Parcelable{
 
     @DatabaseField( generatedId = true, canBeNull = false, columnName = ModelConstant.ORDER_DETAIL_ID)
     private int id;
@@ -40,6 +43,10 @@ public class OrderDetailModel {
 
     @DatabaseField( columnName = ModelConstant.ORDER_DETAIL_TRAIN_CODE)
     private String trainCode;
+
+    public OrderDetailModel(Parcel parcel) {
+        readFromParcel(parcel);
+    }
 
     public int getId() {
         return id;
@@ -136,4 +143,38 @@ public class OrderDetailModel {
                 ", trainCode='" + trainCode + '\'' +
                 '}';
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(orderHeaderNo);
+        dest.writeString(orderDetailTotalOrder);
+        dest.writeString(orderDetailTotalAmount);
+        dest.writeString(orderHeaderStatus);
+        dest.writeString(menuCode);
+        dest.writeString(menuName);
+        dest.writeString(seatCode);
+        dest.writeString(carriageCode);
+        dest.writeString(trainCode);
+    }
+
+    private void readFromParcel(Parcel in) {
+        id = in.readInt();
+        orderHeaderNo = in.readString();
+        orderDetailTotalOrder = in.readString();
+        orderDetailTotalAmount = in.readString();
+        orderHeaderStatus = in.readString();
+        menuCode = in.readString();
+        menuName = in.readString();
+        seatCode = in.readString();
+        carriageCode = in.readString();
+        trainCode = in.readString();
+    }
+
+
 }
