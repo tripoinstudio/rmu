@@ -39,7 +39,7 @@ public class CustomCardOrderDetail extends ABaseCustomCard {
             txtTotalOrder.setText(ViewConstant.TOTAL_ORDER.toString().concat(ViewConstant.SPACE.toString()).concat(orderDetailModel.getOrderDetailTotalOrder()));
         }
         if(txtTotalPaid != null){
-            txtTotalPaid.setText(orderDetailModel.getOrderDetailTotalAmount());
+            txtTotalPaid.setText(ViewConstant.IDR.toString().concat(ViewConstant.SPACE.toString()).concat(orderDetailModel.getOrderDetailTotalAmount()));
         }
     }
 

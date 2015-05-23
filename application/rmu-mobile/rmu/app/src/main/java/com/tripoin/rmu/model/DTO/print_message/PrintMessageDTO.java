@@ -65,4 +65,13 @@ public class PrintMessageDTO implements Parcelable{
         total = in.readString();
         messageItemDTOs = in.readArrayList(OrderTempModel.class.getClassLoader());
     }
+
+    @Override
+    public String toString() {
+        return "PrintMessageDTO{" +
+                "orderNo='" + orderNo + '\'' +
+                ", total='" + total + '\'' +
+                ", messageItemDTOs=" + messageItemDTOs +
+                '}';
+    }
 }

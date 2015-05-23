@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,27 +31,25 @@ import com.tripoin.rmu.model.DTO.order_detail.OrderDetailItemDTO;
 import com.tripoin.rmu.model.DTO.print_message.PrintMessageDTO;
 import com.tripoin.rmu.model.api.ModelConstant;
 import com.tripoin.rmu.model.persist.CarriageModel;
+import com.tripoin.rmu.model.persist.OrderDetailModel;
 import com.tripoin.rmu.model.persist.OrderListModel;
 import com.tripoin.rmu.model.persist.OrderTempModel;
 import com.tripoin.rmu.model.persist.SeatModel;
 import com.tripoin.rmu.model.persist.TrainModel;
 import com.tripoin.rmu.persistence.orm_persistence.service.CarriageDBManager;
+import com.tripoin.rmu.persistence.orm_persistence.service.OrderDetailDBManager;
 import com.tripoin.rmu.persistence.orm_persistence.service.OrderListDBManager;
 import com.tripoin.rmu.persistence.orm_persistence.service.OrderTempDBManager;
 import com.tripoin.rmu.persistence.orm_persistence.service.SeatDBManager;
 import com.tripoin.rmu.persistence.orm_persistence.service.TrainDBManager;
 import com.tripoin.rmu.rest.api.IPaymentPost;
-import com.tripoin.rmu.rest.impl.CarriageListRest;
 import com.tripoin.rmu.rest.impl.PaymentRest;
-import com.tripoin.rmu.rest.impl.SeatListRest;
-import com.tripoin.rmu.util.BluetoothUtils;
 import com.tripoin.rmu.util.NetworkConnectivity;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
 import com.tripoin.rmu.view.fragment.api.ISynchronizeMaster;
 import com.tripoin.rmu.view.ui.CustomCardOrderTemp;
-import com.tripoin.rmu.view.ui.PaddingHelper;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -99,12 +96,6 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster, IP
     private BluetoothEngine bluetoothEngine;
     private List<OrderTempModel> orderTempModelList = new ArrayList<OrderTempModel>();
     private List<TrainModel> trainModels = new ArrayList<TrainModel>();
-
-    private OrderListModel orderListModel;
-    private List<OrderListModel> orderListModels;
-    private String trainCode;
-    private String carriageCode;
-    private String seatCode;
 
     public FragmentAddOrder newInstance(){
         return new FragmentAddOrder();
@@ -194,20 +185,9 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster, IP
         bt_bayar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                orderListModel = new OrderListModel();
-                trainCode = trainModels.get(0).getTrainCode();
-                carriageCode = arraySpinnerCarriageCode[((int) mySpinner.getSelectedItemId())];
-                seatCode = arraySpinnerSeatCode[((int) mySpinnerSeat.getSelectedItemId())];
-                orderListModel.setCarriageNumber(carriageCode);
-                orderListModel.setOrderId("");
-                orderListModel.setOrderTime(today);
-                orderListModel.setSeatNumber(seatCode);
-                orderListModel.setTotalPaid(String.valueOf(totalOrder));
-                orderListModel.setProcessStatus(IOrderStatusConstant.PENDING);
-
-                NetworkConnectivity networkConnectivity = new NetworkConnectivity(getActivity());
-                if(networkConnectivity.checkConnectivity()) {
-                    if (!"0".equals(String.valueOf(totalOrder))) {
+                if (!"0".equals(String.valueOf(totalOrder))) {
+                    NetworkConnectivity networkConnectivity = new NetworkConnectivity(getActivity());
+                    if(networkConnectivity.checkConnectivity()) {
                         String orderNo = "";
                         if (orderTempModelList != null) {
                             orderNo = orderTempModelList.get(0).getOrderNo();
@@ -216,12 +196,12 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster, IP
                             transactionOrder(String.valueOf(IOrderStatusConstant.NEW));
                         else
                             printPayment(orderNo);
+                    }else{
+                        saveToLocal();
                     }
-                }else{
-                    //simpan transaksi pending
-                    //muncul toast
-                    saveToLocal();
-
+                    FragmentOrderList fragmentOrderList = new FragmentOrderList();
+                    FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
+                    mFragmentManager.beginTransaction().replace(R.id.container, fragmentOrderList).commit();
                 }
             }
         });
@@ -229,41 +209,29 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster, IP
         bt_bayar_direct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                trainCode = trainModels.get(0).getTrainCode();
-                carriageCode = arraySpinnerCarriageCode[((int) mySpinner.getSelectedItemId())];
-                seatCode = arraySpinnerSeatCode[((int) mySpinnerSeat.getSelectedItemId())];
-                orderListModel.setCarriageNumber(carriageCode);
-                orderListModel.setOrderId(orderTempModelList.get(0).getOrderNo());
-                orderListModel.setOrderTime(today);
-                orderListModel.setSeatNumber(seatCode);
-                orderListModel.setTotalPaid(String.valueOf(totalOrder));
-                orderListModel.setProcessStatus(IOrderStatusConstant.PENDING);
-
-                NetworkConnectivity networkConnectivity = new NetworkConnectivity(getActivity());
-                if(networkConnectivity.checkConnectivity()) {
-                    if (!"0".equals(String.valueOf(totalOrder))) {
+                if (!"0".equals(String.valueOf(totalOrder))) {
+                    NetworkConnectivity networkConnectivity = new NetworkConnectivity(getActivity());
+                    if(networkConnectivity.checkConnectivity()) {
                         String orderNo = "";
                         if (orderTempModelList != null) {
                             orderNo = orderTempModelList.get(0).getOrderNo();
                         }
-
                         if (orderNo == null || orderNo == "")
                             transactionOrder(String.valueOf(IOrderStatusConstant.DONE));
                         else
                             printPayment(orderNo);
+                    }else{
+                        saveToLocal();
                     }
-                }else{
-                    //simpan transaksi pending
-                    //muncul toast
-                    saveToLocal();
-
+                    FragmentOrderList fragmentOrderList = new FragmentOrderList();
+                    FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
+                    mFragmentManager.beginTransaction().replace(R.id.container, fragmentOrderList).commit();
                 }
             }
         });
+
         masterASync = new MasterASync();
         masterASync.execute();
-
-//        rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT ));
         return rootView;
     }
 
@@ -308,18 +276,32 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster, IP
     }
 
     private void saveToLocal(){
-        Toast.makeText(rootView.getContext(), "simpan transaksi pending - not connect ", Toast.LENGTH_LONG).show();
-        OrderListDBManager.getInstance().insertEntity(orderListModel);
-        OrderTempDBManager.getInstance().executeRaw("DELETE FROM ".concat(ModelConstant.ORDER_TEMP_TABLE));
-        FragmentOrderList fragmentOrderList = new FragmentOrderList();
-        FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
-        mFragmentManager.beginTransaction().replace(R.id.container, fragmentOrderList).commit();
-    }
+        OrderListDBManager.init(rootView.getContext());
+        OrderDetailDBManager.init(rootView.getContext());
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setHasOptionsMenu(false);
+        OrderListModel orderListModel = new OrderListModel();
+        orderListModel.setTotalPaid(String.valueOf(totalOrder));
+        orderListModel.setProcessStatus(IOrderStatusConstant.PENDING);
+        orderListModel.setOrderTime(today);
+        orderListModel.setSeatNumber(array_spinner_seat[((int) mySpinnerSeat.getSelectedItemId())]);
+        orderListModel.setCarriageNumber(array_spinner_carriage[((int) mySpinner.getSelectedItemId())]);
+        OrderListDBManager.getInstance().insertEntity(orderListModel);
+
+        for (OrderTempModel orderTempModel : orderTempModelList) {
+            OrderDetailModel orderDetail = new OrderDetailModel();
+            orderDetail.setOrderHeaderNo("");
+            orderDetail.setOrderHeaderStatus(String.valueOf(IOrderStatusConstant.PENDING));
+            orderDetail.setMenuCode(orderTempModel.getMenuCode());
+            orderDetail.setMenuName(orderTempModel.getMenuName());
+            orderDetail.setOrderDetailTotalOrder(orderTempModel.getQuantity());
+            orderDetail.setOrderDetailTotalAmount(orderTempModel.getPrice());
+            orderDetail.setSeatCode(arraySpinnerSeatCode[((int) mySpinnerSeat.getSelectedItemId())]);
+            orderDetail.setCarriageCode(arraySpinnerCarriageCode[((int) mySpinner.getSelectedItemId())]);
+            orderDetail.setTrainCode(trainModels.get(0).getTrainCode());
+            OrderDetailDBManager.getInstance().insertEntity(orderDetail);
+        }
+        OrderTempDBManager.getInstance().executeRaw("DELETE FROM ".concat(ModelConstant.ORDER_TEMP_TABLE));
+        Toast.makeText(rootView.getContext(), "Order Pending. Please check your connection!", Toast.LENGTH_LONG).show();
     }
 
     private void printPayment(String orderNo){
@@ -327,28 +309,28 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster, IP
         printMessageDTO.setOrderNo(orderNo);
         printMessageDTO.setTotal(String.valueOf(totalOrder));
         printMessageDTO.setMessageItemDTOs(orderTempModelList);
-        String errorBluetooth = "Error Bluetooth!";
         try{
             if(bluetoothEngine.checkOnBluetooth()){
                 if(bluetoothEngine.openBluetoothConnection()) {
                     bluetoothEngine.printTemplateString(bluetoothEngine.templateMessageDto(printMessageDTO));
-                    OrderTempDBManager.getInstance().executeRaw("DELETE FROM ".concat(ModelConstant.ORDER_TEMP_TABLE));
-                    FragmentOrderList fragmentOrderList = new FragmentOrderList();
-                    FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
-                    mFragmentManager.beginTransaction().replace(R.id.container, fragmentOrderList).commit();
                 }else{
-                    errorBluetooth = "Error Bluetooth Connection!";
-                    throw new Exception();
+                    Toast.makeText(rootView.getContext(),"Error Bluetooth Connection!",Toast.LENGTH_SHORT).show();
                 }
             }else{
+                /*Toast.makeText(rootView.getContext(),"Please Active Bluetooth!",Toast.LENGTH_SHORT).show();*/
                 bluetoothEngine.activeBluetooth();
-                errorBluetooth = "Please Active Bluetooth!";
-                throw new Exception();
             }
         }catch (Exception e){
-            Toast.makeText(rootView.getContext(),errorBluetooth,Toast.LENGTH_SHORT).show();
+            Toast.makeText(rootView.getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+        }finally {
+            OrderTempDBManager.getInstance().executeRaw("DELETE FROM ".concat(ModelConstant.ORDER_TEMP_TABLE));
         }
+    }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(false);
     }
 
     @Override
@@ -368,11 +350,9 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster, IP
                 }
                 printPayment(orderNo);
             }else{
-                //simpan trx pendinf toast
                 saveToLocal();
             }
         }else{
-            //simpan trx pendinf toast
             saveToLocal();
         }
     }
