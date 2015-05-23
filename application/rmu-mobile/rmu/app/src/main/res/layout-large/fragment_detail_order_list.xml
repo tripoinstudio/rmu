@@ -22,32 +22,102 @@
             android:textColor="@android:color/black"
             android:textSize="20sp"
             android:paddingTop="15dip"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:id="@+id/txtTrainCode"
-            android:textColor="@android:color/black"
-            android:textSize="17sp"
-            android:paddingTop="15dip"
-            android:background="@drawable/textlines"/>
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:paddingTop="15dip"
-            android:id="@+id/txtCarriageCode"
-            android:background="@drawable/textlines"
-            android:textColor="@android:color/black"
-            android:textSize="17sp"/>
+            android:layout_height="50dp">
 
-        <TextView
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:textColor="@android:color/black"
+                android:textSize="17sp"
+                android:text="@string/detail_trainNo"
+                android:paddingTop="15dip"
+                android:background="@drawable/textlines"/>
+
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:textColor="@android:color/black"
+                android:textSize="17sp"
+                android:text=":"
+                android:paddingTop="15dip"
+                android:background="@drawable/textlines"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/txtTrainCode"
+                android:textColor="@android:color/black"
+                android:textSize="17sp"
+                android:paddingTop="15dip"
+                android:background="@drawable/textlines"/>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:paddingTop="15dip"
-            android:background="@drawable/textlines"
-            android:id="@+id/txtSeatCode"
-            android:textColor="@android:color/black"
-            android:textSize="17sp"/>
+            android:layout_height="50dp">
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:textColor="@android:color/black"
+                android:textSize="17sp"
+                android:text="@string/detail_carriageNo"
+                android:paddingTop="15dip"
+                android:background="@drawable/textlines"/>
+
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:textColor="@android:color/black"
+                android:textSize="17sp"
+                android:text=":"
+                android:paddingTop="15dip"
+                android:background="@drawable/textlines"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="15dip"
+                android:id="@+id/txtCarriageCode"
+                android:background="@drawable/textlines"
+                android:textColor="@android:color/black"
+                android:textSize="17sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:textColor="@android:color/black"
+                android:textSize="17sp"
+                android:text="@string/detail_seatNo"
+                android:paddingTop="15dip"
+                android:background="@drawable/textlines"/>
+
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:textColor="@android:color/black"
+                android:textSize="17sp"
+                android:text=":"
+                android:paddingTop="15dip"
+                android:background="@drawable/textlines"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="15dip"
+                android:background="@drawable/textlines"
+                android:id="@+id/txtSeatCode"
+                android:textColor="@android:color/black"
+                android:textSize="17sp"/>
+
+        </LinearLayout>
 
     </LinearLayout>
     <LinearLayout
@@ -96,16 +166,38 @@
             style="@style/list_card.thumbnail"/>
 
         </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:id="@+id/txtTotalPaid"
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:visibility="invisible"
+            android:layout_width="125dip"
+            android:layout_height="40dp"
+            android:layout_gravity="left"
             android:textSize="20sp"
-            android:paddingBottom="10dp"
-            android:layout_gravity="right"
-            android:textColor="@android:color/black"/>
+            android:layout_marginLeft="20dp"
+            android:id="@+id/btPrintOrder"
+            android:textStyle="bold"
+            android:textColor="@color/white_base"
+            android:background="#4CAF50"
+            android:text="@string/print"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtTotalPaid"
+                android:textSize="20sp"
+                android:layout_marginRight="20dp"
+                android:layout_gravity="right"
+                android:textColor="@android:color/black"
+                android:text="@string/total_paid"/>
+        </LinearLayout>
 
     </LinearLayout>
 

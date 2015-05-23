@@ -23,35 +23,103 @@
             android:textSize="20sp"
             android:paddingTop="15dip"
             android:text="Order Id"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:id="@+id/txtTrainCode"
-            android:textColor="@android:color/black"
-            android:textSize="17sp"
-            android:paddingTop="15dip"
-            android:text="Train Code"
-            android:background="@drawable/textlines"/>
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:paddingTop="15dip"
-            android:id="@+id/txtCarriageCode"
-            android:background="@drawable/textlines"
-            android:textColor="@android:color/black"
-            android:textSize="17sp"
-            android:text="Carriage Code"/>
+            android:layout_height="50dp">
 
-        <TextView
+            <TextView
+                android:layout_width="110dp"
+                android:layout_height="match_parent"
+                android:textColor="@android:color/black"
+                android:textSize="17sp"
+                android:text="@string/detail_trainNo"
+                android:paddingTop="15dip"
+                android:background="@drawable/textlines"/>
+
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:textColor="@android:color/black"
+                android:textSize="17sp"
+                android:text=":"
+                android:paddingTop="15dip"
+                android:background="@drawable/textlines"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/txtTrainCode"
+                android:textColor="@android:color/black"
+                android:textSize="17sp"
+                android:paddingTop="15dip"
+                android:background="@drawable/textlines"/>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:paddingTop="15dip"
-            android:background="@drawable/textlines"
-            android:id="@+id/txtSeatCode"
-            android:textColor="@android:color/black"
-            android:textSize="17sp"
-            android:text="Seat Code"/>
+            android:layout_height="50dp">
+            <TextView
+                android:layout_width="110dp"
+                android:layout_height="match_parent"
+                android:textColor="@android:color/black"
+                android:textSize="17sp"
+                android:text="@string/detail_carriageNo"
+                android:paddingTop="15dip"
+                android:background="@drawable/textlines"/>
+
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:textColor="@android:color/black"
+                android:textSize="17sp"
+                android:text=":"
+                android:paddingTop="15dip"
+                android:background="@drawable/textlines"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="15dip"
+                android:id="@+id/txtCarriageCode"
+                android:background="@drawable/textlines"
+                android:textColor="@android:color/black"
+                android:textSize="17sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+            <TextView
+                android:layout_width="110dp"
+                android:layout_height="match_parent"
+                android:textColor="@android:color/black"
+                android:textSize="17sp"
+                android:text="@string/detail_seatNo"
+                android:paddingTop="15dip"
+                android:background="@drawable/textlines"/>
+
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:textColor="@android:color/black"
+                android:textSize="17sp"
+                android:text=":"
+                android:paddingTop="15dip"
+                android:background="@drawable/textlines"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="15dip"
+                android:background="@drawable/textlines"
+                android:id="@+id/txtSeatCode"
+                android:textColor="@android:color/black"
+                android:textSize="17sp"/>
+
+        </LinearLayout>
 
     </LinearLayout>
     <LinearLayout
@@ -116,7 +184,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
             <TextView
                 android:layout_width="wrap_content"

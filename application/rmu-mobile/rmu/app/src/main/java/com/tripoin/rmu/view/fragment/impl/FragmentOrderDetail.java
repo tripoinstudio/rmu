@@ -199,9 +199,9 @@ public class FragmentOrderDetail extends ABaseNavigationDrawerFragment implement
     }
 
     private void initDetailCards(List<OrderDetailModel> orderDetailModels){
-        txtTrainCode.setText(ViewConstant.TRAIN_NO.toString().concat(orderDetailModels.get(0).getTrainCode()));
-        txtCarriageCode.setText(ViewConstant.CARRIAGE_NO.toString().concat(orderDetailModels.get(0).getCarriageCode()));
-        txtSeatCode.setText(ViewConstant.SEAT_NO.toString().concat(orderDetailModels.get(0).getSeatCode()));
+        txtTrainCode.setText(orderDetailModels.get(0).getTrainCode());
+        txtCarriageCode.setText(orderDetailModels.get(0).getCarriageCode());
+        txtSeatCode.setText(orderDetailModels.get(0).getSeatCode());
         ArrayList<Card> cards = new ArrayList<Card>();
         int totalPaid = 0;
         for (int i = 0; i<orderDetailModels.size(); i++) {

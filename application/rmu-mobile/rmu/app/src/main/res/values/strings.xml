@@ -133,6 +133,9 @@
     <string name="status_canceled">Cancelled</string>
     <string name="status_pending">Pending</string>
     <string name="status_retry">Retry</string>
+    <string name="detail_trainNo">Train No</string>
+    <string name="detail_carriageNo">Carriage No</string>
+    <string name="detail_seatNo">Seat No</string>
 
     <string name="total_paid">Total Paid</string>
     <string name="print">Print</string>
