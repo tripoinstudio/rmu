@@ -48,6 +48,9 @@ public class OrderDetailModel implements Parcelable{
         readFromParcel(parcel);
     }
 
+    public OrderDetailModel() {
+    }
+
     public int getId() {
         return id;
     }
