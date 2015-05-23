@@ -9,13 +9,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tripoin.rmu.R;
+import com.tripoin.rmu.feature.bluetooth.BluetoothEngine;
 import com.tripoin.rmu.feature.scheduler.constant.IOrderStatusConstant;
 import com.tripoin.rmu.feature.synchronizer.impl.SynchronizeOrderDetail;
+import com.tripoin.rmu.model.DTO.print_message.PrintMessageDTO;
 import com.tripoin.rmu.model.api.ModelConstant;
 import com.tripoin.rmu.model.persist.OrderDetailModel;
+import com.tripoin.rmu.model.persist.OrderTempModel;
 import com.tripoin.rmu.persistence.orm_persistence.service.OrderDetailDBManager;
+import com.tripoin.rmu.persistence.orm_persistence.service.OrderTempDBManager;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
@@ -24,6 +29,7 @@ import com.tripoin.rmu.view.fragment.base.ABaseNavigationDrawerFragment;
 import com.tripoin.rmu.view.ui.CustomCardOrderDetail;
 import com.tripoin.rmu.view.ui.CustomCardStatusOrderDetail;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -111,7 +117,8 @@ public class FragmentOrderDetail extends ABaseNavigationDrawerFragment implement
     @Override
     public void onPostSyncOrderDetail(List<OrderDetailModel> detailModels) {
         List<OrderDetailModel> orderDetailStatusModels = new ArrayList<OrderDetailModel>();
-        if(detailModels.get(0).getOrderHeaderStatus().equals(String.valueOf(IOrderStatusConstant.NEW))){
+        if(detailModels.get(0).getOrderHeaderStatus().equals(String.valueOf(IOrderStatusConstant.NEW)) ||
+                detailModels.get(0).getOrderHeaderStatus().equals(String.valueOf(IOrderStatusConstant.RETRY))){
             btPrintOrder.setVisibility(View.VISIBLE);
         }
         for (int i = IOrderStatusConstant.CANCEL ; i <= IOrderStatusConstant.PENDING ; i++) {
@@ -221,7 +228,44 @@ public class FragmentOrderDetail extends ABaseNavigationDrawerFragment implement
 
     @OnClick(R.id.btPrintOrder)
     public void printOrder(){
-        /*Code here for print order*/
+        BluetoothEngine bluetoothEngine = new BluetoothEngine(getActivity());
+        try{
+            String orderNo = txtOrderListId.getText().toString();
+            PrintMessageDTO printMessageDTO = new PrintMessageDTO();
+            OrderTempDBManager.init(rootView.getContext());
+            List<OrderDetailModel> orderDetailModelList = OrderDetailDBManager.getInstance().getListDataFromQuery(ModelConstant.ORDER_DETAIL_ORDER_HEADER_NO.toString(), orderNo);
+            List<OrderTempModel> orderTempModelList = new ArrayList<OrderTempModel>();
+            BigDecimal totalOrder = new BigDecimal(0);
+            for(OrderDetailModel orderDetailModel : orderDetailModelList){
+                OrderTempModel orderTempModel = new OrderTempModel();
+                orderTempModel.setOrderNo(orderDetailModel.getOrderHeaderNo());
+                orderTempModel.setPrice(orderDetailModel.getOrderDetailTotalAmount());
+                orderTempModel.setQuantity(orderDetailModel.getOrderDetailTotalOrder());
+                orderTempModel.setMenuCode(orderDetailModel.getMenuCode());
+                orderTempModel.setMenuName(orderDetailModel.getMenuName());
+                orderTempModel.setSeatCode(orderDetailModel.getSeatCode());
+                orderTempModel.setCarriageCode(orderDetailModel.getCarriageCode());
+                orderTempModel.setTrainCode(orderDetailModel.getTrainCode());
+                orderTempModelList.add(orderTempModel);
+                totalOrder = totalOrder.add(new BigDecimal(orderDetailModel.getOrderDetailTotalAmount()));
+            }
+            printMessageDTO.setOrderNo(orderNo);
+            printMessageDTO.setTotal(String.valueOf(totalOrder));
+            printMessageDTO.setMessageItemDTOs(orderTempModelList);
+            Log.d("PRINT",printMessageDTO.toString());
+            if(bluetoothEngine.checkOnBluetooth()){
+                if(bluetoothEngine.openBluetoothConnection()) {
+                    bluetoothEngine.printTemplateString(bluetoothEngine.templateMessageDto(printMessageDTO));
+                }else{
+                    Toast.makeText(rootView.getContext(),"Error Bluetooth Connection!",Toast.LENGTH_SHORT).show();
+                }
+            }else{
+                /*Toast.makeText(rootView.getContext(),"Please Active Bluetooth!",Toast.LENGTH_SHORT).show();*/
+                bluetoothEngine.activeBluetooth();
+            }
+        }catch (Exception e){
+            Toast.makeText(rootView.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
 }
