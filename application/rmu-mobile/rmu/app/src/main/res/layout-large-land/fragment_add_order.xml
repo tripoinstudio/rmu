@@ -84,28 +84,82 @@
         android:layout_height="match_parent"
         android:layout_marginTop="20dp"
         android:layout_marginRight="30dp">
-        <TextView
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="35dip"
-            android:layout_gravity="right"
+            android:layout_height="35dp"
             android:layout_marginTop="30dp"
             android:paddingLeft="5dp"
-            android:paddingBottom="10dp"
-            android:textSize="20sp"
-            android:id="@+id/tx_username"
-            android:background="@drawable/textlines"
-            android:textColor="@color/black_light"/>
-        <TextView
+            android:paddingBottom="10dp">
+
+            <TextView
+                android:layout_width="110dp"
+                android:layout_height="35dp"
+                android:paddingLeft="5dp"
+                android:paddingBottom="10dp"
+                android:background="@drawable/textlines"
+                android:text="Username"
+                android:textSize="20dp"
+                android:textColor="@color/black_light"/>
+
+            <TextView
+                android:layout_width="15dp"
+                android:layout_height="35dp"
+                android:background="@drawable/textlines"
+                android:text=":"
+                android:textSize="20dp"
+                android:textColor="@color/black_light"/>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:paddingLeft="5dp"
+                android:paddingBottom="10dp"
+                android:textSize="20sp"
+                android:id="@+id/tx_username"
+                android:background="@drawable/textlines"
+                android:textColor="@color/black_light"/>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="35dip"
-            android:layout_gravity="right"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="30dp"
             android:paddingLeft="5dp"
-            android:paddingBottom="10dp"
-            android:textSize="20sp"
-            android:id="@+id/tx_dates"
-            android:background="@drawable/textlines"
-            android:textColor="@color/black_light"/>
+            android:paddingBottom="10dp">
+
+            <TextView
+                android:layout_width="110dp"
+                android:layout_height="35dp"
+                android:paddingLeft="5dp"
+                android:paddingBottom="10dp"
+                android:background="@drawable/textlines"
+                android:text="Order Date"
+                android:textSize="20dp"
+                android:textColor="@color/black_light"/>
+
+            <TextView
+                android:layout_width="15dp"
+                android:layout_height="35dp"
+                android:background="@drawable/textlines"
+                android:text=":"
+                android:textSize="20dp"
+                android:textColor="@color/black_light"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="35dip"
+                android:paddingLeft="5dp"
+                android:paddingBottom="10dp"
+                android:textSize="20sp"
+                android:id="@+id/tx_dates"
+                android:background="@drawable/textlines"
+                android:textColor="@color/black_light"/>
+
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="50dip"

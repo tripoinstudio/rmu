@@ -6,32 +6,86 @@
     android:background="@color/white_base"
     xmlns:card="http://schemas.android.com/apk/res-auto">
 
-    <TextView
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="35dip"
-        android:layout_gravity="center"
+        android:layout_height="40dp"
         android:layout_marginTop="30dp"
         android:layout_marginLeft="35dp"
-        android:layout_marginRight="35dp"
-        android:paddingLeft="5dp"
-        android:paddingBottom="10dp"
-        android:textSize="20sp"
-        android:id="@+id/tx_username"
-        android:background="@drawable/textlines"
-        android:textColor="@color/black_light"/>
-    <TextView
+        android:layout_marginRight="35dp">
+
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/textlines"
+            android:paddingLeft="5dp"
+            android:paddingBottom="10dp"
+            android:text="Username"
+            android:textSize="22sp"
+            android:textColor="@color/black_light"/>
+
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/textlines"
+            android:paddingLeft="5dp"
+            android:paddingBottom="10dp"
+            android:text=":"
+            android:textSize="22sp"
+            android:textColor="@color/black_light"/>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:paddingLeft="5dp"
+            android:paddingBottom="10dp"
+            android:textSize="22sp"
+            android:id="@+id/tx_username"
+            android:background="@drawable/textlines"
+            android:textColor="@color/black_light"/>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="35dip"
-        android:layout_gravity="center"
+        android:layout_height="40dp"
         android:layout_marginTop="25dp"
         android:layout_marginLeft="35dp"
-        android:layout_marginRight="35dp"
-        android:paddingLeft="5dp"
-        android:paddingBottom="10dp"
-        android:textSize="20sp"
-        android:id="@+id/tx_dates"
-        android:background="@drawable/textlines"
-        android:textColor="@color/black_light"/>
+        android:layout_marginRight="35dp">
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/textlines"
+            android:paddingLeft="5dp"
+            android:paddingBottom="10dp"
+            android:text="Order Date"
+            android:textSize="22sp"
+            android:textColor="@color/black_light"/>
+
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/textlines"
+            android:paddingLeft="5dp"
+            android:paddingBottom="10dp"
+            android:text=":"
+            android:textSize="22sp"
+            android:textColor="@color/black_light"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="5dp"
+            android:paddingBottom="10dp"
+            android:textSize="22sp"
+            android:id="@+id/tx_dates"
+            android:background="@drawable/textlines"
+            android:textColor="@color/black_light"/>
+
+    </LinearLayout>
+
 
     <LinearLayout
 
@@ -45,18 +99,18 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="35dip"
+            android:layout_height="40dip"
             android:layout_gravity="center"
             android:paddingTop="6dp"
             android:paddingLeft="5dp"
-            android:textSize="20sp"
+            android:textSize="22sp"
             android:text="Gerbong        : "
             android:id="@+id/lbl_carriage"
             android:background="@drawable/textlines"
             android:textColor="@color/black_light"/>
         <Spinner
             android:layout_width="150dip"
-            android:layout_height="35dip"
+            android:layout_height="40dip"
             android:layout_gravity="center"
             android:paddingLeft="7dp"
             android:paddingRight="7dp"
@@ -67,7 +121,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="35dip"
+            android:layout_height="40dip"
             android:layout_gravity="center"
             android:layout_marginLeft="15dp"
             android:paddingTop="6dp"
@@ -79,7 +133,7 @@
             android:textColor="@color/black_light"/>
         <Spinner
             android:layout_width="150dp"
-            android:layout_height="35dip"
+            android:layout_height="40dip"
             android:layout_gravity="center"
             android:paddingLeft="7dp"
             android:id="@+id/spinner_seat"

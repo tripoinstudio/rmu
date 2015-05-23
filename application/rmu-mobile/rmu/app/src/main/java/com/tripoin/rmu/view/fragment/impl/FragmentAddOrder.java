@@ -119,12 +119,12 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster, IP
 
         txus=(TextView)rootView.findViewById(R.id.tx_username);
         faces=Typeface.createFromAsset(txus.getResources().getAssets(),"font/Roboto-Light.ttf");
-        txus.setText("Username      : ".concat(propertyUtil.getValuePropertyMap(PropertyConstant.USER_NAME.toString())));
+        txus.setText(propertyUtil.getValuePropertyMap(PropertyConstant.USER_NAME.toString()));
         txus.setTypeface(faces);
         txus2=(TextView)rootView.findViewById(R.id.tx_dates);
         faces2=Typeface.createFromAsset(txus2.getResources().getAssets(),"font/Roboto-Light.ttf");
         today  = new SimpleDateFormat("EEEE, dd MMMMMM yyyy HH:mm:ss", new Locale("ID")).format(new Date());
-        txus2.setText("Order Date   : ".concat(today));
+        txus2.setText(today);
         txus2.setTypeface(faces2);
         lbl1 = (TextView)rootView.findViewById(R.id.lbl_carriage);
         lbl1.setTypeface(Typeface.createFromAsset(lbl1.getResources().getAssets(),"font/Roboto-Light.ttf"));
