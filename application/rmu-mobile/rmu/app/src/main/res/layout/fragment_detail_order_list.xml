@@ -84,11 +84,7 @@
             android:layout_width="match_parent"
             android:layout_height="260dp"
             android:orientation="vertical"
-            android:paddingTop="10dp"
-            >
-
-
-
+            android:paddingTop="10dp">
 
         <it.gmariotti.cardslib.library.view.CardListView
             android:id="@+id/listOrderDetailItem"
@@ -98,20 +94,40 @@
             android:layout_marginBottom="0dp"
             card:list_card_layout_resourceID="@layout/list_card_custom_layout_detailorder"
             style="@style/list_card.thumbnail"/>
-
         </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:id="@+id/txtTotalPaid"
-            android:textSize="20sp"
-            android:paddingBottom="10dp"
-            android:layout_gravity="right"
-            android:textColor="@android:color/black"
-            android:text="Total Paid"/>
-
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:visibility="invisible"
+            android:layout_width="125dip"
+            android:layout_height="40dp"
+            android:layout_gravity="left"
+            android:textSize="20sp"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/btPrintOrder"
+            android:textStyle="bold"
+            android:textColor="@color/white_base"
+            android:background="#4CAF50"
+            android:text="@string/print"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtTotalPaid"
+                android:textSize="20sp"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="right"
+                android:textColor="@android:color/black"
+                android:text="@string/total_paid"/>
+        </LinearLayout>
+
+    </LinearLayout>
 </LinearLayout>

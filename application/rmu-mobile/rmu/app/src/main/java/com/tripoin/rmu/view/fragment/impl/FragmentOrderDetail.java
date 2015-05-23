@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.tripoin.rmu.R;
@@ -26,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import butterknife.OnClick;
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 import it.gmariotti.cardslib.library.view.CardListView;
@@ -43,6 +46,7 @@ public class FragmentOrderDetail extends ABaseNavigationDrawerFragment implement
 //    @InjectView(R.layout.order_status_card.R.id.txtOrderStatus)TextView txtOrderStatus;
 
     @InjectView(R.id.txtTotalPaid)TextView txtTotalPaid;
+    @InjectView(R.id.btPrintOrder) Button btPrintOrder;
     @InjectView(R.id.listStatusOption) CardListView listView;
     @InjectView(R.id.listOrderDetailItem) CardListView listViewDetailOrderItem;
 
@@ -107,6 +111,9 @@ public class FragmentOrderDetail extends ABaseNavigationDrawerFragment implement
     @Override
     public void onPostSyncOrderDetail(List<OrderDetailModel> detailModels) {
         List<OrderDetailModel> orderDetailStatusModels = new ArrayList<OrderDetailModel>();
+        if(detailModels.get(0).getOrderHeaderStatus().equals(String.valueOf(IOrderStatusConstant.NEW))){
+            btPrintOrder.setVisibility(View.VISIBLE);
+        }
         for (int i = IOrderStatusConstant.CANCEL ; i <= IOrderStatusConstant.PENDING ; i++) {
             int headerStatus = Integer.parseInt(detailModels.get(0).getOrderHeaderStatus());
             OrderDetailModel detailModel;
@@ -212,5 +219,9 @@ public class FragmentOrderDetail extends ABaseNavigationDrawerFragment implement
         }
     }
 
+    @OnClick(R.id.btPrintOrder)
+    public void printOrder(){
+        /*Code here for print order*/
+    }
 
 }
