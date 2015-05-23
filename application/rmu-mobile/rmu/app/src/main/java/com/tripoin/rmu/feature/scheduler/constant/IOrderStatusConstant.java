@@ -12,4 +12,5 @@ public interface IOrderStatusConstant {
     public final int DONE = 4;
     public final int CANCEL = 5;
     public final int PENDING = 6;
+    public final int RETRY = 7;
 }

@@ -125,7 +125,7 @@ public class FragmentOrderDetail extends ABaseNavigationDrawerFragment implement
                 orderDetailStatusModels.add(detailModel);
                 break;
             }else if ( headerStatus == IOrderStatusConstant.PENDING ) {
-                for(int a=IOrderStatusConstant.DONE; a<IOrderStatusConstant.PENDING; a++){
+                for(int a=IOrderStatusConstant.CANCEL; a<=IOrderStatusConstant.RETRY; a+=2){
                     detailModel = new OrderDetailModel();
                     detailModel.setOrderHeaderNo(detailModels.get(0).getOrderHeaderNo());
                     detailModel.setOrderHeaderStatus(String.valueOf(a));

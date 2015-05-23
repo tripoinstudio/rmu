@@ -33,6 +33,8 @@ public class CustomCardStatusImpl implements ICustomCardStatus {
             result = R.drawable.ic_list_cancel;
         }else if(processStatus == IOrderStatusConstant.PENDING) {
             result = R.drawable.ic_list_pending;
+        }else if(processStatus == IOrderStatusConstant.RETRY) {
+            result = R.drawable.ic_list_retry;
         }
         return result;
     }
@@ -46,6 +48,7 @@ public class CustomCardStatusImpl implements ICustomCardStatus {
             case 4 : result = context.getString(R.string.status_done); break;
             case 5 : result = context.getString(R.string.status_canceled); break;
             case 6 : result = context.getString(R.string.status_pending); break;
+            case 7 : result = context.getString(R.string.status_retry); break;
         }
         return result;
     }
