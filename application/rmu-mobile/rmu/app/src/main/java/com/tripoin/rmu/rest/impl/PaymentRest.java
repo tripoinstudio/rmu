@@ -1,5 +1,7 @@
 package com.tripoin.rmu.rest.impl;
 
+import android.util.Log;
+
 import com.tripoin.rmu.model.DTO.menu.MenuDTO;
 import com.tripoin.rmu.model.DTO.order_detail.OrderDetailDTO;
 import com.tripoin.rmu.model.base.impl.BaseRESTDTO;
@@ -24,10 +26,15 @@ public abstract class PaymentRest extends ARestDialogGETAsyncTask{
         this.statusOrder = statusOrder;
     }
 
+    protected PaymentRest(IPaymentPost iPaymentPost) {
+        this.iPaymentPost = iPaymentPost;
+    }
+
     @Override
     public String initUrl() {
         String paymentData = null;
         try {
+            Log.d("Payment Data ", getPaymentData());
             paymentData = URLEncoder.encode(getPaymentData(), RestConstant.URL_ENCODER.toString());
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();

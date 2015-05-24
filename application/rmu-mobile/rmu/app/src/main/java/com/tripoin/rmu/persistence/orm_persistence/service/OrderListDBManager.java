@@ -76,6 +76,15 @@ public class OrderListDBManager<DATA> implements IBaseDatabaseHandler{
     }
 
     @Override
+    public void createOrUpdateEntity(Object entity) {
+        try {
+            getDatabaseDAOHelper().getOrderListDAO().createOrUpdate((OrderListModel) entity);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void deleteEntity(Integer id) {
         try {
             getDatabaseDAOHelper().getOrderListDAO().deleteById(id);
@@ -91,6 +100,55 @@ public class OrderListDBManager<DATA> implements IBaseDatabaseHandler{
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public List<OrderListModel> getOrderListDataFromQuery(String columnName, boolean asc) {
+        QueryBuilder<OrderListModel, Integer> queryBuilder = null;
+        PreparedQuery<OrderListModel> preparedQuery = null;
+        List<OrderListModel> result = null;
+        try {
+            queryBuilder = getDatabaseDAOHelper().getOrderListDAO().queryBuilder();
+            queryBuilder.orderBy(columnName,asc);
+            preparedQuery = queryBuilder.prepare();
+            result = (List<OrderListModel>) getDatabaseDAOHelper().getOrderListDAO().query(preparedQuery);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public OrderListModel getOrderDataFromQuery(String columnName, boolean asc) {
+        QueryBuilder<OrderListModel, Integer> queryBuilder = null;
+        PreparedQuery<OrderListModel> preparedQuery = null;
+        List<OrderListModel> result = null;
+        try {
+            queryBuilder = getDatabaseDAOHelper().getOrderListDAO().queryBuilder();
+            queryBuilder.orderBy(columnName,asc);
+            preparedQuery = queryBuilder.prepare();
+            result = (List<OrderListModel>) getDatabaseDAOHelper().getOrderListDAO().query(preparedQuery);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if(result == null || result.size() == 0)
+            return null;
+        return result.get(0);
+    }
+
+    public OrderListModel getDataFromQuery(String columnName, String data) {
+        QueryBuilder<OrderListModel, Integer> queryBuilder = null;
+        PreparedQuery<OrderListModel> preparedQuery = null;
+        List<OrderListModel> result = null;
+        try {
+            queryBuilder = getDatabaseDAOHelper().getOrderListDAO().queryBuilder();
+            queryBuilder.where().eq(columnName,data);
+            preparedQuery = queryBuilder.prepare();
+            result = (List<OrderListModel>) getDatabaseDAOHelper().getOrderListDAO().query(preparedQuery);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if(result == null || result.size() == 0)
+            return null;
+        return result.get(0);
     }
 
     public List<DATA> getAllDataFromQuery(String seatNumber, String carriageNumber, String processStatus, String orderNumber) {

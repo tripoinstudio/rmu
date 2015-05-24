@@ -94,7 +94,6 @@ public class FragmentOrderDetail extends ABaseNavigationDrawerFragment implement
     }
 
     @Override
-
     public void initWidget() {
         securityUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(), getActivity());
         new OrderDetailAsync().execute();
@@ -153,7 +152,7 @@ public class FragmentOrderDetail extends ABaseNavigationDrawerFragment implement
                 orderDetailStatusModels.add(detailModel);
             }
         }
-        initStatusCards(orderDetailStatusModels);
+        initStatusCards(orderDetailStatusModels, detailModels);
         initDetailCards(detailModels);
     }
 
@@ -192,10 +191,10 @@ public class FragmentOrderDetail extends ABaseNavigationDrawerFragment implement
         }
     }
 
-    private void initStatusCards(List<OrderDetailModel> orderDetailModels){
+    private void initStatusCards(List<OrderDetailModel> orderDetailModels, List<OrderDetailModel> detailModels){
         ArrayList<Card> cards = new ArrayList<Card>();
         for (int i = 0; i<orderDetailModels.size(); i++) {
-            Card card = new CustomCardStatusOrderDetail(getActivity(), R.layout.order_status_card, orderDetailModels.get(i));
+            Card card = new CustomCardStatusOrderDetail(getActivity(), R.layout.order_status_card, orderDetailModels.get(i), detailModels);
             card.setBackgroundResource(getResources().getDrawable(R.drawable.textlinesfullborder));
             cards.add(card);
         }
@@ -264,7 +263,7 @@ public class FragmentOrderDetail extends ABaseNavigationDrawerFragment implement
                 bluetoothEngine.activeBluetooth();
             }
         }catch (Exception e){
-            Toast.makeText(rootView.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(rootView.getContext(), e.getMessage().concat("A error occurred Bluetooth isn't available!"), Toast.LENGTH_SHORT).show();
         }
     }
 

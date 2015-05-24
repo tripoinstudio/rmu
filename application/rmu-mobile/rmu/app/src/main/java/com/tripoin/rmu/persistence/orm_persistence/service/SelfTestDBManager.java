@@ -71,6 +71,15 @@ public class SelfTestDBManager<DATA> implements IBaseDatabaseHandler{
     }
 
     @Override
+    public void createOrUpdateEntity(Object entity) {
+        try {
+            getDatabaseDAOHelper().getSelfTestDAO().createOrUpdate((SelfTestModel) entity);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void deleteEntity(Integer id) {
         try {
             getDatabaseDAOHelper().getSelfTestDAO().deleteById(id);

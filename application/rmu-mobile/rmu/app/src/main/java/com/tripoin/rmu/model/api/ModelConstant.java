@@ -96,6 +96,8 @@ public interface ModelConstant {
 
     public final String ORDER_LIST_PROCESS_STATUS = "order_list_process_status";
 
+    public final String ORDER_LIST_WAITING_STATUS = "order_list_waiting_status";
+
     public final String REST_ORDER_HEADER_TABLE = "trx_order_header";
 
     public final String REST_APPLICATION_VERSION = "apk_version";
@@ -156,6 +158,8 @@ public interface ModelConstant {
     public final String ORDER_DETAIL_ORDER_DETAIL_TOTAL_AMOUNT = "order_detail_order_detail_total_amount";
 
     public final String ORDER_DETAIL_ORDER_HEADER_STATUS = "order_header_status";
+
+    public final String ORDER_DETAIL_ORDER_HEADER_STATUS_WAITING = "order_header_status_waiting";
 
     public final String ORDER_DETAIL_USER_CODE = "order_detail_user_code";
 

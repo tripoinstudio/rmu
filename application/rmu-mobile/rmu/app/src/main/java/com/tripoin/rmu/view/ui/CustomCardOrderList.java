@@ -12,11 +12,14 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.tripoin.rmu.R;
+import com.tripoin.rmu.model.persist.OrderDetailModel;
 import com.tripoin.rmu.model.persist.OrderListModel;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
 import com.tripoin.rmu.view.fragment.api.ICustomCardStatus;
 import com.tripoin.rmu.view.fragment.base.ABaseCustomCard;
 import com.tripoin.rmu.view.fragment.impl.FragmentOrderDetail;
+
+import java.util.List;
 
 import it.gmariotti.cardslib.library.internal.Card;
 

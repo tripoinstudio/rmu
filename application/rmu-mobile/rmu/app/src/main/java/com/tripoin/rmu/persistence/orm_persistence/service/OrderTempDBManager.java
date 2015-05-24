@@ -75,6 +75,15 @@ public class OrderTempDBManager<DATA> implements IBaseDatabaseHandler{
     }
 
     @Override
+    public void createOrUpdateEntity(Object entity) {
+        try {
+            getDatabaseDAOHelper().getOrderTempDAO().createOrUpdate((OrderTempModel) entity);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void deleteEntity(Integer id) {
         try {
             getDatabaseDAOHelper().getOrderTempDAO().deleteById(id);

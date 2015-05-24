@@ -29,10 +29,12 @@ import com.tripoin.rmu.feature.scheduler.constant.IOrderStatusConstant;
 import com.tripoin.rmu.feature.synchronizer.impl.SynchronizeOrderList;
 import com.tripoin.rmu.model.api.ModelConstant;
 import com.tripoin.rmu.model.persist.CarriageModel;
+import com.tripoin.rmu.model.persist.OrderDetailModel;
 import com.tripoin.rmu.model.persist.OrderListModel;
 import com.tripoin.rmu.model.persist.SeatModel;
 import com.tripoin.rmu.model.persist.TrainModel;
 import com.tripoin.rmu.persistence.orm_persistence.service.CarriageDBManager;
+import com.tripoin.rmu.persistence.orm_persistence.service.OrderDetailDBManager;
 import com.tripoin.rmu.persistence.orm_persistence.service.OrderListDBManager;
 import com.tripoin.rmu.persistence.orm_persistence.service.SeatDBManager;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
@@ -207,19 +209,24 @@ public class FragmentOrderList extends ABaseNavigationDrawerFragment implements 
 
     private void initCards(List<OrderListModel> orderListModels){
         ArrayList<Card> cards = new ArrayList<Card>();
-        if(orderListModels != null){
-            for (int i = 0; i<orderListModels.size(); i++) {
-                if((orderListModels.get(i).getProcessStatus() != IOrderStatusConstant.DONE) && (orderListModels.get(i).getProcessStatus() != IOrderStatusConstant.CANCEL)){
-                    Card card = new CustomCardOrderList(getActivity(), R.layout.row_card, orderListModels.get(i));
-                    cards.add(card);
+        try{
+            if(orderListModels != null){
+                for (int i = 0; i<orderListModels.size() ; i++) {
+                    if((orderListModels.get(i).getProcessStatus() != IOrderStatusConstant.DONE) && (orderListModels.get(i).getProcessStatus() != IOrderStatusConstant.CANCEL)){
+                        Card card = new CustomCardOrderList(getActivity(), R.layout.row_card, orderListModels.get(i));
+                        cards.add(card);
+                    }
                 }
+                CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(rootView.getContext(), cards);
+                if (listView != null) {
+                    listView.setAdapter(mCardArrayAdapter);
+                }
+            }else{
+                listView.setAdapter(new CardArrayAdapter(getActivity(), new ArrayList<Card>()));
             }
-            CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(rootView.getContext(), cards);
-            if (listView != null) {
-                listView.setAdapter(mCardArrayAdapter);
-            }
-        }else{
-            listView.setAdapter(new CardArrayAdapter(getActivity(), new ArrayList<Card>()));
+
+        }catch (Exception e){
+
         }
     }
 
@@ -230,6 +237,7 @@ public class FragmentOrderList extends ABaseNavigationDrawerFragment implements 
 
     @Override
     public void initWidget() {
+        OrderDetailDBManager.init(getActivity());
         Bundle bundle = getArguments();
         if( bundle != null){
             FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();

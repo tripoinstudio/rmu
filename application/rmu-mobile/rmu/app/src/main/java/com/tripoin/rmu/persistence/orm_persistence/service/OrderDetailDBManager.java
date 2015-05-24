@@ -72,6 +72,15 @@ public class OrderDetailDBManager<DATA>  implements IBaseDatabaseHandler{
     }
 
     @Override
+    public void createOrUpdateEntity(Object entity) {
+        try {
+            getDatabaseDAOHelper().getOrderDetailDAO().createOrUpdate((OrderDetailModel) entity);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void deleteEntity(Integer id) {
         try {
             getDatabaseDAOHelper().getOrderDetailDAO().deleteById(id);

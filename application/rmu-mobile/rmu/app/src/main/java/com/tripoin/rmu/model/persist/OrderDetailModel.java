@@ -29,6 +29,9 @@ public class OrderDetailModel implements Parcelable{
     @DatabaseField( columnName = ModelConstant.ORDER_DETAIL_ORDER_HEADER_STATUS )
     private String orderHeaderStatus;
 
+    @DatabaseField( columnName = ModelConstant.ORDER_DETAIL_ORDER_HEADER_STATUS_WAITING )
+    private String orderHeaderStatusWaiting;
+
     @DatabaseField( columnName = ModelConstant.ORDER_DETAIL_MENU_CODE )
     private String menuCode;
 
@@ -91,6 +94,14 @@ public class OrderDetailModel implements Parcelable{
         this.orderHeaderStatus = orderHeaderStatus;
     }
 
+    public String getOrderHeaderStatusWaiting() {
+        return orderHeaderStatusWaiting;
+    }
+
+    public void setOrderHeaderStatusWaiting(String orderHeaderStatusWaiting) {
+        this.orderHeaderStatusWaiting = orderHeaderStatusWaiting;
+    }
+
     public String getMenuCode() {
         return menuCode;
     }
@@ -139,6 +150,7 @@ public class OrderDetailModel implements Parcelable{
                 ", orderDetailTotalOrder='" + orderDetailTotalOrder + '\'' +
                 ", orderDetailTotalAmount='" + orderDetailTotalAmount + '\'' +
                 ", orderHeaderStatus='" + orderHeaderStatus + '\'' +
+                ", orderHeaderStatusWaiting='" + orderHeaderStatusWaiting + '\'' +
                 ", menuCode='" + menuCode + '\'' +
                 ", menuName='" + menuName + '\'' +
                 ", seatCode='" + seatCode + '\'' +
@@ -159,6 +171,7 @@ public class OrderDetailModel implements Parcelable{
         dest.writeString(orderDetailTotalOrder);
         dest.writeString(orderDetailTotalAmount);
         dest.writeString(orderHeaderStatus);
+        dest.writeString(orderHeaderStatusWaiting);
         dest.writeString(menuCode);
         dest.writeString(menuName);
         dest.writeString(seatCode);
@@ -172,6 +185,7 @@ public class OrderDetailModel implements Parcelable{
         orderDetailTotalOrder = in.readString();
         orderDetailTotalAmount = in.readString();
         orderHeaderStatus = in.readString();
+        orderHeaderStatusWaiting = in.readString();
         menuCode = in.readString();
         menuName = in.readString();
         seatCode = in.readString();

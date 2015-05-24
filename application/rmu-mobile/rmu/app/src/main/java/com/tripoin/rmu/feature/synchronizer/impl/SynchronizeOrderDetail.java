@@ -102,18 +102,25 @@ public abstract class SynchronizeOrderDetail extends ASynchronizeData implements
             List<OrderDetailModel> detailModels = new ArrayList<OrderDetailModel>();
             for(OrderDetailItemDTO itemDTO : orderDetailDTO.getOrderDetailItemDTOs()){
                 Log.d("ITEM DTO", itemDTO.toString());
-                orderDetailModel = new OrderDetailModel();
-                orderDetailModel.setOrderHeaderNo(itemDTO.getOrderHeaderNo());
-                orderDetailModel.setOrderDetailTotalOrder(itemDTO.getOrderDetailTotalOrder());
-                orderDetailModel.setOrderDetailTotalAmount(itemDTO.getOrderDetailTotalAmount());
-                orderDetailModel.setOrderHeaderStatus(itemDTO.getOrderHeaderStatus());
-                orderDetailModel.setMenuCode(itemDTO.getMenuCode());
-                orderDetailModel.setMenuName(itemDTO.getMenuName());
-                orderDetailModel.setSeatCode(itemDTO.getSeatCode());
-                orderDetailModel.setCarriageCode(itemDTO.getCarriageCode());
-                orderDetailModel.setTrainCode(itemDTO.getTrainCode());
-                detailModels.add(orderDetailModel);
-                OrderDetailDBManager.getInstance().insertEntity(orderDetailModel);
+                try{
+                    orderDetailModel = OrderDetailDBManager.getInstance().getDataFromQuery(ModelConstant.ORDER_DETAIL_ORDER_HEADER_NO, itemDTO.getOrderHeaderNo());
+                }catch (Exception e){
+
+                }
+                if(orderDetailModel == null) {
+                    orderDetailModel = new OrderDetailModel();
+                    orderDetailModel.setOrderHeaderNo(itemDTO.getOrderHeaderNo());
+                    orderDetailModel.setOrderDetailTotalOrder(itemDTO.getOrderDetailTotalOrder());
+                    orderDetailModel.setOrderDetailTotalAmount(itemDTO.getOrderDetailTotalAmount());
+                    orderDetailModel.setOrderHeaderStatus(itemDTO.getOrderHeaderStatus());
+                    orderDetailModel.setMenuCode(itemDTO.getMenuCode());
+                    orderDetailModel.setMenuName(itemDTO.getMenuName());
+                    orderDetailModel.setSeatCode(itemDTO.getSeatCode());
+                    orderDetailModel.setCarriageCode(itemDTO.getCarriageCode());
+                    orderDetailModel.setTrainCode(itemDTO.getTrainCode());
+                    detailModels.add(orderDetailModel);
+                    OrderDetailDBManager.getInstance().createOrUpdateEntity(orderDetailModel);
+                }
             }
 
             iSynchronizeOrderDetail.onPostSyncOrderDetail(detailModels);

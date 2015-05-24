@@ -69,6 +69,15 @@ public class SeatDBManager<DATA> implements IBaseDatabaseHandler {
     }
 
     @Override
+    public void createOrUpdateEntity(Object entity) {
+        try {
+            getDatabaseDAOHelper().getSeatDAO().createOrUpdate((SeatModel) entity);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void deleteEntity(Integer id) {
         try {
             getDatabaseDAOHelper().getSeatDAO().deleteById(id);

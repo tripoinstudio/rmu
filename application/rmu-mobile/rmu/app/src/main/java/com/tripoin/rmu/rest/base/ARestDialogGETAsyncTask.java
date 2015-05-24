@@ -23,6 +23,7 @@ public abstract class ARestDialogGETAsyncTask extends ABaseDialogRest{
             objectResult = objectMapper.readValue( String.valueOf(jsonObject), initClassResult() );
         } catch (Exception e) {
             Log.e("ERROR WEB SERVICE", e.toString());
+            e.printStackTrace();
             objectResult = null;
         }
         return null;

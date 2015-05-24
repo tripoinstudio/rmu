@@ -44,7 +44,7 @@ public class SynchronizeOrderList extends ASynchronizeData implements IOrderList
     public void updateContent(String latestVersion) {
         this.latestVersion = latestVersion;
         //drop
-        OrderListDBManager.getInstance().executeRaw("Delete from ".concat(ModelConstant.ORDER_LIST_TABLE));
+        //OrderListDBManager.getInstance().executeRaw("Delete from ".concat(ModelConstant.ORDER_LIST_TABLE));
 
         //select new Object
         OrderHeaderListRest orderHeaderListRest = new OrderHeaderListRest(this) {
@@ -63,7 +63,7 @@ public class SynchronizeOrderList extends ASynchronizeData implements IOrderList
 
     @Override
     public void selectRelatedTable() {
-        onPostContSyncOrderList(OrderListDBManager.getInstance().getAllData());
+        onPostContSyncOrderList(OrderListDBManager.getInstance().getOrderListDataFromQuery(ModelConstant.ORDER_LIST_ORDER_TIME, false));
     }
 
     @Override
@@ -72,22 +72,28 @@ public class SynchronizeOrderList extends ASynchronizeData implements IOrderList
             OrderHeaderDTO orderHeaderDTO = (OrderHeaderDTO) objectResult;
             OrderListModel orderListModel = null;
             for(OrderHeaderItemDTO itemDTO : orderHeaderDTO.getOrderHeaderItemDTOs()){
-                orderListModel = new OrderListModel();
+                try {
+                    orderListModel = OrderListDBManager.getInstance().getDataFromQuery(ModelConstant.ORDER_LIST_ORDER_ID, itemDTO.getOrderHeaderNo());
+                }catch (Exception e){
+
+                }
+                if(orderListModel == null)
+                    orderListModel = new OrderListModel();
+
                 orderListModel.setOrderId(itemDTO.getOrderHeaderNo());
                 orderListModel.setCarriageNumber(itemDTO.getCarriageNo());
                 orderListModel.setSeatNumber(itemDTO.getSeatNo());
                 orderListModel.setTotalPaid(itemDTO.getOrderTotalPaid());
                 orderListModel.setOrderTime(itemDTO.getOrderHeaderDateTime());
                 orderListModel.setProcessStatus(Integer.parseInt(itemDTO.getOrderHeaderStatus()));
-
-                OrderListDBManager.getInstance().insertEntity(orderListModel);
+                OrderListDBManager.getInstance().createOrUpdateEntity(orderListModel);
             }
 
             VersionModel versionModel = VersionDBManager.getInstance().selectCustomVersionModel(ModelConstant.VERSION_NAMETABLE, getTableName());
             versionModel.setVersionTimestamp(latestVersion);
             VersionDBManager.getInstance().updateEntity(versionModel);
 
-            List<OrderListModel> orderListModelList = OrderListDBManager.getInstance().getAllData();
+            List<OrderListModel> orderListModelList = OrderListDBManager.getInstance().getOrderListDataFromQuery(ModelConstant.ORDER_LIST_ORDER_TIME, false);
             iSynchronizeOrderList.onPostFirstSyncOrderList(orderListModelList);
         }else{
             Log.d("Sync Orderlist Object Result", "not found");

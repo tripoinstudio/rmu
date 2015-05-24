@@ -69,6 +69,15 @@ public class CarriageDBManager<DATA> implements IBaseDatabaseHandler {
     }
 
     @Override
+    public void createOrUpdateEntity(Object entity) {
+        try {
+            getDatabaseDAOHelper().getCarriageDAO().createOrUpdate((CarriageModel) entity);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void deleteEntity(Integer id) {
         try {
             getDatabaseDAOHelper().getCarriageDAO().deleteById(id);

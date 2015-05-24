@@ -28,6 +28,12 @@ public interface IBaseDatabaseHandler<DATA> {
     public void updateEntity(DATA entity);
 
     /**
+     * This function will create or update value from an entity
+     * @param entity DATA
+     */
+    public void createOrUpdateEntity(DATA entity);
+
+    /**
      * This function will delete entity in table
      * @param id Integer
      */

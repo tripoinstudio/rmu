@@ -35,6 +35,9 @@ public class OrderListModel {
     @DatabaseField( columnName = ModelConstant.ORDER_LIST_PROCESS_STATUS )
     private int processStatus;
 
+    @DatabaseField( columnName = ModelConstant.ORDER_LIST_WAITING_STATUS )
+    private int waitingStatus;
+
     public int getId() {
         return id;
     }
@@ -91,6 +94,14 @@ public class OrderListModel {
         this.processStatus = processStatus;
     }
 
+    public int getWaitingStatus() {
+        return waitingStatus;
+    }
+
+    public void setWaitingStatus(int waitingStatus) {
+        this.waitingStatus = waitingStatus;
+    }
+
     @Override
     public String toString() {
         return "OrderListModel{" +
@@ -101,6 +112,7 @@ public class OrderListModel {
                 ", totalPaid='" + totalPaid + '\'' +
                 ", orderTime='" + orderTime + '\'' +
                 ", processStatus=" + processStatus +
+                ", waitingStatus=" + waitingStatus +
                 '}';
     }
 }

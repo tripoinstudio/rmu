@@ -96,6 +96,26 @@ public class VersionDBManager<DATA> implements IBaseDatabaseHandler{
         }
     }
 
+    public VersionModel getDataFromQuery(String columnName, String data) {
+        QueryBuilder<VersionModel, Integer> queryBuilder = null;
+        PreparedQuery<VersionModel> preparedQuery = null;
+        List<VersionModel> result = null;
+        try {
+            queryBuilder = getDatabaseDAOHelper().getVersionDAO().queryBuilder();
+            queryBuilder.where().eq(columnName,data);
+            preparedQuery = queryBuilder.prepare();
+            result = (List<VersionModel>) getDatabaseDAOHelper().getVersionDAO().query(preparedQuery);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (result != null) {
+            if(result.size() == 0)
+                return null;
+        }
+        return result.get(0);
+    }
+
+
     public VersionModel selectCustomVersionModel(String field, String value){
         List<VersionModel> models = null;
         try {
