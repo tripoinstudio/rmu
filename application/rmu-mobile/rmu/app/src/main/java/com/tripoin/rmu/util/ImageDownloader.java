@@ -16,8 +16,8 @@ import java.net.URLConnection;
  */
 public class ImageDownloader {
 
-    private String urlSource;
-    private String pathTarget;
+    protected String urlSource;
+    protected String pathTarget;
 
     public ImageDownloader(String urlSource, String pathTarget) {
         this.urlSource = urlSource;

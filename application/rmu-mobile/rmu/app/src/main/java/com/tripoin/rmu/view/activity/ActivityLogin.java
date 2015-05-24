@@ -36,6 +36,7 @@ import com.tripoin.rmu.util.NetworkConnectivity;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
 import com.tripoin.rmu.view.activity.api.ISignHandler;
+import com.tripoin.rmu.view.activity.api.IFirstSignHandler;
 import com.tripoin.rmu.view.activity.base.ABaseActivity;
 import com.tripoin.rmu.view.activity.impl.FirstSignHandlerImpl;
 import com.tripoin.rmu.view.activity.impl.MainSignHandlerImpl;
@@ -67,7 +68,7 @@ public class ActivityLogin extends ABaseActivity implements ILoginPost, IConnect
     private String chipperAuth;
     private String userName;
     private PropertyUtil securityUtil;
-    private ISignHandler iSignHandler;
+    private IFirstSignHandler iSignHandler;
 
     @Override
     public void initWidget() {
@@ -152,23 +153,7 @@ public class ActivityLogin extends ABaseActivity implements ILoginPost, IConnect
             if(objectResult != null){
                 UserDTO userDTO = (UserDTO) objectResult;
                 if(userDTO.getErr_code().equals(ViewConstant.ZERO.toString())){
-
-                    securityUtil.saveSingleProperty(PropertyConstant.USER_NAME.toString(), userName);
-                    securityUtil.saveSingleProperty(PropertyConstant.LOGIN_STATUS_KEY.toString(), PropertyConstant.LOGIN_STATUS_VALUE.toString());
-                    securityUtil.saveSingleProperty(PropertyConstant.CHIPPER_AUTH.toString(), chipperAuth);
-
-                    VersionModel versionModel = null;
-                    try{
-                        versionModel = VersionDBManager.getInstance().selectCustomVersionModel(ModelConstant.VERSION_NAMETABLE, "master_seat");
-                    }catch (Exception e){
-                        for( MasterVersionItem masterVersion : userDTO.getMasterVersionItems() ){
-                            versionModel = new VersionModel();
-                            versionModel.setVersionNameTable(masterVersion.getVersionTable());
-                            versionModel.setVersionTimestamp("01-01-2000 23:59:59.0");
-                            VersionDBManager.getInstance().insertEntity(versionModel);
-                        }
-                    }
-                    gotoNextActivity(ActivityMain.class, PropertyConstant.USER_DTO.toString(), userDTO);
+                    iSignHandler.signIn(userDTO, userName, chipperAuth);
                 }else {
                     Toast.makeText(this, "An error occurred ".concat(userDTO.getErr_msg()),Toast.LENGTH_SHORT).show();
                 }

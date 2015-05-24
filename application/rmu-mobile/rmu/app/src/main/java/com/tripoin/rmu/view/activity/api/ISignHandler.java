@@ -1,5 +1,7 @@
 package com.tripoin.rmu.view.activity.api;
 
+import com.tripoin.rmu.model.DTO.user.UserDTO;
+
 /**
  * Created by Achmad Fauzi on 4/28/2015 : 11:09 AM.
  * mailto : fauzi.knightmaster.achmad@gmail.com
@@ -13,6 +15,5 @@ public interface ISignHandler {
     public void detectLoginStatus();
 
     public boolean checkLoginStatus();
-
 
 }

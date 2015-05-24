@@ -2,6 +2,7 @@ package com.tripoin.rmu.view.activity;
 
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -13,6 +14,8 @@ import com.squareup.picasso.Picasso;
 import com.tripoin.rmu.R;
 import com.tripoin.rmu.feature.scheduler.listener.SchedulerServiceListener;
 import com.tripoin.rmu.feature.scheduler.trigger.AlarmManagerStarter;
+import com.tripoin.rmu.feature.version.AppUpdate;
+import com.tripoin.rmu.feature.version.UpdateApp;
 import com.tripoin.rmu.persistence.orm_persistence.service.VersionDBManager;
 import com.tripoin.rmu.util.NetworkConnectivity;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
@@ -150,11 +153,26 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
         alarmManagerStarter.startAlarmManager();
 
         Intent intent = getIntent();
-        String fragmentDirection = intent.getAction();
-        if( fragmentDirection != null){
-            FragmentManager mFragmentManager = getSupportFragmentManager();
-            FragmentOrderList fragmentOrderList = new FragmentOrderList().newInstance(fragmentDirection);
-            mFragmentManager.beginTransaction().replace(R.id.container, fragmentOrderList).commit();
+        String schedulerAction = intent.getAction();
+        if( schedulerAction != null){
+            if( schedulerAction.equals("UPDATE")){
+                new ApplicationDownloaderAsync().execute("update.apk");
+            }else{
+                FragmentManager mFragmentManager = getSupportFragmentManager();
+                FragmentOrderList fragmentOrderList = new FragmentOrderList().newInstance(schedulerAction);
+                mFragmentManager.beginTransaction().replace(R.id.container, fragmentOrderList).commit();
+            }
+        }
+    }
+
+    private class ApplicationDownloaderAsync<String, Void> extends AsyncTask{
+
+        @Override
+        protected Object doInBackground(Object[] params) {
+            AppUpdate appUpdate = new AppUpdate("http://tripoin-rdlfdl.rhcloud.com/tripoin/wscontext/apk/rmu-dev%20V1.0.apk", PropertyConstant.PROPERTIES_PATH.toString().concat(params[0].toString()));
+            appUpdate.setContext(ActivityMain.this);
+            appUpdate.downloadImage();
+            return null;
         }
     }
 
@@ -226,24 +244,4 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
         mFragmentManager.beginTransaction().replace(layoutContainerIdGlobal, fragmentUserProfile).commit();
     }
 
-    /*@Override
-    public void onPostLogout(Object objectResult) {
-        if(objectResult != null){
-            BaseRESTDTO baseRESTDTO = (BaseRESTDTO) objectResult;
-            if(baseRESTDTO.getErr_code().equals(ViewConstant.ZERO.toString())){
-                Log.d("Success", "signOut");
-                securityUtil.saveSingleProperty(PropertyConstant.LOGIN_STATUS_KEY.toString(), PropertyConstant.LOGOUT_STATUS_VALUE.toString());
-                exitApplication(this);
-            }
-        }
-    }*/
-
-    /*@Override
-    public void onBackPressed() {
-        if (getFragmentManager().getBackStackEntryCount() == 0) {
-            this.finish();
-        } else {
-            getFragmentManager().popBackStack();
-        }
-    }*/
 }

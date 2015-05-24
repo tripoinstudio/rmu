@@ -44,7 +44,6 @@ public class MainSignHandlerImpl implements ISignHandler, ILogoutPost {
 
     @Override
     public void detectLoginStatus() {
-        Log.d("MAIN SIGN HANDLER", String.valueOf(checkLoginStatus()));
         if(!checkLoginStatus()){
             Intent intent = new Intent( activityMain, ActivityLogin.class );
             intent.putExtra(ViewConstant.EMPTY.toString(), ViewConstant.EMPTY.toString() );
@@ -69,7 +68,7 @@ public class MainSignHandlerImpl implements ISignHandler, ILogoutPost {
         if(objectResult!=null){
             BaseRESTDTO baseRESTDTO = (BaseRESTDTO) objectResult;
             if(baseRESTDTO.getErr_code().equals(ViewConstant.ZERO.toString())){
-                securityUtil.saveSingleProperty(PropertyConstant.USER_NAME.toString(), ViewConstant.EMPTY.toString());
+                //securityUtil.saveSingleProperty(PropertyConstant.USER_NAME.toString(), ViewConstant.EMPTY.toString());
                 securityUtil.saveSingleProperty(PropertyConstant.LOGIN_STATUS_KEY.toString(), PropertyConstant.LOGOUT_STATUS_VALUE.toString());
                 activityMain.iMainActivityUtil.exitApplication();
             }else{
