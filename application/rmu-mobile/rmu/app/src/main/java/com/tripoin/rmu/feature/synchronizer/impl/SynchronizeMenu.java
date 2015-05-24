@@ -140,7 +140,6 @@ public class SynchronizeMenu extends ASynchronizeData implements IMenuPost, ISyn
     }
 
     private class DownloadImage extends AsyncTask {
-
         @Override
         protected Object doInBackground(Object[] params) {
             new ImageDownloader(RestConstant.BASE_URL.toString().concat(RestConstant.IMAGE.toString()).concat(params[0].toString()), PropertyConstant.PROPERTIES_PATH.toString().concat(params[0].toString())).downloadImage();

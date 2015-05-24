@@ -49,7 +49,6 @@ public abstract class ASynchronizeData implements ISynchronizeData, IMasterVersi
             for(MasterVersionItem versionItem : masterVersion.getMasterVersionItems()){
                 if(versionItem.getVersionTable().equals(getTableName())){
                     int diff = tableDiff(versionItem.getVersionTimeStamp());
-                    Log.d("diff", String.valueOf(diff));
                     //VersionModel versionModel = (VersionModel) VersionDBManager.getInstance().getAllData().get(0);
                     if( diff != 0 ) {
                         updateContent(versionItem.getVersionTimeStamp());

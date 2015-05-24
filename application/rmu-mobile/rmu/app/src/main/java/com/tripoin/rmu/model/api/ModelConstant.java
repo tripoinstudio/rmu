@@ -8,6 +8,8 @@ package com.tripoin.rmu.model.api;
  */
 public interface ModelConstant {
 
+    public final String TIME_STAMP_RESET = "01-01-2000 23:59:59.0";
+
     /*SELF TEST*/
     public final String SELF_TEST_TABLE = "self_test";
 
@@ -95,6 +97,8 @@ public interface ModelConstant {
     public final String ORDER_LIST_PROCESS_STATUS = "order_list_process_status";
 
     public final String REST_ORDER_HEADER_TABLE = "trx_order_header";
+
+    public final String REST_APPLICATION_VERSION = "apk_version";
 
     /*Override model const*/
 
