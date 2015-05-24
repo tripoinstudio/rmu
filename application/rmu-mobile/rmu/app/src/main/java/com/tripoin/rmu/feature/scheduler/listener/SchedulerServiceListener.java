@@ -6,13 +6,15 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.util.Log;
 
 import com.tripoin.rmu.R;
 import com.tripoin.rmu.feature.scheduler.constant.IOrderStatusConstant;
+import com.tripoin.rmu.feature.synchronizer.impl.BackgroundSynchronizeApplicationVersion;
 import com.tripoin.rmu.feature.synchronizer.impl.BackgroundSynchronizeOrderList;
+import com.tripoin.rmu.feature.version.IVersionPost;
 import com.tripoin.rmu.model.api.ModelConstant;
 import com.tripoin.rmu.model.persist.OrderListModel;
+import com.tripoin.rmu.rest.api.IMasterVersionPost;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
 import com.tripoin.rmu.view.activity.ActivityMain;
@@ -26,7 +28,8 @@ import java.util.List;
  * Created by Achmad Fauzi on 5/9/2015 : 10:30 AM.
  * mailto : fauzi.knightmaster.achmad@gmail.com
  */
-public class SchedulerServiceListener extends Service implements ISynchronizeOrderList{
+public class SchedulerServiceListener extends Service implements ISynchronizeOrderList, IVersionPost{
+
     private PropertyUtil securityUtil;
     private NotificationManager mNotificationManager;
     private int newSize = 0;
@@ -61,6 +64,9 @@ public class SchedulerServiceListener extends Service implements ISynchronizeOrd
     public void getNotification(){
         BackgroundSynchronizeOrderList synchronizeOrderList = new BackgroundSynchronizeOrderList(securityUtil, this, ModelConstant.REST_ORDER_HEADER_TABLE,this);
         synchronizeOrderList.detectVersionDiff();
+
+        BackgroundSynchronizeApplicationVersion synchronizeApplicationVersion = new BackgroundSynchronizeApplicationVersion(securityUtil, this, ModelConstant.REST_APPLICATION_VERSION.toString(), this);
+        synchronizeApplicationVersion.detectVersionDiff();
     }
 
     @Override
@@ -84,9 +90,7 @@ public class SchedulerServiceListener extends Service implements ISynchronizeOrd
                 buildNotification(orderListModel);
             }
         }
-        if(newSize == 0){
-            notifRunningService();
-        }else{
+        if(newSize != 0){
             mNotificationManager.cancel(R.string.app_name);
         }
     }
@@ -122,6 +126,27 @@ public class SchedulerServiceListener extends Service implements ISynchronizeOrd
         notification.defaults |= Notification.DEFAULT_VIBRATE;
         try{
             mNotificationManager.notify(Integer.parseInt(orderListModel.getOrderId().substring(orderId.length()-5)), notification);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
+    @Override
+    public void onPostVersion() {
+        Notification notification = new Notification(R.drawable.ic_launcher, ViewConstant.NEW_VERSION.toString(), System.currentTimeMillis());
+        Intent notificationIntent = new Intent(this, ActivityMain.class);
+        notificationIntent.setAction("UPDATE");
+        // set intent so it does not start a new activity
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
+        PendingIntent intent = PendingIntent.getActivity(this, 0,notificationIntent, 0);
+        notification.setLatestEventInfo(this, ViewConstant.DEFAULT_ACTION_BAR_TITLE.toString(), ViewConstant.NEW_VERSION.toString(), intent);
+
+        notification.flags |= Notification.FLAG_AUTO_CANCEL;
+        notification.defaults |= Notification.DEFAULT_SOUND;
+        notification.defaults |= Notification.DEFAULT_VIBRATE;
+        try{
+            mNotificationManager.notify(R.string.app_name, notification);
         }catch (Exception e){
             e.printStackTrace();
         }
