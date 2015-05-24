@@ -2,8 +2,6 @@ package com.tripoin.rmu.persistence.orm_persistence.service;
 
 import android.content.Context;
 
-import com.j256.ormlite.stmt.PreparedQuery;
-import com.j256.ormlite.stmt.QueryBuilder;
 import com.tripoin.rmu.model.persist.VersionModel;
 import com.tripoin.rmu.persistence.orm_persistence.DAO.DatabaseDAOHelper;
 import com.tripoin.rmu.persistence.orm_persistence.api.IBaseDatabaseHandler;
@@ -73,6 +71,15 @@ public class VersionDBManager<DATA> implements IBaseDatabaseHandler{
     }
 
     @Override
+    public void createOrUpdateEntity(Object entity) {
+        try {
+            getDatabaseDAOHelper().getVersionDAO().createOrUpdate((VersionModel) entity);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void deleteEntity(Integer id) {
         try {
             getDatabaseDAOHelper().getVersionDAO().deleteById(id);
@@ -98,25 +105,5 @@ public class VersionDBManager<DATA> implements IBaseDatabaseHandler{
         }
         return models.get(0);
     }
-
-    public VersionModel getDataFromQuery(String columnName, String data) {
-        QueryBuilder<VersionModel, Integer> queryBuilder = null;
-        PreparedQuery<VersionModel> preparedQuery = null;
-        List<VersionModel> result = null;
-        try {
-            queryBuilder = getDatabaseDAOHelper().getVersionDAO().queryBuilder();
-            queryBuilder.where().eq(columnName,data);
-            preparedQuery = queryBuilder.prepare();
-            result = (List<VersionModel>) getDatabaseDAOHelper().getVersionDAO().query(preparedQuery);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        if (result != null) {
-            if(result.size() == 0)
-                return null;
-        }
-        return result.get(0);
-    }
-
 
 }
