@@ -2,6 +2,8 @@ package com.tripoin.rmu.persistence.orm_persistence.service;
 
 import android.content.Context;
 
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.tripoin.rmu.model.persist.VersionModel;
 import com.tripoin.rmu.persistence.orm_persistence.DAO.DatabaseDAOHelper;
 import com.tripoin.rmu.persistence.orm_persistence.api.IBaseDatabaseHandler;
