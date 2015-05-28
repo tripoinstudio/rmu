@@ -76,9 +76,9 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
         }else{
             this.mUserEmail.setText(ViewConstant.EMPTY.toString());
         }
-        this.mUserName.setTextColor(getResources().getColor(R.color.black_light));
-        this.mUserEmail.setTextColor(getResources().getColor(R.color.black_light));
-        Picasso.with(this).load(R.drawable.foto).into(this.mUserPhoto);
+        this.mUserName.setTextColor(getResources().getColor(R.color.nliveo_white));
+        this.mUserEmail.setTextColor(getResources().getColor(R.color.nliveo_white));
+        Picasso.with(this).load(R.drawable.bangkit).into(this.mUserPhoto);
         this.mUserBackground.setImageResource(R.drawable.wavy_green_background4);
     }
 
@@ -125,11 +125,11 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
         // icons list items
         List<Integer> mListIconItem = new ArrayList<>();
         mListIconItem.add(0, R.drawable.ic_add_to_photos_black_24dp);
-        mListIconItem.add(1, R.drawable.ic_format_list_bulleted_black_24dp);
+        mListIconItem.add(1, R.drawable.ic_menu_list_black_24dp);
         mListIconItem.add(2, R.drawable.ic_format_list_bulleted_black_24dp);
         mListIconItem.add(3, R.drawable.ic_person_black_24dp);
         mListIconItem.add(4, 0);
-        mListIconItem.add(5, R.drawable.ic_satellite_black_24dp);
+        mListIconItem.add(5, R.drawable.ic_server_black_24dp);
         mListIconItem.add(6, R.drawable.ic_bluetooth_audio_black_24dp);
 
 

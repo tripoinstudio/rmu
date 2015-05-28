@@ -25,9 +25,9 @@ import butterknife.OnClick;
  */
 public class FragmentAbout extends ABaseNavigationDrawerFragment {
 
-    @InjectView(R.id.label_about1) TextView lblAbout1;
-    @InjectView(R.id.label_about2) TextView lblAbout2;
-    @InjectView(R.id.label_about3) TextView lblAbout3;
+//    @InjectView(R.id.label_about1) TextView lblAbout1;
+//    @InjectView(R.id.label_about2) TextView lblAbout2;
+//    @InjectView(R.id.label_about3) TextView lblAbout3;
 
 
     public FragmentAbout newInstance(){
@@ -49,18 +49,19 @@ public class FragmentAbout extends ABaseNavigationDrawerFragment {
         return R.layout.fragment_about;
     }
 
-    @Override
-    public List<TextView> getTextViews() {
-        textViews = new ArrayList<TextView>();
-        textViews.add(lblAbout1);
-        textViews.add(lblAbout2);
-        textViews.add(lblAbout3);
-        return textViews;
-    }
+//    @Override
+//    public List<TextView> getTextViews() {
+//        textViews = new ArrayList<TextView>();
+//        textViews.add(lblAbout1);
+//        textViews.add(lblAbout2);
+//        textViews.add(lblAbout3);
+//        return textViews;
+//    }
 
     @Override
     public String getFragmentTitle() {
-        return ViewConstant.FRAGMENT_ABOUT_TITLE.toString();
+//        return ViewConstant.FRAGMENT_ABOUT_TITLE.toString();
+        return null;
     }
 
 

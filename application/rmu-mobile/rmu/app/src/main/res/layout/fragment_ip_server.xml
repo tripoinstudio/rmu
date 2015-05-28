@@ -160,7 +160,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="15dp"
             android:textSize="15sp"
-            android:background="#4CAF50"
+            android:background="#144084"
             android:textColor="@color/white_base"
             android:text="Test"/>
     </LinearLayout>
