@@ -20,5 +20,7 @@ public interface IGenericManagerJpa {
 
 	public <T> List<T> getObjectsUsingParameterManualPage(String hqlString, Object[] values, int first, int pageSize);
 	
+	public <T> List<T> getObjectsUsingParameterManualJQL(String hqlString, Object[] values);
+	
 	public <T> List<T> getObjectsUsingParameterLike(Class<T> objectType, String field, String value);
 }

@@ -121,6 +121,7 @@ public class OrderDetailManager {
 					orderHeader.setUser(user);
 					orderHeader.setCarriage(carriage);
 					orderHeader.setTrain(train);
+					orderHeader.setVersionTimestamp(new Date());
 					orderHeader.setOrderDatetime(new Date());
 					orderHeader.setIsArchive(0);
 					orderHeader.setStatus(orderDetailDTO.getOrder_header_status());

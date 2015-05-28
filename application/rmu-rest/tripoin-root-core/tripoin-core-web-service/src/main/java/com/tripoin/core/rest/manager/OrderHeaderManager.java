@@ -1,7 +1,10 @@
 package com.tripoin.core.rest.manager;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,23 +40,31 @@ public class OrderHeaderManager {
 	
 	private SimpleDateFormat formatDateJson = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.S");
 	
+	@SuppressWarnings("unused")
 	private int row = 10;
 	
+	@SuppressWarnings("unused")
 	private static final int maxRow = 10;
 	
 	private String currentUserName;
+	
+	private String lastVersion;
+	
+	private Date lastVersionTimestamp;
+	
+	private SimpleDateFormat formatVersionTimestamp = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.S");
 	
 	private Map<String, List<String>> payloads = new HashMap<String, List<String>>();
 	
 	@Secured("ROLE_REST_HTTP_USER")
 	public Message<OrderHeaders> getOrderHeaders(Message<?> inMessage){
-
+		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
 		    currentUserName = authentication.getName();
 		}
 		
-		return getListOrderHeaders(inMessage, this.currentUserName);		
+		return getListOrderHeaders(inMessage);		
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -78,6 +89,7 @@ public class OrderHeaderManager {
 				List<OrderHeader> orderHeaderList = iGenericManagerJpa.getObjectsUsingParameter(OrderHeader.class, new String[]{"user.username", "orderNo"}, new Object[]{currentUserName, orderNo}, order, "DESC");
 				OrderHeader orderHeader = orderHeaderList.get(0);
 				orderHeader.setStatus(status);
+				orderHeader.setVersionTimestamp(new Timestamp(new Date().getTime()));
 				iGenericManagerJpa.updateObject(orderHeader);
 				iVersionHelper.updateVerision("trx_order_header");
 				iVersionHelper.updateVerision("master_menu");
@@ -86,11 +98,11 @@ public class OrderHeaderManager {
 			}
 		}
 		
-		return getListOrderHeaders(inMessage, this.currentUserName);	
+		return getListOrderHeaders(inMessage);	
 	}
 
 	@SuppressWarnings("unchecked")
-	public Message<OrderHeaders> getListOrderHeaders(Message<?> inMessage, String currentUserName){
+	public Message<OrderHeaders> getListOrderHeaders(Message<?> inMessage){
 		OrderHeaders orderHeaders = new OrderHeaders();
 		Map<String, Object> responseHeaderMap = new HashMap<String, Object>();
 		payloads.clear();
@@ -98,19 +110,29 @@ public class OrderHeaderManager {
 				
 		try{
 			if(payloads != null){
+				if(payloads.containsKey("lastVersion")){
+					lastVersion = payloads.get("lastVersion").get(0).toString();
+					try {
+						lastVersionTimestamp = formatVersionTimestamp.parse(lastVersion);
+					} catch (ParseException e) {
+						lastVersionTimestamp = new Date();
+						throw new Exception();
+					}
+				}else{
+					lastVersionTimestamp = new Date();
+				}
 				if(payloads.containsKey("order"))
 					order = payloads.get("order").get(0).toString();
 				if(payloads.containsKey("page"))
 					row = Integer.parseInt(payloads.get("page").get(0).toString());
 			}			
 			
-			List<OrderHeader> orderHeaderList = iGenericManagerJpa.getObjectsUsingParameter(OrderHeader.class, new String[]{"user.username"}, new Object[]{currentUserName}, order, "DESC");
+			List<OrderHeader> orderHeaderList = iGenericManagerJpa.getObjectsUsingParameterManualJQL(" FROM OrderHeader o WHERE o.user.username = ? AND o.versionTimestamp > ? ORDER BY o.orderNo DESC", new Object[]{currentUserName, lastVersionTimestamp});
 			boolean isFound;
 			if (orderHeaderList!=null){
 				List<OrderHeaderDTO> orderHeaderDTOList = new ArrayList<OrderHeaderDTO>();
 				for (OrderHeader c : orderHeaderList) {
-					LOGGER.debug("data :"+c.toString());
-					OrderHeaderDTO data = new OrderHeaderDTO(c.getOrderNo(),  formatDateJson.format(c.getOrderDatetime()), c.getTotalPaid(), c.getStatus(), c.getSeat().getNo(), c.getCarriage().getNo(), c.getTrain().getNo());
+					OrderHeaderDTO data = new OrderHeaderDTO(c.getOrderNo(), formatDateJson.format(c.getOrderDatetime()), c.getTotalPaid(), c.getStatus(), c.getSeat().getNo(), c.getCarriage().getNo(), c.getTrain().getNo());
 					orderHeaderDTOList.add(data);
 				} 
 				orderHeaders.setTrx_order_header(orderHeaderDTOList);

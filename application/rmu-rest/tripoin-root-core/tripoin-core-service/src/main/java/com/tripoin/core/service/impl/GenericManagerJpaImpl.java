@@ -137,6 +137,12 @@ public class GenericManagerJpaImpl implements IGenericManagerJpa {
 	}
 
 	@Override
+	public <T> List<T> getObjectsUsingParameterManualJQL(String hqlString, Object[] values) {
+		// TODO Auto-generated method stub
+		return genericDao.getObjectsUsingManualJQL(hqlString, values);
+	}
+
+	@Override
 	public <T> List<T> getObjectsUsingParameterLike(Class<T> objectType,
 			String field, String value) {
 		// TODO Auto-generated method stub

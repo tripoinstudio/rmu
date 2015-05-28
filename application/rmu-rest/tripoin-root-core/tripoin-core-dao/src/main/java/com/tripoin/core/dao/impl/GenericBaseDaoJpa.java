@@ -213,4 +213,16 @@ public class GenericBaseDaoJpa extends ABaseDaoJpa {
 		return jqlQuery;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> List<T> getObjectsUsingManualJQL(String hqlString, Object[] values) {
+		Query query = getEntityManager().createQuery(hqlString);
+		
+		for (int i = 0 ; i < values.length ; i++) {
+			query.setParameter(i+1, values[i]);
+		}
+		
+		return query.getResultList();
+	}
+
 }

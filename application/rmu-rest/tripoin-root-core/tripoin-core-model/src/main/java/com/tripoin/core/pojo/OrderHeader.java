@@ -25,6 +25,7 @@ public class OrderHeader {
 	private Train train;
 	private Carriage carriage;
 	private Seat seat;
+	private Date versionTimestamp;
 	private Date orderDatetime;
 	private BigDecimal totalPaid;
 	private Integer isArchive;
@@ -80,6 +81,15 @@ public class OrderHeader {
 
 	public void setSeat(Seat seat) {
 		this.seat = seat;
+	}
+
+	@Column(name="order_header_version_timestamp")
+	public Date getVersionTimestamp() {
+		return versionTimestamp;
+	}
+
+	public void setVersionTimestamp(Date versionTimestamp) {
+		this.versionTimestamp = versionTimestamp;
 	}
 
 	@Column(name="order_header_order_datetime")
@@ -140,7 +150,7 @@ public class OrderHeader {
 	public String toString() {
 		return "OrderHeader [orderNo=" + orderNo + ", user=" + user
 				+ ", train=" + train + ", carriage=" + carriage + ", seat=" + seat
-				+ ", orderDatetime=" + orderDatetime + ", totalPaid="
+				+ ", versionTimestamp=" + versionTimestamp + ", orderDatetime=" + orderDatetime + ", totalPaid="
 				+ totalPaid + ", isArchive=" + isArchive + ", status=" + status + ", remarks=" + remarks
 				+ "]";
 	}

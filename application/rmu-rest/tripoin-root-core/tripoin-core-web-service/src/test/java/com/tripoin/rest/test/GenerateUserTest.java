@@ -51,7 +51,7 @@ public class GenerateUserTest implements ApplicationContextAware {
 		user.setRole(role);
 		iGenericManagerJpa.saveObject(user);*/
 //		encodePassword("agung");
-		System.out.println(leftPaddingString("1",5,"0"));
+//		System.out.println(leftPaddingString("1",5,"0"));
 	}
 	
 	public String leftPaddingString(String data, Integer paddingCount, String charPadding){
