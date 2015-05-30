@@ -20,6 +20,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="trx_order_header")
 public class OrderHeader {
+	
 	private String orderNo;
 	private User user;
 	private Train train;

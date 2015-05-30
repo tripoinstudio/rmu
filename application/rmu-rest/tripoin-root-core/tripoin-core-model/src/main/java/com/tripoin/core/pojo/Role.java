@@ -17,6 +17,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="security_role")
 public class Role {
+	
 	private Integer id;
 	private String code;
 	private List<User> users;

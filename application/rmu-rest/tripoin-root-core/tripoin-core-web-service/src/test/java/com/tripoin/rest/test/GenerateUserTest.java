@@ -1,29 +1,42 @@
 package com.tripoin.rest.test;
 
+import java.util.Date;
+
 import org.jasypt.digest.StandardStringDigester;
 import org.jasypt.salt.ZeroSaltGenerator;
-import org.jasypt.spring.security3.PasswordEncoder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import com.tripoin.core.pojo.Role;
+import com.tripoin.core.pojo.User;
+import com.tripoin.core.pojo.VersionFilter;
+import com.tripoin.core.service.IGenericManagerJpa;
 
 /**
  * @author <a href="mailto:ridla.fadilah@gmail.com">Ridla Fadilah</a>
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { 
-		"**/web-application-config*"})
+		"classpath*:/META-INF/spring/datasource/dataSourceContext_mysql.xml",
+		"classpath*:/META-INF/spring/applicationContext-jpa.xml",
+		"classpath*:/META-INF/spring/integration/applicationContext-http-int.xml",
+		"classpath*:/META-INF/spring/applicationContext-manager.xml"})
 public class GenerateUserTest implements ApplicationContextAware {
 	
 	private static transient final Logger LOGGER = LoggerFactory.getLogger(GenerateUserTest.class);
 	
 	private StandardStringDigester jasyptStringDigester;
+	
+	@Autowired
+	private IGenericManagerJpa iGenericManagerJpa;
 	
 	private ApplicationContext applicationContext;
 	
@@ -41,7 +54,7 @@ public class GenerateUserTest implements ApplicationContextAware {
 	
 	@Test
 	public void runTest() throws Exception {
-		/*Role role = iGenericManagerJpa.getObjectsUsingParameter(Role.class, new String[]{"code"}, new Object[]{"ROLE_REST_HTTP_USER"}, null, null).get(0);
+		Role role = iGenericManagerJpa.getObjectsUsingParameter(Role.class, new String[]{"code"}, new Object[]{"ROLE_PASSENGER"}, null, null).get(0);
 		User user = new User();
 		user.setUsername("ridla");
 		user.setPassword(encodePassword("ridla"));
@@ -49,9 +62,11 @@ public class GenerateUserTest implements ApplicationContextAware {
 		user.setStatus(0);
 		user.setRemarks("Available");
 		user.setRole(role);
-		iGenericManagerJpa.saveObject(user);*/
-//		encodePassword("agung");
-//		System.out.println(leftPaddingString("1",5,"0"));
+		VersionFilter versionFilter = new VersionFilter();
+		versionFilter.setUser(user);
+		versionFilter.setVersionOrderHeader(new Date());
+		iGenericManagerJpa.saveObject(user);
+		iGenericManagerJpa.saveObject(versionFilter);
 	}
 	
 	public String leftPaddingString(String data, Integer paddingCount, String charPadding){

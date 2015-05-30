@@ -18,12 +18,14 @@ import javax.persistence.Table;
 @Entity
 @Table(name="master_carriage")
 public class Carriage {
+	
 	private Integer id;
 	private String code;
 	private String no;
 	private Integer status;
 	private String remarks;
 	private List<OrderHeader> orderHeaders;
+	private List<Ticket> tickets;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -79,6 +81,15 @@ public class Carriage {
 
 	public void setOrderHeaders(List<OrderHeader> orderHeaders) {
 		this.orderHeaders = orderHeaders;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "carriage", cascade=CascadeType.ALL)
+	public List<Ticket> getTickets() {
+		return tickets;
+	}
+
+	public void setTickets(List<Ticket> tickets) {
+		this.tickets = tickets;
 	}
 
 	@Override

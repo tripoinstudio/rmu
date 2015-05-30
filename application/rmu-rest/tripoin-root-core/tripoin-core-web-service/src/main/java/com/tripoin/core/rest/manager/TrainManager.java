@@ -25,14 +25,14 @@ public class TrainManager {
 	@Autowired
 	private IGenericManagerJpa iGenericManagerJpa;
 	
-	@Secured("ROLE_REST_HTTP_USER")
+	@Secured({"ROLE_WAITRESS", "ROLE_PASSENGER"})
 	public Message<Trains> getTrains(Message<?> inMessage){
 	
 		Trains trains = new Trains();
 		Map<String, Object> responseHeaderMap = new HashMap<String, Object>();
 		
 		try{
-			List<Train> trainList = iGenericManagerJpa.loadObjects(Train.class);
+			List<Train> trainList = iGenericManagerJpa.getObjectsUsingParameter(Train.class, new String[]{"status"}, new Object[]{1}, "no", "ASC");
 			boolean isFound;
 			if (trainList!=null){
 				List<TrainDTO> trainDTOList = new ArrayList<TrainDTO>();

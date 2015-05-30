@@ -15,6 +15,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="master_image")
 public class Image {
+	
 	private Integer id;
 	private String code;
 	private String name;

@@ -19,6 +19,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="master_menu")
 public class Menu {
+	
 	private Integer id;
 	private String code;
 	private String name;

@@ -8,8 +8,12 @@ Menus
 OrderHeaderDTO
 OrderHeaders
 OrderHeaderWithUsers
+ProfileDTO
+Profiles
 SeatDTO
 Seats
+TicketDTO
+Tickets
 TrainDTO
 Trains
 UserDTO

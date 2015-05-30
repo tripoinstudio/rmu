@@ -20,6 +20,7 @@ import com.tripoin.core.service.IGenericManagerJpa;
 
 @Service("imageManager")
 public class ImageManager {
+	
 	private static transient final Logger LOGGER = LoggerFactory.getLogger(ImageManager.class);
 
 	@Autowired
@@ -28,9 +29,8 @@ public class ImageManager {
 	private String menuCode = "";
 	
 	@SuppressWarnings("unchecked")
-	@Secured("ROLE_REST_HTTP_USER")
-	public Message<Images> getImages(Message<?> inMessage){
-	
+	@Secured({"ROLE_WAITRESS", "ROLE_PASSENGER"})
+	public Message<Images> getImages(Message<?> inMessage){	
 		Images images = new Images();
 		Map<String, Object> responseHeaderMap = new HashMap<String, Object>();
 
@@ -68,12 +68,12 @@ public class ImageManager {
 		return message;		
 	}
 	
-	private void setReturnStatusAndMessage(String responseCode, String responseMsg, String result, Images images, Map<String, Object> responseHeaderMap){
-		
+	private void setReturnStatusAndMessage(String responseCode, String responseMsg, String result, Images images, Map<String, Object> responseHeaderMap){		
 		images.setResponse_code(responseCode);
 		images.setResponse_msg(responseMsg);
 		images.setResult(result);
 		responseHeaderMap.put("Return-Status", responseCode);
 		responseHeaderMap.put("Return-Status-Msg", responseMsg);
 	}
+	
 }

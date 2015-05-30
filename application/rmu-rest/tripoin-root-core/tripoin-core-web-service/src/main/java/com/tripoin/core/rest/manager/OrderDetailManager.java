@@ -30,6 +30,7 @@ import com.tripoin.core.pojo.Seat;
 import com.tripoin.core.pojo.Stan;
 import com.tripoin.core.pojo.Train;
 import com.tripoin.core.pojo.User;
+import com.tripoin.core.pojo.VersionFilter;
 import com.tripoin.core.rest.util.IVersionHelper;
 import com.tripoin.core.service.IGenericManagerJpa;
 import com.tripoin.core.service.util.IStanGenerator;
@@ -50,7 +51,7 @@ public class OrderDetailManager {
 	private String currentUserName;
 	
 	@SuppressWarnings("unchecked")
-	@Secured("ROLE_REST_HTTP_USER")
+	@Secured({"ROLE_WAITRESS", "ROLE_PASSENGER"})
 	public Message<?> getOrderDetails(Message<?> inMessage){
 		String orderHeaderNo = "";
 		try{
@@ -66,7 +67,7 @@ public class OrderDetailManager {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Secured("ROLE_REST_HTTP_USER")
+	@Secured({"ROLE_WAITRESS", "ROLE_PASSENGER"})
 	public Message<OrderDetails> setOrderDetails(Message<?> inMessage){	
 		Message<OrderDetails> message = null;
 		try{
@@ -152,6 +153,10 @@ public class OrderDetailManager {
 			}
 			orderHeader.setTotalPaid(totalPaid);
 			orderHeader.setOrderDetails(orderDetailList);
+			List<VersionFilter> versionFilterList = iGenericManagerJpa.getObjectsUsingParameter(VersionFilter.class, new String[]{"user.username"}, new Object[]{currentUserName}, null, null);
+			VersionFilter versionFilter = versionFilterList.get(0);
+			versionFilter.setVersionOrderHeader(new Date());
+			iGenericManagerJpa.updateObject(versionFilter);
 			iGenericManagerJpa.saveObject(orderHeader);
 			iVersionHelper.updateVerision("trx_order_header");
 			iVersionHelper.updateVerision("trx_order_detail");

@@ -20,6 +20,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="security_user")
 public class User {
+	
 	private Integer id;
 	private String username;
 	private String password;
@@ -28,6 +29,8 @@ public class User {
 	private String remarks;
 	private Role role;
 	private List<OrderHeader> orderHeaders;
+	private List<VersionFilter> versionFilter;
+	private List<Profile> profiles;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -102,6 +105,24 @@ public class User {
 
 	public void setOrderHeaders(List<OrderHeader> orderHeaders) {
 		this.orderHeaders = orderHeaders;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade=CascadeType.ALL)
+	public List<VersionFilter> getVersionFilter() {
+		return versionFilter;
+	}
+
+	public void setVersionFilter(List<VersionFilter> versionFilter) {
+		this.versionFilter = versionFilter;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade=CascadeType.ALL)
+	public List<Profile> getProfiles() {
+		return profiles;
+	}
+
+	public void setProfiles(List<Profile> profiles) {
+		this.profiles = profiles;
 	}
 
 	@Override

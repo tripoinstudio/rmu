@@ -15,11 +15,9 @@ import com.tripoin.core.dto.GeneralConnectionDTO;
  */
 @Service("connectionManager")
 public class ConnectionManager {
-
 	
-	@Secured("ROLE_REST_HTTP_USER")
-	public Message<GeneralConnectionDTO> getConnection(Message<?> inMessage){
-	
+	@Secured({"ROLE_WAITRESS", "ROLE_PASSENGER", "ROLE_DEFAULT"})
+	public Message<GeneralConnectionDTO> getConnection(Message<?> inMessage){	
 		GeneralConnectionDTO connect = new GeneralConnectionDTO();
 		Map<String, Object> responseHeaderMap = new HashMap<String, Object>();
 		
@@ -38,8 +36,7 @@ public class ConnectionManager {
 		return message;		
 	}
 	
-	private void setReturnStatusAndMessage(GeneralConnectionDTO connect, Map<String, Object> responseHeaderMap){
-		
+	private void setReturnStatusAndMessage(GeneralConnectionDTO connect, Map<String, Object> responseHeaderMap){		
 		responseHeaderMap.put("Return-Status", connect.getResponse_code());
 		responseHeaderMap.put("Return-Status-Msg", connect.getResponse_msg());
 	}

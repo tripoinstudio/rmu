@@ -17,6 +17,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="trx_order_detail")
 public class OrderDetail {
+	
 	private Integer id;
 	private Menu menu;
 	private Integer totalOrder;

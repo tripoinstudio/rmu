@@ -36,9 +36,8 @@ public class LoginManager {
 
 	private String currentUserName;
 	
-	@Secured("ROLE_REST_HTTP_USER")
-	public Message<Users> getLogin(Message<?> inMessage){
-	
+	@Secured({"ROLE_WAITRESS", "ROLE_PASSENGER"})
+	public Message<Users> getLogin(Message<?> inMessage){	
 		Users users = new Users();
 		Map<String, Object> responseHeaderMap = new HashMap<String, Object>();
 
@@ -84,12 +83,12 @@ public class LoginManager {
 						String responseMsg,
 						String result,
 						Users users, 
-						Map<String, Object> responseHeaderMap){
-		
+						Map<String, Object> responseHeaderMap){		
 		users.setResponse_code(responseCode);
 		users.setResponse_msg(responseMsg);
 		users.setResult(result);
 		responseHeaderMap.put("Return-Status", responseCode);
 		responseHeaderMap.put("Return-Status-Msg", responseMsg);
 	}
+	
 }

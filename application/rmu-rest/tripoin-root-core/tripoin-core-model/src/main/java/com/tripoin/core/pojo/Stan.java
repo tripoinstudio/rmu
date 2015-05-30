@@ -4,6 +4,7 @@ package com.tripoin.core.pojo;
  * @author <a href="mailto:ridla.fadilah@gmail.com">Ridla Fadilah</a>
  */
 public class Stan {
+	
 	private Long id;
 	private Long stanCounter;
 	private Long stanMax;

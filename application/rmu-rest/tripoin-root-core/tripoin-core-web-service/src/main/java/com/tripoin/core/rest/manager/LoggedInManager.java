@@ -33,7 +33,7 @@ public class LoggedInManager {
 
 	private String currentUserName;
 	
-	@Secured("ROLE_REST_HTTP_USER")
+	@Secured({"ROLE_WAITRESS", "ROLE_PASSENGER"})
 	public Message<Users> getLoggedIn(Message<?> inMessage){
 	
 		Users users = new Users();
@@ -72,8 +72,7 @@ public class LoggedInManager {
 						String responseMsg,
 						String result,
 						Users users, 
-						Map<String, Object> responseHeaderMap){
-		
+						Map<String, Object> responseHeaderMap){		
 		users.setResponse_code(responseCode);
 		users.setResponse_msg(responseMsg);
 		users.setResult(result);

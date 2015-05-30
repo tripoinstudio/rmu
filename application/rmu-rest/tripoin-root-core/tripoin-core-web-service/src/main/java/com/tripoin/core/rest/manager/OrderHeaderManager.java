@@ -1,6 +1,5 @@
 package com.tripoin.core.rest.manager;
 
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,6 +22,7 @@ import org.springframework.stereotype.Service;
 import com.tripoin.core.dto.OrderHeaderDTO;
 import com.tripoin.core.dto.OrderHeaders;
 import com.tripoin.core.pojo.OrderHeader;
+import com.tripoin.core.pojo.VersionFilter;
 import com.tripoin.core.rest.util.IVersionHelper;
 import com.tripoin.core.service.IGenericManagerJpa;
 
@@ -56,7 +56,7 @@ public class OrderHeaderManager {
 	
 	private Map<String, List<String>> payloads = new HashMap<String, List<String>>();
 	
-	@Secured("ROLE_REST_HTTP_USER")
+	@Secured("ROLE_WAITRESS")
 	public Message<OrderHeaders> getOrderHeaders(Message<?> inMessage){
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -68,7 +68,7 @@ public class OrderHeaderManager {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Secured("ROLE_REST_HTTP_USER")
+	@Secured("ROLE_WAITRESS")
 	public Message<OrderHeaders> setOrderHeaders(Message<?> inMessage){
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -89,7 +89,11 @@ public class OrderHeaderManager {
 				List<OrderHeader> orderHeaderList = iGenericManagerJpa.getObjectsUsingParameter(OrderHeader.class, new String[]{"user.username", "orderNo"}, new Object[]{currentUserName, orderNo}, order, "DESC");
 				OrderHeader orderHeader = orderHeaderList.get(0);
 				orderHeader.setStatus(status);
-				orderHeader.setVersionTimestamp(new Timestamp(new Date().getTime()));
+				orderHeader.setVersionTimestamp(new Date());
+				List<VersionFilter> versionFilterList = iGenericManagerJpa.getObjectsUsingParameter(VersionFilter.class, new String[]{"user.username"}, new Object[]{currentUserName}, null, null);
+				VersionFilter versionFilter = versionFilterList.get(0);
+				versionFilter.setVersionOrderHeader(new Date());
+				iGenericManagerJpa.updateObject(versionFilter);
 				iGenericManagerJpa.updateObject(orderHeader);
 				iVersionHelper.updateVerision("trx_order_header");
 				iVersionHelper.updateVerision("master_menu");

@@ -29,14 +29,14 @@ public class CarriageManager {
 	@Autowired
 	private IGenericManagerJpa iGenericManagerJpa;
 	
-	@Secured("ROLE_REST_HTTP_USER")
+	@Secured({"ROLE_WAITRESS", "ROLE_PASSENGER"})
 	public Message<Carriages> getCarriages(Message<?> inMessage){
 	
 		Carriages carriages = new Carriages();
 		Map<String, Object> responseHeaderMap = new HashMap<String, Object>();
 		
 		try{
-			List<Carriage> carriageList = iGenericManagerJpa.loadObjects(Carriage.class);
+			List<Carriage> carriageList = iGenericManagerJpa.getObjectsUsingParameter(Carriage.class, new String[]{"status"}, new Object[]{1}, "no", "ASC");
 			boolean isFound;
 			if (carriageList!=null){
 				List<CarriageDTO> carriageDTOList = new ArrayList<CarriageDTO>();

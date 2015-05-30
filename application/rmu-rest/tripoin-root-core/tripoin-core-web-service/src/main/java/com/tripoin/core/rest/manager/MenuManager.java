@@ -24,14 +24,14 @@ public class MenuManager {
 	@Autowired
 	private IGenericManagerJpa iGenericManagerJpa;
 	
-	@Secured("ROLE_REST_HTTP_USER")
+	@Secured({"ROLE_WAITRESS", "ROLE_PASSENGER"})
 	public Message<Menus> getMenus(Message<?> inMessage){
 	
 		Menus menus = new Menus();
 		Map<String, Object> responseHeaderMap = new HashMap<String, Object>();
 		
 		try{
-			List<Menu> menuList = iGenericManagerJpa.loadObjects(Menu.class);			
+			List<Menu> menuList = iGenericManagerJpa.getObjectsUsingParameter(Menu.class, new String[]{"status"}, new Object[]{1}, "stock", "ASC"); 
 			boolean isFound;
 			if (menuList!=null){
 				List<MenuDTO> menuDTOList = new ArrayList<MenuDTO>();

@@ -25,14 +25,14 @@ public class SeatManager {
 	@Autowired
 	private IGenericManagerJpa iGenericManagerJpa;
 	
-	@Secured("ROLE_REST_HTTP_USER")
+	@Secured({"ROLE_WAITRESS", "ROLE_PASSENGER"})
 	public Message<Seats> getSeats(Message<?> inMessage){
 	
 		Seats seats = new Seats();
 		Map<String, Object> responseHeaderMap = new HashMap<String, Object>();
 		
 		try{
-			List<Seat> seatList = iGenericManagerJpa.loadObjects(Seat.class);
+			List<Seat> seatList = iGenericManagerJpa.getObjectsUsingParameter(Seat.class, new String[]{"status"}, new Object[]{1}, "no", "ASC");
 			boolean isFound;
 			if (seatList!=null){
 				List<SeatDTO> seatDTOList = new ArrayList<SeatDTO>();

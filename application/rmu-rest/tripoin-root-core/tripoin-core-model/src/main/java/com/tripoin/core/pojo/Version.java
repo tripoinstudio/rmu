@@ -15,6 +15,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="master_version")
 public class Version {
+	
 	private Integer id;
 	private String table;
 	private Date timestamp;
