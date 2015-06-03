@@ -161,9 +161,9 @@ public class FragmentAddMenu extends Fragment {
                         orderTempModelCompare.setPrice(String.valueOf(priceList));
                         OrderTempDBManager.getInstance().updateEntity(orderTempModelCompare);
                     }
-                    FragmentAddOrder fragmentAddOrder = new FragmentAddOrder().newInstance();
+                    new FragmentAddOrder().newInstance();
                     FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
-                    mFragmentManager.beginTransaction().replace(R.id.container, fragmentAddOrder).addToBackStack(null).commit();
+                    mFragmentManager.popBackStack("fragmentMenuList", FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 }
             }
         });

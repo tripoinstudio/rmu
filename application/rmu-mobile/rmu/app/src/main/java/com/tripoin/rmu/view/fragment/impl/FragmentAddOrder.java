@@ -153,8 +153,8 @@ public class FragmentAddOrder extends Fragment implements ISynchronizeMaster, IP
             public void onClick(View v) {
                 FragmentMenuList fragmentMenuList = new FragmentMenuList();
                 FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
-                mFragmentManager.beginTransaction().replace(R.id.container, fragmentMenuList).addToBackStack(null).commit();
-
+                mFragmentManager.popBackStack("fragmentMenuList", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                mFragmentManager.beginTransaction().replace(R.id.container, fragmentMenuList, "fragmentMenuList").addToBackStack("fragmentMenuList").commit();
             }
         });
 
