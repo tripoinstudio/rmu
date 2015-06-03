@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="oval">
-    <solid android:color="@color/reska_green_base"/>
-    <stroke android:width="2sp" android:color="@color/reska_green_base" />
-</shape>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:state_pressed="true" >
+    <shape xmlns:android="http://schemas.android.com/apk/res/android"
+        android:shape="oval">
+        <solid android:color="@color/nliveo_blue_gray_colorPrimaryDark"/>
+        <stroke android:width="2.5sp" android:color="@color/nliveo_blue_gray_colorPrimaryDark" />
+    </shape>
+</item>
+<item>
+    <shape xmlns:android="http://schemas.android.com/apk/res/android"
+        android:shape="oval">
+        <solid android:color="#144084"/>
+        <stroke android:width="2sp" android:color="#144084" />
+    </shape>
+</item>
+</selector>

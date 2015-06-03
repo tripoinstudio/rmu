@@ -384,7 +384,7 @@ public class FragmentChangeBluetooth extends ABaseNavigationDrawerFragment imple
         mStatusTv.setText("Bluetooth is unsupported by this device");
 
         mActivateBtn.setText("Enable");
-        mActivateBtn.setTextColor(Color.BLUE);
+        mActivateBtn.setTextColor(Color.GREEN);
         mActivateBtn.setEnabled(false);
 
         mPairedBtn.setEnabled(false);
@@ -418,7 +418,7 @@ public class FragmentChangeBluetooth extends ABaseNavigationDrawerFragment imple
         mStatusTv.setTextColor(Color.RED);
 
         mActivateBtn.setText("Enable");
-        mActivateBtn.setTextColor(Color.BLUE);
+        mActivateBtn.setTextColor(Color.GREEN);
         mActivateBtn.setEnabled(true);
 
         mPairedBtn.setEnabled(false);
