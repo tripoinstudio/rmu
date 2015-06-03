@@ -189,28 +189,34 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
         switch (position){
             case 0:
                 fragmentAddOrder = new FragmentAddOrder().newInstance();
-                mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentAddOrder).addToBackStack(null).commit();
+                mFragmentManager.popBackStack("fragmentAddOrder", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentAddOrder, "fragmentAddOrder").addToBackStack("fragmentAddOrder").commit();
                 break;
             case 1 :
                 fragmentMenuList = new FragmentMenuList().newInstance(listName);
-                mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentMenuList).addToBackStack(null).commit();
+                mFragmentManager.popBackStack("fragmentMenuList", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentMenuList, "fragmentMenuList").addToBackStack("fragmentMenuList").commit();
                 break;
             case 2 :
                 layoutContainerIdGlobal = layoutContainerId;
                 fragmentOrderList = new FragmentOrderList().newInstance("");
-                mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentOrderList).commit();
+                mFragmentManager.popBackStack("fragmentOrderList", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentOrderList, "fragmentOrderList").addToBackStack("fragmentOrderList").commit();
                 break;
             case 3 :
                 fragmentAbout = new FragmentAbout().newInstance();
-                mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentAbout).addToBackStack(null).commit();
+                mFragmentManager.popBackStack("fragmentAbout", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentAbout, "fragmentAbout").addToBackStack("fragmentAbout").commit();
                 break;
             case 5 :
                 fragmentChangeIPServer = new FragmentChangeIPServer().newInstance(listName);
-                mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentChangeIPServer).addToBackStack(null).commit();
+                mFragmentManager.popBackStack("fragmentChangeIPServer", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentChangeIPServer, "fragmentChangeIPServer").addToBackStack("fragmentChangeIPServer").commit();
                 break;
             case 6:
                 fragmentChangeBluetooth = new FragmentChangeBluetooth().newInstance();
-                mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentChangeBluetooth).addToBackStack(null).commit();
+                mFragmentManager.popBackStack("fragmentChangeBluetooth", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                mFragmentManager.beginTransaction().replace(layoutContainerId, fragmentChangeBluetooth, "fragmentChangeBluetooth").addToBackStack("fragmentChangeBluetooth").commit();
                 break;
             default:
         }
@@ -242,6 +248,16 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
         FragmentUserProfile fragmentUserProfile = null;
         fragmentUserProfile = new FragmentUserProfile().newInstance("User Profile");
         mFragmentManager.beginTransaction().replace(layoutContainerIdGlobal, fragmentUserProfile).commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        String currentFragment = "";
+        if(getSupportFragmentManager().getBackStackEntryCount()>0)
+            currentFragment = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1).getName();
+        super.onBackPressed();
+        if("fragmentOrderList".equals(currentFragment))
+            moveTaskToBack(true);
     }
 
 }

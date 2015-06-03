@@ -126,9 +126,7 @@ public class FragmentMenuList extends Fragment implements ISynchronizeMenuList {
                 public void onClick(Card card, View view) {
                     OrderTempModel orderTempModel = new OrderTempModel();
                     orderTempModel.setMenuCode(menuModel.getMenuCode());
-                    FragmentAddMenu fragmentAddMenu = new FragmentAddMenu().newInstance(orderTempModel);
-                    FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
-                    mFragmentManager.beginTransaction().replace(R.id.container, fragmentAddMenu).commit();
+                    new FragmentAddMenu().newInstance(orderTempModel);
                 }
 
             });
