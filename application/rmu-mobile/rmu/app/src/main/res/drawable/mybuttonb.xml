@@ -2,16 +2,18 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 <item android:state_pressed="true" >
     <shape xmlns:android="http://schemas.android.com/apk/res/android"
-        android:shape="oval">
+        android:shape="rectangle">
         <solid android:color="@color/nliveo_blue_gray_colorPrimaryDark"/>
         <stroke android:width="2.5sp" android:color="@color/nliveo_blue_gray_colorPrimaryDark" />
+        <!--<corners android:radius="7dp"/>-->
     </shape>
 </item>
 <item>
     <shape xmlns:android="http://schemas.android.com/apk/res/android"
-        android:shape="oval">
+        android:shape="rectangle">
         <solid android:color="#144084"/>
         <stroke android:width="2sp" android:color="#144084" />
+        <!--<corners android:radius="7dp"/>-->
     </shape>
 </item>
 </selector>
