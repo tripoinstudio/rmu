@@ -242,7 +242,7 @@ public class FragmentMenuList extends Fragment implements ISynchronizeMenuList {
             if (customSource != null)
                 thumbnail.setCustomSource(customSource);
             else
-                thumbnail.setDrawableResource(R.drawable.ic_launcher);
+                thumbnail.setDrawableResource(R.drawable.ic_launcher_pramia);
             addCardThumbnail(thumbnail);
 
             setOnClickListener(new OnCardClickListener() {
