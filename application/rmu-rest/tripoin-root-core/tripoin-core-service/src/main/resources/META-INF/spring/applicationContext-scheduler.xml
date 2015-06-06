@@ -50,6 +50,7 @@
 				<ref bean="simpleTrigger" />
 			</list>
 		</property>
+		<property name="autoStartup" value="${is.client}"/>
 	</bean>
     
 </beans>
