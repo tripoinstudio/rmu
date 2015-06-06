@@ -23,13 +23,18 @@ public abstract class ASynchronize implements ISynchronize {
 	
 	private IRestClient restClientVersion;
 	
+	private IGenericManagerJpa iGenericManagerJpa;
+	
 	private SimpleDateFormat formatDateVersion = new SimpleDateFormat(ParameterConstant.DEFAULT_FORMAT_DATE);
 
 	public void setRestClientVersion(IRestClient restClientVersion) {
 		this.restClientVersion = restClientVersion;
 	}	
-
 	
+	public void setiGenericManagerJpa(IGenericManagerJpa iGenericManagerJpa) {
+		this.iGenericManagerJpa = iGenericManagerJpa;
+	}
+
 	public String doSync(){
 		return null;
 	}

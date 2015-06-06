@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import com.tripoin.core.dao.IGenericDaoJpa;
 import com.tripoin.core.service.IGenericManagerJpa;
 
-@Service
+@Service("iGenericManagerJpa")
 public class GenericManagerJpaImpl implements IGenericManagerJpa {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(GenericManagerJpaImpl.class);
