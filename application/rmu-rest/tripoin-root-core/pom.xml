@@ -68,6 +68,7 @@
         <jboss.logging.version>3.1.0.GA</jboss.logging.version>
         <aspectj.version>1.6.8</aspectj.version>
         <aspectjweaver.version>1.6.10</aspectjweaver.version>
+        <lambdaj.version>2.3.3</lambdaj.version>
     </properties>
     
     <dependencies>

@@ -25,6 +25,7 @@
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Service" />
     </context:component-scan>
     
-    <bean id="versionHelper" class="com.tripoin.core.rest.util.impl.VersionHelperImpl"/>
-    
+    <bean id="versionHelper" class="com.tripoin.core.rest.util.impl.VersionHelperImpl"/>   
+    <bean id="base64Authorization" class="com.tripoin.core.rest.util.impl.Base64AuthorizationImpl"/>
+	
 </beans>

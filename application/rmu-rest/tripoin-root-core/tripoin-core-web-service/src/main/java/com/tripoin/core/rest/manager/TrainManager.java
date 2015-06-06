@@ -25,7 +25,7 @@ public class TrainManager {
 	@Autowired
 	private IGenericManagerJpa iGenericManagerJpa;
 	
-	@Secured({"ROLE_WAITRESS", "ROLE_PASSENGER"})
+	@Secured({"ROLE_WAITRESS", "ROLE_TRAIN"})
 	public Message<Trains> getTrains(Message<?> inMessage){
 	
 		Trains trains = new Trains();

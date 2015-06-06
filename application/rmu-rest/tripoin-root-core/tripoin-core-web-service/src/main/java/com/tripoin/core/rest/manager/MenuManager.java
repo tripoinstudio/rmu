@@ -24,7 +24,7 @@ public class MenuManager {
 	@Autowired
 	private IGenericManagerJpa iGenericManagerJpa;
 	
-	@Secured({"ROLE_WAITRESS", "ROLE_PASSENGER"})
+	@Secured({"ROLE_WAITRESS", "ROLE_TRAIN"})
 	public Message<Menus> getMenus(Message<?> inMessage){
 	
 		Menus menus = new Menus();

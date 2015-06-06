@@ -29,7 +29,7 @@ public class CarriageManager {
 	@Autowired
 	private IGenericManagerJpa iGenericManagerJpa;
 	
-	@Secured({"ROLE_WAITRESS", "ROLE_PASSENGER"})
+	@Secured({"ROLE_WAITRESS", "ROLE_TRAIN"})
 	public Message<Carriages> getCarriages(Message<?> inMessage){
 	
 		Carriages carriages = new Carriages();

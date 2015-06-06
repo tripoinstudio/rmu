@@ -25,7 +25,7 @@ public class SeatManager {
 	@Autowired
 	private IGenericManagerJpa iGenericManagerJpa;
 	
-	@Secured({"ROLE_WAITRESS", "ROLE_PASSENGER"})
+	@Secured({"ROLE_WAITRESS", "ROLE_TRAIN"})
 	public Message<Seats> getSeats(Message<?> inMessage){
 	
 		Seats seats = new Seats();

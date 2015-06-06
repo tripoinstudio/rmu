@@ -29,7 +29,7 @@ public class ImageManager {
 	private String menuCode = "";
 	
 	@SuppressWarnings("unchecked")
-	@Secured({"ROLE_WAITRESS", "ROLE_PASSENGER"})
+	@Secured({"ROLE_WAITRESS", "ROLE_TRAIN"})
 	public Message<Images> getImages(Message<?> inMessage){	
 		Images images = new Images();
 		Map<String, Object> responseHeaderMap = new HashMap<String, Object>();

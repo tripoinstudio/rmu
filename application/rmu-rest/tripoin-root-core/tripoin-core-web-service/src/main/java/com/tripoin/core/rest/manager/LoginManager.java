@@ -36,7 +36,7 @@ public class LoginManager {
 
 	private String currentUserName;
 	
-	@Secured({"ROLE_WAITRESS", "ROLE_PASSENGER"})
+	@Secured({"ROLE_WAITRESS", "ROLE_TRAIN"})
 	public Message<Users> getLogin(Message<?> inMessage){	
 		Users users = new Users();
 		Map<String, Object> responseHeaderMap = new HashMap<String, Object>();

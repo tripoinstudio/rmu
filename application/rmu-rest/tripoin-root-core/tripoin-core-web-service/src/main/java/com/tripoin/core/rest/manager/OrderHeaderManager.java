@@ -48,6 +48,8 @@ public class OrderHeaderManager {
 	
 	private String currentUserName;
 	
+	private Date currentDate;
+	
 	private String lastVersion;
 	
 	private Date lastVersionTimestamp;
@@ -56,8 +58,9 @@ public class OrderHeaderManager {
 	
 	private Map<String, List<String>> payloads = new HashMap<String, List<String>>();
 	
-	@Secured("ROLE_WAITRESS")
+	@Secured({"ROLE_WAITRESS", "ROLE_TRAIN"})
 	public Message<OrderHeaders> getOrderHeaders(Message<?> inMessage){
+		currentDate = new Date();
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
@@ -68,9 +71,10 @@ public class OrderHeaderManager {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Secured("ROLE_WAITRESS")
+	@Secured({"ROLE_WAITRESS", "ROLE_TRAIN"})
 	public Message<OrderHeaders> setOrderHeaders(Message<?> inMessage){
-
+		currentDate = new Date();
+		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
 		    this.currentUserName = authentication.getName();
@@ -89,14 +93,14 @@ public class OrderHeaderManager {
 				List<OrderHeader> orderHeaderList = iGenericManagerJpa.getObjectsUsingParameter(OrderHeader.class, new String[]{"user.username", "orderNo"}, new Object[]{currentUserName, orderNo}, order, "DESC");
 				OrderHeader orderHeader = orderHeaderList.get(0);
 				orderHeader.setStatus(status);
-				orderHeader.setVersionTimestamp(new Date());
+				orderHeader.setVersionTimestamp(currentDate);
 				List<VersionFilter> versionFilterList = iGenericManagerJpa.getObjectsUsingParameter(VersionFilter.class, new String[]{"user.username"}, new Object[]{currentUserName}, null, null);
 				VersionFilter versionFilter = versionFilterList.get(0);
-				versionFilter.setVersionOrderHeader(new Date());
+				versionFilter.setVersionOrderHeader(currentDate);
 				iGenericManagerJpa.updateObject(versionFilter);
 				iGenericManagerJpa.updateObject(orderHeader);
-				iVersionHelper.updateVerision("trx_order_header");
-				iVersionHelper.updateVerision("master_menu");
+				iVersionHelper.updateVerision("trx_order_header", currentDate);
+				iVersionHelper.updateVerision("master_menu", currentDate);
 			} catch (Exception e) {
 				LOGGER.error("Error Update Header : ".concat(e.getLocalizedMessage()), e);
 			}
@@ -119,11 +123,11 @@ public class OrderHeaderManager {
 					try {
 						lastVersionTimestamp = formatVersionTimestamp.parse(lastVersion);
 					} catch (ParseException e) {
-						lastVersionTimestamp = new Date();
+						lastVersionTimestamp = currentDate;
 						throw new Exception();
 					}
 				}else{
-					lastVersionTimestamp = new Date();
+					lastVersionTimestamp = currentDate;
 				}
 				if(payloads.containsKey("order"))
 					order = payloads.get("order").get(0).toString();

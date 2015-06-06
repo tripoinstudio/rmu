@@ -28,7 +28,7 @@ public class LogoutManager {
 
 	private String currentUserName;
 
-	@Secured({"ROLE_WAITRESS", "ROLE_PASSENGER"})
+	@Secured({"ROLE_WAITRESS", "ROLE_TRAIN"})
 	public Message<GeneralConnectionDTO> getLogout(Message<?> inMessage) {
 
 		GeneralConnectionDTO connect = new GeneralConnectionDTO();

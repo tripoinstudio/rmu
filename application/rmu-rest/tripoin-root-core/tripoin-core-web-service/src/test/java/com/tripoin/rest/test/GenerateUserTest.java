@@ -54,19 +54,20 @@ public class GenerateUserTest implements ApplicationContextAware {
 	
 	@Test
 	public void runTest() throws Exception {
-		Role role = iGenericManagerJpa.getObjectsUsingParameter(Role.class, new String[]{"code"}, new Object[]{"ROLE_PASSENGER"}, null, null).get(0);
-		User user = new User();
-		user.setUsername("ridla");
-		user.setPassword(encodePassword("ridla"));
-		user.setEnabled(1);
-		user.setStatus(0);
-		user.setRemarks("Available");
-		user.setRole(role);
-		VersionFilter versionFilter = new VersionFilter();
-		versionFilter.setUser(user);
-		versionFilter.setVersionOrderHeader(new Date());
-		iGenericManagerJpa.saveObject(user);
-		iGenericManagerJpa.saveObject(versionFilter);
+//		Role role = iGenericManagerJpa.getObjectsUsingParameter(Role.class, new String[]{"code"}, new Object[]{"ROLE_PASSENGER"}, null, null).get(0);
+//		User user = new User();
+//		user.setUsername("ridla");
+//		user.setPassword(encodePassword("ridla"));
+//		user.setEnabled(1);
+//		user.setStatus(0);
+//		user.setRemarks("Available");
+//		user.setRole(role);
+//		VersionFilter versionFilter = new VersionFilter();
+//		versionFilter.setUser(user);
+//		versionFilter.setVersionOrderHeader(new Date());
+//		iGenericManagerJpa.saveObject(user);
+//		iGenericManagerJpa.saveObject(versionFilter);
+		System.out.println(encodePassword("train01"));
 	}
 	
 	public String leftPaddingString(String data, Integer paddingCount, String charPadding){

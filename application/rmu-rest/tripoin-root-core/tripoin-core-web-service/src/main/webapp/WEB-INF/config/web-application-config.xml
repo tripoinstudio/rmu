@@ -14,6 +14,7 @@
 	<import resource="classpath:META-INF/spring/datasource/dataSourceContext_mysql.xml"/>
 	<import resource="classpath:META-INF/spring/applicationContext-jpa.xml"/>
 	<import resource="classpath:META-INF/spring/integration/applicationContext-http-int.xml"/>
+	<import resource="classpath:META-INF/spring/rest-template/applicationContext-rest-template.xml"/>
 	<import resource="classpath:META-INF/spring/applicationContext-manager.xml"/>
 	<import resource="security-config.xml" />				
 

@@ -19,10 +19,10 @@ public class VersionHelperImpl implements IVersionHelper {
 	@Autowired
 	private IGenericManagerJpa iGenericManagerJpa;
 	
-	public void updateVerision(String tableName) throws Exception{
+	public void updateVerision(String tableName, Date currentDate) throws Exception{
 		List<Version> versionList = iGenericManagerJpa.getObjectsUsingParameter(Version.class, new String[]{"table"}, new Object[]{tableName}, null, null);
 		Version version = versionList.get(0);
-		version.setTimestamp(new Date());
+		version.setTimestamp(currentDate);
 		iGenericManagerJpa.updateObject(version);
 	}
 }

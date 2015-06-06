@@ -23,8 +23,9 @@
 	<security:http auto-config="true" use-expressions="true" realm="REST HTTP Web Service" create-session="never">
 		<security:access-denied-handler ref="access-denied"/>
 		<security:http-basic entry-point-ref="bad-credential"/>	
-		<security:intercept-url pattern='/images/*' access="hasRole('ROLE_REST_HTTP_USER')"  />
-		<security:intercept-url pattern='/wscontext/*' access="hasRole('ROLE_REST_HTTP_USER')"  />		
+		<security:intercept-url pattern='/apk/*' access="hasAnyRole('ROLE_WAITRESS', 'ROLE_TRAIN', 'ROLE_DEFAULT')"  />
+		<security:intercept-url pattern='/images/*' access="hasAnyRole('ROLE_WAITRESS', 'ROLE_TRAIN', 'ROLE_DEFAULT')"  />
+		<security:intercept-url pattern='/wscontext/*' access="hasAnyRole('ROLE_WAITRESS', 'ROLE_TRAIN', 'ROLE_DEFAULT')"  />		
 	</security:http>
 	
 	

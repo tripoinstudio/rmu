@@ -107,6 +107,12 @@
 		</dependency>
 		<!-- refer common data -->
 		<dependency>
+			<groupId>com.googlecode.lambdaj</groupId>
+			<artifactId>lambdaj</artifactId>
+			<version>${lambdaj.version}</version>
+		</dependency>
+		
+		<dependency>
 			<groupId>org.jasypt</groupId>
 			<artifactId>jasypt</artifactId>
 			<version>${jasypt.version}</version>

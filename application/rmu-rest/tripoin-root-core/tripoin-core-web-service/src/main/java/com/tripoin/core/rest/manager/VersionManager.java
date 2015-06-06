@@ -34,7 +34,7 @@ public class VersionManager {
 	
 	private SimpleDateFormat formatDateJson = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.S");
 	
-	@Secured({"ROLE_WAITRESS", "ROLE_PASSENGER", "ROLE_DEFAULT"})
+	@Secured({"ROLE_WAITRESS", "ROLE_TRAIN", "ROLE_DEFAULT"})
 	public Message<Versions> getVersion(Message<?> inMessage){	
 		Versions versions = new Versions();
 		Map<String, Object> responseHeaderMap = new HashMap<String, Object>();
@@ -47,7 +47,7 @@ public class VersionManager {
 		try{		
 			List<VersionFilter> versionFilterList = iGenericManagerJpa.getObjectsUsingParameter(VersionFilter.class, new String[]{"user.username"}, new Object[]{currentUserName}, null, null);
 			VersionFilter versionFilter = versionFilterList.get(0);
-			List<Version> versionList = iGenericManagerJpa.loadObjects(Version.class);
+			List<Version> versionList = iGenericManagerJpa.getObjectsUsingParameter(Version.class, new String[]{"status"}, new Object[]{1}, null, null);
 			List<VersionDTO> versionDTOList = new ArrayList<VersionDTO>();
 			for(Version v : versionList){
 				VersionDTO versionDTO = new VersionDTO();

@@ -50,8 +50,10 @@ public class OrderDetailManager {
 	
 	private String currentUserName;
 	
+	private Date currentDate;
+	
 	@SuppressWarnings("unchecked")
-	@Secured({"ROLE_WAITRESS", "ROLE_PASSENGER"})
+	@Secured({"ROLE_WAITRESS", "ROLE_TRAIN"})
 	public Message<?> getOrderDetails(Message<?> inMessage){
 		String orderHeaderNo = "";
 		try{
@@ -67,8 +69,9 @@ public class OrderDetailManager {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Secured({"ROLE_WAITRESS", "ROLE_PASSENGER"})
+	@Secured({"ROLE_WAITRESS", "ROLE_TRAIN"})
 	public Message<OrderDetails> setOrderDetails(Message<?> inMessage){	
+		currentDate = new Date();
 		Message<OrderDetails> message = null;
 		try{
 			String jsonOrderDetail = null;
@@ -115,15 +118,15 @@ public class OrderDetailManager {
 					User user = iGenericManagerJpa.getObjectsUsingParameter(User.class, new String[]{"username"}, new Object[]{currentUserName}, null, null).get(0);
 
 					Stan stan = stanGenerator.getSystemTraceAuditNumber(Long.parseLong(user.getId().toString()));
-					String dateFormat = new SimpleDateFormat("yyyyMMdd").format(new Date());
+					String dateFormat = new SimpleDateFormat("yyyyMMdd").format(currentDate);
 					
 					orderHeader.setOrderNo("OR".concat(dateFormat).concat(leftPadding(stan.getStanCounter(), 5, "0")));
 					orderHeader.setSeat(seat);
 					orderHeader.setUser(user);
 					orderHeader.setCarriage(carriage);
 					orderHeader.setTrain(train);
-					orderHeader.setVersionTimestamp(new Date());
-					orderHeader.setOrderDatetime(new Date());
+					orderHeader.setVersionTimestamp(currentDate);
+					orderHeader.setOrderDatetime(currentDate);
 					orderHeader.setIsArchive(0);
 					orderHeader.setStatus(orderDetailDTO.getOrder_header_status());
 					orderHeader.setRemarks("ORDER");
@@ -155,12 +158,12 @@ public class OrderDetailManager {
 			orderHeader.setOrderDetails(orderDetailList);
 			List<VersionFilter> versionFilterList = iGenericManagerJpa.getObjectsUsingParameter(VersionFilter.class, new String[]{"user.username"}, new Object[]{currentUserName}, null, null);
 			VersionFilter versionFilter = versionFilterList.get(0);
-			versionFilter.setVersionOrderHeader(new Date());
+			versionFilter.setVersionOrderHeader(currentDate);
 			iGenericManagerJpa.updateObject(versionFilter);
 			iGenericManagerJpa.saveObject(orderHeader);
-			iVersionHelper.updateVerision("trx_order_header");
-			iVersionHelper.updateVerision("trx_order_detail");
-			iVersionHelper.updateVerision("master_menu");
+			iVersionHelper.updateVerision("trx_order_header", currentDate);
+			iVersionHelper.updateVerision("trx_order_detail", currentDate);
+			iVersionHelper.updateVerision("master_menu", currentDate);
 			message = getListOrderDetails(orderHeader.getOrderNo());
 		}catch(Exception e){
 			LOGGER.error("Error :"+e.getMessage(), e);

@@ -33,7 +33,7 @@ public class LoggedInManager {
 
 	private String currentUserName;
 	
-	@Secured({"ROLE_WAITRESS", "ROLE_PASSENGER"})
+	@Secured({"ROLE_WAITRESS", "ROLE_TRAIN"})
 	public Message<Users> getLoggedIn(Message<?> inMessage){
 	
 		Users users = new Users();
