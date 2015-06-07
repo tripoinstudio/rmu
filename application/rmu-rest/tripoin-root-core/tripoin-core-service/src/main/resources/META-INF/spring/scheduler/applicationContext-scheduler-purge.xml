@@ -50,7 +50,8 @@
 				<ref bean="simpleTrigger" />
 			</list>
 		</property>
-		<property name="autoStartup" value="${is.client}"/>
+		<!-- FIXME  ${is.client} -->
+		<property name="autoStartup" value="false"/>
 	</bean>
     
 </beans>

@@ -21,7 +21,7 @@
                             http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
                              http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 	
-	<import resource="applicationContext-scheduler.xml"/>
+	<import resource="scheduler/applicationContext-scheduler-purge.xml"/>
 	
 	<context:component-scan base-package="com.tripoin.core.dao">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Repository" />
