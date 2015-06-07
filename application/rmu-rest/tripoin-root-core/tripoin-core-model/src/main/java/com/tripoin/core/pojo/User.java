@@ -24,6 +24,7 @@ public class User {
 	private Integer id;
 	private String username;
 	private String password;
+	private String auth;
 	private Integer status;
 	private Integer enabled;
 	private String remarks;
@@ -59,6 +60,15 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	@Column(name="user_auth", length=255)
+	public String getAuth() {
+		return auth;
+	}
+
+	public void setAuth(String auth) {
+		this.auth = auth;
 	}
 
 	@Column(name="user_enabled")

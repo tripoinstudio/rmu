@@ -21,7 +21,7 @@ public class Base64AuthorizationImpl implements IBase64Authorization {
 	
 	public String getBase64Authorization() {
 		User user = iGenericManagerJpa.getObjectsUsingParameter(User.class, new String[]{"role.code"}, new Object[]{RoleConstant.ROLE_DEFAULT}, null, null).get(0);
-		return user.getPassword();
+		return user.getAuth();
 	}
 	
 	public HttpHeaders encodeUserCredentials(String username, String password){
