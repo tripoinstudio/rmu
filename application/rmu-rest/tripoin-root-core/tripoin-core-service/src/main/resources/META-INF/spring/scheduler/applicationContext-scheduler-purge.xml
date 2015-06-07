@@ -30,7 +30,7 @@
 		  </map>
 		</property> 
 	</bean>
-	<bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean"> 
+	<bean id="simpleTriggerPurge" class="org.springframework.scheduling.quartz.SimpleTriggerBean"> 
 		<property name="jobDetail" ref="runPurgeJob" />
 		<property name="repeatInterval" value="5000" />
 		<property name="startDelay" value="1000" /> 
@@ -38,20 +38,6 @@
 	<bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean"> 
 		<property name="jobDetail" ref="runPurgeJob" />
 		<property name="cronExpression" value="${cron.job.purge.time}" /> 
-	</bean>
-	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
-		<property name="jobDetails">
-			<list>
-				<ref bean="runPurgeJob" />
-			</list>
-		</property> 
-		<property name="triggers">
-			<list>
-				<ref bean="simpleTrigger" />
-			</list>
-		</property>
-		<!-- FIXME  ${is.client} -->
-		<property name="autoStartup" value="false"/>
 	</bean>
     
 </beans>
