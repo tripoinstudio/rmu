@@ -22,9 +22,11 @@ import org.springframework.stereotype.Service;
 import com.tripoin.core.dto.OrderHeaderDTO;
 import com.tripoin.core.dto.OrderHeaders;
 import com.tripoin.core.pojo.OrderHeader;
+import com.tripoin.core.pojo.User;
 import com.tripoin.core.pojo.VersionFilter;
 import com.tripoin.core.rest.util.IVersionHelper;
 import com.tripoin.core.service.IGenericManagerJpa;
+import com.tripoin.core.util.RoleConstant;
 
 @Service("orderHeaderManager")
 public class OrderHeaderManager {
@@ -47,6 +49,8 @@ public class OrderHeaderManager {
 	private static final int maxRow = 10;
 	
 	private String currentUserName;
+	
+	private String defaultUserName;
 	
 	private Date currentDate;
 	
@@ -113,6 +117,7 @@ public class OrderHeaderManager {
 	public Message<OrderHeaders> getListOrderHeaders(Message<?> inMessage){
 		OrderHeaders orderHeaders = new OrderHeaders();
 		Map<String, Object> responseHeaderMap = new HashMap<String, Object>();
+		
 		payloads.clear();
 		payloads.putAll((Map<String, List<String>>)inMessage.getPayload());
 				
@@ -134,8 +139,8 @@ public class OrderHeaderManager {
 				if(payloads.containsKey("page"))
 					row = Integer.parseInt(payloads.get("page").get(0).toString());
 			}			
-			
-			List<OrderHeader> orderHeaderList = iGenericManagerJpa.getObjectsUsingParameterManualJQL(" FROM OrderHeader o WHERE o.user.username = ? AND o.versionTimestamp > ? ORDER BY o.orderNo DESC", new Object[]{currentUserName, lastVersionTimestamp});
+			defaultUserName = iGenericManagerJpa.getObjectsUsingParameter(User.class, new String[]{"role.code"}, new Object[]{RoleConstant.ROLE_DEFAULT}, null, null).get(0).getUsername();
+			List<OrderHeader> orderHeaderList = iGenericManagerJpa.getObjectsUsingParameterManualJQL(" FROM OrderHeader o WHERE ( o.user.username = ? OR o.user.username = ? ) AND o.versionTimestamp > ? ORDER BY o.orderNo DESC", new Object[]{currentUserName, defaultUserName, lastVersionTimestamp});
 			boolean isFound;
 			if (orderHeaderList!=null){
 				List<OrderHeaderDTO> orderHeaderDTOList = new ArrayList<OrderHeaderDTO>();
