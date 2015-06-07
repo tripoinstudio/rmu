@@ -62,7 +62,7 @@ public class ClientWsTest implements ApplicationContextAware {
 		/*Versions versions = restClientVersion.execute(Versions.class);
 		LOGGER.debug("Version : ".concat(versions.toString()));*/
 		
-		LOGGER.debug("Version : ".concat(synchronizeTrain.getVersion().toString()));
+//		LOGGER.debug("Version : ".concat(synchronizeTrain.getVersion().toString()));
 		
 		/*LOGGER.debug("Version : ".concat(new Base64AuthorizationImpl().encodeUserCredentials("train01", "train01").toString()));*/		
 	}

@@ -28,8 +28,8 @@
     </bean>
     
     <bean id="synchronizeTrain" class="com.tripoin.core.rest.sync.impl.SynchronizeTrainImpl">
-    	<property name="restClientVersion" ref="restClientVersion"/>
     	<property name="iGenericManagerJpa" ref="iGenericManagerJpa"/>
+    	<property name="restClientVersion" ref="restClientVersion"/>
     </bean>     		
 
 </beans>	
