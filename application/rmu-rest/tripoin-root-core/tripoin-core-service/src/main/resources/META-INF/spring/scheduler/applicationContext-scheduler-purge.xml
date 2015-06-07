@@ -39,5 +39,19 @@
 		<property name="jobDetail" ref="runPurgeJob" />
 		<property name="cronExpression" value="${cron.job.purge.time}" /> 
 	</bean>
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="jobDetails">
+			<list>
+				<ref bean="runPurgeJob" />
+			</list>
+		</property> 
+		<property name="triggers">
+			<list>
+				<ref bean="simpleTriggerPurge" />
+			</list>
+		</property>
+		<!-- FIXME  ${is.client} -->
+		<property name="autoStartup" value="false"/>
+	</bean>
     
 </beans>
