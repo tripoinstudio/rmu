@@ -1,8 +1,9 @@
 package com.tripoin.core.rest.sync.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,8 @@ import com.tripoin.core.rest.util.RestConstant;
  */
 @Service("synchronizeTrain")
 public class SynchronizeTrainImpl extends ASynchronize {
+
+	private static transient final Logger LOGGER = LoggerFactory.getLogger(SynchronizeTrainImpl.class);
 	
 	@Autowired
 	private IRestClient restClientTrain;
@@ -27,6 +30,7 @@ public class SynchronizeTrainImpl extends ASynchronize {
 	}
 
 	public String doSync(){
+		String status = "Data Has Been Synchronize";
 		if(getDiffVersion() != 0){
 			Trains trains = restClientTrain.execute(Trains.class);
 			for(TrainDTO trainDTO : trains.getMaster_train()){
@@ -34,17 +38,24 @@ public class SynchronizeTrainImpl extends ASynchronize {
 				train.setCode(trainDTO.getTrain_code());
 				train.setNo(trainDTO.getTrain_no());
 				train.setRemarks(trainDTO.getTrain_remarks());
-				Train trainCompare = iGenericManagerJpa.getObjectsUsingParameter(Train.class, new String[]{"code"}, new Object[]{trainDTO.getTrain_code()}, null, null).get(0);
-				if(trainCompare == null){
+				List<Train> trainListCompare = iGenericManagerJpa.getObjectsUsingParameter(Train.class, new String[]{"code"}, new Object[]{trainDTO.getTrain_code()}, null, null);
+				if(trainListCompare.size() == 0){
 					try {
 						iGenericManagerJpa.saveObject(train);
 					} catch (Exception e) {
-						e.printStackTrace();
+						LOGGER.error("Error Save Train Synchronize : ".concat(e.getLocalizedMessage()));
 					}
 				}
 			}
+			try {
+				version.setTimestamp(currentVersion);
+				iGenericManagerJpa.updateObject(version);
+			} catch (Exception e) {
+				LOGGER.error("Error Update Version Train : ".concat(e.getLocalizedMessage()));
+			}
+			status = "New Data";
 		}
-		return null;
+		return status;
 	}
 	
 }

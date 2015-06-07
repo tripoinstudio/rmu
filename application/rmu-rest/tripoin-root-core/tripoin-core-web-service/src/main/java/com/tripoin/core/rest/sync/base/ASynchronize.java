@@ -25,6 +25,8 @@ public abstract class ASynchronize implements ISynchronize {
 	
 	protected Date lastVersion;
 	
+	protected Version version;
+	
 	protected IGenericManagerJpa iGenericManagerJpa;
 	
 	private IRestClient restClientVersion;
@@ -49,12 +51,13 @@ public abstract class ASynchronize implements ISynchronize {
 		}catch(Exception e){
 			date = new Date();
 		}
-		currentVersion = date;
+		this.currentVersion = date;
 		return date;
 	}
 	
 	public Date getLastVersion(){
-		lastVersion = iGenericManagerJpa.getObjectsUsingParameter(Version.class, new String[]{"table"}, new Object[]{getNameVersion()}, null, null).get(0).getTimestamp();		
+		this.version = iGenericManagerJpa.getObjectsUsingParameter(Version.class, new String[]{"table"}, new Object[]{getNameVersion()}, null, null).get(0);
+		this.lastVersion = this.version.getTimestamp();		
 		return lastVersion;
 	}
 
