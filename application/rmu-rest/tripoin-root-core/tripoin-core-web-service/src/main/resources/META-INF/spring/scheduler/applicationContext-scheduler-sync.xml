@@ -26,6 +26,9 @@
 		<property name="jobDataAsMap">
 		  <map>
 			<entry key="synchronizeTrain" value-ref="synchronizeTrain" />
+			<entry key="synchronizeCarriage" value-ref="synchronizeCarriage" />
+			<entry key="synchronizeSeat" value-ref="synchronizeSeat" />
+			<entry key="synchronizeMenu" value-ref="synchronizeMenu" />
 		  </map>
 		</property> 
 	</bean>

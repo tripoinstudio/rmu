@@ -21,26 +21,15 @@
                             http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
                              http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 	    
-	
-	<bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
-		<property name="messageConverters">
-			<list>
-				<bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
-				<bean class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
-					<property name="marshaller" ref="marshaller"/>
-					<property name="unmarshaller" ref="marshaller"/>
-				</bean>
-				<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
-					<property name="objectMapper" ref="jaxbJacksonObjectMapper"/>
-				</bean>
-			</list>
-		</property>
-	</bean>
-	
-	<import resource="applicationContext-rest-template-version.xml" />	
-	<import resource="applicationContext-rest-template-connection.xml" />
-	<import resource="applicationContext-rest-template-train.xml" />
-	<import resource="applicationContext-rest-template-carriage.xml" />			
-	<import resource="applicationContext-rest-template-seat.xml" />	
-	<import resource="applicationContext-rest-template-menu.xml" />	
+	<bean id="restClientSeat" class="com.tripoin.core.rest.client.impl.RestClientSeat">
+    	<property name="restTemplate" ref="restTemplate"/>
+    	<property name="base64Authorization" ref="base64Authorization"/>
+    	<property name="systemParameterService" ref="systemParameterService"/>
+    </bean>
+  
+    <bean id="synchronizeSeat" class="com.tripoin.core.rest.sync.impl.SynchronizeSeatImpl">
+    	<property name="iGenericManagerJpa" ref="iGenericManagerJpa"/>
+    	<property name="restClientVersion" ref="restClientVersion"/>
+    </bean>        		
+
 </beans>	

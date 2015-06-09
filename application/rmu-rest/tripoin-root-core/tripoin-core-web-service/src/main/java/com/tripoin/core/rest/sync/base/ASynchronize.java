@@ -15,6 +15,7 @@ import com.tripoin.core.service.IGenericManagerJpa;
 import com.tripoin.core.service.util.ParameterConstant;
 
 import static ch.lambdaj.Lambda.*;
+import static org.hamcrest.Matchers.*;
 
 /**
  * @author <a href="mailto:ridla.fadilah@gmail.com">Ridla Fadilah</a>
