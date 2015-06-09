@@ -222,7 +222,7 @@
                     android:id="@+id/bt_bayar_direct"
                     android:textStyle="bold"
                     android:textColor="@color/white_base"
-                    android:background="#4CAF50"
+                    android:background="@color/base_color"
                     android:text="SELLING"/>
                 <Button
                     android:layout_width="125dip"
@@ -233,7 +233,7 @@
                     android:id="@+id/bt_bayar"
                     android:textStyle="bold"
                     android:textColor="@color/white_base"
-                    android:background="#4CAF50"
+                    android:background="@color/base_color"
                     android:text="PAY"/>
             </LinearLayout>
         </LinearLayout>

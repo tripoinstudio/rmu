@@ -3,34 +3,25 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/Theme.AppCompat.NoActionBar"
-    android:background="#4caf50">
+    android:background="@color/base_color"
+    android:weightSum="3">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="150dip"
-        android:id="@+id/label_about1"
-        android:textColor="@color/nliveo_white"
-        android:textSize="28sp"
-        android:text="Reska Multi Usaha"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dip"
-        android:id="@+id/label_about2"
-        android:layout_gravity="center"
-        android:textSize="20sp"
-        android:textColor="@color/nliveo_white"
-        android:text="PRAMIA version 1.0.0"/>
     <ImageView
-        android:layout_width="290dip"
-        android:layout_height="190dip"
+        android:layout_weight="2.6"
+        android:layout_width="245dp"
+        android:layout_height="0dp"
         android:layout_gravity="center"
-        android:layout_marginTop="50dip"
-        android:layout_marginBottom="50dip"
-        android:src="@drawable/bisnis_cashflow"/>
+        android:src="@drawable/logo_pramia_text_white"/>
     <TextView
+        android:layout_weight="0.06"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="14sp"
+        android:textColor="@color/nliveo_white"
+        android:text="Pramia Version 1.00"/>
+    <TextView
+        android:layout_weight="0.041"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -41,10 +32,10 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="10dp"
+        android:paddingTop="5dp"
         android:layout_gravity="center"
         android:id="@+id/label_about4"
-        android:textSize="14sp"
+        android:textSize="1sp"
         android:textColor="@color/nliveo_white"
         android:text="All Rights Reserverd."/>
 </LinearLayout>

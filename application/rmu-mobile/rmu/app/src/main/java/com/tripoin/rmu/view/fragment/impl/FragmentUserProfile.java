@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Camera;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tripoin.rmu.R;
+import com.tripoin.rmu.util.CameraUtil;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
@@ -56,6 +58,7 @@ public class FragmentUserProfile extends Fragment {
     private EditText editText;
     private PropertyUtil propertyUtil;
     private Uri picUri;
+    private CameraUtil cameraUtil;
 
     public FragmentUserProfile newInstance(String text) {
         return new FragmentUserProfile();
@@ -66,6 +69,7 @@ public class FragmentUserProfile extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_user_profile, container, false);
         rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         propertyUtil = new PropertyUtil(PropertyConstant.PROPERTY_FILE_NAME.toString(), rootView.getContext());
+        cameraUtil = new CameraUtil();
         getActivity().setTitle(ViewConstant.FRAGMENT_PROFILE_TITLE.toString());
         imgUserProfile = (ImageView) rootView.findViewById(R.id.imgUserProfile);
         final Bitmap bmp = decodeSampledBitmapFromPath(propertyUtil.getValuePropertyMap(PropertyConstant.WAITRESS_PHOTO.toString()), 360, 270);
@@ -114,8 +118,8 @@ public class FragmentUserProfile extends Fragment {
                 lblChangePhotoGallery.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        startActivityForResult(intent, 1);
+//                        Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        startActivityForResult(cameraUtil.takePictFromGallery(), 1);
                     }
                 });
 
@@ -123,17 +127,17 @@ public class FragmentUserProfile extends Fragment {
                 lblChangePhotoCamera.setOnClickListener( new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        File f = new File(PropertyConstant.PROPERTIES_PATH.toString(), "photo_profile_rmu.jpg");
-                        picUri = Uri.fromFile(f);
-                        intent.putExtra(MediaStore.EXTRA_OUTPUT, picUri);
-                        // ******** code for crop image
-                        intent.putExtra("crop", "true");
-                        intent.putExtra("aspectX", 0);
-                        intent.putExtra("aspectY", 0);
-                        intent.putExtra("outputX", 600);
-                        intent.putExtra("outputY", 600);
-                        startActivityForResult(intent, 2);
+//                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                        File f = new File(PropertyConstant.PROPERTIES_PATH.toString(), "photo_profile_rmu.jpg");
+//                        picUri = Uri.fromFile(f);
+//                        intent.putExtra(MediaStore.EXTRA_OUTPUT, picUri);
+//                        // ******** code for crop image
+//                        intent.putExtra("crop", "true");
+//                        intent.putExtra("aspectX", 0);
+//                        intent.putExtra("aspectY", 0);
+//                        intent.putExtra("outputX", 600);
+//                        intent.putExtra("outputY", 600);
+                        startActivityForResult(cameraUtil.takePictFromCamera(), 2);
                     }
                 });
 
@@ -313,68 +317,13 @@ public class FragmentUserProfile extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == 1) {
-                Uri selectedImage = data.getData();
-                String[] filePath = { MediaStore.Images.Media.DATA };
-                Cursor c = getActivity().getContentResolver().query(selectedImage,filePath, null, null, null);
-                c.moveToFirst();
-                int columnIndex = c.getColumnIndex(filePath[0]);
-                String picturePath = c.getString(columnIndex);
-                String destinationImagePath=null;
-                try {
-                    destinationImagePath = PropertyConstant.PROPERTIES_PATH.toString()+"photo_profile_rmu.jpg";
-                        File source= new File(picturePath);
-                        File destination= new File(destinationImagePath);
-                        if (source.exists()) {
-                            FileChannel src = new FileInputStream(source).getChannel();
-                            FileChannel dst = new FileOutputStream(destination).getChannel();
-                            dst.transferFrom(src, 0, src.size());
-                            src.close();
-                            dst.close();
-                        }
-                } catch (Exception e) {
-                    Log.e("EROR DISINI","EROR DISINI ----- "+e.toString());
-                }
-
-                c.close();
-                System.gc();
-                Bitmap thumbnail;
-                thumbnail = decodeSampledBitmapFromPath(destinationImagePath, 360, 270);
-                if(destinationImagePath!=null) propertyUtil.saveSingleProperty(PropertyConstant.WAITRESS_PHOTO.toString(), destinationImagePath + "");
-                if(thumbnail!=null) imgUserProfile.setImageBitmap(thumbnail);
+                cameraUtil.actionTakeFromGallery(data, getActivity());
+                if(cameraUtil.getTakenImagePath()!=null) propertyUtil.saveSingleProperty(PropertyConstant.WAITRESS_PHOTO.toString(), cameraUtil.getTakenImagePath() + "");
+                if(cameraUtil.getTakenImage()!=null) imgUserProfile.setImageBitmap(cameraUtil.getTakenImage());
             } else if (requestCode == 2) {
-                File f = new File(PropertyConstant.PROPERTIES_PATH.toString());
-                for (File temp : f.listFiles()) {
-                    if (temp.getName().equals("photo_profile_rmu.jpg")) {
-                        f = temp;
-                        break;
-                    }
-                }
-                try {
-                    System.gc();
-                    Bitmap bitmap;
-                    Log.d("f.getAbsolutePath() = ","-------------- "+f.getAbsolutePath());
-                    bitmap = decodeSampledBitmapFromPath(f.getAbsolutePath(), 360, 270);
-                    propertyUtil.saveSingleProperty(PropertyConstant.WAITRESS_PHOTO.toString(), f.getAbsolutePath());
-                    imgUserProfile.setImageBitmap(bitmap);
-                    String path = PropertyConstant.PROPERTIES_PATH.toString();
-                    f.delete();
-                    OutputStream outFile = null;
-                    File file = new File(path, "photo_profile_rmu" + ".jpg");
-                    try {
-                        outFile = new FileOutputStream(file);
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 85, outFile);
-                        outFile.flush();
-                        outFile.close();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                cameraUtil.actionTakeFromCamera();
+                propertyUtil.saveSingleProperty(PropertyConstant.WAITRESS_PHOTO.toString(), cameraUtil.getTakenImagePath());
+                imgUserProfile.setImageBitmap(cameraUtil.getTakenImage());
             }
         }
     }

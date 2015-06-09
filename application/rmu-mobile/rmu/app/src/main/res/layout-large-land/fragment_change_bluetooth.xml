@@ -2,101 +2,115 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:weightSum="9.61"
     android:orientation="vertical"
-    android:background="@color/white_base"
-    android:padding="@dimen/activity_vertical_margin">
-
-    <TextView
-        android:id="@+id/tv_status"
+    android:background="@color/white_base">
+    <LinearLayout
+        android:layout_weight="0.6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="28sp"
-        android:textColor="#ff0000"
-        android:layout_marginTop="20dp"
-        android:text="@string/text_bluetooth_off" />
-
-    <!--<TextView
-        android:id="@+id/label"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Type here:" />
-
-    <EditText
-        android:id="@+id/entry"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/label"
-        android:background="@android:drawable/editbox_background" />-->
+        android:orientation="horizontal"
+        android:paddingRight="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_vertical_margin"
+        android:weightSum="5.7"
+        android:background="@color/base_color"
+        android:gravity="start">
+        <ImageView
+            android:id="@+id/img_bluetooth"
+            android:layout_weight="0.1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_bluetooth_audio_white_24dp"
+            android:paddingRight="2dp"/>
+        <TextView
+            android:layout_weight="5"
+            android:id="@+id/tv_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white_base"
+            android:text="  Bluetooth"
+            android:textSize="18sp"/>
+        <ImageView
+            android:layout_weight="0.1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_stripes_vertical"/>
+        <Switch
+            android:layout_weight="0.3"
+            android:id="@+id/switch_enable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:thumb="@drawable/switch_selector"
+            android:track="@drawable/switch_track"
+            android:textColor="@color/white_base" />
+    </LinearLayout>
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_weight="7"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="25dp"
-        android:layout_height="100dp"
-        android:orientation="horizontal">
-        <Button
-            android:id="@+id/btn_enable"
-            android:layout_height="match_parent"
-            android:layout_width="100dp"
-            android:height="60dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="50dp"
-            android:background="@drawable/mybuttonb"
-            android:textColor="@color/nliveo_blue_colorPrimaryDark"
-            android:text="@string/text_enable" />
+        android:orientation="vertical">
+        <ListView
+            android:padding="@dimen/activity_vertical_margin"
+            android:id="@+id/lv_paired"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cacheColorHint="#00000000"/>
+    </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/layout_btn_paired_scan"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:animateLayoutChanges="true">
         <Button
             android:id="@+id/btn_view_paired"
+            android:layout_weight="1"
             android:layout_height="match_parent"
-            android:enabled="false"
-            android:layout_marginRight="50dp"
-            android:layout_width="100dp"
+            android:layout_width="match_parent"
             android:height="60dp"
             android:background="@drawable/mybuttonb"
-            android:textColor="@color/gray_darker"
-            android:text="@string/text_view_paired" />
-
+            android:textColor="@color/white_base"
+            android:text="@string/text_view_paired"/>
+        <TextView
+            android:layout_width="2dp"
+            android:layout_height="match_parent"/>
+        <Button
+            android:id="@+id/btn_test_print"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:height="60dp"
+            android:background="@drawable/mybuttonb"
+            android:textColor="@color/white_base"
+            android:text="@string/text_send_devices"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_weight="0.03"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="5dp"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal">
         <Button
             android:id="@+id/btn_scan"
             android:layout_height="match_parent"
-            android:enabled="false"
+            android:layout_width="match_parent"
             android:background="@drawable/mybuttonb"
-            android:layout_width="100dp"
-            android:height="60dp"
-            android:layout_marginRight="50dp"
-            android:textColor="@color/gray_darker"
-            android:text="@string/text_scan_devices" />
-
-
-
-        <!--<Button-->
-        <!--android:id="@+id/btn_close_device"-->
-        <!--android:layout_width="60dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:enabled="false"-->
-        <!--android:height="60dp"-->
-        <!--android:layout_marginRight="20dp"-->
-        <!--android:background="@drawable/mybuttonb"-->
-        <!--android:text="@string/text_close_devices" />-->
-
-        <Button
-            android:id="@+id/btn_test_print"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:enabled="false"
-            android:height="60dp"
-            android:background="@drawable/mybuttonb"
-            android:textColor="@color/gray_darker"
-            android:text="@string/text_send_devices" />
-
-
-
+            android:textColor="@color/white_base"
+            android:text="@string/text_scan_devices"/>
     </LinearLayout>
-
-    <ListView
-        android:id="@+id/lv_paired"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/abc_text_size_headline_material"
-        android:cacheColorHint="#00000000" />
 </LinearLayout>

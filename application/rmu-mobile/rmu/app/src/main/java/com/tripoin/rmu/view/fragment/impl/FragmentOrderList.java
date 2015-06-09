@@ -37,6 +37,7 @@ import com.tripoin.rmu.persistence.orm_persistence.service.CarriageDBManager;
 import com.tripoin.rmu.persistence.orm_persistence.service.OrderDetailDBManager;
 import com.tripoin.rmu.persistence.orm_persistence.service.OrderListDBManager;
 import com.tripoin.rmu.persistence.orm_persistence.service.SeatDBManager;
+import com.tripoin.rmu.util.SwipeRefreshUtil;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
@@ -72,6 +73,8 @@ public class FragmentOrderList extends ABaseNavigationDrawerFragment implements 
 
     private final String ORDER_ID = "ORDER_ID";
     @InjectView(R.id.listOrder) CardListView listView;
+
+    private SwipeRefreshUtil swipeRefreshUtil;
 
     public FragmentOrderList newInstance(String data){
         FragmentOrderList mFragment = new FragmentOrderList();
@@ -245,37 +248,40 @@ public class FragmentOrderList extends ABaseNavigationDrawerFragment implements 
             mFragmentManager.beginTransaction().replace(R.id.container, fragmentOrderDetail).commit();
         }else{
             securityUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(), getActivity());
+            swipeRefreshUtil = new SwipeRefreshUtil();
             new OrderListAsync().execute();
         }
 
         final SwipeRefreshLayout swipeView = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshOrderList);
-        swipeView.setColorScheme(android.R.color.holo_blue_dark,
-                android.R.color.holo_blue_light,
-                android.R.color.holo_green_light,
-                android.R.color.holo_green_light);
-        swipeView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                swipeView.setRefreshing(true);
-                Log.d("Swipe", "Refreshing Number");
-                (new Handler()).postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        swipeView.setRefreshing(false);
-                        Bundle bundle = getArguments();
-                        if( bundle != null){
-                            FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
-                            FragmentOrderDetail fragmentOrderDetail = new FragmentOrderDetail().newInstance(bundle.getString(ORDER_ID));
-                            mFragmentManager.beginTransaction().replace(R.id.container, fragmentOrderDetail).commit();
-                        }else{
-                            securityUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(), getActivity());
-                            new OrderListAsync().execute();
-                        }
-                        Toast.makeText(getActivity(), "Order list refresh done", Toast.LENGTH_SHORT).show();
-                    }
-                }, 3000);
-            }
-        });
+        securityUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(), getActivity());
+        swipeRefreshUtil.onRefreshAction(swipeView, new OrderListAsync());
+//        swipeView.setColorScheme(android.R.color.holo_blue_dark,
+//                android.R.color.holo_blue_light,
+//                android.R.color.holo_green_light,
+//                android.R.color.holo_green_light);
+//        swipeView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                swipeView.setRefreshing(true);
+//                Log.d("Swipe", "Refreshing Number");
+//                (new Handler()).postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        swipeView.setRefreshing(false);
+//                        Bundle bundle = getArguments();
+//                        if( bundle != null){
+//                            FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
+//                            FragmentOrderDetail fragmentOrderDetail = new FragmentOrderDetail().newInstance(bundle.getString(ORDER_ID));
+//                            mFragmentManager.beginTransaction().replace(R.id.container, fragmentOrderDetail).commit();
+//                        }else{
+//                            securityUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(), getActivity());
+//                            new OrderListAsync().execute();
+//                        }
+//                        Toast.makeText(getActivity(), "Order list refresh done", Toast.LENGTH_SHORT).show();
+//                    }
+//                }, 3000);
+//            }
+//        });
 
     }
 

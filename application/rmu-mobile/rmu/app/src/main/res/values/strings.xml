@@ -95,7 +95,7 @@
     <string name="more_markers">more settings</string>
     <string name="trash">trash</string>
     <string name="change_ip">Change IP Server</string>
-    <string name="change_bluetooth">Bluetooth</string>
+    <string name="change_bluetooth">   Bluetooth</string>
     <string name="spam">spam</string>
     <string name="setting">setting</string>
     <string name="settings">settings</string>
@@ -105,8 +105,8 @@
     <string name="add">add</string>
 
     <!--bluetooth-->
-    <string name="text_bluetooth_off">Bluetooth is Off</string>
-    <string name="text_bluetooth_on">Bluetooth is On</string>
+    <string name="text_bluetooth_off">  Bluetooth is Off</string>
+    <string name="text_bluetooth_on">  Bluetooth is On</string>
 
     <string name="text_enable">Enable</string>
     <string name="text_disable">Disable</string>

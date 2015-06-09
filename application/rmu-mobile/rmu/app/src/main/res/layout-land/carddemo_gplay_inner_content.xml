@@ -51,7 +51,7 @@
         android:id="@+id/carddemo_gplay_main_inner_title"
         android:layout_width="wrap_content"
         android:textSize="10sp"
-        android:textColor="@android:color/holo_green_light"
+        android:textColor="#D4a017"
         android:layout_marginTop="25dp"
         android:layout_marginRight="5dp"
         android:layout_alignParentRight="true"

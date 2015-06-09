@@ -8,14 +8,23 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.View;
+import android.view.animation.ScaleAnimation;
+import android.view.animation.Transformation;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 
 import com.RT_Printer.BluetoothPrinter.BLUETOOTH.BluetoothPrintDriver;
 import com.tripoin.rmu.R;
@@ -34,6 +43,7 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import butterknife.InjectView;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 /**
@@ -43,11 +53,13 @@ import butterknife.OnClick;
 public class FragmentChangeBluetooth extends ABaseNavigationDrawerFragment implements IBluetoothPrinterListener{
 
     @InjectView(R.id.tv_status) TextView mStatusTv;
-    @InjectView(R.id.btn_enable) Button mActivateBtn;
+    @InjectView(R.id.switch_enable) Switch mEnableSwitch;
     @InjectView(R.id.btn_test_print) Button mSendBtn;
     @InjectView(R.id.btn_view_paired) Button mPairedBtn;
     @InjectView(R.id.btn_scan) Button mScanBtn;
     @InjectView(R.id.lv_paired) ListView mListView;
+    @InjectView(R.id.img_bluetooth) ImageView imgBluetooth;
+    @InjectView(R.id.layout_btn_paired_scan) LinearLayout layoutBtnPairedScan;
 
     private DeviceListAdapter mAdapter;
     private ProgressDialog mProgressDlg;
@@ -213,20 +225,26 @@ public class FragmentChangeBluetooth extends ABaseNavigationDrawerFragment imple
         }
     }
 
-    @OnClick(R.id.btn_enable)
+
+    @OnCheckedChanged(R.id.switch_enable)
     @Override
     public void activeBluetooth() {
         if(mBluetoothAdapter != null ){
-            if (mBluetoothAdapter.isEnabled()) {
+            if(mEnableSwitch.isChecked()){
+                Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                startActivityForResult(intent, 1000);
+            }else{
                 mBluetoothAdapter.disable();
                 final ArrayList<BluetoothDevice> list = new ArrayList<BluetoothDevice>();
                 mAdapter.setData(list);
                 mListView.setAdapter(mAdapter);
                 showBluetoothDisabled();
-            } else {
-                Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                startActivityForResult(intent, 1000);
+            }
 
+            if (mBluetoothAdapter.isEnabled()) {
+                showBluetoothEnabled();
+            } else {
+                showBluetoothDisabled();
             }
         }
     }
@@ -372,6 +390,7 @@ public class FragmentChangeBluetooth extends ABaseNavigationDrawerFragment imple
         filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
 
         getActivity().registerReceiver(bluetoothReceiver, filter);
+
     }
 
     @Override
@@ -381,54 +400,47 @@ public class FragmentChangeBluetooth extends ABaseNavigationDrawerFragment imple
 
     @Override
     public void showUnsupportedMessages() {
-        mStatusTv.setText("Bluetooth is unsupported by this device");
-
-        mActivateBtn.setText("Enable");
-        mActivateBtn.setTextColor(Color.GREEN);
-        mActivateBtn.setEnabled(false);
-
-        mPairedBtn.setEnabled(false);
-        mPairedBtn.setTextColor(Color.GRAY);
-        mScanBtn.setEnabled(false);
-        mScanBtn.setTextColor(Color.GRAY);
-        mSendBtn.setEnabled(false);
-        mSendBtn.setTextColor(Color.GRAY);
+        showBluetoothEnabled();
+//        imgBluetooth.setImageDrawable(getResources().getDrawable(R.drawable.ic_bluetooth_red_24dp));
+//        mStatusTv.setText("Bluetooth unsupported");
+//        mStatusTv.setTextColor(Color.RED);
+//        mEnableSwitch.setChecked(false);
+//
+//        layoutBtnPairedScan.setVisibility(View.INVISIBLE);
+////        mPairedBtn.setVisibility(View.INVISIBLE);
+//        mScanBtn.setVisibility(View.INVISIBLE);
+////        mSendBtn.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void showBluetoothEnabled() {
+        imgBluetooth.setImageDrawable(getResources().getDrawable(R.drawable.ic_bluetooth_audio_white_24dp));
         mStatusTv.setText("Bluetooth is On");
-        mStatusTv.setTextColor(Color.BLUE);
+        mStatusTv.setTextColor(Color.WHITE);
+        mEnableSwitch.setChecked(true);
 
-        mActivateBtn.setText("Disable");
-        mActivateBtn.setTextColor(getResources().getColor(R.color.bluetooth_disabled));
-        mActivateBtn.setEnabled(true);
-
-        mPairedBtn.setEnabled(true);
-        mPairedBtn.setTextColor(Color.WHITE);
-        mScanBtn.setEnabled(true);
-        mScanBtn.setTextColor(Color.WHITE);
-        mSendBtn.setEnabled(true);
-        mSendBtn.setTextColor(Color.WHITE);
+        layoutBtnPairedScan.setVisibility(View.VISIBLE);
+        animate(layoutBtnPairedScan).alpha(0.5f).alpha(1.0f);
+//        mPairedBtn.setVisibility(View.VISIBLE);
+        mScanBtn.setVisibility(View.VISIBLE);
+        animate(mScanBtn).alpha(0.5f).alpha(1.0f);
+//        mSendBtn.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void showBluetoothDisabled() {
-        mStatusTv.setText("Bluetooth is Off");
-        mStatusTv.setTextColor(Color.RED);
-
-        mActivateBtn.setText("Enable");
-        mActivateBtn.setTextColor(Color.GREEN);
-        mActivateBtn.setEnabled(true);
-
-        mPairedBtn.setEnabled(false);
-        mPairedBtn.setTextColor(Color.GRAY);
-        mScanBtn.setEnabled(false);
-        mScanBtn.setTextColor(Color.GRAY);
-        mSendBtn.setEnabled(false);
-        mSendBtn.setTextColor(Color.GRAY);
-//      mOpenBtn.setEnabled(false);
-//      mCloseBtn.setEnabled(false);
+        showBluetoothEnabled();
+//        imgBluetooth.setImageDrawable(getResources().getDrawable(R.drawable.ic_bluetooth_red_24dp));
+//        mStatusTv.setText("Bluetooth is Off");
+//        mStatusTv.setTextColor(Color.RED);
+//        mEnableSwitch.setChecked(false);
+//
+////        layoutBtnPairedScan.setVisibility(View.INVISIBLE);
+//        animate(layoutBtnPairedScan).alpha(0.5f).alpha(0f);
+////        mPairedBtn.setVisibility(View.INVISIBLE);
+////        mScanBtn.setVisibility(View.INVISIBLE);
+//        animate(mScanBtn).alpha(0.5f).alpha(0f);
+////        mSendBtn.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -477,4 +489,42 @@ public class FragmentChangeBluetooth extends ABaseNavigationDrawerFragment imple
             mBluetoothAdapter.startDiscovery();
         }
     }
+
+    public class MyScaler extends ScaleAnimation {
+
+        private View mView;
+
+        private LinearLayout.LayoutParams mLayoutParams;
+
+        private int mMarginBottomFromY, mMarginBottomToY;
+
+        private boolean mVanishAfter = false;
+
+        public MyScaler(float fromX, float toX, float fromY, float toY, int duration, View view,
+                        boolean vanishAfter) {
+            super(fromX, toX, fromY, toY);
+            setDuration(duration);
+            mView = view;
+            mVanishAfter = vanishAfter;
+            mLayoutParams = (LinearLayout.LayoutParams) view.getLayoutParams();
+            int height = mView.getHeight();
+            mMarginBottomFromY = (int) (height * fromY) + mLayoutParams.bottomMargin - height;
+            mMarginBottomToY = (int) (0 - ((height * toY) + mLayoutParams.bottomMargin)) - height;
+        }
+
+        @Override
+        protected void applyTransformation(float interpolatedTime, Transformation t) {
+            super.applyTransformation(interpolatedTime, t);
+            if (interpolatedTime < 1.0f) {
+                int newMarginBottom = mMarginBottomFromY
+                        + (int) ((mMarginBottomToY - mMarginBottomFromY) * interpolatedTime);
+                mLayoutParams.setMargins(mLayoutParams.leftMargin, mLayoutParams.topMargin,
+                        mLayoutParams.rightMargin, newMarginBottom);
+                mView.getParent().requestLayout();
+            } else if (mVanishAfter) {
+                mView.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
 }
