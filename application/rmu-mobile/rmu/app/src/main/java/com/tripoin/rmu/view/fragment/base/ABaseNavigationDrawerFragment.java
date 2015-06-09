@@ -72,7 +72,7 @@ public abstract class ABaseNavigationDrawerFragment extends Fragment implements 
         try{
             initWidget();
         }catch ( Exception e ){
-            Toast.makeText(getActivity(), "Application error initializing Fragment".concat(e.toString()), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Application error initializing Fragment ".concat(e.toString()), Toast.LENGTH_SHORT).show();
         }
 
         try {

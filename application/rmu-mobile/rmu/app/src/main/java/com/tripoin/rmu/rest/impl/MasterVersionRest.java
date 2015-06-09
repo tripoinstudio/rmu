@@ -1,7 +1,6 @@
 package com.tripoin.rmu.rest.impl;
 
 import com.tripoin.rmu.model.DTO.master.MasterVersion;
-import com.tripoin.rmu.rest.api.IBaseRestFinished;
 import com.tripoin.rmu.rest.api.IMasterVersionPost;
 import com.tripoin.rmu.rest.base.ARestGETAsyncTask;
 import com.tripoin.rmu.rest.enumeration.RestConstant;
@@ -21,6 +20,11 @@ public abstract class MasterVersionRest extends ARestGETAsyncTask {
     @Override
     public String initUrl() {
         return RestConstant.TSK_VERSION.toString();
+        /*return RestConstant.TSK_VERSION.toString()
+                .concat(ViewConstant.QUESTION.toString())
+                .concat(RestConstant.LAST_VERSION.toString())
+                .concat(ViewConstant.EQUALS.toString())
+                .concat(getCurrentVersion());*/
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.tripoin.rmu.view.fragment.impl;
 
 import android.app.ProgressDialog;
-import android.graphics.Typeface;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,12 +15,23 @@ import com.tripoin.rmu.R;
 import com.tripoin.rmu.feature.bluetooth.BluetoothEngine;
 import com.tripoin.rmu.feature.scheduler.constant.IOrderStatusConstant;
 import com.tripoin.rmu.feature.synchronizer.impl.SynchronizeOrderDetail;
+import com.tripoin.rmu.model.DTO.order_detail.OrderDetailDTO;
+import com.tripoin.rmu.model.DTO.order_detail.OrderDetailItemDTO;
+import com.tripoin.rmu.model.DTO.order_header.OrderHeaderDTO;
+import com.tripoin.rmu.model.DTO.order_header.OrderHeaderItemDTO;
 import com.tripoin.rmu.model.DTO.print_message.PrintMessageDTO;
 import com.tripoin.rmu.model.api.ModelConstant;
 import com.tripoin.rmu.model.persist.OrderDetailModel;
+import com.tripoin.rmu.model.persist.OrderListModel;
 import com.tripoin.rmu.model.persist.OrderTempModel;
+import com.tripoin.rmu.model.persist.VersionModel;
 import com.tripoin.rmu.persistence.orm_persistence.service.OrderDetailDBManager;
+import com.tripoin.rmu.persistence.orm_persistence.service.OrderListDBManager;
 import com.tripoin.rmu.persistence.orm_persistence.service.OrderTempDBManager;
+import com.tripoin.rmu.persistence.orm_persistence.service.VersionDBManager;
+import com.tripoin.rmu.rest.api.IOrderDetailPost;
+import com.tripoin.rmu.rest.impl.OrderDetailListRest;
+import com.tripoin.rmu.rest.impl.OrderHeaderListRest;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
@@ -43,7 +54,7 @@ import it.gmariotti.cardslib.library.view.CardListView;
  * Created by Achmad Fauzi on 5/2/2015 : 5:38 PM.
  * mailto : fauzi.knightmaster.achmad@gmail.com
  */
-public class FragmentOrderDetail extends ABaseNavigationDrawerFragment implements ISynchronizeOrderDetail{
+public class FragmentOrderDetail extends ABaseNavigationDrawerFragment implements ISynchronizeOrderDetail, IOrderDetailPost{
 
     @InjectView(R.id.txtOrderId) TextView txtOrderListId;
     @InjectView(R.id.txtTrainCode) TextView txtTrainCode;
@@ -59,6 +70,7 @@ public class FragmentOrderDetail extends ABaseNavigationDrawerFragment implement
     private static String ORDER_LIST_ID = "ORDER_LIST_ID";
     private PropertyUtil securityUtil;
     private String orderListId;
+    private List<OrderDetailModel> orderDetailModels;
 
     public FragmentOrderDetail newInstance(String orderListId){
         FragmentOrderDetail mFragment = new FragmentOrderDetail();
@@ -96,9 +108,39 @@ public class FragmentOrderDetail extends ABaseNavigationDrawerFragment implement
     @Override
     public void initWidget() {
         securityUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(), getActivity());
-        new OrderDetailAsync().execute();
-
+        OrderDetailDBManager.init(getActivity());
         orderListId = getArguments().getString(ORDER_LIST_ID);
+        try{
+            orderDetailModels = OrderDetailDBManager.getInstance().getListDataFromQuery(ModelConstant.ORDER_DETAIL_ORDER_HEADER_NO, orderListId);
+            if(orderDetailModels.size() > 0 || orderDetailModels != null){
+                onPostSyncOrderDetail(orderDetailModels);
+            }else{
+                new OrderDetailListRest(this) {
+                    @Override
+                    public String getOrderHeaderId() {
+                        return orderListId;
+                    }
+
+                    @Override
+                    public Context getContext() {
+                        return getActivity();
+                    }
+                }.execute(securityUtil.getValuePropertyMap(PropertyConstant.CHIPPER_AUTH.toString()));
+            }
+        }catch (Exception e){
+            new OrderDetailListRest(this) {
+                @Override
+                public String getOrderHeaderId() {
+                    return orderListId;
+                }
+
+                @Override
+                public Context getContext() {
+                    return getActivity();
+                }
+            }.execute(securityUtil.getValuePropertyMap(PropertyConstant.CHIPPER_AUTH.toString()));
+            e.printStackTrace();
+        }
         txtOrderListId.setText(orderListId);
     }
 
@@ -115,79 +157,74 @@ public class FragmentOrderDetail extends ABaseNavigationDrawerFragment implement
 
     @Override
     public void onPostSyncOrderDetail(List<OrderDetailModel> detailModels) {
-        List<OrderDetailModel> orderDetailStatusModels = new ArrayList<OrderDetailModel>();
-        if(detailModels.get(0).getOrderHeaderStatus().equals(String.valueOf(IOrderStatusConstant.NEW)) ||
-                detailModels.get(0).getOrderHeaderStatus().equals(String.valueOf(IOrderStatusConstant.RETRY))){
-            btPrintOrder.setVisibility(View.VISIBLE);
-        }
-        for (int i = IOrderStatusConstant.CANCEL ; i <= IOrderStatusConstant.PENDING ; i++) {
-            int headerStatus = Integer.parseInt(detailModels.get(0).getOrderHeaderStatus());
-            OrderDetailModel detailModel;
-            if(headerStatus == IOrderStatusConstant.PREPARED) {
-                for (int a = IOrderStatusConstant.DONE; a <= IOrderStatusConstant.PENDING; a++) {
-                    detailModel = new OrderDetailModel();
-                    detailModel.setOrderHeaderNo(detailModels.get(0).getOrderHeaderNo());
-                    detailModel.setOrderHeaderStatus(String.valueOf(a));
-                    orderDetailStatusModels.add(detailModel);
-                }
-                break;
-            }else if(headerStatus == IOrderStatusConstant.CANCEL){
-                detailModel = new OrderDetailModel();
-                detailModel.setOrderHeaderNo(detailModels.get(0).getOrderHeaderNo());
-                detailModel.setOrderHeaderStatus(String.valueOf(IOrderStatusConstant.CANCEL));
-                orderDetailStatusModels.add(detailModel);
-                break;
-            }else if ( headerStatus == IOrderStatusConstant.PENDING ) {
-                for(int a=IOrderStatusConstant.CANCEL; a<=IOrderStatusConstant.RETRY; a+=2){
-                    detailModel = new OrderDetailModel();
-                    detailModel.setOrderHeaderNo(detailModels.get(0).getOrderHeaderNo());
-                    detailModel.setOrderHeaderStatus(String.valueOf(a));
-                    orderDetailStatusModels.add(detailModel);
-                }
-                break;
-            }else{
-                detailModel = new OrderDetailModel();
-                detailModel.setOrderHeaderNo(detailModels.get(0).getOrderHeaderNo());
-                detailModel.setOrderHeaderStatus(String.valueOf(i));
-                orderDetailStatusModels.add(detailModel);
+        try{
+            List<OrderDetailModel> orderDetailStatusModels = new ArrayList<OrderDetailModel>();
+            if(Integer.parseInt(detailModels.get(0).getOrderHeaderStatus()) < IOrderStatusConstant.DONE ||
+                    detailModels.get(0).getOrderHeaderStatus().equals(String.valueOf(IOrderStatusConstant.RETRY))){
+                btPrintOrder.setVisibility(View.VISIBLE);
             }
+            for (int i = IOrderStatusConstant.CANCEL ; i <= IOrderStatusConstant.PENDING ; i++) {
+                int headerStatus = Integer.parseInt(detailModels.get(0).getOrderHeaderStatus());
+                OrderDetailModel detailModel;
+                if(headerStatus == IOrderStatusConstant.PREPARED) {
+                    for (int a = IOrderStatusConstant.DONE; a <= IOrderStatusConstant.PENDING; a++) {
+                        detailModel = new OrderDetailModel();
+                        detailModel.setOrderHeaderNo(detailModels.get(0).getOrderHeaderNo());
+                        detailModel.setOrderHeaderStatus(String.valueOf(a));
+                        orderDetailStatusModels.add(detailModel);
+                    }
+                    break;
+                }else if(headerStatus == IOrderStatusConstant.CANCEL){
+                    detailModel = new OrderDetailModel();
+                    detailModel.setOrderHeaderNo(detailModels.get(0).getOrderHeaderNo());
+                    detailModel.setOrderHeaderStatus(String.valueOf(IOrderStatusConstant.CANCEL));
+                    orderDetailStatusModels.add(detailModel);
+                    break;
+                }else if ( headerStatus == IOrderStatusConstant.PENDING ) {
+                    for(int a=IOrderStatusConstant.CANCEL; a<=IOrderStatusConstant.RETRY; a+=2){
+                        detailModel = new OrderDetailModel();
+                        detailModel.setOrderHeaderNo(detailModels.get(0).getOrderHeaderNo());
+                        detailModel.setOrderHeaderStatus(String.valueOf(a));
+                        orderDetailStatusModels.add(detailModel);
+                    }
+                    break;
+                }else{
+                    detailModel = new OrderDetailModel();
+                    detailModel.setOrderHeaderNo(detailModels.get(0).getOrderHeaderNo());
+                    detailModel.setOrderHeaderStatus(String.valueOf(i));
+                    orderDetailStatusModels.add(detailModel);
+                }
+            }
+            initStatusCards(orderDetailStatusModels, detailModels);
+            initDetailCards(detailModels);
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        initStatusCards(orderDetailStatusModels, detailModels);
-        initDetailCards(detailModels);
     }
 
-
-    private class OrderDetailAsync extends AsyncTask{
-
-        private ProgressDialog progressDialog;
-        private SynchronizeOrderDetail synchronizeOrderDetail;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            OrderDetailDBManager.init(getActivity());
-            progressDialog = new ProgressDialog(getActivity());
-            progressDialog.setMessage("Loading order detail");
-            progressDialog.setCancelable(false);
-            progressDialog.show();
-            synchronizeOrderDetail = new SynchronizeOrderDetail(securityUtil, getActivity(), ModelConstant.REST_ORDER_DETAIL_TABLE, FragmentOrderDetail.this) {
-                @Override
-                public String getOrderHeader() {
-                    return orderListId;
-                }
-            };
-        }
-
-        @Override
-        protected Object doInBackground(Object[] params) {
-            synchronizeOrderDetail.detectVersionDiff();
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Object o) {
-            super.onPostExecute(o);
-            progressDialog.dismiss();
+    @Override
+    public void onPostSynchronize(Object objectResult) {
+        /*Order Detail Post*/
+        if(objectResult != null){
+            OrderDetailDTO orderDetailDTO = (OrderDetailDTO) objectResult;
+            List<OrderDetailModel> detailModels = new ArrayList<OrderDetailModel>();
+            for(OrderDetailItemDTO orderDetailItemDTO: orderDetailDTO.getOrderDetailItemDTOs()){
+                OrderDetailModel detailModel = new OrderDetailModel();
+                detailModel.setOrderHeaderNo(orderDetailItemDTO.getOrderHeaderNo());
+                detailModel.setOrderDetailTotalOrder(orderDetailItemDTO.getOrderDetailTotalOrder());
+                detailModel.setOrderDetailTotalAmount(orderDetailItemDTO.getOrderDetailTotalAmount());
+                detailModel.setOrderHeaderStatus(orderDetailItemDTO.getOrderHeaderStatus());
+                detailModel.setMenuCode(orderDetailItemDTO.getMenuCode());
+                detailModel.setMenuName(orderDetailItemDTO.getMenuName());
+                detailModel.setSeatCode(orderDetailItemDTO.getSeatCode());
+                detailModel.setCarriageCode(orderDetailItemDTO.getCarriageCode());
+                detailModel.setTrainCode(orderDetailItemDTO.getTrainCode());
+                detailModels.add(detailModel);
+                OrderDetailDBManager.getInstance().insertEntity(detailModel);
+            }
+            onPostSyncOrderDetail(detailModels);
+        }else{
+            Log.d("Sync Orderlist Object Result", "not found");
         }
     }
 
@@ -259,7 +296,6 @@ public class FragmentOrderDetail extends ABaseNavigationDrawerFragment implement
                     Toast.makeText(rootView.getContext(),"Error Bluetooth Connection!",Toast.LENGTH_SHORT).show();
                 }
             }else{
-                /*Toast.makeText(rootView.getContext(),"Please Active Bluetooth!",Toast.LENGTH_SHORT).show();*/
                 bluetoothEngine.activeBluetooth();
             }
         }catch (Exception e){

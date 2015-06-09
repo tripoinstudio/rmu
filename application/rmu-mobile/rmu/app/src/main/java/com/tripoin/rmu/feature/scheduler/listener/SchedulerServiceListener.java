@@ -96,7 +96,7 @@ public class SchedulerServiceListener extends Service implements ISynchronizeOrd
     }
 
     private void notifRunningService(){
-        Notification notification = new Notification(R.drawable.ic_launcher_pramia, ViewConstant.SERVICE_RUNNING.toString(), System.currentTimeMillis());
+        Notification notification = new Notification(R.drawable.ic_launcher, ViewConstant.SERVICE_RUNNING.toString(), System.currentTimeMillis());
         Intent notificationIntent = new Intent(this, FragmentOrderDetail.class);
         notificationIntent.putExtra("ORDER_ID", "");
         // set intent so it does not start a new activity
@@ -112,7 +112,7 @@ public class SchedulerServiceListener extends Service implements ISynchronizeOrd
     private void buildNotification(OrderListModel orderListModel){
         newSize++;
         String orderId = orderListModel.getOrderId();
-        Notification notification = new Notification(R.drawable.ic_launcher_pramia, orderId.concat(" - Prepared"), System.currentTimeMillis());
+        Notification notification = new Notification(R.drawable.ic_launcher, orderId.concat(" - Prepared"), System.currentTimeMillis());
         Intent notificationIntent = new Intent(this, ActivityMain.class);
         notificationIntent.setAction(orderId);
         notificationIntent.putExtra("ORDER_ID", orderId);
@@ -133,10 +133,11 @@ public class SchedulerServiceListener extends Service implements ISynchronizeOrd
 
 
     @Override
-    public void onPostVersion() {
-        Notification notification = new Notification(R.drawable.ic_launcher_pramia, ViewConstant.NEW_VERSION.toString(), System.currentTimeMillis());
+    public void onPostVersion(String latestVersion) {
+        Notification notification = new Notification(R.drawable.ic_update_software, ViewConstant.NEW_VERSION.toString(), System.currentTimeMillis());
         Intent notificationIntent = new Intent(this, ActivityMain.class);
         notificationIntent.setAction("UPDATE");
+        notificationIntent.putExtra("LATEST_VERSION", latestVersion);
         // set intent so it does not start a new activity
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
         PendingIntent intent = PendingIntent.getActivity(this, 0,notificationIntent, 0);

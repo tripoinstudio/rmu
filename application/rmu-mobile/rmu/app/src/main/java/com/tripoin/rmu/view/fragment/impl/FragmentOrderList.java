@@ -11,7 +11,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,15 +28,12 @@ import com.tripoin.rmu.feature.scheduler.constant.IOrderStatusConstant;
 import com.tripoin.rmu.feature.synchronizer.impl.SynchronizeOrderList;
 import com.tripoin.rmu.model.api.ModelConstant;
 import com.tripoin.rmu.model.persist.CarriageModel;
-import com.tripoin.rmu.model.persist.OrderDetailModel;
 import com.tripoin.rmu.model.persist.OrderListModel;
 import com.tripoin.rmu.model.persist.SeatModel;
-import com.tripoin.rmu.model.persist.TrainModel;
 import com.tripoin.rmu.persistence.orm_persistence.service.CarriageDBManager;
 import com.tripoin.rmu.persistence.orm_persistence.service.OrderDetailDBManager;
 import com.tripoin.rmu.persistence.orm_persistence.service.OrderListDBManager;
 import com.tripoin.rmu.persistence.orm_persistence.service.SeatDBManager;
-import com.tripoin.rmu.util.SwipeRefreshUtil;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
@@ -69,12 +65,10 @@ public class FragmentOrderList extends ABaseNavigationDrawerFragment implements 
     CarriageDialogAdapter carriageDialogAdapter;
     SeatDialogAdapter seatDialogAdapter;
     EditText srcOrderId;
-    Spinner srcStatus, srcSeat, srcCrrg;
+    Spinner srcStatus, srcSeat, srcCarriage;
 
     private final String ORDER_ID = "ORDER_ID";
     @InjectView(R.id.listOrder) CardListView listView;
-
-    private SwipeRefreshUtil swipeRefreshUtil;
 
     public FragmentOrderList newInstance(String data){
         FragmentOrderList mFragment = new FragmentOrderList();
@@ -151,10 +145,10 @@ public class FragmentOrderList extends ABaseNavigationDrawerFragment implements 
                 srcOrderId = (EditText) dialogView.findViewById(R.id.src_orderId);
                 srcStatus = (Spinner) dialogView.findViewById(R.id.src_status);
                 srcSeat = (Spinner) dialogView.findViewById(R.id.src_seat);
-                srcCrrg = (Spinner) dialogView.findViewById(R.id.src_crrg);
+                srcCarriage = (Spinner) dialogView.findViewById(R.id.src_crrg);
 
                 carriageDialogAdapter = new CarriageDialogAdapter(getActivity());
-                srcCrrg.setAdapter(carriageDialogAdapter);
+                srcCarriage.setAdapter(carriageDialogAdapter);
 
                 seatDialogAdapter = new SeatDialogAdapter(getActivity());
                 srcSeat.setAdapter(seatDialogAdapter);
@@ -164,8 +158,8 @@ public class FragmentOrderList extends ABaseNavigationDrawerFragment implements 
                     public void onClick(DialogInterface dialog, int which) {
                         //OnClick Searching dialog
                         int posSeat = srcSeat.getSelectedItemPosition();
-                        int posCarr = srcCrrg.getSelectedItemPosition();
-                        final List<OrderListModel> orderListModels = OrderListDBManager.getInstance().getAllDataFromQuery(srcSeat.getAdapter().getItem(posSeat).toString(), srcCrrg.getAdapter().getItem(posCarr).toString(), String.valueOf(srcStatus.getSelectedItemPosition()), srcOrderId.getText().toString());
+                        int posCarr = srcCarriage.getSelectedItemPosition();
+                        final List<OrderListModel> orderListModels = OrderListDBManager.getInstance().getAllDataFromQuery(srcSeat.getAdapter().getItem(posSeat).toString(), srcCarriage.getAdapter().getItem(posCarr).toString(), String.valueOf(srcStatus.getSelectedItemPosition()), srcOrderId.getText().toString());
                         initCards(orderListModels);
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -221,7 +215,7 @@ public class FragmentOrderList extends ABaseNavigationDrawerFragment implements 
                     }
                 }
                 CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(rootView.getContext(), cards);
-                if (listView != null) {
+                if (listView != null){
                     listView.setAdapter(mCardArrayAdapter);
                 }
             }else{
@@ -229,7 +223,7 @@ public class FragmentOrderList extends ABaseNavigationDrawerFragment implements 
             }
 
         }catch (Exception e){
-
+            e.printStackTrace();
         }
     }
 
@@ -248,40 +242,36 @@ public class FragmentOrderList extends ABaseNavigationDrawerFragment implements 
             mFragmentManager.beginTransaction().replace(R.id.container, fragmentOrderDetail).commit();
         }else{
             securityUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(), getActivity());
-            swipeRefreshUtil = new SwipeRefreshUtil();
             new OrderListAsync().execute();
         }
 
         final SwipeRefreshLayout swipeView = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshOrderList);
-        securityUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(), getActivity());
-        swipeRefreshUtil.onRefreshAction(swipeView, new OrderListAsync());
-//        swipeView.setColorScheme(android.R.color.holo_blue_dark,
-//                android.R.color.holo_blue_light,
-//                android.R.color.holo_green_light,
-//                android.R.color.holo_green_light);
-//        swipeView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                swipeView.setRefreshing(true);
-//                Log.d("Swipe", "Refreshing Number");
-//                (new Handler()).postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        swipeView.setRefreshing(false);
-//                        Bundle bundle = getArguments();
-//                        if( bundle != null){
-//                            FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
-//                            FragmentOrderDetail fragmentOrderDetail = new FragmentOrderDetail().newInstance(bundle.getString(ORDER_ID));
-//                            mFragmentManager.beginTransaction().replace(R.id.container, fragmentOrderDetail).commit();
-//                        }else{
-//                            securityUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(), getActivity());
-//                            new OrderListAsync().execute();
-//                        }
-//                        Toast.makeText(getActivity(), "Order list refresh done", Toast.LENGTH_SHORT).show();
-//                    }
-//                }, 3000);
-//            }
-//        });
+        swipeView.setColorScheme(android.R.color.holo_blue_dark,
+                android.R.color.holo_blue_light,
+                android.R.color.holo_green_light,
+                android.R.color.holo_green_light);
+        swipeView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeView.setRefreshing(true);
+                (new Handler()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeView.setRefreshing(false);
+                        Bundle bundle = getArguments();
+                        if( bundle != null){
+                            FragmentManager mFragmentManager = getActivity().getSupportFragmentManager();
+                            FragmentOrderDetail fragmentOrderDetail = new FragmentOrderDetail().newInstance(bundle.getString(ORDER_ID));
+                            mFragmentManager.beginTransaction().replace(R.id.container, fragmentOrderDetail).commit();
+                        }else{
+                            securityUtil = new PropertyUtil(PropertyConstant.LOGIN_FILE_NAME.toString(), getActivity());
+                            new OrderListAsync().execute();
+                        }
+                        Toast.makeText(getActivity(), "Order list refresh done", Toast.LENGTH_SHORT).show();
+                    }
+                }, 3000);
+            }
+        });
 
     }
 

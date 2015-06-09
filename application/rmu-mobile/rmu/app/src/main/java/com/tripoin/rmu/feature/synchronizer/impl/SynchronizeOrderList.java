@@ -52,6 +52,11 @@ public class SynchronizeOrderList extends ASynchronizeData implements IOrderList
             public Context getContext() {
                 return context;
             }
+
+            @Override
+            public String getLatestVersion() {
+                return versionModel.getVersionTimestamp();
+            }
         };
         orderHeaderListRest.execute(securityUtil.getValuePropertyMap(PropertyConstant.CHIPPER_AUTH.toString()));
     }
@@ -63,7 +68,14 @@ public class SynchronizeOrderList extends ASynchronizeData implements IOrderList
 
     @Override
     public void selectRelatedTable() {
-        onPostContSyncOrderList(OrderListDBManager.getInstance().getOrderListDataFromQuery(ModelConstant.ORDER_LIST_ORDER_TIME, false));
+        Log.d("select related table ", String.valueOf(OrderListDBManager.getInstance().getAllData().size() <= 0));
+        if(OrderListDBManager.getInstance().getAllData().size() <= 0){
+            versionModel.setVersionTimestamp(ModelConstant.TIME_STAMP_RESET);
+            VersionDBManager.getInstance().updateEntity(versionModel);
+            detectVersionDiff();
+        }else{
+            onPostContSyncOrderList(OrderListDBManager.getInstance().getOrderListDataFromQuery(ModelConstant.ORDER_LIST_ORDER_TIME, false));
+        }
     }
 
     @Override

@@ -44,13 +44,18 @@ public class BackgroundSynchronizeOrderList extends ASynchronizeData implements 
     public void updateContent(String latestVersion) {
         this.latestVersion = latestVersion;
         //drop
-        OrderListDBManager.getInstance().executeRaw("Delete from ".concat(ModelConstant.ORDER_LIST_TABLE));
+        /*OrderListDBManager.getInstance().executeRaw("Delete from ".concat(ModelConstant.ORDER_LIST_TABLE));*/
 
         //select new Object
         BackgroundOrderHeaderListRest orderHeaderListRest = new BackgroundOrderHeaderListRest(this) {
             @Override
             public Context getContext() {
                 return context;
+            }
+
+            @Override
+            public String getLatestVersion() {
+                return versionModel.getVersionTimestamp();
             }
         };
         orderHeaderListRest.execute(securityUtil.getValuePropertyMap(PropertyConstant.CHIPPER_AUTH.toString()));

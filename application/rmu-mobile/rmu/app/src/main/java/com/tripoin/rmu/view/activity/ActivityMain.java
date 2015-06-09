@@ -1,6 +1,7 @@
 package com.tripoin.rmu.view.activity;
 
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,8 +16,7 @@ import com.tripoin.rmu.R;
 import com.tripoin.rmu.feature.scheduler.listener.SchedulerServiceListener;
 import com.tripoin.rmu.feature.scheduler.trigger.AlarmManagerStarter;
 import com.tripoin.rmu.feature.version.AppUpdate;
-import com.tripoin.rmu.feature.version.UpdateApp;
-import com.tripoin.rmu.persistence.orm_persistence.service.VersionDBManager;
+import com.tripoin.rmu.rest.impl.ApplicationDownloaderRest;
 import com.tripoin.rmu.util.NetworkConnectivity;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
@@ -156,7 +156,15 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
         String schedulerAction = intent.getAction();
         if( schedulerAction != null){
             if( schedulerAction.equals("UPDATE")){
-                new ApplicationDownloaderAsync().execute("update.apk");
+                Bundle extra = intent.getExtras();
+                if(extra.containsKey("LATEST_VERSION")){
+                    new ApplicationDownloaderRest(propertyUtil) {
+                        @Override
+                        public Context getContext() {
+                            return ActivityMain.this;
+                        }
+                    }.execute(extra.getString("LATEST_VERSION"));
+                }
             }else{
                 FragmentManager mFragmentManager = getSupportFragmentManager();
                 FragmentOrderList fragmentOrderList = new FragmentOrderList().newInstance(schedulerAction);
@@ -165,16 +173,6 @@ public class ActivityMain extends NavigationLiveo implements NavigationLiveoList
         }
     }
 
-    private class ApplicationDownloaderAsync<String, Void> extends AsyncTask{
-
-        @Override
-        protected Object doInBackground(Object[] params) {
-            AppUpdate appUpdate = new AppUpdate("http://tripoin-rdlfdl.rhcloud.com/tripoin/wscontext/apk/rmu-dev%20V1.0.apk", PropertyConstant.PROPERTIES_PATH.toString().concat(params[0].toString()));
-            appUpdate.setContext(ActivityMain.this);
-            appUpdate.downloadImage();
-            return null;
-        }
-    }
 
     @Override
     public void onItemClickNavigation(int position, int layoutContainerId) {

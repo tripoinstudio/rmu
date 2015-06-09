@@ -93,6 +93,15 @@ public class OrderListDBManager<DATA> implements IBaseDatabaseHandler{
         }
     }
 
+    public void deleteEntity(OrderListModel orderListModel) {
+        try {
+            getDatabaseDAOHelper().getOrderListDAO().delete(orderListModel);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public void executeRaw( String query ){
         Log.d("QUERY", query);
         try{

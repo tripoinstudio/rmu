@@ -15,11 +15,13 @@ public enum RestConstant {
 
     /*Task Items*/
     ORDER_HEADER_NO("orderHeaderNo"),
+    LAST_VERSION("lastVersion"),
     MENU_CODE("menuCode"),
     TSK_SET_ORDER_STATUS("setOrderHeader"),
     ORDER_NO("orderNo"),
     AND_AMPERS("&"),
 
+    UTF_8("UTF-8"),
     HTTP_REST("http"),
     HTTP_GET("GET"),
     HTTP_POST("POST"),
@@ -40,6 +42,7 @@ public enum RestConstant {
     TSK_CHANGE_PASSWORD("CP"),
 
     TSK_LOGOUT("logout"),
+    TSK_APK("apk"),
 
     /*Pattern Items*/
     IMAGE("images/"),

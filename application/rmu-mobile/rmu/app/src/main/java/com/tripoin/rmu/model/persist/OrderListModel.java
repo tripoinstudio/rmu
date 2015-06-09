@@ -14,10 +14,10 @@ public class OrderListModel {
     public OrderListModel() {
     }
 
-    @DatabaseField( generatedId = true, canBeNull = false, columnName = ModelConstant.ORDER_LIST_ID )
-    private int id;
+    /*@DatabaseField( generatedId = true, canBeNull = false, columnName = ModelConstant.ORDER_LIST_ID )
+    private int id;*/
 
-    @DatabaseField( columnName = ModelConstant.ORDER_LIST_ORDER_ID )
+    @DatabaseField( id = true, columnName = ModelConstant.ORDER_LIST_ORDER_ID, canBeNull = false)
     private String orderId;
 
     @DatabaseField( columnName = ModelConstant.ORDER_LIST_CARRIAGE_NUMBER )
@@ -38,13 +38,13 @@ public class OrderListModel {
     @DatabaseField( columnName = ModelConstant.ORDER_LIST_WAITING_STATUS )
     private int waitingStatus;
 
-    public int getId() {
+/*    public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
-    }
+    }*/
 
     public String getOrderId() {
         return orderId;
@@ -105,7 +105,7 @@ public class OrderListModel {
     @Override
     public String toString() {
         return "OrderListModel{" +
-                "id=" + id +
+                /*"id=" + id +*/
                 ", orderId='" + orderId + '\'' +
                 ", carriageNumber='" + carriageNumber + '\'' +
                 ", seatNumber='" + seatNumber + '\'' +

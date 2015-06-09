@@ -77,7 +77,8 @@ public class FragmentMenuList extends Fragment implements ISynchronizeMenuList {
 
     private void swipeRefresh(){
         final SwipeRefreshLayout swipeView = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshMenuList);
-        swipeView.setColorScheme(android.R.color.holo_blue_dark,
+        swipeView.setColorScheme(
+                android.R.color.holo_blue_dark,
                 android.R.color.holo_blue_light,
                 android.R.color.holo_green_light,
                 android.R.color.holo_green_light);

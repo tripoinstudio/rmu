@@ -5,5 +5,5 @@ package com.tripoin.rmu.feature.version;
  * mailto : achmad.fauzi@sigma.co.id
  */
 public interface IVersionPost {
-    public void onPostVersion();
+    public void onPostVersion(String latestVersion);
 }

@@ -50,8 +50,8 @@ public class BackgroundSynchronizeApplicationVersion extends ASynchronizeData im
 
     @Override
     public void updateContent(String latestVersion) {
-        Log.d("LATEST VERSION", latestVersion);
-        iVersionPost.onPostVersion();
+        Log.d("Application needs to update to version", latestVersion);
+        iVersionPost.onPostVersion(latestVersion);
     }
 
     @Override
@@ -62,7 +62,6 @@ public class BackgroundSynchronizeApplicationVersion extends ASynchronizeData im
     @Override
     public void selectRelatedTable() {
         /*Do nothing because current application version equals server version*/
-        Log.d("LATEST VERSION", "EQUALS TO SERVER APPLICATION VERSION");
     }
 
     @Override

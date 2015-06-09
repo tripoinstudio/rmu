@@ -6,7 +6,6 @@ import android.content.pm.ActivityInfo;
 import android.content.DialogInterface;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,15 +18,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tripoin.rmu.R;
-import com.tripoin.rmu.model.DTO.master.MasterVersionItem;
 import com.tripoin.rmu.model.DTO.user.UserDTO;
-import com.tripoin.rmu.model.api.ModelConstant;
 import com.tripoin.rmu.model.base.impl.BaseRESTDTO;
-import com.tripoin.rmu.model.persist.VersionModel;
-import com.tripoin.rmu.persistence.orm_persistence.service.VersionDBManager;
 import com.tripoin.rmu.rest.api.IConnectionPost;
 import com.tripoin.rmu.rest.api.ILoginPost;
-import com.tripoin.rmu.rest.api.ILogoutPost;
 import com.tripoin.rmu.rest.impl.ConnectionRest;
 import com.tripoin.rmu.rest.impl.LoginRest;
 import com.tripoin.rmu.util.GeneralConverter;
@@ -35,11 +29,9 @@ import com.tripoin.rmu.util.GeneralValidation;
 import com.tripoin.rmu.util.NetworkConnectivity;
 import com.tripoin.rmu.util.enumeration.PropertyConstant;
 import com.tripoin.rmu.util.impl.PropertyUtil;
-import com.tripoin.rmu.view.activity.api.ISignHandler;
 import com.tripoin.rmu.view.activity.api.IFirstSignHandler;
 import com.tripoin.rmu.view.activity.base.ABaseActivity;
 import com.tripoin.rmu.view.activity.impl.FirstSignHandlerImpl;
-import com.tripoin.rmu.view.activity.impl.MainSignHandlerImpl;
 import com.tripoin.rmu.view.enumeration.ViewConstant;
 
 import butterknife.InjectView;
@@ -51,7 +43,7 @@ import butterknife.OnClick;
  * fauzi.knightmaster.achmad@gmail.com
  */
 
-public class ActivityLogin extends ABaseActivity implements ILoginPost, IConnectionPost/*, ILogoutPost*/ {
+public class ActivityLogin extends ABaseActivity implements ILoginPost, IConnectionPost {
 
     @InjectView(R.id.txt_username) EditText txtUserName;
     @InjectView(R.id.txt_password) EditText txtPassword;
@@ -78,7 +70,6 @@ public class ActivityLogin extends ABaseActivity implements ILoginPost, IConnect
         generalConverter = new GeneralConverter();
         networkConnectivity = new NetworkConnectivity(this);
         iSignHandler = new FirstSignHandlerImpl(securityUtil, this);
-        VersionDBManager.init(this);
         iSignHandler.detectLoginStatus();
     }
 
@@ -114,7 +105,9 @@ public class ActivityLogin extends ABaseActivity implements ILoginPost, IConnect
         if(!generalValidation.isEmptyEditText(txtUserName)){
             userName = txtUserName.getText().toString();
             if(!generalValidation.isEmptyEditText(txtPassword)){
-                chipperAuth = generalConverter.encodeToBase64(txtUserName.getText().toString().concat(ViewConstant.COLON.toString()).concat(txtPassword.getText().toString()));
+                chipperAuth = generalConverter.encodeToBase64(txtUserName.getText().toString()
+                        .concat(ViewConstant.COLON.toString())
+                        .concat(txtPassword.getText().toString()));
                 if(networkConnectivity.checkConnectivity()){
                     LoginRest loginRest = new LoginRest(this) {
                         @Override
@@ -277,19 +270,4 @@ public class ActivityLogin extends ABaseActivity implements ILoginPost, IConnect
         }
     }
 
-    /*@Override
-    public void onPostLogout(Object objectResult) {
-        try{
-            if(objectResult != null){
-                BaseRESTDTO baseRESTDTO = (BaseRESTDTO) objectResult;
-                if(baseRESTDTO.getErr_code().equals(ViewConstant.ZERO.toString())){
-                    Log.d("Success","Logout");
-                }
-            }else{
-                Log.d("Failed", "Logout");
-            }
-        }catch (Exception e){
-            Log.d("Object Post not Found", e.toString());
-        }
-    }*/
 }

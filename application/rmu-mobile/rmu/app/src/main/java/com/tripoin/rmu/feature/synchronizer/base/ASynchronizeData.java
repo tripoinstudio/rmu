@@ -25,6 +25,7 @@ public abstract class ASynchronizeData implements ISynchronizeData, IMasterVersi
 
     private Context context;
     private PropertyUtil securityUtil;
+    protected VersionModel versionModel;
 
     protected ASynchronizeData(PropertyUtil securityUtil, Context context) {
         this.securityUtil = securityUtil;
@@ -50,6 +51,7 @@ public abstract class ASynchronizeData implements ISynchronizeData, IMasterVersi
                 if(versionItem.getVersionTable().equals(getTableName())){
                     int diff = tableDiff(versionItem.getVersionTimeStamp());
                     //VersionModel versionModel = (VersionModel) VersionDBManager.getInstance().getAllData().get(0);
+                    Log.d("DIFF", String.valueOf(diff));
                     if( diff != 0 ) {
                         updateContent(versionItem.getVersionTimeStamp());
                     }else{
@@ -67,7 +69,7 @@ public abstract class ASynchronizeData implements ISynchronizeData, IMasterVersi
         Date oldVersion = null;
         int result = 0;
         try{
-            VersionModel versionModel = VersionDBManager.getInstance().selectCustomVersionModel(ModelConstant.VERSION_NAMETABLE, getTableName());
+            versionModel = VersionDBManager.getInstance().selectCustomVersionModel(ModelConstant.VERSION_NAMETABLE, getTableName());
             GeneralConverter generalConverter = new GeneralConverter();
             newVersion = generalConverter.getDateToComparator(latestVersion);
             oldVersion = generalConverter.getDateToComparator(versionModel.getVersionTimestamp());
