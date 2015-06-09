@@ -25,6 +25,12 @@
     android:layout_height="match_parent"
     android:background="@color/white_base">
 
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshMenuList"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <!--@dimen/carddemo_gplay_grid_columnwidth-->
     <it.gmariotti.cardslib.library.view.CardGridView
@@ -41,5 +47,7 @@
         android:gravity="center"
         card:list_card_layout_resourceID="@layout/carddemo_grid_gplay"
         android:id="@+id/carddemo_grid_base1"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </RelativeLayout>
